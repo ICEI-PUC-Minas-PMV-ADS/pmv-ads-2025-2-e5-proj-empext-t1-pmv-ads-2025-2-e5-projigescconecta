@@ -1,12 +1,12 @@
-# TÍTULO DO PROJETO
+# IGESC Conecta
 
-`CURSO`
+`Análise e Desenvolvimento de Sistemas`
 
-`DISCIPLINA`
+`Projeto: Desenvolvimento de um Sistema Sociotécnico Inovador`
 
-`SEMESTRE`
+`5º Semestre`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+Este projeto fullstack tem como objetivo modernizar a gestão interna do Instituto Igesc, substituindo o uso de planilhas por uma plataforma integrada. A solução permitirá centralizar informações e organizar os processos de forma mais eficiente, garantindo maior controle e acessibilidade aos dados.
 
 ## Integrantes
 
@@ -19,11 +19,11 @@ Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo de
 
 ## Orientador
 
-* Nome completo do professor orientador
+* Sandra Maria Silveira
 
 ## Instruções de utilização
 
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+Assim que a primeira versão do sistema estiver disponível, vamos complementar com as instruções de uso.
 
 # Documentação
 
