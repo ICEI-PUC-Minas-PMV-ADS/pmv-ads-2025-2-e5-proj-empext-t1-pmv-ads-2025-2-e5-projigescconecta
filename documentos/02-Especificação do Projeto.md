@@ -2,20 +2,18 @@
 
 <span style="color:red">Pré-requisitos: <a href="01-Documentação de Contexto.md"> Documentação de Contexto</a></span>
 
-Definição do problema e ideia de solução a partir da perspectiva do usuário. 
+### Definição do problema e ideia de solução a partir da perspectiva do usuário.
+
+Pessoas do IGESC precisam sair do mosaico de planilhas e trabalhar em uma plataforma única que centralize dados de OSCs, Programas/Turmas, Pessoas (com papéis contextuais), Projetos, Empresas e Doações.
+A solução proposta (IGESC Conecta) organiza cadastros, vínculos e documentos PDF dos Projetos, permitindo consultas com exportação para Excel, painéis definidos pelo IGESC e importação via CSV para incorporar o legado, com perfis de acesso e auditoria mínimos. 
 
 ## Usuários
-| Tipo de Usuário   | Descrição | Responsabilidades |
+
+| Tipo de Usuário | Descrição | Responsabilidades |
 |------------------|-----------|------------------|
-| **xxx** | xxxxx | xxxxx |
-
-### Exemplo
-
-| Tipo de Usuário   | Descrição | Responsabilidades |
-|------------------|-----------|------------------|
-| **Administrador** | Gerencia a aplicação e os usuários. | Gerenciar usuários, configurar o sistema, acessar todos os relatórios. |
-| **Funcionário** | Usa a aplicação para suas tarefas principais. | Criar e editar registros, visualizar relatórios. |
-
+| **Administrador (IGESC)** | Governança da aplicação. | Gerenciar usuários e perfis; configurar painéis; manter catálogos (Causas, Públicos, Temas de Projeto); supervisionar auditoria; executar importações CSV; administrar OSCs, Programas/Turmas, Pessoas, Projetos (1–5 PDFs), Empresas e Doações; gerar planilhas Excel. |
+| Editor (IGESC) | Operação diária de cadastros e fluxos. | Criar/editar/excluir OSCs, Programas/Turmas, Pessoas (papéis em Turmas; representantes de Empresa/OSC), Projetos (anexar 1–5 PDFs), Empresas e Doações; gerar planilhas Excel; visualizar painéis; não executa importação CSV; não gerencia usuários/perfis. |
+| Consulta (IGESC) | Acesso somente leitura. | Consultar dados; visualizar painéis; gerar planilhas Excel; sem criar/editar/excluir; sem importação CSV. |
 
 ## Arquitetura e Tecnologias
 
