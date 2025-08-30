@@ -17,7 +17,24 @@ A solução proposta (IGESC Conecta) organiza cadastros, vínculos e documentos 
 
 ## Arquitetura e Tecnologias
 
-Descreva brevemente a arquitetura definida para o projeto e as tecnologias a serem utilizadas. Sugere-se a criação de um diagrama de componentes da solução.
+A solução IGESC Conecta tem três camadas principais: Frontend Web, API Backend e Banco de Dados.
+A API expõe REST via HTTPS, com JWT e RBAC por perfil. Faz importação por CSV, exportação em Excel e armazenamento de PDFs no banco.
+
+![Arquitetura da Solução](img/arquitetura.jpeg)
+
+### Tecnologias
+
+* Frontend: React + TypeScript (SPA, roteamento, fetch), acessibilidade ARIA.
+
+* API/Backend: ASP.NET Core Web API, Entity Framework Core, FluentValidation, AutoMapper, Swagger.
+
+* Segurança: ASP.NET Identity (ou equivalente) + JWT; RBAC por perfil; CORS e TLS.
+
+* Exportação: planilhas Excel (ClosedXML ou EPPlus).
+
+* Importação: CSV (CsvHelper) com validações.
+
+* Banco: SQL Server (modelo relacional; PDFs em VARBINARY MAX).
 
 ## Project Model Canvas
 
