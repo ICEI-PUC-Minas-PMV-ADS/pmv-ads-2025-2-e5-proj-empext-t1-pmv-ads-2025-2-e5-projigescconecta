@@ -38,11 +38,9 @@ A API expõe REST via HTTPS, com JWT e RBAC por perfil. Faz importação por CSV
 
 ## Project Model Canvas
 
-Deve ser desenvolvido a partir do microfundamento: Empreendedorismo e inovação.
-Colocar a imagem do modelo construído apresentando a proposta de solução.
-
-> **Links Úteis**:
-> Disponíveis em material de apoio do projeto
+![Project Model Canva](img/ProjectModelCanva.png)
+> **Links de Acesso**:
+> [Link para project model canva](https://app.projectcanvas.online/public-project/1icxTBkG3dglOuUMBWkpHVQFCzyq57u8oAY8bjPpI8=)
 
 ## Requisitos
 
