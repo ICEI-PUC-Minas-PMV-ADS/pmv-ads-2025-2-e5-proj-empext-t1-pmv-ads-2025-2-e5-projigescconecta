@@ -116,6 +116,12 @@ O diagrama de casos de uso é o próximo passo após a elicitação de requisito
 
 ![Diagrama de Caso de Uso](img/CasoDeUso.png)
 
+## Modelo ER
+
+O Modelo ER (Entidade-Relacionamento) utiliza um diagrama para ilustrar de forma clara como as entidades, que representam objetos ou conceitos relevantes, se interrelacionam dentro da aplicação interativa. Este modelo facilita a visualização das conexões e interações entre os diferentes componentes do sistema, proporcionando uma compreensão abrangente da estrutura de dados subjacente.
+
+![Modelo ER](img/MER.png)
+
 ## Projeto da Base de Dados
 
 O projeto da base de dados corresponde à representação das entidades e relacionamentos identificadas no Modelo ER, no formato de tabelas, com colunas e chaves primárias/estrangeiras necessárias para representar corretamente as restrições de integridade.
