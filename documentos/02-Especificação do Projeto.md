@@ -75,11 +75,11 @@ Técnica de priorização aplicada: MoSCoW, mapeada para ALTA (MUST), MÉDIA (SH
 |ID     | Descrição do Requisito  |Prioridade |
 |-------|-------------------------|----|
 |RNF-001| Frontend web responsivo e utilizável em resoluções >= 1366x768 (suporte básico em mobile) | MÉDIA | 
-|RNF-002| Desempenho de leitura: respostas em até ~2s (p95) para consultas típicas; exportação Excel sem travar a interface | MÉDIA |
+|RNF-002| Desempenho de leitura: respostas em até ~2s para consultas típicas; exportação Excel sem travar a interface | MÉDIA |
 |RNF-003| Segurança: autenticação JWT e autorização por perfil (RBAC) em todas as rotas protegidas | ALTA |
 |RNF-004| LGPD: proteção de dados pessoais, mínimo necessário, perfis de acesso, registro de operações | ALTA |
 |RNF-005| Compatibilidade: navegadores Chrome/Edge versões suportadas pelo LTS | MÉDIA |
-|RNF-006| Documentação da API via Swagger/OpenAPI | MÉDIA |
+|RNF-006| Documentação da API via Swagger/OpenAPI | BAIXA |
 |RNF-007| Integridade de arquivo: aceitar apenas PDFs nos anexos de Projeto; validar tipo MIME e tamanho (limite a definir) | ALTA |
 |RNF-008| Persistência dos PDFs no banco (VARBINARY) com checagem de integridade (hash) | MÉDIA |
 |RNF-009| Logs de aplicação no backend com correlação de requisições | MÉDIA |
@@ -102,7 +102,7 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |07| Programa é um agrupamento de Turmas (Turma pertence a um único Programa) |
 |08| Pessoa identificada unicamente por CPF |
 |09| Empresa identificada unicamente por CNPJ |
-|10| OSC possui CNPJ opcional; chave operacional por código interno e dedupe por CNPJ/nome normalizado |
+|10| OSC possui CNPJ opcional; chave operacional por código interno mantendo CNPJ ou nome único |
 |11| Papéis em Turma: a mesma pessoa pode ter múltiplos papéis na mesma Turma |
 |12| Participante em Turma exige vínculo da Pessoa a uma OSC (indicar qual) |
 |13| Representante de Empresa é vínculo Pessoa-Empresa; Representante da Organização é vínculo Pessoa-OSC |
