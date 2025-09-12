@@ -1,4 +1,5 @@
 ﻿using IgescConecta.API.Data;
+using IgescConecta.API.Services;
 using IgescConecta.Domain.Entities;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -67,7 +68,8 @@ namespace IgescConecta.API.Common.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            // serviços personalizados aqui
+            services.AddScoped<IAuthAuthenticatonService, AuthAuthenticatonService>();
+
             return services;
         }
     }
