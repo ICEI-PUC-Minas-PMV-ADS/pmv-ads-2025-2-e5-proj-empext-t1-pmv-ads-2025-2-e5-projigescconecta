@@ -1,42 +1,25 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import axios from "axios";
 
-export default function NewPassword() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const email = (location.state as { email?: string })?.email || "";
-
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+export default function NovaSenha() {
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmacao, setConfirmacao] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password || !confirm) {
-      return alert("Preencha todos os campos.");
-    }
-    if (password !== confirm) {
-      return alert("As senhas não coincidem.");
+    if (!novaSenha || !confirmacao) return;
+    if (novaSenha !== confirmacao) {
+      alert("As senhas não coincidem.");
+      return;
     }
 
-    try {
-      setLoading(true);
-      // 🔗 Substitua pela rota real do backend quando pronta
-      await axios.post(`${import.meta.env.VITE_API_URL}/reset-password`, {
-        email,
-        password,
-      });
-      alert("Senha alterada com sucesso!");
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao alterar a senha.");
-    } finally {
+    setLoading(true);
+    setTimeout(() => {
+      alert("Simulação: senha alterada com sucesso!");
       setLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -46,45 +29,72 @@ export default function NewPassword() {
       alignItems="center"
       justifyContent="center"
       minHeight="100vh"
+      bgcolor="#F6F6F7" 
       p={2}
     >
-      <Box width="100%" maxWidth={400}>
+      <Box
+        width="100%"
+        maxWidth={400}
+        bgcolor="#FFFFFF"
+        boxShadow={3}
+        borderRadius={2}
+        p={4}
+      >
         <Link
           component="button"
-          onClick={() => navigate(-1)}
-          sx={{ display: "flex", alignItems: "center", mb: 3 }}
+          onClick={() => alert("Simulação de voltar")}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: 3,
+            color: "#1E4EC4", 
+            fontWeight: 500,
+          }}
         >
           <ArrowBackIcon sx={{ mr: 1 }} /> Voltar
         </Link>
-        <Typography variant="h5" textAlign="center" gutterBottom>
+
+        <Typography
+          variant="h5"
+          textAlign="center"
+          gutterBottom
+          sx={{ color: "#264197" }} 
+        >
           Nova senha
         </Typography>
+
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            type="password"
             label="Digite sua nova senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            value={novaSenha}
+            onChange={(e) => setNovaSenha(e.target.value)}
             margin="normal"
             required
           />
           <TextField
             fullWidth
-            type="password"
             label="Confirme sua senha"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
+            type="password"
+            value={confirmacao}
+            onChange={(e) => setConfirmacao(e.target.value)}
             margin="normal"
             required
           />
           <Button
             fullWidth
             variant="contained"
-            color="success"
             type="submit"
             disabled={loading}
-            sx={{ mt: 2 }}
+            sx={{
+              mt: 2,
+              bgcolor: "#21AD53", 
+              color: "#FFFFFF",
+              "&:hover": {
+                bgcolor: "#1a9446",
+              },
+            }}
           >
             {loading ? "Alterando..." : "Alterar"}
           </Button>

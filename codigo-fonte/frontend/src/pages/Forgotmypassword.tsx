@@ -24,13 +24,13 @@ export default function ForgotPassword() {
       alignItems="center"
       justifyContent="center"
       minHeight="100vh"
-      bgcolor="#F6F6F7" // Cinza Claro – fundo neutro
+      bgcolor="#F6F6F7" 
       p={2}
     >
       <Box
         width="100%"
         maxWidth={400}
-        bgcolor="#FFFFFF" // Branco – fundo principal
+        bgcolor="#FFFFFF" 
         boxShadow={3}
         borderRadius={2}
         p={4}
@@ -42,7 +42,7 @@ export default function ForgotPassword() {
             display: "flex",
             alignItems: "center",
             mb: 3,
-            color: "#1E4EC4", // Azul Institucional Claro – links
+            color: "#1E4EC4", 
             fontWeight: 500,
           }}
         >
@@ -53,7 +53,7 @@ export default function ForgotPassword() {
           variant="h5"
           textAlign="center"
           gutterBottom
-          sx={{ color: "#264197" }} // Azul Institucional Escuro – título
+          sx={{ color: "#264197" }} 
         >
           Esqueci minha senha
         </Typography>
@@ -62,7 +62,7 @@ export default function ForgotPassword() {
           variant="body2"
           textAlign="center"
           mb={3}
-          sx={{ color: "#656D77" }} // Cinza Escuro – texto secundário
+          sx={{ color: "#656D77" }} 
         >
           Insira o seu endereço de e-mail ou o seu login de acesso associado à sua conta na plataforma.
         </Typography>
@@ -84,10 +84,10 @@ export default function ForgotPassword() {
             disabled={loading}
             sx={{
               mt: 2,
-              bgcolor: "#21AD53", // Verde Ação – botão de chamada
-              color: "#FFFFFF", // Branco – texto do botão
+              bgcolor: "#21AD53", 
+              color: "#FFFFFF", 
               "&:hover": {
-                bgcolor: "#1a9446", // tom mais escuro no hover
+                bgcolor: "#1a9446", 
               },
             }}
           >
