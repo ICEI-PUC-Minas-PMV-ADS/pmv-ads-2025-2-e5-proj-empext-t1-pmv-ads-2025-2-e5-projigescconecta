@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function NovaSenha() {
+export default function NewPassword() {
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmacao, setConfirmacao] = useState("");
   const [loading, setLoading] = useState(false);
