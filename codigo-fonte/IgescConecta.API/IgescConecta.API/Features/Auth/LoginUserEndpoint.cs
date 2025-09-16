@@ -2,6 +2,7 @@
 using IgescConecta.API.Services;
 using Microsoft.AspNetCore.Identity;
 using IgescConecta.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IgescConecta.API.Features.Auth
 {
@@ -18,6 +19,7 @@ namespace IgescConecta.API.Features.Auth
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpPost("Login", Name = "Login")]
         public async Task<ActionResult<UserToken>> LoginUser(UserLogin model)
         {
@@ -29,7 +31,7 @@ namespace IgescConecta.API.Features.Auth
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                 return BadRequest(ModelState);
             }
         }

@@ -1,5 +1,9 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.API.Common.Options;
 using IgescConecta.API.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,46 @@ builder.Services.AddServices();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
+// --- Auth: ler config Jwt e registrar JwtBearer (sem nullables) ---
+var jwtSection = builder.Configuration.GetSection("Jwt");
+var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
+                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
+var jwtAudience = jwtSection.GetValue<string>("JwtAudience")
+                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtAudience");
+var jwtKeyString = jwtSection.GetValue<string>("JwtSecurityKey")
+                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtSecurityKey");
+var jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKeyString));
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = jwtKey,
+            ClockSkew = TimeSpan.Zero
+        };
+
+    });
+
+builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+
+builder.Services.AddCors(o => o.AddPolicy("Front", p =>
+    p.WithOrigins(
+        "http://localhost:3000",  
+        "https://localhost:3000"  
+    )
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+));
+
 
 var app = builder.Build();
 
@@ -24,11 +68,12 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors();
+    app.UseCors("Front");
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -29,7 +29,7 @@ namespace IgescConecta.API.Features.Users.DeleteUser
             var user = await _context.Users.FindAsync([request.UserId]);
             if (user == null)
             {
-                return new ValidationFailed(new[] { "User not found" });
+                return new ValidationFailed(new[] { "Usuário não encontrado." });
             }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync(cancellationToken);
