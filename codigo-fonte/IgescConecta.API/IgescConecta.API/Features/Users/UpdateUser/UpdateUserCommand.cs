@@ -40,7 +40,7 @@ namespace IgescConecta.API.Features.Users.UpdateUser
 
             if(user == null)
             {
-                return new ValidationFailed(["User not found"]);
+                return new ValidationFailed(["Usuário não encontrado."]);
             }
 
             user.Name = string.IsNullOrEmpty(request.Name) ? user.Name : request.Name;
