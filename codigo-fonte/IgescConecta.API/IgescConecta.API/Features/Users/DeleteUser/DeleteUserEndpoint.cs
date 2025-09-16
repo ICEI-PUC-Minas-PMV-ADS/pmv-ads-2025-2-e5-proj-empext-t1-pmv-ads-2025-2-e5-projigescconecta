@@ -1,4 +1,5 @@
-﻿using IgescConecta.API.Common.Validation;
+﻿using IgescConecta.API.Common.Extensions;
+using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace IgescConecta.API.Features.Users.DeleteUser
 {
+    [ApiAuthorize]
     [Route("api/users")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Users")]
