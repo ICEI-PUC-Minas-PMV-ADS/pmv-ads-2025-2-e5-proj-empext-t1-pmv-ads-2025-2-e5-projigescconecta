@@ -100,8 +100,22 @@ namespace IgescConecta.API.Common.Extensions
             {
                 value = value.ToString().GetValueFromName(member.Type);
             }
-            ConstantExpression constant = Expression.Constant(Convert.ChangeType(value, member.Type.GetUnderlyingType()));
-            var convertedMember = Expression.Convert(member, member.Type.GetUnderlyingType());
+
+            object convertedValue;
+
+            var targetType = member.Type.GetUnderlyingType();
+
+            if (targetType == typeof(string))
+
+                convertedValue = value?.ToString();
+
+            else
+
+                convertedValue = Convert.ChangeType(value, targetType);
+
+            ConstantExpression constant = Expression.Constant(convertedValue, targetType);
+
+            var convertedMember = Expression.Convert(member, targetType);
 
             return filter.Operation switch
             {

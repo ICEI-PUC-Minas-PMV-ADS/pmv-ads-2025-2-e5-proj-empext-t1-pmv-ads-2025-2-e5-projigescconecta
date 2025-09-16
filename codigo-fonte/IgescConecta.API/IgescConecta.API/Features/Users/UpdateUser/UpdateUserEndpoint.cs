@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using IgescConecta.API.Common.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Users.UpdateUser
 {
+    [ApiAuthorize]
     [Route("/api/users")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Users")]

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IgescConecta.API.Common.Extensions
 {
@@ -7,7 +7,8 @@ namespace IgescConecta.API.Common.Extensions
     {
         public ApiAuthorize()
         {
-            AuthenticationSchemes = IdentityConstants.BearerScheme;
+            AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme; 
         }
     }
 }
+

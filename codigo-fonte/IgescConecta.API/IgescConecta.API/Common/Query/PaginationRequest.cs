@@ -11,7 +11,7 @@ namespace IgescConecta.API.Common.Query
             Filters = filters;
         }
 
-        public int PageNumber { get; set; } = 0;
+        public int PageNumber { get; set; } = 1;
 
         public int PageSize { get; set; } = 10;
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Users.ListUser
 {
+    [ApiAuthorize]
     [Route("/api/users")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Users")]
@@ -16,8 +17,8 @@ namespace IgescConecta.API.Features.Users.ListUser
             _mediator = mediator;
         }
 
-        [HttpGet("ListUser", Name = "ListUser")]
-        public async Task<ActionResult<ListUserViewModel>> ListUser([FromQuery]ListUserRequest request)
+        [HttpPost("ListUser", Name = "ListUser")]
+        public async Task<ActionResult<ListUserViewModel>> ListUser(ListUserRequest request)
         {
             var result = await _mediator.Send(new ListUserQuery(request.PageNumber, request.PageSize, request.Filters));
             return Ok(result);

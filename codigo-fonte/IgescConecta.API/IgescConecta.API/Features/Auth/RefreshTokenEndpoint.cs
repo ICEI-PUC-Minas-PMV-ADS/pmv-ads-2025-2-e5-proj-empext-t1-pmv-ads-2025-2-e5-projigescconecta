@@ -1,4 +1,5 @@
 ﻿using IgescConecta.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -16,12 +17,13 @@ namespace IgescConecta.API.Features.Auth
             _auth = auth;
         }
 
+        [AllowAnonymous]
         [HttpPost ("RefreshToken", Name = "RefreshToken")]
         public async Task<ActionResult> RefreshToken(LoginResponse tokenModel)
         {
             if (tokenModel is null)
             {
-                return BadRequest("Invalid client request");
+                return BadRequest("Requisição do cliente inválida.");
             }
 
             string? accessToken = tokenModel.AccessToken;
@@ -31,7 +33,7 @@ namespace IgescConecta.API.Features.Auth
 
             if(principal == null)
             {
-                return BadRequest("Invalid access token or refresh token");
+                return BadRequest("Token de acesso ou refresh inválido.");
             }
 
             var newAccessToken = _auth.CreateToken(principal.Claims.ToList());

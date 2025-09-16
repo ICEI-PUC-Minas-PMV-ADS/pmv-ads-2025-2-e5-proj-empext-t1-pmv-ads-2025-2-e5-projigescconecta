@@ -26,33 +26,43 @@ namespace IgescConecta.API.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, $"{role}"),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.Role, role ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:JwtSecurityKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var keyStr = _configuration.GetValue<string>("Jwt:JwtSecurityKey")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtSecurityKey");
+            var issuer = _configuration.GetValue<string>("Jwt:JwtIssuer")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtIssuer");
+            var audience = _configuration.GetValue<string>("Jwt:JwtAudience")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtAudience");
+            var minutes = _configuration.GetValue<int?>("Jwt:ExpiryMinutes") ?? 600;
 
-            //Mudar para 10 minutos depois
-            var expiration = DateTime.UtcNow.AddHours(10);
+            var creds = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr)),
+                SecurityAlgorithms.HmacSha256);
 
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: null,
-                audience: null,
+            var expiration = DateTime.UtcNow.AddMinutes(minutes);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
                 claims: claims,
                 expires: expiration,
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
 
             var refreshToken = GenerateRefreshToken();
 
-            return new UserToken()
+            return new UserToken
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                 RefresfToken = refreshToken,
                 ExpiresIn = expiration
             };
         }
+
 
         public ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
         {
@@ -71,26 +81,32 @@ namespace IgescConecta.API.Services
 
             if(securityToken is not JwtSecurityToken jwtSecurityToken ||
                 !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenArgumentException("invalid token");
+                throw new SecurityTokenArgumentException("Token inválido");
 
             return principal;
         }
 
         public JwtSecurityToken CreateToken(List<Claim> authClaims)
         {
-            var authSingingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:JwtSecurityKey"]));
-            _ = int.TryParse(_configuration["Jwt: JwtExpireyInMinutes"], out int tokenValidityInMinutes);
+            var keyStr = _configuration.GetValue<string>("Jwt:JwtSecurityKey")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtSecurityKey");
+            var issuer = _configuration.GetValue<string>("Jwt:JwtIssuer")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtIssuer");
+            var audience = _configuration.GetValue<string>("Jwt:JwtAudience")
+                        ?? throw new InvalidOperationException("Missing Jwt:JwtAudience");
+            var minutes = _configuration.GetValue<int?>("Jwt:ExpiryMinutes") ?? 600;
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:JwtIssuer"],
-                audience: _configuration["Jwt:JwtAudience"],
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr));
+
+            return new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                expires: DateTime.UtcNow.AddMinutes(minutes),
                 claims: authClaims,
-                signingCredentials: new SigningCredentials(authSingingKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
         }
+
 
         public string GenerateRefreshToken()
         {
