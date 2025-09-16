@@ -69,6 +69,10 @@ Técnica de priorização aplicada: MoSCoW, mapeada para ALTA (MUST), MÉDIA (SH
 |RF-015| Controle de acesso por perfil (somente usuários do IGESC operam o sistema) | ALTA |
 |RF-016| Auditoria mínima (registrar quem criou/alterou) | BAIXA |
 |RF-017| Painel de Dashboards definidos pelo IGESC | MÉDIA |
+|RF-018| O site deve permitir que usuários se cadastrem | ALTA |
+|RF-019| O site deve disponibilizar opção para recuperação de senha | ALTA |
+|RF-020|O site deve permitir que usuários realizem login utilizando e-mail e senha. | ALTA |
+
 
 ### Requisitos não Funcionais
 
