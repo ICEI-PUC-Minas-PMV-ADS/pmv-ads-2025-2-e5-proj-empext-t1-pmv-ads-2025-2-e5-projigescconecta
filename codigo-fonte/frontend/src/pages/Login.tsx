@@ -82,7 +82,7 @@ export default function Login() {
         navigate('/home');
       }
     } catch (error) {
-      toast.error(error);
+      toast.error('Erro ao realizar login. Verifique suas credenciais.');
     }
   };
 

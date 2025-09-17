@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Login from './pages/Login';
-import NewPassword from './pages/NewPassword';
+import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
 import PrivateRoute from './routes/privateRoute';
@@ -14,8 +14,8 @@ export default function App() {
     <>
       {/* Toast global */}
       <ToastContainer
-        position="top-right"
-        autoClose={3000}
+        position="top-center"
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -31,7 +31,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/new-password" element={<NewPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Rotas privadas */}
         <Route
