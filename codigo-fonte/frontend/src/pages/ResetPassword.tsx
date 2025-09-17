@@ -7,21 +7,34 @@ import {
   Link,
   IconButton,
   InputAdornment,
+  Alert,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { AuthApi, Configuration, ResetPasswordRequest } from './../api';
+import { AuthApi, Configuration } from './../api';
 import { toast } from 'react-toastify';
 
-// Validação de senha
-const isValidPassword = (password: string) => {
-  if (password.length < 6) return false;
-  if (!/[0-9]/.test(password)) return false;
-  if (!/[a-z]/.test(password)) return false;
-  if (!/[A-Z]/.test(password)) return false;
-  return true;
+// Validação de senha detalhada
+const getPasswordValidation = (password) => {
+  return {
+    length: password.length >= 6,
+    hasNumber: /[0-9]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasUppercase: /[A-Z]/.test(password),
+    isValid:
+      password.length >= 6 &&
+      /[0-9]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[A-Z]/.test(password),
+  };
 };
 
 export default function ResetPassword() {
@@ -37,9 +50,11 @@ export default function ResetPassword() {
   const uid = searchParams.get('uid');
   const token = searchParams.get('token');
 
-  const senhaValida = useMemo(() => isValidPassword(novaSenha), [novaSenha]);
+  const passwordValidation = useMemo(() => getPasswordValidation(novaSenha), [novaSenha]);
+  const passwordsMatch = novaSenha && confirmacao && novaSenha === confirmacao;
+  const showPasswordError = confirmacao.length > 0 && !passwordsMatch;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!novaSenha || !confirmacao) {
@@ -47,12 +62,12 @@ export default function ResetPassword() {
       return;
     }
 
-    if (!senhaValida) {
-      toast.warning('Senha inválida. Mín. 6 caracteres, 1 dígito, 1 minúscula e 1 maiúscula.');
+    if (!passwordValidation.isValid) {
+      toast.warning('Senha não atende aos critérios de segurança.');
       return;
     }
 
-    if (novaSenha !== confirmacao) {
+    if (!passwordsMatch) {
       toast.error('As senhas não coincidem.');
       return;
     }
@@ -68,7 +83,7 @@ export default function ResetPassword() {
       const configuration = new Configuration();
       const api = new AuthApi(configuration);
 
-      const request: ResetPasswordRequest = {
+      const request = {
         userId: Number(uid),
         token,
         newPassword: novaSenha,
@@ -88,6 +103,27 @@ export default function ResetPassword() {
     }
   };
 
+  const ValidationItem = ({ isValid, text }) => (
+    <ListItem dense sx={{ py: 0.25 }}>
+      <ListItemIcon sx={{ minWidth: 28 }}>
+        {isValid ? (
+          <CheckCircleIcon sx={{ color: 'success.main', fontSize: 18 }} />
+        ) : (
+          <CancelIcon sx={{ color: 'error.main', fontSize: 18 }} />
+        )}
+      </ListItemIcon>
+      <ListItemText
+        primary={text}
+        sx={{
+          '& .MuiTypography-root': {
+            fontSize: '0.875rem',
+            color: isValid ? 'success.main' : 'error.main',
+          },
+        }}
+      />
+    </ListItem>
+  );
+
   return (
     <Box
       display="flex"
@@ -106,18 +142,33 @@ export default function ResetPassword() {
             display: 'flex',
             alignItems: 'center',
             mb: 3,
-            color: '#1E4EC4',
-            fontWeight: 500,
+            color: '#656D77',
+            fontWeight: 600,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' },
           }}
         >
           <ArrowBackIcon sx={{ mr: 1 }} /> Voltar
         </Link>
 
-        <Typography variant="h5" textAlign="center" gutterBottom sx={{ color: '#264197' }}>
+        <Typography
+          variant="h4"
+          textAlign="center"
+          gutterBottom
+          sx={{
+            color: '#264197',
+            fontWeight: 700,
+            fontSize: { xs: '1.8rem', sm: '2rem' },
+            mb: 1,
+          }}
+        >
           Nova senha
         </Typography>
 
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
           {/* Nova senha */}
           <TextField
             fullWidth
@@ -127,6 +178,7 @@ export default function ResetPassword() {
             onChange={(e) => setNovaSenha(e.target.value)}
             margin="normal"
             required
+            error={novaSenha.length > 0 && !passwordValidation.isValid}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -141,9 +193,28 @@ export default function ResetPassword() {
                 </InputAdornment>
               ),
             }}
-            helperText="Mín. 6 caracteres, 1 dígito, 1 minúscula e 1 maiúscula."
-            error={novaSenha.length > 0 && !senhaValida}
           />
+
+          {/* Critérios de validação da senha */}
+          {novaSenha.length > 0 && (
+            <Box sx={{ width: '100%', mt: 1 }}>
+              <Typography variant="body2" sx={{ mb: 1, color: 'text.secondary' }}>
+                Critérios da senha:
+              </Typography>
+              <List dense sx={{ bgcolor: 'grey.50', borderRadius: 1, p: 1 }}>
+                <ValidationItem isValid={passwordValidation.length} text="Mínimo 6 caracteres" />
+                <ValidationItem isValid={passwordValidation.hasNumber} text="Pelo menos 1 número" />
+                <ValidationItem
+                  isValid={passwordValidation.hasLowercase}
+                  text="Pelo menos 1 letra minúscula"
+                />
+                <ValidationItem
+                  isValid={passwordValidation.hasUppercase}
+                  text="Pelo menos 1 letra maiúscula"
+                />
+              </List>
+            </Box>
+          )}
 
           {/* Confirmação */}
           <TextField
@@ -154,6 +225,8 @@ export default function ResetPassword() {
             onChange={(e) => setConfirmacao(e.target.value)}
             margin="normal"
             required
+            error={showPasswordError}
+            helperText={showPasswordError ? 'As senhas não coincidem' : ''}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -170,16 +243,22 @@ export default function ResetPassword() {
             }}
           />
 
+          {/* Feedback de sucesso */}
+          {passwordValidation.isValid && passwordsMatch && (
+            <Alert severity="success" sx={{ width: '100%', mt: 2 }}>
+              Senha válida e confirmada!
+            </Alert>
+          )}
+
           <Button
             fullWidth
             variant="contained"
             type="submit"
-            disabled={loading}
+            disabled={loading || !passwordValidation.isValid || !passwordsMatch}
             sx={{
-              mt: 2,
-              bgcolor: '#21AD53',
-              color: '#FFFFFF',
-              '&:hover': { bgcolor: '#1a9446' },
+              mt: 4,
+              py: 1.25,
+              px: 5,
             }}
           >
             {loading ? 'Alterando...' : 'Alterar'}

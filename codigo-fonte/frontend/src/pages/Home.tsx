@@ -46,7 +46,7 @@ const Home: React.FC = () => {
         <Button
           type="submit"
           variant="contained"
-          onClick={()=> { window.location.href = '/new-password'} }
+          onClick={()=> { window.location.href = '/reset-password'} }
           sx={{
             minWidth: { xs: '100%', sm: 220 },
             borderRadius: '12px',

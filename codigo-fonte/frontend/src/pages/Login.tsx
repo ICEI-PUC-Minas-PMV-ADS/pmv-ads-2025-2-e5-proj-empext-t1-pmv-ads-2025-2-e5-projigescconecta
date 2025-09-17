@@ -125,7 +125,7 @@ export default function Login() {
             sx={{
               color: '#264197',
               fontWeight: 700,
-              fontSize: { xs: '1.875rem', sm: '2.125rem' },
+              fontSize: { xs: '2rem', sm: '2.5rem' },
               mb: 3,
             }}
           >
@@ -136,7 +136,6 @@ export default function Login() {
           <Box
             component="form"
             onSubmit={handleSubmit}
-            noValidate
             width="100%"
             px={{ xs: 1, sm: 0 }}
           >
@@ -195,14 +194,7 @@ export default function Login() {
                 onClick={() => handleSubmit}
                 sx={{
                   minWidth: { xs: '100%', sm: 220 },
-                  borderRadius: '12px',
-                  bgcolor: '#21AD53',
-                  color: '#FFFFFF',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  py: 1.1,
-                  '&:hover': { bgcolor: '#1a9446' },
-                  '&:disabled': { bgcolor: '#BEEBD0', color: '#FFFFFF' },
+                  py: 1.25,
                 }}
               >
                 Entrar

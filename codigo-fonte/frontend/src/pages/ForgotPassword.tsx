@@ -69,7 +69,7 @@ export default function ForgotPassword() {
       height="100vh"
       bgcolor="#F6F6F7"
     >
-      <Box width="100%" maxWidth={400} bgcolor="#FFFFFF" boxShadow={3} borderRadius={2} p={4}>
+      <Box width="100%" maxWidth={450} bgcolor="#FFFFFF" boxShadow={3} borderRadius={2} p={4}>
         <Link
           component="button"
           onClick={() => (window.location.href = '/login')}
@@ -77,23 +77,37 @@ export default function ForgotPassword() {
             display: 'flex',
             alignItems: 'center',
             mb: 3,
-            color: '#1E4EC4',
-            fontWeight: 500,
+            color: '#656D77',
+            fontWeight: 600,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' },
           }}
         >
           <ArrowBackIcon sx={{ mr: 1 }} /> Voltar
         </Link>
 
-        <Typography variant="h5" textAlign="center" gutterBottom sx={{ color: '#264197' }}>
+        <Typography
+          variant="h4"
+          textAlign="center"
+          gutterBottom
+          sx={{
+            color: '#264197',
+            fontWeight: 700,
+            fontSize: { xs: '1.8rem', sm: '2rem' },
+            mb: 3,
+          }}
+        >
           Esqueci minha senha
         </Typography>
 
         <Typography variant="body2" textAlign="center" mb={3} sx={{ color: '#656D77' }}>
-          Insira o seu endereço de e-mail ou o seu login de acesso associado à sua conta na
-          plataforma.
+          Insira o seu endereço de e-mail associado à sua conta na plataforma.
         </Typography>
 
-        <form onSubmit={handleSendEmail}>
+        <form
+          onSubmit={handleSendEmail}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
           <TextField
             fullWidth
             label="Digite seu e-mail"
@@ -125,12 +139,9 @@ export default function ForgotPassword() {
             type="submit"
             disabled={buttonLoading}
             sx={{
-              mt: 2,
-              bgcolor: '#21AD53',
-              color: '#FFFFFF',
-              '&:hover': {
-                bgcolor: '#1a9446',
-              },
+              mt: 4,
+              py: 1.25,
+              px: 5,
             }}
           >
             {buttonLoading ? 'Enviando...' : 'Continuar'}
