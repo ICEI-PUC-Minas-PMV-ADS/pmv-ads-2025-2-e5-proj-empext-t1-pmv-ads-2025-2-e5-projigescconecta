@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "generate-api": "openapi-generator-cli generate -i swagger.json -g typescript-axios -o src/api",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@openapitools/openapi-generator-cli": "^2.23.3",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.3.1",
