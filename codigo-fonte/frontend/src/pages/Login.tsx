@@ -78,7 +78,7 @@ export default function Login() {
           expiresIn: data.expiresIn,
         };
         localStorage.setItem('loginResponse', JSON.stringify(loginResponse));
-        scheduleTokenRefresh(parseInt(loginResponse.expiresIn));
+        if (loginResponse.expiresIn) scheduleTokenRefresh(parseInt(loginResponse.expiresIn));
         navigate('/home');
       }
     } catch (error) {
@@ -133,12 +133,7 @@ export default function Login() {
           </Typography>
 
           {/* Form */}
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            width="100%"
-            px={{ xs: 1, sm: 0 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} width="100%" px={{ xs: 1, sm: 0 }}>
             {/* E-mail */}
             <TextField
               fullWidth
