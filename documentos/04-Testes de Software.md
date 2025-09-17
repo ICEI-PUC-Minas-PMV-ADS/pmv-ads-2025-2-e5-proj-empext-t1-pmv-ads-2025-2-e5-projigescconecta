@@ -27,7 +27,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr> 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-020</td>
+    <td>RF-018</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
@@ -68,7 +68,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr> 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-019</td>
+    <td>RF-018</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
@@ -110,7 +110,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr> 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-020</td>
+    <td>RF-018</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
@@ -151,7 +151,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr> 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-019</td>
+    <td>RF-018</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
