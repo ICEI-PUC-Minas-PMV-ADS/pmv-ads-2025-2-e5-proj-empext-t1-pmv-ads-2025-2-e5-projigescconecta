@@ -23,9 +23,8 @@ export default function ForgotPassword() {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="100vh"
+      height="100vh"
       bgcolor="#F6F6F7" 
-      p={2}
     >
       <Box
         width="100%"

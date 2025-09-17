@@ -60,168 +60,198 @@ export default function Login() {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="flex-start"
       minHeight="100vh"
       bgcolor="#FCFCFC"
-      pt={{ xs: 4, sm: 6 }}
-      px={2}
+      position="relative"
     >
-      {/* Logo + traço */}
-      <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
-        <Box
-          component="img"
-          src={logoGest}
-          alt="Instituto GESC"
-          sx={{ width: { xs: 96, sm: 120 }, mb: 2 }}
-        />
-        <Box sx={{ width: { xs: 160, sm: 220 }, height: 2, bgcolor: "#264197", borderRadius: 1 }} />
+      {/* Logo + traço no topo (posição absoluta) */}
+      <Box 
+        position="absolute"
+        top={{ xs: 24, sm: 32 }}
+        left="50%"
+        sx={{ transform: "translateX(-50%)" }}
+        zIndex={1}
+      >
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Box
+            component="img"
+            src={logoGest}
+            alt="Instituto GESC"
+            sx={{ width: { xs: 96, sm: 120 }, mb: 2 }}
+          />
+          <Box 
+            sx={{ 
+              width: { xs: 160, sm: 220 }, 
+              height: 2, 
+              bgcolor: "#264197", 
+              borderRadius: 1 
+            }} 
+          />
+        </Box>
       </Box>
 
-      {/* Título */}
-      <Typography
-        variant="h4"
-        textAlign="center"
-        gutterBottom
-        sx={{ color: "#264197", fontWeight: 700, fontSize: { xs: "1.875rem", sm: "2.125rem" } }}
-      >
-        Login
-      </Typography>
-
-      {/* Form */}
+      {/* Conteúdo principal centralizado 100% */}
       <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        width="100%"
-        maxWidth={420}
-        mt={1}
-        px={{ xs: 1, sm: 0 }}
+        minHeight="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        px={2}
       >
-        {/* E-mail */}
-        <TextField
-          fullWidth
-          variant="outlined"
-          label="" 
-          placeholder="Digite seu e-mail"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={() => setTouchedEmail(true)}
-          margin="normal"
-          required
-          autoComplete="email"
-          error={touchedEmail && !emailValid}
-          helperText={touchedEmail && !emailValid ? "Informe um e-mail válido." : " "}
-          slotProps={{
-            inputLabel: { shrink: false },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "12px",
-              "& fieldset": { borderColor: "#264197" },
-              "&:hover fieldset": { borderColor: "#264197" },
-              "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
-              px: 1.5,
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "#656D77", 
-              opacity: 1,
-              fontWeight: 600,
-            },
-          }}
-        />
-
-        {/* Senha */}
-        <TextField
-          fullWidth
-          variant="outlined"
-          label=""
-          placeholder="Digite sua senha"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={() => setTouchedPassword(true)}
-          margin="normal"
-          required
-          autoComplete="current-password"
-          error={touchedPassword && !passwordValid}
-          helperText={
-            touchedPassword && !passwordValid
-              ? "Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula."
-              : " "
-          }
-          slotProps={{
-            inputLabel: { shrink: false },
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword((s) => !s)}
-                    onMouseDown={(e) => e.preventDefault()}
-                    edge="end"
-                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "12px",
-              "& fieldset": { borderColor: "#264197" },
-              "&:hover fieldset": { borderColor: "#264197" },
-              "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
-              px: 1.5,
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "#656D77",
-              opacity: 1,
-              fontWeight: 600,
-            },
-          }}
-        />
-
-        {/* Botão Entrar */}
-        <Box display="flex" justifyContent="center" mt={3}>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={!formValid}
-            sx={{
-              minWidth: { xs: "100%", sm: 220 },
-              borderRadius: "12px",
-              bgcolor: "#21AD53",
-              color: "#FFFFFF",
-              textTransform: "none",
-              fontWeight: 600,
-              py: 1.1,
-              "&:hover": { bgcolor: "#1a9446" },
-              "&:disabled": { bgcolor: "#BEEBD0", color: "#FFFFFF" },
+        <Box
+          width="100%"
+          maxWidth={420}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          {/* Título */}
+          <Typography
+            variant="h4"
+            textAlign="center"
+            gutterBottom
+            sx={{ 
+              color: "#264197", 
+              fontWeight: 700, 
+              fontSize: { xs: "1.875rem", sm: "2.125rem" },
+              mb: 3
             }}
           >
-            Entrar
-          </Button>
-        </Box>
+            Login
+          </Typography>
 
-        {/* Link de recuperação */}
-        <Box display="flex" justifyContent="center" mt={2}>
-          <MUILink
-            component={RouterLink}
-            to="/forgot-password"
-            sx={{
-              color: "#656D77",
-              fontWeight: 600,
-              textDecoration: "none",
-              "&:hover": { textDecoration: "underline" },
-            }}
+          {/* Form */}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            width="100%"
+            px={{ xs: 1, sm: 0 }}
           >
-            Esqueceu a Senha?
-          </MUILink>
+            {/* E-mail */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="" 
+              placeholder="Digite seu e-mail"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setTouchedEmail(true)}
+              margin="normal"
+              required
+              autoComplete="email"
+              error={touchedEmail && !emailValid}
+              helperText={touchedEmail && !emailValid ? "Informe um e-mail válido." : " "}
+              slotProps={{
+                inputLabel: { shrink: false },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "12px",
+                  "& fieldset": { borderColor: "#264197" },
+                  "&:hover fieldset": { borderColor: "#264197" },
+                  "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
+                  px: 1.5,
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "#656D77", 
+                  opacity: 1,
+                  fontWeight: 600,
+                },
+              }}
+            />
+
+            {/* Senha */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label=""
+              placeholder="Digite sua senha"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => setTouchedPassword(true)}
+              margin="normal"
+              required
+              autoComplete="current-password"
+              error={touchedPassword && !passwordValid}
+              helperText={
+                touchedPassword && !passwordValid
+                  ? "Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula."
+                  : " "
+              }
+              slotProps={{
+                inputLabel: { shrink: false },
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((s) => !s)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        edge="end"
+                        aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "12px",
+                  "& fieldset": { borderColor: "#264197" },
+                  "&:hover fieldset": { borderColor: "#264197" },
+                  "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
+                  px: 1.5,
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "#656D77",
+                  opacity: 1,
+                  fontWeight: 600,
+                },
+              }}
+            />
+
+            {/* Botão Entrar */}
+            <Box display="flex" justifyContent="center" mt={3}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={!formValid}
+                sx={{
+                  minWidth: { xs: "100%", sm: 220 },
+                  borderRadius: "12px",
+                  bgcolor: "#21AD53",
+                  color: "#FFFFFF",
+                  textTransform: "none",
+                  fontWeight: 600,
+                  py: 1.1,
+                  "&:hover": { bgcolor: "#1a9446" },
+                  "&:disabled": { bgcolor: "#BEEBD0", color: "#FFFFFF" },
+                }}
+              >
+                Entrar
+              </Button>
+            </Box>
+
+            {/* Link de recuperação */}
+            <Box display="flex" justifyContent="center" mt={2}>
+              <MUILink
+                component={RouterLink}
+                to="/forgot-password"
+                sx={{
+                  color: "#656D77",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                Esqueceu a Senha?
+              </MUILink>
+            </Box>
+          </Box>
         </Box>
       </Box>
 
