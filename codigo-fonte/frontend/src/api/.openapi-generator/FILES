@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 base.ts
 common.ts
@@ -9,9 +8,14 @@ docs/AuthApi.md
 docs/CreateUserRequest.md
 docs/CreateUserResponse.md
 docs/Filter.md
+docs/ForgotPasswordRequest.md
+docs/ForgotPasswordResponse.md
+docs/ListUserRequest.md
 docs/ListUserViewModel.md
 docs/LoginResponse.md
 docs/Op.md
+docs/ResetPasswordRequest.md
+docs/ResetPasswordResponse.md
 docs/UpdateUserRequest.md
 docs/UpdateUserResponse.md
 docs/UserLogin.md

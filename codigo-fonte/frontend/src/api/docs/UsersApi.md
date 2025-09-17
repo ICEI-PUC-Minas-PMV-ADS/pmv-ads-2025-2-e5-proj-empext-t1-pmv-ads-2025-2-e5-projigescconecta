@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**createUser**](#createuser) | **POST** /api/users/CreateUser | |
 |[**deleteUser**](#deleteuser) | **DELETE** /api/users/{userId} | |
-|[**listUser**](#listuser) | **GET** /api/users/ListUser | |
+|[**listUser**](#listuser) | **POST** /api/users/ListUser | |
 |[**updateUser**](#updateuser) | **PUT** /api/users/{userId} | |
 
 # **createUser**
@@ -45,7 +45,7 @@ const { status, data } = await apiInstance.createUser(
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -95,7 +95,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -119,20 +119,17 @@ No authorization required
 ```typescript
 import {
     UsersApi,
-    Configuration
+    Configuration,
+    ListUserRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
-let pageNumber: number; // (optional) (default to undefined)
-let pageSize: number; // (optional) (default to undefined)
-let filters: Array<Filter>; // (optional) (default to undefined)
+let listUserRequest: ListUserRequest; // (optional)
 
 const { status, data } = await apiInstance.listUser(
-    pageNumber,
-    pageSize,
-    filters
+    listUserRequest
 );
 ```
 
@@ -140,9 +137,7 @@ const { status, data } = await apiInstance.listUser(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **pageNumber** | [**number**] |  | (optional) defaults to undefined|
-| **pageSize** | [**number**] |  | (optional) defaults to undefined|
-| **filters** | **Array&lt;Filter&gt;** |  | (optional) defaults to undefined|
+| **listUserRequest** | **ListUserRequest**|  | |
 
 
 ### Return type
@@ -151,11 +146,11 @@ const { status, data } = await apiInstance.listUser(
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json, text/json, application/*+json
  - **Accept**: text/plain, application/json, text/json
 
 
@@ -205,7 +200,7 @@ const { status, data } = await apiInstance.updateUser(
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
