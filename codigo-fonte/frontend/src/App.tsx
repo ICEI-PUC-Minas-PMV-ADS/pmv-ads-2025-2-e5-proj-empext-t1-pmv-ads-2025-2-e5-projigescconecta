@@ -1,17 +1,11 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from './utils/theme'; // <- importa o tema que criamos
-
-import Login from './pages/Login';
-import ResetPassword from './pages/ResetPassword';
-import ForgotPassword from './pages/ForgotPassword';
-import Home from './pages/Home';
-import PrivateRoute from './routes/privateRoute';
+import theme from './utils/theme';
 
 export default function App() {
   return (
@@ -32,26 +26,7 @@ export default function App() {
       />
 
       {/* Rotas */}
-      <Routes>
-        {/* Rotas públicas */}
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-
-        {/* Rotas privadas */}
-        <Route
-          path="/home"
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
-        />
-
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+      <AppRoutes />
     </ThemeProvider>
   );
 }
