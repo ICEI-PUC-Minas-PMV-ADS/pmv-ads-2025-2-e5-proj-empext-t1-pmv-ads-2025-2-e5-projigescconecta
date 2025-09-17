@@ -3,6 +3,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './utils/theme'; // <- importa o tema que criamos
+
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
@@ -11,7 +15,9 @@ import PrivateRoute from './routes/privateRoute';
 
 export default function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+
       {/* Toast global */}
       <ToastContainer
         position="top-center"
@@ -46,6 +52,6 @@ export default function App() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }

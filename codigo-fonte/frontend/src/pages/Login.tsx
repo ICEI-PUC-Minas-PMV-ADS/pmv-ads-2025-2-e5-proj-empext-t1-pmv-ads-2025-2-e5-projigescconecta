@@ -35,8 +35,8 @@ const isValidPassword = (password: string) => {
 
 export default function Login() {
   const [email, setEmail] = useState('');
-  const [touchedEmail, setTouchedEmail] = useState(false);
-
+  /*   const [touchedEmail, setTouchedEmail] = useState(false);
+   */
   const [password, setPassword] = useState('');
   const [touchedPassword, setTouchedPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -52,8 +52,8 @@ export default function Login() {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     /* Validações */
     e.preventDefault();
-    if (!touchedEmail) setTouchedEmail(true);
-    if (!touchedPassword) setTouchedPassword(true);
+    /*     if (!touchedEmail) setTouchedEmail(true);
+    if (!touchedPassword) setTouchedPassword(true); */
 
     if (!formValid) {
       if (!emailValid && !passwordValid) toast.info('Preencha os campos obrigatórios.');
@@ -143,29 +143,18 @@ export default function Login() {
             {/* E-mail */}
             <TextField
               fullWidth
-              variant="outlined"
-              label=""
-              placeholder="Digite seu e-mail"
+              label="Digite seu e-mail"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onBlur={() => setTouchedEmail(true)}
               margin="normal"
               required
-              autoComplete="email"
-              error={touchedEmail && !emailValid}
-              helperText={touchedEmail && !emailValid ? 'Informe um e-mail válido.' : ' '}
-              slotProps={{
-                inputLabel: { shrink: false },
-              }}
             />
 
             {/* Senha */}
             <TextField
               fullWidth
-              variant="outlined"
-              label=""
-              placeholder="Digite sua senha"
+              label="Digite sua senha"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -173,14 +162,13 @@ export default function Login() {
               margin="normal"
               required
               autoComplete="current-password"
-              error={touchedPassword && !passwordValid}
+              /* error={touchedPassword && !passwordValid}
               helperText={
                 touchedPassword && !passwordValid
                   ? 'Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula.'
                   : ' '
-              }
+              } */
               slotProps={{
-                inputLabel: { shrink: false },
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
