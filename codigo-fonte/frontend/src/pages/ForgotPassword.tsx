@@ -36,7 +36,7 @@ export default function ForgotPassword() {
       >
         <Link
           component="button"
-          onClick={() => alert("Simulação de voltar")}
+          onClick={() => window.location.href = '/login'}
           sx={{
             display: "flex",
             alignItems: "center",

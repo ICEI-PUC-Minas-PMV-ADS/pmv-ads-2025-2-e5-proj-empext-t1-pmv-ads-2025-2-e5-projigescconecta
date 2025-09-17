@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,14 +7,17 @@ import {
   Typography,
   IconButton,
   InputAdornment,
-} from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link as RouterLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import logoGest from "../assets/logo-gesc.png";
+import { AuthApi, Configuration, LoginResponse, UserLogin } from './../api';
+
+import logoGest from '../assets/logo-gesc.png';
+import { scheduleTokenRefresh } from '@/services/auth';
 
 /* ===== Validações ===== */
 const isValidEmail = (rawEmail: string) => {
@@ -31,45 +34,66 @@ const isValidPassword = (password: string) => {
 };
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [touchedEmail, setTouchedEmail] = useState(false);
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [touchedPassword, setTouchedPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const emailValid = useMemo(() => isValidEmail(email), [email]);
   const passwordValid = useMemo(() => isValidPassword(password), [password]);
-  const formValid = emailValid && passwordValid;
+  /* const formValid = emailValid && passwordValid; */
+  const formValid = true;
+  const configuration = new Configuration();
+  const apiInstance = new AuthApi(configuration);
+  const navigate = useNavigate();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    /* Validações */
     e.preventDefault();
     if (!touchedEmail) setTouchedEmail(true);
     if (!touchedPassword) setTouchedPassword(true);
 
     if (!formValid) {
-      if (!emailValid && !passwordValid) toast.info("Preencha os campos obrigatórios.");
-      else if (!emailValid) toast.warning("E-mail inválido ou ausente.");
-      else toast.warning("Senha inválida. Verifique os requisitos.");
+      if (!emailValid && !passwordValid) toast.info('Preencha os campos obrigatórios.');
+      else if (!emailValid) toast.warning('E-mail inválido ou ausente.');
+      else toast.warning('Senha inválida. Verifique os requisitos.');
       return;
     }
 
-    // Sem backend por enquanto
-    toast.success("Simulação: formulário válido. (Sem chamada ao backend)");
+    const userLogin: UserLogin = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const { status, data } = await apiInstance.login(userLogin);
+      if (status === 200) {
+        toast.success('Login realizado com sucesso!');
+        console.log('Dados do login:', data);
+        const loginResponse: LoginResponse = {
+          accessToken: data.accessToken,
+          refreshToken: data.refresfToken,
+          expiresIn: data.expiresIn,
+        };
+        localStorage.setItem('loginResponse', JSON.stringify(loginResponse));
+        scheduleTokenRefresh(parseInt(loginResponse.expiresIn));
+        navigate('/home');
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
-    <Box
-      minHeight="100vh"
-      bgcolor="#FCFCFC"
-      position="relative"
-    >
+    <Box minHeight="100vh" bgcolor="#FCFCFC" position="relative">
       {/* Logo + traço no topo (posição absoluta) */}
-      <Box 
+      <Box
         position="absolute"
         top={{ xs: 24, sm: 32 }}
         left="50%"
-        sx={{ transform: "translateX(-50%)" }}
+        sx={{ transform: 'translateX(-50%)' }}
         zIndex={1}
       >
         <Box display="flex" flexDirection="column" alignItems="center">
@@ -79,42 +103,30 @@ export default function Login() {
             alt="Instituto GESC"
             sx={{ width: { xs: 96, sm: 120 }, mb: 2 }}
           />
-          <Box 
-            sx={{ 
-              width: { xs: 160, sm: 220 }, 
-              height: 2, 
-              bgcolor: "#264197", 
-              borderRadius: 1 
-            }} 
+          <Box
+            sx={{
+              width: { xs: 160, sm: 220 },
+              height: 2,
+              bgcolor: '#264197',
+              borderRadius: 1,
+            }}
           />
         </Box>
       </Box>
 
       {/* Conteúdo principal centralizado 100% */}
-      <Box
-        minHeight="100vh"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        px={2}
-      >
-        <Box
-          width="100%"
-          maxWidth={420}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-        >
+      <Box minHeight="100vh" display="flex" alignItems="center" justifyContent="center" px={2}>
+        <Box width="100%" maxWidth={420} display="flex" flexDirection="column" alignItems="center">
           {/* Título */}
           <Typography
             variant="h4"
             textAlign="center"
             gutterBottom
-            sx={{ 
-              color: "#264197", 
-              fontWeight: 700, 
-              fontSize: { xs: "1.875rem", sm: "2.125rem" },
-              mb: 3
+            sx={{
+              color: '#264197',
+              fontWeight: 700,
+              fontSize: { xs: '1.875rem', sm: '2.125rem' },
+              mb: 3,
             }}
           >
             Login
@@ -132,7 +144,7 @@ export default function Login() {
             <TextField
               fullWidth
               variant="outlined"
-              label="" 
+              label=""
               placeholder="Digite seu e-mail"
               type="email"
               value={email}
@@ -142,23 +154,9 @@ export default function Login() {
               required
               autoComplete="email"
               error={touchedEmail && !emailValid}
-              helperText={touchedEmail && !emailValid ? "Informe um e-mail válido." : " "}
+              helperText={touchedEmail && !emailValid ? 'Informe um e-mail válido.' : ' '}
               slotProps={{
                 inputLabel: { shrink: false },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "12px",
-                  "& fieldset": { borderColor: "#264197" },
-                  "&:hover fieldset": { borderColor: "#264197" },
-                  "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
-                  px: 1.5,
-                },
-                "& .MuiInputBase-input::placeholder": {
-                  color: "#656D77", 
-                  opacity: 1,
-                  fontWeight: 600,
-                },
               }}
             />
 
@@ -168,7 +166,7 @@ export default function Login() {
               variant="outlined"
               label=""
               placeholder="Digite sua senha"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur={() => setTouchedPassword(true)}
@@ -178,8 +176,8 @@ export default function Login() {
               error={touchedPassword && !passwordValid}
               helperText={
                 touchedPassword && !passwordValid
-                  ? "Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula."
-                  : " "
+                  ? 'Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula.'
+                  : ' '
               }
               slotProps={{
                 inputLabel: { shrink: false },
@@ -190,26 +188,12 @@ export default function Login() {
                         onClick={() => setShowPassword((s) => !s)}
                         onMouseDown={(e) => e.preventDefault()}
                         edge="end"
-                        aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                        aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
-                },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "12px",
-                  "& fieldset": { borderColor: "#264197" },
-                  "&:hover fieldset": { borderColor: "#264197" },
-                  "&.Mui-focused fieldset": { borderColor: "#264197", borderWidth: 1.5 },
-                  px: 1.5,
-                },
-                "& .MuiInputBase-input::placeholder": {
-                  color: "#656D77",
-                  opacity: 1,
-                  fontWeight: 600,
                 },
               }}
             />
@@ -220,16 +204,17 @@ export default function Login() {
                 type="submit"
                 variant="contained"
                 disabled={!formValid}
+                onClick={() => handleSubmit}
                 sx={{
-                  minWidth: { xs: "100%", sm: 220 },
-                  borderRadius: "12px",
-                  bgcolor: "#21AD53",
-                  color: "#FFFFFF",
-                  textTransform: "none",
+                  minWidth: { xs: '100%', sm: 220 },
+                  borderRadius: '12px',
+                  bgcolor: '#21AD53',
+                  color: '#FFFFFF',
+                  textTransform: 'none',
                   fontWeight: 600,
                   py: 1.1,
-                  "&:hover": { bgcolor: "#1a9446" },
-                  "&:disabled": { bgcolor: "#BEEBD0", color: "#FFFFFF" },
+                  '&:hover': { bgcolor: '#1a9446' },
+                  '&:disabled': { bgcolor: '#BEEBD0', color: '#FFFFFF' },
                 }}
               >
                 Entrar
@@ -242,10 +227,10 @@ export default function Login() {
                 component={RouterLink}
                 to="/forgot-password"
                 sx={{
-                  color: "#656D77",
+                  color: '#656D77',
                   fontWeight: 600,
-                  textDecoration: "none",
-                  "&:hover": { textDecoration: "underline" },
+                  textDecoration: 'none',
+                  '&:hover': { textDecoration: 'underline' },
                 }}
               >
                 Esqueceu a Senha?
@@ -254,8 +239,6 @@ export default function Login() {
           </Box>
         </Box>
       </Box>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </Box>
   );
 }
