@@ -33,8 +33,8 @@ Apresente os casos de testes utilizados na realização da verificação e valid
     <td><strong>Passos</strong></td>
     <td>
       1. Abrir o site.<br>
-      2. Inserir um Email válido.<br>
-      3. Inserir a senha válida.<br>
+      2. Inserir o Email.<br>
+      3. Inserir a senha.<br>
       4. Clicar no botão "Entrar".
       </td>
   </tr>
@@ -50,9 +50,10 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr>
 </table>
 
+
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-002 - S<br>Teste de Esqueci Senha</th>
+    <th colspan="2" width="1000">CT-002 - S<br>Teste Recuperação de Senha</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -92,13 +93,15 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr>
 </table>
 
+__________________________________________________________________________________________________________________________
+
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-001 - I01<br>Login com credenciais inválidas</th>
+    <th colspan="2" width="1000">CT-001 - I01<br>Login com Email inválido</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica o tratamento de credenciais inválidas no login.</td>
+    <td>Este caso de teste avalia o tratamento da tentativa de login utilizando um e-mail inválido.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
@@ -116,22 +119,149 @@ Apresente os casos de testes utilizados na realização da verificação e valid
     <td><strong>Passos</strong></td>
     <td>
       1. Acessar o site.<br>
-      2. Inserir o Email válido.<br>
-      3. Inserir a senha inválida.<br>
+      2. Inserir um Email inválido.<br>
+      3. Inserir senha.<br>
       4. Clicar no botão "Entrar".
       </td>
   </tr>
     <tr>
     <td><strong>Dados de teste</strong></td>
     <td>
-      - <strong>Email:</strong> Colocar Email cadastrado<br>
-      - <strong>Senha:</strong> Colocar senha inválida
+      - <strong>Email:</strong> Colocar Email inválido<br>
+      - <strong>Senha:</strong> Colocar senha.
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve apresentar a mensagem de login inválido.</td>
+    <td>O sistema deve apresentar a mensagem de erro.</td>
   </tr>
 </table>
+
+
+ <table>
+  <tr>
+    <th colspan="2" width="1000">CT-001 - I02<br>Login com senha invalida</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica o tratamento da tentativa de login com credenciais insuficientes.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">João Victor</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-018</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar o site.<br>
+      2. Inserir um Email.<br>
+      3. Inserir senha com caracteres abaixo do mínimo exigido.<br>
+      4. Clicar no botão "Entrar".
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Senha:</strong> Colocar senha inválida.
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-001 - I03<br>Login com email inexistente</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica o tratamento da tentativa de login com Email não cadastrado.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">João Victor</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-018</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar o site.<br>
+      2. Inserir um Email que não foi cadastrado.<br>
+      3. Inserir senha.<br>
+      4. Clicar no botão "Entrar".
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Colocar Email inexistente<br>
+      - <strong>Senha:</strong> Colocar senha.
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-001 - I04<br>Login com senha incorreta</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica o tratamento da tentativa de login com senha incorreta.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">João Victor</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-018</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar o site.<br>
+      2. Inserir um Email.<br>
+      3. Inserir senha incorreta.<br>
+      4. Clicar no botão "Entrar".
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Colocar Email <br>
+      - <strong>Senha:</strong> Colocar senha incorreta.
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+</table>
+
+__________________________________________________________________________________________________________________________
 
 <table>
   <tr>
@@ -168,9 +298,50 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema não vai encaminhar email.</td>
+    <td>O sistema não deve enviar o e-mail de redefinição.</td>
   </tr>
 </table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-002 - I02<br>Redefinição de senha com caracteres inválidos.</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste avalia a redefinição de senha quando os caracteres informados não atendem aos requisitos de segurança.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">João Victor</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-018</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. selecionar "esqueceu senha".<br>
+      2. Inserir uma senha que não atende aos requisitos de segurança ou que nao coincidam.<br>
+      3. clicar em enviar.
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Email:</strong> Colocar senha que não cumpra os requisitos<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema exibe mensagem de erro.</td>
+  </tr>
+</table>
+
 
  
 # Evidências de Testes de Software
