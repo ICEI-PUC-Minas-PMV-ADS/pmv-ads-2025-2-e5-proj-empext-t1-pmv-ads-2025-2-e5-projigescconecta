@@ -49,15 +49,18 @@ builder.Services
 builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
-builder.Services.AddCors(o => o.AddPolicy("Front", p =>
-    p.WithOrigins(
-        "http://localhost:3000",  
-        "https://localhost:3000"  
-    )
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials()
-));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", p =>
+        p.WithOrigins(
+            "http://localhost:3000",
+            "http://localhost:5173"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+     // .AllowCredentials() // só se usarmos cookies/autenticação baseada em cookie
+    );
+});
 
 
 var app = builder.Build();
@@ -68,10 +71,10 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("Front");
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
