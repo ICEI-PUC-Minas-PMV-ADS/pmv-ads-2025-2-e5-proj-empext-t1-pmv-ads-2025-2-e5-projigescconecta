@@ -38,9 +38,7 @@ A API expõe REST via HTTPS, com JWT e RBAC por perfil. Faz importação por CSV
 
 ## Project Model Canvas
 
-![Project Model Canva](img/ProjectModelCanva.png)
-> **Links de Acesso**:
-> [Link para project model canva](https://app.projectcanvas.online/public-project/1icxTBkG3dglOuUMBWkpHVQFCzyq57u8oAY8bjPpI8=)
+![Project Model Canva](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e5-proj-empext-t1-pmv-ads-2025-2-e5-projigescconecta/blob/felipe/documentos/img/PMC%20-%20Igesc.png)
 
 ## Requisitos
 
