@@ -81,7 +81,7 @@ namespace IgescConecta.API.Data
                 CreateUser("Kenia Aparecida Kaires", "402139@sga.pucminas.br"),
                 CreateUser("Felipe Vom Oorschot", "1493521@sga.pucminas.br"),
                 CreateUser("Ricardo José Teixeira", "ricardo.junior.1382307@sga.pucminas.br"),
-                CreateUser("Lucas Bebiano Xavier", "1429257@sga.pucminas.br"),
+                CreateUser("Lucas Bebiano Xavier", "lbxavier@sga.pucminas.br"),
                 CreateUser("Pedro Roberto Gomes da Silva Abadia", "1276810@sga.pucminas.br")
             };
 
@@ -101,7 +101,7 @@ namespace IgescConecta.API.Data
                 ("402139@sga.pucminas.br", "Editor"),
                 ("1493521@sga.pucminas.br", "Editor"),
                 ("ricardo.junior.1382307@sga.pucminas.br", "Editor"),
-                ("1429257@sga.pucminas.br", "Editor"),
+                ("lbxavier@sga.pucminas.br", "Editor"),
                 ("1276810@sga.pucminas.br", "Editor"),
             };
 
