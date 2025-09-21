@@ -95,96 +95,15 @@ Apresente os casos de testes utilizados na realização da verificação e valid
 
 __________________________________________________________________________________________________________________________
 
-<table>
-  <tr>
-    <th colspan="2" width="1000">CT-001 - I01<br>Login com Email inválido</th>
-  </tr>
-  <tr>
-    <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste avalia o tratamento da tentativa de login utilizando um e-mail inválido.</td>
-  </tr>
-  <tr>
-    <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">João Victor</td>
-  </tr>
- <tr>
-    <td><strong>Tipo do Teste</strong></td>
-    <td width="430">Insucesso</td>
-  </tr> 
-  <tr>
-    <td><strong>Requisitos associados</strong></td>
-    <td>RF-018</td>
-  </tr>
-  <tr>
-    <td><strong>Passos</strong></td>
-    <td>
-      1. Acessar o site.<br>
-      2. Inserir um Email inválido.<br>
-      3. Inserir senha.<br>
-      4. Clicar no botão "Entrar".
-      </td>
-  </tr>
-    <tr>
-    <td><strong>Dados de teste</strong></td>
-    <td>
-      - <strong>Email:</strong> Colocar Email inválido<br>
-      - <strong>Senha:</strong> Colocar senha.
-  </tr>
-    <tr>
-    <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve apresentar a mensagem de erro.</td>
-  </tr>
-</table>
-
-
- <table>
-  <tr>
-    <th colspan="2" width="1000">CT-001 - I02<br>Login com senha invalida</th>
-  </tr>
-  <tr>
-    <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica o tratamento da tentativa de login com credenciais insuficientes.</td>
-  </tr>
-  <tr>
-    <td><strong>Responsável Caso de Teste </strong></td>
-    <td width="430">João Victor</td>
-  </tr>
- <tr>
-    <td><strong>Tipo do Teste</strong></td>
-    <td width="430">Insucesso</td>
-  </tr> 
-  <tr>
-    <td><strong>Requisitos associados</strong></td>
-    <td>RF-018</td>
-  </tr>
-  <tr>
-    <td><strong>Passos</strong></td>
-    <td>
-      1. Acessar o site.<br>
-      2. Inserir um Email.<br>
-      3. Inserir senha com caracteres abaixo do mínimo exigido.<br>
-      4. Clicar no botão "Entrar".
-      </td>
-  </tr>
-    <tr>
-    <td><strong>Dados de teste</strong></td>
-    <td>
-      - <strong>Senha:</strong> Colocar senha inválida.
-  </tr>
-    <tr>
-    <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve apresentar mensagem de erro.</td>
-  </tr>
-</table>
 
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-001 - I03<br>Login com email inexistente</th>
+    <th colspan="2" width="1000">CT-001 - I01<br>Login com email inexistente ou inválido </th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica o tratamento da tentativa de login com Email não cadastrado.</td>
+    <td>Este caso de teste verifica o tratamento da tentativa de login com Email inexistente ou inválido.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
@@ -202,7 +121,7 @@ ________________________________________________________________________________
     <td><strong>Passos</strong></td>
     <td>
       1. Acessar o site.<br>
-      2. Inserir um Email que não foi cadastrado.<br>
+      2. Inserir um Email que não foi cadastrado ou inválido.<br>
       3. Inserir senha.<br>
       4. Clicar no botão "Entrar".
       </td>
@@ -222,7 +141,7 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-001 - I04<br>Login com senha incorreta</th>
+    <th colspan="2" width="1000">CT-001 - I02<br>Login com senha incorreta</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -338,7 +257,7 @@ ________________________________________________________________________________
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema exibe mensagem de erro.</td>
+    <td>O sistema instrui o usuário aos critérios de nova senha.</td>
   </tr>
 </table>
 
@@ -364,7 +283,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td width="430">João Victor </td>
      <td width="100"><strong>Data do Teste</strong></td>
-    <td width="150">15/09/2025</td>
+    <td width="150">20/09/2025</td>
   </tr>
     <tr>
     <td width="170"><strong>Comentário</strong></td>
@@ -374,9 +293,40 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center">...</td>
+    <td colspan="6" align="center"></td>
   </tr>
 </table>
+
+<img width="1655" height="498" alt="Captura de tela 2025-09-20 225859" src="https://github.com/user-attachments/assets/0d39aece-d056-44b7-8189-aaa6749a2803" />
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002<br>Teste de Login</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Uma mensagem de confirmação deve ser exibida e o sistema deve redirecionar o usuário para a página de login.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Está sendo possível a recuperação de senha.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+<img width="1648" height="787" alt="Captura de tela 2025-09-20 232754" src="https://github.com/user-attachments/assets/96e518c5-f93c-4cd7-aa51-c32e3a85d0ef" />
+
+
 
 
 
