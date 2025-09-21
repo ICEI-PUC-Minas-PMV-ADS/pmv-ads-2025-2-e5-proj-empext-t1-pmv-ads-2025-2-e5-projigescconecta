@@ -97,7 +97,7 @@ export default function ResetPassword() {
       }, 2000);
     } catch (err: any) {
       console.error('Erro ao resetar senha:', err);
-      toast.error(err?.message || 'Ocorreu um erro ao alterar a senha.');
+      toast.error('Token inválido ou expirado. Solicite um novo link de recuperação.');
     } finally {
       setLoading(false);
     }
@@ -148,7 +148,7 @@ export default function ResetPassword() {
             '&:hover': { textDecoration: 'underline' },
           }}
         >
-          <ArrowBackIcon sx={{ mr: 1 }} /> Voltar
+          <ArrowBackIcon sx={{ mr: 1 }} /> Voltar ao Login
         </Link>
 
         <Typography
