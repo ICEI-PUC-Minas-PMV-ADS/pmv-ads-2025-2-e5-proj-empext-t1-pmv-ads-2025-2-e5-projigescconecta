@@ -320,7 +320,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -348,7 +348,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -376,7 +376,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -403,7 +403,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -430,7 +430,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -457,7 +457,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
     <tr>
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">João Victor </td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: João Victor </td> </td>
      <td width="100"><strong>Data do Teste</strong></td>
     <td width="150">20/09/2025</td>
   </tr>
@@ -512,19 +512,17 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-001<br>Login com credenciais válidas</th>
+    <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
     <td colspan="5">O sistema deve redirecionar o usuário para a página inicial do aplicativo após o login bem-sucedido.</td>
   </tr>
     <tr>
-      <td><strong>Responsável pela funcionalidade</strong></td>
-    <td width="430">João Victor </td>
-      <td><strong>Responsável pelo teste</strong></td>
-    <td width="430">João Victor</td>
-     <td width="100"><strong>Data do teste</strong></td>
-    <td width="150">15/09/2025</td>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
   </tr>
     <tr>
     <td width="170"><strong>Comentário</strong></td>
@@ -534,6 +532,164 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"> ... </td>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002<br>Teste Recuperação de Senha</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">Uma mensagem de confirmação deve ser exibida e o sistema deve redirecionar o usuário para a página de login.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Está sendo possível a recuperação de senha.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 - I01<br>Login com email inexistente ou inválido</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Não é possivel fazer login com email inexistente ou inválido.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 - I02<br>Login com senha incorreta</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Não é possivel fazer login com senha incorreta.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I01<br>Redefinir senha informando um Email não cadastrado</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema não deve enviar o e-mail de redefinição.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O Email não é encaminhado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I02<br>Redefinição de senha com caracteres inválidos.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema instrui o usuário aos critérios de nova senha.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Todos os critérios devem ser respeitados.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I03<br>Redefinição de senha com token expirados.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Desenvolvimento: Realizado em grupo <br> Teste: Lucas Bebiano </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">21/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Será necessário criar um novo token.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
   </tr>
 </table>
