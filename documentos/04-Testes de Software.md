@@ -247,17 +247,56 @@ ________________________________________________________________________________
     <td>
       1. selecionar "esqueceu senha".<br>
       2. Inserir uma senha que não atende aos requisitos de segurança ou que nao coincidam.<br>
-      3. clicar em enviar.
       </td>
   </tr>
     <tr>
     <td><strong>Dados de teste</strong></td>
     <td>
-      - <strong>Email:</strong> Colocar senha que não cumpra os requisitos<br>
+      - <strong>Senha:</strong> Colocar senha que não cumpra os requisitos<br>
   </tr>
     <tr>
     <td><strong>Critérios de êxito</strong></td>
     <td>O sistema instrui o usuário aos critérios de nova senha.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-002 - I03<br>Redefinição de senha com token expirado.</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste avalia se o sistema impede o uso de um token expirado</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste </strong></td>
+    <td width="430">João Victor</td>
+  </tr>
+ <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr> 
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-018</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. selecionar "esqueceu senha".<br>
+      2. Inserir uma email.<br>
+      3. Acessar o link enviado por e-mail contendo o token vencido.
+      </td>
+  </tr>
+    <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Token:</strong> selecionar link após o mesmo estar expirado<br>
+  </tr>
+    <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve apresentar mensagem de erro.</td>
   </tr>
 </table>
 
@@ -301,7 +340,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-002<br>Teste de Login</th>
+    <th colspan="6" width="1000">CT-002<br>Teste Recuperação de Senha</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -326,6 +365,142 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </table>
 <img width="1648" height="787" alt="Captura de tela 2025-09-20 232754" src="https://github.com/user-attachments/assets/96e518c5-f93c-4cd7-aa51-c32e3a85d0ef" />
 
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 - I01<br>Login com email inexistente ou inválido</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Não é possivel fazer login com email inexistente ou inválido.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+<img width="1300" height="661" alt="Captura de tela 2025-09-20 235820" src="https://github.com/user-attachments/assets/c30de53f-1c47-471e-a9db-636f31c7fa5b" />
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-001 - I02<br>Login com senha incorreta</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Não é possivel fazer login com senha incorreta.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+<img width="1300" height="661" alt="Captura de tela 2025-09-20 235820" src="https://github.com/user-attachments/assets/c30de53f-1c47-471e-a9db-636f31c7fa5b" />
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I01<br>Redefinir senha informando um Email não cadastrado</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema não deve enviar o e-mail de redefinição.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">O Email não é encaminhado.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+<img width="1319" height="521" alt="Captura de tela 2025-09-21 001917" src="https://github.com/user-attachments/assets/0dbd6de9-4f68-44d2-9b10-cc93dfb4ac74" />
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I02<br>Redefinição de senha com caracteres inválidos.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema instrui o usuário aos critérios de nova senha.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Todos os critérios devem ser respeitados.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<img width="1468" height="762" alt="Captura de tela 2025-09-21 003646" src="https://github.com/user-attachments/assets/4a09f6e9-21c9-498b-8e97-4e1f5330af86" />
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-002 - I03<br>Redefinição de senha com token expirados.</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">O sistema deve apresentar mensagem de erro.</td>
+  </tr>
+    <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">João Victor </td>
+     <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">20/09/2025</td>
+  </tr>
+    <tr>
+    <td width="170"><strong>Comentário</strong></td>
+    <td colspan="5">Será necessário criar um novo token.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
 
 
 
