@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace IgescConecta.Domain.Entities
 {
-    public class Beneficiaries : BaseEntity
+    public class Beneficiary : BaseEntity
     {
         public string Name { get; set; }
+
+        public ICollection<Osc>? Oscs { get; set; }
     }
 }

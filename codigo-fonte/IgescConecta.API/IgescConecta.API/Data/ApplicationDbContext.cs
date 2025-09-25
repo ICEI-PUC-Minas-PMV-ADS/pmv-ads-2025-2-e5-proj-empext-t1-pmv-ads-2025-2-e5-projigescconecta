@@ -1,9 +1,12 @@
 ﻿using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Primitives;
 using IgescConecta.Domain.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
+using System.Reflection.Emit;
 using System.Security.Claims;
 
 namespace IgescConecta.API.Data
@@ -31,7 +34,7 @@ namespace IgescConecta.API.Data
 
         public DbSet<Osc> Oscs { get; set; }
 
-        public DbSet<Beneficiaries> Beneficiaries { get; set; }
+        public DbSet<Beneficiary> Beneficiaries { get; set; }
 
         public DbSet<BusinessCase> BusinessCases { get; set; }
 
@@ -55,6 +58,20 @@ namespace IgescConecta.API.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                if (typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
+                {
+                    var parameter = Expression.Parameter(entityType.ClrType, "e");
+                    var property = Expression.Property(parameter, nameof(ISoftDeletable.IsDeleted));
+                    var compare = Expression.Equal(property, Expression.Constant(false));
+                    var lambda = Expression.Lambda(compare, parameter);
+
+                    builder.Entity(entityType.ClrType).HasQueryFilter(lambda);
+                }
+            }
+
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -82,6 +99,17 @@ namespace IgescConecta.API.Data
             var entities = ChangeTracker.Entries()
                 .Where(x => x.Entity is BaseEntity || x.Entity is User)
                 .ToList();
+
+            var softSDeleteEntries = ChangeTracker
+                .Entries<ISoftDeletable>()
+                .Where(e => e.State == EntityState.Deleted);
+
+            foreach (var entityEntry in softSDeleteEntries)
+            {
+                entityEntry.State = EntityState.Modified;
+                entityEntry.Property(nameof(ISoftDeletable.IsDeleted)).CurrentValue = true;
+            }
+
             UpdateTimestamps(entities);
         }
 
@@ -108,7 +136,7 @@ namespace IgescConecta.API.Data
                 }
                 if(entry.Entity is BaseEntity entity)
                 {
-                    if(entry.State == EntityState.Modified)
+                    if(entry.State == EntityState.Added)
                     {
                         entity.CreatedAt = DateTime.UtcNow;
                         entity.CreatedBy = currentUserId;

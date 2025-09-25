@@ -14,6 +14,8 @@ namespace IgescConecta.Domain.Entities
 
         public int BusinessCaseId { get; set; }
 
+        public ICollection<Osc> Oscs { get; set; }
+
         [ForeignKey("BusinessCaseId")]
         public BusinessCase BusinessCase { get; set; }
     }

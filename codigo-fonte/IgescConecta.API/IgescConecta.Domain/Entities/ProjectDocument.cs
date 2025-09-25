@@ -12,6 +12,5 @@ namespace IgescConecta.Domain.Entities
 {
     public class ProjectDocument : BaseEntity
     {
-        public ICollection<IFormFile> Files { get; set; }
     }
 }

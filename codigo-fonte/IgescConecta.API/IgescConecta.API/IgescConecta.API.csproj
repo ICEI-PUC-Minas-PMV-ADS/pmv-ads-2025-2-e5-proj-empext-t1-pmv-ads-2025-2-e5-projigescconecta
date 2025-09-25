@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Oscs\DeleteOsc\" />
+    <Folder Include="Features\Oscs\ListOsc\" />
+    <Folder Include="Features\Oscs\UpdateOsc\" />
     <Folder Include="wwwroot\email\" />
   </ItemGroup>
 
