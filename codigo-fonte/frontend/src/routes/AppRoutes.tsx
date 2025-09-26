@@ -5,6 +5,8 @@ import ResetPassword from './../pages/ResetPassword';
 import ForgotPassword from './../pages/ForgotPassword';
 import Home from './../pages/Home';
 import PrivateRoute from './privateRoute';
+import Course from './../pages/Course';
+import Team from '@/pages/Team';
 
 // Configuração de todas as rotas
 const routeConfig = [
@@ -12,6 +14,8 @@ const routeConfig = [
   { path: '/forgot-password', element: <ForgotPassword />, isPrivate: false },
   { path: '/reset-password', element: <ResetPassword />, isPrivate: false },
   { path: '/home', element: <Home />, isPrivate: true },
+  { path: '/course', element: <Course />, isPrivate: false },
+  { path: '/team', element: <Team />, isPrivate: false },
 ];
 
 export default function AppRoutes() {
