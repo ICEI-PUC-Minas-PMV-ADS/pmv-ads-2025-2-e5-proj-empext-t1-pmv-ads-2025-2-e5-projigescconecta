@@ -13,7 +13,15 @@ namespace IgescConecta.Domain.Entities
     {
         public string Name { get; set; }
 
-        public string? OscDocumment { get; set; }
+        public string Objective { get; set; }
+
+        public string CorporateName { get; set; }
+
+        public string Address { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string? OscPrimaryDocumment { get; set; }
 
         public ICollection<OriginBusinessCase>? OriginsBusinessCases { get; set; }
 
