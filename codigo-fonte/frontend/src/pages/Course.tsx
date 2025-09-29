@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
-  InputAdornment,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Table, { Column } from '../components/Table';
