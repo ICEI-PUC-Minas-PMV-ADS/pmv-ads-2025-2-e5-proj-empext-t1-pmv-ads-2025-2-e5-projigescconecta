@@ -17,5 +17,9 @@ namespace IgescConecta.Domain.Shared
         public int UpdatedBy { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+        public bool IsActive { get; set; } = true;
+
+        public int? DeactivatedBy { get; set; } // quem desativou, null se ainda ativo
+        public DateTime? DeactivatedAt { get; set; } // quando foi desativado
     }
 }
