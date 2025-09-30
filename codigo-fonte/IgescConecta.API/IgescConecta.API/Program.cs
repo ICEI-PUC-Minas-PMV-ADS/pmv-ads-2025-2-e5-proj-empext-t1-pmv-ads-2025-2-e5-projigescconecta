@@ -6,11 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContextIgesc();
 builder.Services.AddIdentity();
@@ -19,7 +15,7 @@ builder.Services.AddServices();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
-// --- Auth: ler config Jwt e registrar JwtBearer (sem nullables) ---
+
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
@@ -65,7 +61,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
