@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IgescConecta.Domain.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IgescConecta.Domain.Shared
 {
-    public class BaseEntity
+    public class BaseEntity : ISoftDeletable
     {
         public int Id { get; set; }
 
@@ -17,9 +18,7 @@ namespace IgescConecta.Domain.Shared
         public int UpdatedBy { get; set; }
 
         public DateTime UpdatedAt { get; set; }
-        public bool IsActive { get; set; } = true;
 
-        public int? DeactivatedBy { get; set; } // quem desativou, null se ainda ativo
-        public DateTime? DeactivatedAt { get; set; } // quando foi desativado
+        public bool IsDeleted { get; set; }
     }
 }

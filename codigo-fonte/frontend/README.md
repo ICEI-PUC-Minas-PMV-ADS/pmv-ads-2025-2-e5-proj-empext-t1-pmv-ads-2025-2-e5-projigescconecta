@@ -28,6 +28,8 @@ JWT Decode
 
 React Toastify
 
+OpenApiTools
+
 ## Como executar
 
 Clone o repositório:
@@ -41,12 +43,6 @@ Instale as dependências:
 
 ```
 npm install
-```
-
-Crie um arquivo .env (se necessário) com variáveis, por exemplo:
-
-```
-VITE_API_URL=http://localhost:3000/api
 ```
 
 Execute o projeto:
@@ -74,15 +70,18 @@ npm run test → executa testes com Vitest
 
 npm run format → formata o código com Prettier
 
+npm run generate-api -> gera integração com backend
+
 ## Estrutura do projeto
 ```
 src/
+├── api/ # Endpoints prontos para uso, gerado pelo openapitools
 ├── assets/ # Arquivos estáticos (imagens,fontes,ícones)
 ├── components/ # Componentes reutilizáveis
 ├── hooks/ # Custom hooks
 ├── pages/ # Páginas da aplicação
 ├── routes/ # Configuração de rotas
-├── services/ # Comunicação com APIs (axios)
+├── services/ # Regras Api
 ├── store/ # Estado global (Context/Redux/Zustand)
 ├── styles/ # Estilos globais e temas
 ├── types/ # Types/interfaces em TypeScript

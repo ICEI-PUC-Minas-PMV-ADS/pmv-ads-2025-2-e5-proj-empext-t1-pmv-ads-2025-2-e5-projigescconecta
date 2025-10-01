@@ -1,20 +1,31 @@
 using IgescConecta.Domain.Shared;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IgescConecta.Domain.Entities
 {
     public class Team : BaseEntity
     {
-        public string Name { get; set; }
+        public DateTime Start { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime Finish { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public ICollection<PersonTeam>? PersonTeams { get; set; }
 
-        public string Time { get; set; } // horário no formato string (ex: "08:00 - 10:00")
+        public ICollection<PersonOsc>? PersonOscs { get; set; }
 
-        // Relacionamento com Course
+        public int ProjectProgramId { get; set; }
+
         public int CourseId { get; set; }
-        public Course Course { get; set; } // Navegação
+
+        [ForeignKey("ProjectProgramId")]
+        public ProjectProgram ProjectProgram { get; set; }
+
+        [ForeignKey("CourseId")]
+        public Course Course { get; set; }
     }
 }

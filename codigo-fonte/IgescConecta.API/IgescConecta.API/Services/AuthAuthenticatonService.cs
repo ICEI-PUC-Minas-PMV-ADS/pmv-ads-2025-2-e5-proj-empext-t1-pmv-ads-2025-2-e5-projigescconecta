@@ -26,6 +26,7 @@ namespace IgescConecta.API.Services
 
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email!),
                 new Claim(ClaimTypes.Role, role ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
