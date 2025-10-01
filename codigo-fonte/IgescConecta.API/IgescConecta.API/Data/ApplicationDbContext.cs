@@ -11,6 +11,7 @@ namespace IgescConecta.API.Data
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
