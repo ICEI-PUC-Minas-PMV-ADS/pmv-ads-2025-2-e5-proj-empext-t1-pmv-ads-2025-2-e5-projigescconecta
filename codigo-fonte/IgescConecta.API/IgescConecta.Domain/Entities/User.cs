@@ -16,11 +16,11 @@ namespace IgescConecta.Domain.Entities
 
         public bool IsActive { get; set; }
 
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public int UpdatedBy { get; set; }
+        public int? UpdatedBy { get; set; }
 
         public DateTime UpdatedAt { get; set; }
 
@@ -28,6 +28,6 @@ namespace IgescConecta.Domain.Entities
         public User CreatedByUser { get; set; }
 
         [ForeignKey(nameof(UpdatedBy))]
-        public User UpdatedByUser { get; set; }
+        public User UpdatedByUser { get; set; } 
     }
 }

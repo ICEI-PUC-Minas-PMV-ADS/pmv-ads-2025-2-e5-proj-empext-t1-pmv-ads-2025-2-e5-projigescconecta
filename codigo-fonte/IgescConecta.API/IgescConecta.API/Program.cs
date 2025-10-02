@@ -6,23 +6,29 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContextIgesc();
-builder.Services.AddIdentity();
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddServices();
+
+// DbContext (Azure SQL via DefaultConnection)
+builder.Services.AddDbContextIgesc(builder.Configuration);
+
+builder.Services.AddIdentity();
+builder.Services.AddServices(builder.Configuration);
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
 
+
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
 var jwtAudience = jwtSection.GetValue<string>("JwtAudience")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtAudience");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtAudience");
 var jwtKeyString = jwtSection.GetValue<string>("JwtSecurityKey")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtSecurityKey");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtSecurityKey");
 var jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKeyString));
 
 builder.Services
@@ -39,12 +45,11 @@ builder.Services
             IssuerSigningKey = jwtKey,
             ClockSkew = TimeSpan.Zero
         };
-
     });
 
 builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
-builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
+// ---------- CORS ----------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", p =>
@@ -54,18 +59,26 @@ builder.Services.AddCors(options =>
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
-     // .AllowCredentials() // só se usarmos cookies/autenticação baseada em cookie
+    // .AllowCredentials() // só se usar cookies
     );
 });
-
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+}
+
+// ---------- Swagger com feature flag ----------
+var enableSwagger = app.Configuration.GetValue("Swagger:Enabled", true);
+if (enableSwagger)
+{
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGESC API v1");
+    });
 }
 
 app.UseHttpsRedirection();

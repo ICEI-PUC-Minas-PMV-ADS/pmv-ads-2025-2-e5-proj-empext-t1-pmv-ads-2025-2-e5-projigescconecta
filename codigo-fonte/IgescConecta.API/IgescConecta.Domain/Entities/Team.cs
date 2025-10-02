@@ -18,12 +18,12 @@ namespace IgescConecta.Domain.Entities
 
         public ICollection<PersonOsc>? PersonOscs { get; set; }
 
-        public int ProjectProgramId { get; set; }
+        public int? ProjectProgramId { get; set; }
 
         public int CourseId { get; set; }
 
         [ForeignKey("ProjectProgramId")]
-        public ProjectProgram ProjectProgram { get; set; }
+        public ProjectProgram? ProjectProgram { get; set; }
 
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
