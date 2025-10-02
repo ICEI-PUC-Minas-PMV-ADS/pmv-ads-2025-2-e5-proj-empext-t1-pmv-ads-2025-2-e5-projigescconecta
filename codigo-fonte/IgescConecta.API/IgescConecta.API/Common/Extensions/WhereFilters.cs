@@ -112,7 +112,10 @@ namespace IgescConecta.API.Common.Extensions
                 switch (je.ValueKind)
                 {
                     case System.Text.Json.JsonValueKind.String:
-                        convertedValue = je.GetString();
+                        if (targetType == typeof(DateTime))
+                            convertedValue = DateTime.Parse(je.GetString());
+                        else
+                            convertedValue = je.GetString();
                         break;
                     case System.Text.Json.JsonValueKind.Number:
                         if (targetType == typeof(int))
@@ -141,6 +144,10 @@ namespace IgescConecta.API.Common.Extensions
             else if (targetType == typeof(string))
             {
                 convertedValue = value?.ToString();
+            }
+            else if (targetType == typeof(DateTime) && value is string str)
+            {
+                convertedValue = DateTime.Parse(str);
             }
             else
             {
