@@ -33,7 +33,7 @@ export default function AppRoutes() {
           element={
             isPrivate ? (
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <SideMenu />
+                {/* <SideMenu /> */} {/* Provisório para testes */}
 
                 <PrivateRoute>{element}</PrivateRoute>
               </Box>
