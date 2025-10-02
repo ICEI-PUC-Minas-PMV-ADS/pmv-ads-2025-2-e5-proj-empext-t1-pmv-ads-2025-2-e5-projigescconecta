@@ -10,29 +10,31 @@ import {
   DialogActions,
   CircularProgress,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { toast } from 'react-toastify';
-
-// Interface para os dados do programa
-interface Program {
-  id: number;
-  name: string;
-}
-
-// Interface para resposta paginada da API
-interface PaginatedResponse<T> {
-  items: T[];
-  total: number;
-  page: number;
-  limit: number;
+import {
+  CoursesApi,
+  CreateCourseRequest,
+  EditCourseRequest,
+  ListCourseRequest,
+  Filter,
+  Op,
+} from './../api';
+import { apiConfig } from '../services/auth';
+// Interface para os dados do curso
+interface Course {
+  id?: number;
+  name?: string;
+  isDeleted?: boolean;
 }
 
 const Course: React.FC = () => {
   // Estados principais
   const [search, setSearch] = useState('');
-  const [programs, setPrograms] = useState<Program[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   // Estados da tabela
   const [page, setPage] = useState(0);
@@ -41,123 +43,155 @@ const Course: React.FC = () => {
 
   // Estados do modal
   const [openModal, setOpenModal] = useState(false);
-  const [editingProgram, setEditingProgram] = useState<Program | null>(null);
-  const [programName, setProgramName] = useState('');
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [courseName, setCourseName] = useState('');
+  const [isVisualizing, setIsVisualizing] = useState(false);
+
+  const dialogTitle = () => {
+    return isVisualizing ? 'Visualizar Curso' : editingCourse ? 'Editar Curso' : 'Novo Curso';
+  };
 
   // Estados de loading
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
 
-  // Carregar dados da API
+  // Configuração da API
+
+  const apiInstance = new CoursesApi(apiConfig);
+
   useEffect(() => {
-    fetchPrograms();
+    fetchCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage]);
 
-  // Função para buscar programas da API
-  const fetchPrograms = async () => {
+  // Função para buscar cursos da API
+  const fetchCourses = async () => {
     try {
       setLoading(true);
 
-      // TODO: Substituir por chamada real da API
-      // const response = await fetch(`/api/programs?page=${page + 1}&limit=${rowsPerPage}&search=${search}`);
-      // const data: PaginatedResponse<Program> = await response.json();
+      // Monta o filtro de busca por nome se houver texto
+      const filters: Filter[] = search.trim()
+        ? [
+            {
+              propertyName: 'name',
+              operation: Op.NUMBER_7, // Contains
+              value: search,
+            },
+          ]
+        : [];
 
-      // Simulação de delay da API
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Dados temporários vazios - serão substituídos pela API
-      const data = {
-        items: [],
-        total: 0,
-        page: page + 1,
-        limit: rowsPerPage,
+      const listCourseRequest: ListCourseRequest = {
+        pageNumber: page + 1,
+        pageSize: rowsPerPage,
+        filters: filters,
       };
 
-      setPrograms(data.items);
-      setTotalCount(data.total);
+      const { data } = await apiInstance.listCourse(listCourseRequest);
+
+      setCourses(data.items || []);
+      setTotalCount(data.totalItems || 0);
+
+      if (data.items?.length === 0) {
+        toast.info('Nenhum curso encontrado');
+      }
     } catch (error) {
-      console.error('Erro ao carregar programas:', error);
-      toast.error('Erro ao carregar programas');
+      console.error('Erro ao carregar cursos:', error);
+      toast.error('Erro ao carregar cursos');
+      setCourses([]);
+      setTotalCount(0);
     } finally {
       setLoading(false);
     }
   };
 
   // Definição das colunas da tabela
-  const columns: Column<Program>[] = [
+  const columns: Column<Course>[] = [
     { label: 'ID', field: 'id' },
-    { label: 'Nome do Programa', field: 'name' },
+    { label: 'Nome do Curso', field: 'name' },
   ];
 
   // Função de pesquisa
   const handleSearch = () => {
-    setPage(0); // Reset para primeira página
-    fetchPrograms(); // Refaz a busca com o novo termo
+    setPage(0);
+    fetchCourses();
   };
 
   // Função para abrir modal de criação
   const handleAdd = () => {
-    setEditingProgram(null);
-    setProgramName('');
+    setEditingCourse(null);
+    setCourseName('');
     setOpenModal(true);
   };
 
   // Função para abrir modal de edição
-  const handleEdit = (program: Program) => {
-    setEditingProgram(program);
-    setProgramName(program.name);
+  const handleEdit = (course: Course) => {
+    setEditingCourse(course);
+    setCourseName(course.name ?? '');
     setOpenModal(true);
   };
 
   // Função para visualizar
-  const handleView = (program: Program) => {
-    toast.info(`Visualizando: ${program.name}`);
+  const handleView = async (course: Course) => {
+    try {
+      const id: number = course.id!;
+      const { data } = await apiInstance.getCourseById(id);
+      setIsVisualizing(true);
+      setCourseName(data.name || '');
+      setOpenModal(true);
+    } catch (error) {
+      console.error('Erro ao visualizar curso:', error);
+      toast.error('Erro ao carregar detalhes do curso');
+    }
   };
 
   // Função para deletar
-  const handleDelete = async (program: Program) => {
+  const handleDelete = async (course: Course) => {
     try {
-      // TODO: Substituir por chamada real da API
-      // await fetch(`/api/programs/${program.id}`, { method: 'DELETE' });
-
-      // Simulação de delay da API
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      toast.success(`Programa "${program.name}" excluído com sucesso!`);
-
-      // Recarregar dados após exclusão
-      fetchPrograms();
+      const id: number = course.id!;
+      await apiInstance.deleteCourse(id);
+      toast.success(`Curso "${course.name}" excluído com sucesso!`);
+      fetchCourses();
     } catch (error) {
-      console.error('Erro ao excluir programa:', error);
-      toast.error('Erro ao excluir programa');
+      console.error('Erro ao excluir curso:', error);
+      toast.error('Erro ao excluir curso');
     }
   };
 
   // Função para salvar (criar ou editar)
   const handleSave = async () => {
-    if (!programName.trim()) {
-      toast.error('O nome do programa é obrigatório!');
+    if (!courseName.trim()) {
+      toast.error('O nome do curso é obrigatório!');
       return;
     }
 
     try {
       setModalLoading(true);
 
-      if (editingProgram) {
-        // TODO: Substituir por chamada real da API
-        /* Editar! */
-        toast.success('Programa atualizado com sucesso!');
+      if (editingCourse) {
+        // Editar curso existente
+        const editCourseRequest: EditCourseRequest = {
+          name: courseName,
+        };
+
+        const id: number = editingCourse.id!;
+
+        await apiInstance.editCourse(id, editCourseRequest);
+        toast.success('Curso atualizado com sucesso!');
       } else {
-        // TODO: Substituir por chamada real da API
-        /* Criar! */
-        toast.success('Programa criado com sucesso!');
+        // Criar novo curso
+        const createCourseRequest: CreateCourseRequest = {
+          name: courseName,
+        };
+
+        await apiInstance.createCourse(createCourseRequest);
+        toast.success('Curso criado com sucesso!');
       }
 
       handleCloseModal();
-      fetchPrograms();
+      fetchCourses();
     } catch (error) {
-      console.error('Erro ao salvar programa:', error);
-      toast.error('Erro ao salvar programa');
+      console.error('Erro ao salvar curso:', error);
+      toast.error('Erro ao salvar curso');
     } finally {
       setModalLoading(false);
     }
@@ -166,12 +200,12 @@ const Course: React.FC = () => {
   // Função para fechar modal
   const handleCloseModal = () => {
     setOpenModal(false);
-    setEditingProgram(null);
-    setProgramName('');
+    setTimeout(() => {
+      setEditingCourse(null);
+      setIsVisualizing(false);
+      setCourseName('');
+    }, 300); //espera dialog fechar para resetar os estados
   };
-
-  // Dados paginados para exibição na tabela (já vem paginado da API)
-  const paginatedData = programs;
 
   return (
     <Container
@@ -184,7 +218,7 @@ const Course: React.FC = () => {
         padding: '20px',
       }}
     >
-      <TitleAndButtons title="Listar Programas" onAdd={handleAdd} addLabel="Novo Programa" />
+      <TitleAndButtons title="Listar Cursos" onAdd={handleAdd} addLabel="Novo Curso" />
 
       {/* Campo de pesquisa + botão */}
       <Box
@@ -233,9 +267,9 @@ const Course: React.FC = () => {
             <CircularProgress />
           </Box>
         ) : (
-          <Table<Program>
+          <Table<Course>
             columns={columns}
-            data={paginatedData}
+            data={courses}
             page={page}
             rowsPerPage={rowsPerPage}
             totalCount={totalCount}
@@ -250,38 +284,57 @@ const Course: React.FC = () => {
 
       {/* Modal de Criação/Edição */}
       <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-        <DialogTitle>{editingProgram ? 'Editar Programa' : 'Novo Programa'}</DialogTitle>
+        <DialogTitle>{dialogTitle()}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Nome do Programa"
+            label="Nome do Curso"
             type="text"
             fullWidth
             variant="outlined"
-            value={programName}
-            onChange={(e) => setProgramName(e.target.value)}
+            value={courseName}
+            onChange={(e) => setCourseName(e.target.value)}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
                 handleSave();
               }
             }}
-            sx={{ mt: 2 }}
+            slotProps={{
+              input: {
+                readOnly: isVisualizing,
+              },
+            }}
+            sx={isVisualizing ? { pointerEvents: 'none' } : {}}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal} color="secondary" disabled={modalLoading}>
-            Cancelar
-          </Button>
-          <Button
-            onClick={handleSave}
-            color="primary"
-            variant="contained"
-            disabled={modalLoading}
-            startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-          >
-            {modalLoading ? 'Salvando...' : editingProgram ? 'Atualizar' : 'Criar'}
-          </Button>
+          {isVisualizing ? (
+            <Button
+              variant="contained"
+              startIcon={<ArrowBackIcon />}
+              onClick={handleCloseModal}
+              color="secondary"
+              sx={{ backgroundColor: 'gray' }}
+            >
+              Voltar
+            </Button>
+          ) : (
+            <>
+              <Button onClick={handleCloseModal} color="secondary" disabled={modalLoading}>
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSave}
+                color="primary"
+                variant="contained"
+                disabled={modalLoading}
+                startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+              >
+                {modalLoading ? 'Salvando...' : editingCourse ? 'Atualizar' : 'Criar'}
+              </Button>
+            </>
+          )}
         </DialogActions>
       </Dialog>
     </Container>

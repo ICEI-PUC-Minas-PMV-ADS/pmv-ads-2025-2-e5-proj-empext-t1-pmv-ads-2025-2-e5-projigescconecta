@@ -14,8 +14,8 @@ const routeConfig = [
   { path: '/forgot-password', element: <ForgotPassword />, isPrivate: false },
   { path: '/reset-password', element: <ResetPassword />, isPrivate: false },
   { path: '/home', element: <Home />, isPrivate: true },
-  { path: '/course', element: <Course />, isPrivate: false },
-  { path: '/team', element: <Team />, isPrivate: false },
+  { path: '/course', element: <Course />, isPrivate: true },
+  { path: '/team', element: <Team />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
