@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Courses.DeleteCourse
 {
-    /* [ApiAuthorize] */
+    [ApiAuthorize]
     [Route("/api/courses")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Courses")]
@@ -17,25 +17,18 @@ namespace IgescConecta.API.Features.Courses.DeleteCourse
             _mediator = mediator;
         }
 
-        [HttpDelete("DeleteCourse", Name = "DeleteCourse")]
-        public async Task<ActionResult<DeleteCourseResponse>> DeleteCourse([FromBody] DeleteCourseRequest request)
+        [HttpDelete("{courseId}", Name = "DeleteCourse")]
+        public async Task<ActionResult<DeleteCourseResponse>> DeleteCourse(int courseId)
         {
             var result = await _mediator.Send(new DeleteCourseCommand
             {
-                CourseId = request.CourseId,
-                DeactivatedByUserId = request.DeactivatedByUserId
+                CourseId = courseId
             });
 
             return result.IsSuccess
                 ? Ok(new DeleteCourseResponse(result.Value))
                 : BadRequest(result.Error);
         }
-    }
-
-    public class DeleteCourseRequest
-    {
-        public int CourseId { get; set; }
-        public int DeactivatedByUserId { get; set; } // Quem está desativando
     }
 
     public class DeleteCourseResponse

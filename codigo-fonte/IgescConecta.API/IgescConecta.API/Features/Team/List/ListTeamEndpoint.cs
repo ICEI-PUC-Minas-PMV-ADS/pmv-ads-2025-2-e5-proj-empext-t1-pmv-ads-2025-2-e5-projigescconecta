@@ -2,9 +2,9 @@ using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IgescConecta.API.Features.Teams.ListTeam
+namespace IgescConecta.API.Features.Teams.ListTeams
 {
-    /* [ApiAuthorize] */
+    [ApiAuthorize]
     [Route("/api/teams")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Teams")]
@@ -17,8 +17,8 @@ namespace IgescConecta.API.Features.Teams.ListTeam
             _mediator = mediator;
         }
 
-        [HttpPost("ListTeam", Name = "ListTeam")]
-        public async Task<ActionResult<ListTeamViewModel>> ListTeam([FromBody] ListTeamRequest request)
+        [HttpPost("search", Name = "ListTeam")]
+        public async Task<ActionResult<ListTeamViewModel>> ListTeams([FromBody] ListTeamRequest request)
         {
             var result = await _mediator.Send(new ListTeamQuery(request.PageNumber, request.PageSize, request.Filters));
             return Ok(result);
@@ -27,8 +27,8 @@ namespace IgescConecta.API.Features.Teams.ListTeam
 
     public class ListTeamRequest
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
     }
 }

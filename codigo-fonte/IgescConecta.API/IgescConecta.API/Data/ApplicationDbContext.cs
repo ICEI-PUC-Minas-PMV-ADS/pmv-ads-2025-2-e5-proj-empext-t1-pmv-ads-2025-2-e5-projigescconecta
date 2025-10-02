@@ -28,8 +28,6 @@ namespace IgescConecta.API.Data
 
         public DbSet<Company> Companies { get; set; }
 
-        public DbSet<Course> Courses { get; set; }
-
         public DbSet<Donation> Donations { get; set; }
 
         public DbSet<OriginBusinessCase> OriginBusinessCases { get; set; }

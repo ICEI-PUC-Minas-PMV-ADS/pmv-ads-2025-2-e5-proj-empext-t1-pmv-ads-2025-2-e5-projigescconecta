@@ -1,11 +1,7 @@
-using MediatR;
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
-using IgescConecta.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
-using System;
 
 namespace IgescConecta.API.Features.Courses.EditCourse
 {
@@ -13,7 +9,6 @@ namespace IgescConecta.API.Features.Courses.EditCourse
     {
         public int CourseId { get; set; }
         public string Name { get; set; }
-        public int UpdatedByUserId { get; set; } // Quem está editando
     }
 
     internal sealed class EditCourseCommandHandler : IRequestHandler<EditCourseCommand, Result<int, ValidationFailed>>
@@ -32,19 +27,15 @@ namespace IgescConecta.API.Features.Courses.EditCourse
                 return new ValidationFailed(new[] { "O nome do curso é obrigatório." });
             }
 
-            // Busca o curso ativo
             var course = await _context.Courses
-                .FirstOrDefaultAsync(c => c.Id == request.CourseId && c.IsActive, cancellationToken);
+                .FirstOrDefaultAsync(c => c.Id == request.CourseId && c.IsDeleted == false, cancellationToken);
 
             if (course == null)
             {
-                return new ValidationFailed(new[] { "Curso não encontrado ou está desativado." });
+                return new ValidationFailed(new[] { "Curso não encontrado." });
             }
 
-            // Atualiza os campos
             course.Name = request.Name;
-            course.UpdatedAt = DateTime.UtcNow;
-            course.UpdatedBy = request.UpdatedByUserId;
 
             await _context.SaveChangesAsync(cancellationToken);
 

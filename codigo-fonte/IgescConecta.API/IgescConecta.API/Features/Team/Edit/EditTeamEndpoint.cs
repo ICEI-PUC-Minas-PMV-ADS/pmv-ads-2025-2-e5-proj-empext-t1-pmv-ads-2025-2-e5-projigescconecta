@@ -1,10 +1,10 @@
-// EditTeamEndpoint.cs
 using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
+    [ApiAuthorize]
     [Route("/api/teams")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Teams")]
@@ -17,49 +17,39 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             _mediator = mediator;
         }
 
-        [HttpPatch("EditTeam", Name = "EditTeam")]
-        public async Task<ActionResult<EditTeamResponse>> EditTeam([FromBody] EditTeamRequest request)
+        [HttpPut("{teamId}", Name = "EditTeam")]
+        public async Task<ActionResult<EditTeamResponse>> EditTeam(int teamId, [FromBody] EditTeamRequest request)
         {
             var result = await _mediator.Send(new EditTeamCommand
             {
-                TeamId = request.TeamId,
-                Name = request.Name,
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
-                Time = request.Time,
-                CourseId = request.CourseId,
-                UpdatedByUserId = request.UpdatedByUserId
+                TeamId = teamId,
+                Start = request.Start,
+                Finish = request.Finish,
+                ProjectProgramId = request.ProjectProgramId,
+                CourseId = request.CourseId
             });
 
             return result.IsSuccess
-                ? Ok(new EditTeamResponse(result.Value.Id, result.Value.Name))
+                ? Ok(new EditTeamResponse(result.Value))
                 : BadRequest(result.Error);
         }
     }
 
     public class EditTeamRequest
     {
-        public int TeamId { get; set; }
-
-        // Campos opcionais
-        public string? Name { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string? Time { get; set; }
-        public int? CourseId { get; set; }
-
-        public int UpdatedByUserId { get; set; } // obrigatório
+        public DateTime Start { get; set; }
+        public DateTime Finish { get; set; }
+        public int ProjectProgramId { get; set; }
+        public int CourseId { get; set; }
     }
 
     public class EditTeamResponse
     {
         public int TeamId { get; set; }
-        public string Name { get; set; }
 
-        public EditTeamResponse(int teamId, string name)
+        public EditTeamResponse(int teamId)
         {
             TeamId = teamId;
-            Name = name;
         }
     }
 }

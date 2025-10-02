@@ -1,28 +1,20 @@
-// EditTeamCommand.cs
-using MediatR;
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
-using IgescConecta.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
-    public class EditTeamCommand : IRequest<Result<Team, ValidationFailed>>
+    public class EditTeamCommand : IRequest<Result<int, ValidationFailed>>
     {
         public int TeamId { get; set; }
-        public string? Name { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string? Time { get; set; }
-        public int? CourseId { get; set; }
-        public int UpdatedByUserId { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime Finish { get; set; }
+        public int ProjectProgramId { get; set; }
+        public int CourseId { get; set; }
     }
 
-    internal sealed class EditTeamCommandHandler : IRequestHandler<EditTeamCommand, Result<Team, ValidationFailed>>
+    internal sealed class EditTeamCommandHandler : IRequestHandler<EditTeamCommand, Result<int, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -31,50 +23,72 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             _context = context;
         }
 
-        public async Task<Result<Team, ValidationFailed>> Handle(EditTeamCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int, ValidationFailed>> Handle(EditTeamCommand request, CancellationToken cancellationToken)
         {
-            var team = await _context.Teams.FirstOrDefaultAsync(t => t.Id == request.TeamId && t.IsActive, cancellationToken);
-            if (team == null)
-                return new ValidationFailed("Turma não encontrada ou está desativada.");
-
-            var errors = new List<string>();
-
-            // Validações básicas
-            if (request.StartDate.HasValue && request.EndDate.HasValue && request.StartDate >= request.EndDate)
-                errors.Add("A data de início deve ser anterior à data de término.");
-
-            if (request.CourseId.HasValue)
+            if (request.Start >= request.Finish)
             {
-                var courseExists = await _context.Courses.AnyAsync(c => c.Id == request.CourseId.Value && c.IsActive, cancellationToken);
-                if (!courseExists)
-                    errors.Add("O curso informado não existe.");
+                return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            if (errors.Count > 0)
-                return new ValidationFailed(string.Join("; ", errors));
+            var team = await _context.Teams
+                .FirstOrDefaultAsync(t => t.Id == request.TeamId && t.IsDeleted == false, cancellationToken);
 
-            // Atualiza somente os campos enviados
-            if (!string.IsNullOrWhiteSpace(request.Name))
-                team.Name = request.Name;
+            if (team == null)
+            {
+                return new ValidationFailed(new[] { "Time não encontrado ou excluído." });
+            }
 
-            if (request.StartDate.HasValue)
-                team.StartDate = request.StartDate.Value;
+            // Verifica se o novo ProjectProgram existe e não está deletado
+            //var projectProgramExists = await _context.ProjectPrograms
+            //    .AnyAsync(pp => pp.Id == request.ProjectProgramId && pp.IsDeleted == false, cancellationToken);
 
-            if (request.EndDate.HasValue)
-                team.EndDate = request.EndDate.Value;
+            //if (!projectProgramExists)
+            //{
+            //    return new ValidationFailed(new[] { "ProjectProgram não encontrado ou está inativo." });
+            //}
 
-            if (!string.IsNullOrWhiteSpace(request.Time))
-                team.Time = request.Time;
+            // Verifica se o novo Course existe e não está deletado
+            //var courseExists = await _context.Courses
+            //    .AnyAsync(c => c.Id == request.CourseId && c.IsDeleted == false, cancellationToken);
 
-            if (request.CourseId.HasValue)
-                team.CourseId = request.CourseId.Value;
+            //if (!courseExists)
+            //{
+            //    return new ValidationFailed(new[] { "Curso não encontrado ou está inativo." });
+            //}
 
-            team.UpdatedAt = DateTime.UtcNow;
-            team.UpdatedBy = request.UpdatedByUserId;
+            // Bloqueia alteração de CourseId se já existem PersonTeams vinculados
+            if (team.CourseId != request.CourseId)
+            {
+                var hasPersonTeams = await _context.PersonTeams
+                    .AnyAsync(pt => pt.TeamId == request.TeamId, cancellationToken);
+
+                if (hasPersonTeams)
+                {
+                    return new ValidationFailed(new[] { "Não é possível alterar o Curso pois existem pessoas vinculadas a este time." });
+                }
+            }
+            
+            // Comentado pois PersonOscs esta sem FK para Team
+            // Bloqueia alteração de ProjectProgramId se já existem PersonOscs vinculados
+            //if (team.ProjectProgramId != request.ProjectProgramId)
+            //{
+            //    var hasPersonOscs = await _context.PersonOscs
+            //        .AnyAsync(po => po.TeamId == request.TeamId, cancellationToken);
+
+            //    if (hasPersonOscs)
+            //    {
+            //        return new ValidationFailed(new[] { "Não é possível alterar o ProjectProgram pois existem OSCs vinculadas a este time." });
+            //    }
+            //}
+
+            team.Start = request.Start;
+            team.Finish = request.Finish;
+            team.ProjectProgramId = request.ProjectProgramId;
+            team.CourseId = request.CourseId;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return team;
+            return team.Id;
         }
     }
 }

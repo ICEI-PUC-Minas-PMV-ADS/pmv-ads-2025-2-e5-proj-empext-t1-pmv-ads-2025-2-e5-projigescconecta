@@ -1,8 +1,7 @@
-using MediatR;
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
-using System;
+using MediatR;
 
 namespace IgescConecta.API.Features.Courses.CreateCourse
 {
@@ -10,7 +9,6 @@ namespace IgescConecta.API.Features.Courses.CreateCourse
     {
         public string Name { get; set; }
 
-        // Adiciona o ID do usuário que está criando o curso
         public int CreatedByUserId { get; set; }
     }
 
@@ -35,13 +33,12 @@ namespace IgescConecta.API.Features.Courses.CreateCourse
             var course = new Course
             {
                 Name = request.Name,
-                IsActive = true,
+
                 CreatedAt = now,
                 CreatedBy = request.CreatedByUserId,
                 UpdatedAt = now,
                 UpdatedBy = request.CreatedByUserId,
-                DeactivatedAt = null,
-                DeactivatedBy = null
+                IsDeleted = false
             };
 
             _context.Courses.Add(course);

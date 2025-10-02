@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Teams.DeleteTeam
 {
-    /* [ApiAuthorize] */
+    [ApiAuthorize]
     [Route("/api/teams")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Teams")]
@@ -17,25 +17,18 @@ namespace IgescConecta.API.Features.Teams.DeleteTeam
             _mediator = mediator;
         }
 
-        [HttpDelete("DeleteTeam", Name = "DeleteTeam")]
-        public async Task<ActionResult<DeleteTeamResponse>> DeleteTeam([FromBody] DeleteTeamRequest request)
+        [HttpDelete("{teamId}", Name = "DeleteTeam")]
+        public async Task<ActionResult<DeleteTeamResponse>> DeleteTeam(int teamId)
         {
             var result = await _mediator.Send(new DeleteTeamCommand
             {
-                TeamId = request.TeamId,
-                DeactivatedByUserId = request.DeactivatedByUserId
+                TeamId = teamId
             });
 
             return result.IsSuccess
                 ? Ok(new DeleteTeamResponse(result.Value))
                 : BadRequest(result.Error);
         }
-    }
-
-    public class DeleteTeamRequest
-    {
-        public int TeamId { get; set; }
-        public int DeactivatedByUserId { get; set; } // Quem está desativando
     }
 
     public class DeleteTeamResponse

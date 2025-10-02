@@ -1,9 +1,9 @@
 using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Query;
+using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using IgescConecta.API.Data;
 
 namespace IgescConecta.API.Features.Courses.ListCourse
 {
@@ -15,7 +15,29 @@ namespace IgescConecta.API.Features.Courses.ListCourse
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsActive { get; set; }
+
+        public bool IsDeleted { get; set; }
+    }
+
+    public class GetCourseByIdViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsDeleted { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    public class GetCourseByIdQuery : IRequest<GetCourseByIdViewModel>
+    {
+        public int Id { get; }
+
+        public GetCourseByIdQuery(int id)
+        {
+            Id = id;
+        }
     }
 
     public class ListCourseQuery : PaginationRequest, IRequest<ListCourseViewModel>
@@ -37,38 +59,68 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
         public async Task<ListCourseViewModel> Handle(ListCourseQuery request, CancellationToken cancellationToken)
         {
-            // Cria a query base
             var query = _context.Courses.AsQueryable();
 
-            // Aplica os filtros dinamicamente usando ExpressionBuilder
+            query = query.Where(c => c.IsDeleted == false);
+
             if (request.Filters != null && request.Filters.Any())
             {
                 var expr = ExpressionBuilder.GetExpression<Course>(request.Filters);
                 query = query.Where(expr);
             }
 
-            // Conta o total de registros já filtrados
             var totalRecords = await query.CountAsync(cancellationToken);
 
-            // Aplica paginação
             var result = await query
                 .OrderByDescending(x => x.Id)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            // Mapeia para ViewModel
             var courses = result.Select(x => new CourseViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
-                IsActive = x.IsActive
+                IsDeleted = x.IsDeleted
             }).ToList();
 
             return new ListCourseViewModel
             {
                 Items = courses,
                 TotalItems = totalRecords
+            };
+        }
+    }
+
+    internal sealed class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, GetCourseByIdViewModel>
+    {
+        private readonly ApplicationDbContext _context;
+
+        public GetCourseByIdQueryHandler(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<GetCourseByIdViewModel> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
+        {
+            var course = await _context.Courses
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+
+            if (course == null || course.IsDeleted)
+            {
+                return null;
+            }
+
+            return new GetCourseByIdViewModel
+            {
+                Id = course.Id,
+                Name = course.Name,
+                IsDeleted = course.IsDeleted,
+                CreatedBy = course.CreatedBy,
+                CreatedAt = course.CreatedAt,
+                UpdatedBy = course.UpdatedBy,
+                UpdatedAt = course.UpdatedAt
             };
         }
     }

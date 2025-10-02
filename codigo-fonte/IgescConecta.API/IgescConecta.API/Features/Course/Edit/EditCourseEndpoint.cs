@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Courses.EditCourse
 {
-    /* [ApiAuthorize] */
+    [ApiAuthorize]
     [Route("/api/courses")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Courses")]
@@ -17,27 +17,26 @@ namespace IgescConecta.API.Features.Courses.EditCourse
             _mediator = mediator;
         }
 
-        [HttpPut("EditCourse", Name = "EditCourse")]
-        public async Task<ActionResult<EditCourseResponse>> EditCourse([FromBody] EditCourseRequest request)
+        [HttpPut("{courseId}", Name = "EditCourse")]
+        public async Task<ActionResult<EditCourseResponse>> EditCourse(int courseId, [FromBody] EditCourseRequest request)
         {
             var result = await _mediator.Send(new EditCourseCommand
             {
-                CourseId = request.CourseId,
-                Name = request.Name,
-                UpdatedByUserId = request.UpdatedByUserId
+                CourseId = courseId,
+                Name = request.Name
             });
 
+            var updateResponse = new EditCourseResponse(result.Value);
+
             return result.IsSuccess
-                ? Ok(new EditCourseResponse(result.Value))
+                ? Ok(updateResponse)
                 : BadRequest(result.Error);
         }
     }
 
     public class EditCourseRequest
     {
-        public int CourseId { get; set; }
         public string Name { get; set; }
-        public int UpdatedByUserId { get; set; } // Id do usuário que está editando
     }
 
     public class EditCourseResponse

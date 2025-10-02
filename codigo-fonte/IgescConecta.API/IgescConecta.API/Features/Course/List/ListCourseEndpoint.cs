@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Courses.ListCourse
 {
-    /* [ApiAuthorize] */
+    [ApiAuthorize]
     [Route("/api/courses")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Courses")]
@@ -17,19 +17,31 @@ namespace IgescConecta.API.Features.Courses.ListCourse
             _mediator = mediator;
         }
 
-        [HttpPost("ListCourse", Name = "ListCourse")]
+        [HttpPost("search", Name = "ListCourse")]
         public async Task<ActionResult<ListCourseViewModel>> ListCourse([FromBody] ListCourseRequest request)
-
         {
             var result = await _mediator.Send(new ListCourseQuery(request.PageNumber, request.PageSize, request.Filters));
+            return Ok(result);
+        }
+
+        [HttpGet("{id:int}", Name = "GetCourseById")]
+        public async Task<ActionResult<GetCourseByIdViewModel>> GetCourseById([FromRoute] int id)
+        {
+            var result = await _mediator.Send(new GetCourseByIdQuery(id));
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return Ok(result);
         }
     }
 
     public class ListCourseRequest
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
     }
 }
