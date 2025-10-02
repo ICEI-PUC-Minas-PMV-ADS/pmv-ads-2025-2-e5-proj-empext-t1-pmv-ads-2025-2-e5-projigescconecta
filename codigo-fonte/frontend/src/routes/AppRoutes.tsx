@@ -7,8 +7,9 @@ import Home from './../pages/Home';
 import PrivateRoute from './privateRoute';
 import Course from './../pages/Course';
 import Team from '@/pages/Team';
+import { Box } from '@mui/material';
+import SideMenu from '@/components/SideMenu';
 
-// Configuração de todas as rotas
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
   { path: '/forgot-password', element: <ForgotPassword />, isPrivate: false },
@@ -23,16 +24,26 @@ export default function AppRoutes() {
     <Routes>
       {/* Redirect para login */}
       <Route path="/" element={<Navigate to="/login" replace />} />
-      
+
       {/* Rotas mapeadas */}
       {routeConfig.map(({ path, element, isPrivate }) => (
         <Route
           key={path}
           path={path}
-          element={isPrivate ? <PrivateRoute>{element}</PrivateRoute> : element}
+          element={
+            isPrivate ? (
+              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <SideMenu />
+
+                <PrivateRoute>{element}</PrivateRoute>
+              </Box>
+            ) : (
+              element
+            )
+          }
         />
       ))}
-      
+
       {/* Fallback para rotas não encontradas */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
