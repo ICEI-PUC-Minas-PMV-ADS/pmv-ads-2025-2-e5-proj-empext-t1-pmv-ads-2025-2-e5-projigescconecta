@@ -23,9 +23,9 @@ namespace IgescConecta.Domain.Entities
         public int CourseId { get; set; }
 
         [ForeignKey("ProjectProgramId")]
-        public ProjectProgram ProjectProgram { get; set; }
+        public ProjectProgram? ProjectProgram { get; set; }
 
         [ForeignKey("CourseId")]
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
     }
 }
