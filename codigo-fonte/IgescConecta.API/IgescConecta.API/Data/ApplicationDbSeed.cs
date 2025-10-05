@@ -21,7 +21,6 @@ namespace IgescConecta.API.Data
             var pwd = "123@Mudar";
             var passwordHasher = new PasswordHasher<User>();
 
-            // ---- Roles ---------------------------------------------------------
             var adminRole = new Role("Admin");
             adminRole.NormalizedName = adminRole.Name!.ToUpper();
 
@@ -36,7 +35,6 @@ namespace IgescConecta.API.Data
             _context.Roles.AddRange(roles);
             _context.SaveChanges();
 
-            // ---- Helper para criar usuário com hash de senha e dados básicos ----
             User CreateUser(string name, string email, string? phone = null)
             {
                 var user = new User
@@ -73,16 +71,6 @@ namespace IgescConecta.API.Data
             {
                 // Administrador padrão
                 CreateUser("Administrador", "admin@admin.com", "19954213678"),
-
-                // Pedidos por você:
-                CreateUser("Beatriz Machado", "bea.machado@igesc.org.br"),
-                CreateUser("Isio Potasznik", "isio.potasznik@igesc.org.br"),
-                CreateUser("Ricardo Canalonga", "ricardo.canalonga@igesc.org.br"),
-                CreateUser("Kenia Aparecida Kaires", "402139@sga.pucminas.br"),
-                CreateUser("Felipe Vom Oorschot", "1493521@sga.pucminas.br"),
-                CreateUser("Ricardo José Teixeira", "ricardo.junior.1382307@sga.pucminas.br"),
-                CreateUser("Lucas Bebiano Xavier", "lbxavier@sga.pucminas.br"),
-                CreateUser("Pedro Roberto Gomes da Silva Abadia", "1276810@sga.pucminas.br")
             };
 
             _context.Users.AddRange(users);
@@ -93,16 +81,6 @@ namespace IgescConecta.API.Data
             var assignments = new (string Email, string Role)[]
             {
                 ("admin@admin.com", "Admin"),
-
-                ("bea.machado@igesc.org.br", "Admin"),
-                ("isio.potasznik@igesc.org.br", "Admin"),
-                ("ricardo.canalonga@igesc.org.br", "Admin"),
-
-                ("402139@sga.pucminas.br", "Editor"),
-                ("1493521@sga.pucminas.br", "Editor"),
-                ("ricardo.junior.1382307@sga.pucminas.br", "Editor"),
-                ("lbxavier@sga.pucminas.br", "Editor"),
-                ("1276810@sga.pucminas.br", "Editor"),
             };
 
             var userRoles = new List<IdentityUserRole<int>>();
