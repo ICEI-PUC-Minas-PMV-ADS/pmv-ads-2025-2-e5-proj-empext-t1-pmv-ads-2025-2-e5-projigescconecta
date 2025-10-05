@@ -8,10 +8,17 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 {
     public class CreateTeamCommand : IRequest<Result<int, ValidationFailed>>
     {
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
-        public int ProjectProgramId { get; set; }
-        public int CourseId { get; set; }
+        public string? Name { get; set; }
+
+        public string? LessonTime { get; set; }
+
+        public DateTime? Start { get; set; }
+
+        public DateTime? Finish { get; set; }
+
+        public List<int> PersonTeamsIds { get; set; } = [];
+        public int? ProjectProgramId { get; set; }
+        public int? CourseId { get; set; }
     }
 
     internal sealed class CreateTeamCommandHandler : IRequestHandler<CreateTeamCommand, Result<int, ValidationFailed>>
@@ -25,49 +32,81 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public async Task<Result<int, ValidationFailed>> Handle(CreateTeamCommand request, CancellationToken cancellationToken)
         {
-            if (request.ProjectProgramId <= 0)
-            {
-                return new ValidationFailed(new[] { "O ID do ProjectProgram é obrigatório." });
-            }
-            if (request.CourseId <= 0)
-            {
-                return new ValidationFailed(new[] { "O ID do Curso é obrigatório." });
-            }
             if (request.Start >= request.Finish)
             {
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            // Verifica se o ProjectProgram existe e não está deletado antes de criar o Team
-            //var projectProgramExists = await _context.ProjectPrograms
-            //    .AnyAsync(pp => pp.Id == request.ProjectProgramId && pp.IsDeleted == false, cancellationToken);
+            if (request.ProjectProgramId.HasValue)
+            {
+                var programExists = await _context.ProjectPrograms
+                    .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
 
-            //if (!projectProgramExists)
-            //{
-            //    return new ValidationFailed(new[] { "ProjectProgram não encontrado ou está inativo." });
-            //}
+                if (!programExists)
+                    return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
+            }
 
-            // Verifica se o Course existe e não está deletado antes de criar o Team
-            //var courseExists = await _context.Courses
-            //    .AnyAsync(c => c.Id == request.CourseId && c.IsDeleted == false, cancellationToken);
+            if (request.CourseId.HasValue)
+            {
+                var courseExists = await _context.Courses
+                    .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
 
-            //if (!courseExists)
-            //{
-            //    return new ValidationFailed(new[] { "Curso não encontrado ou está inativo." });
-            //}
+                if (!courseExists)
+                    return new ValidationFailed(new[] { $"Curso com ID {request.CourseId} não encontrado." });
+            }
+
+            if (request.PersonTeamsIds.Any())
+            {
+                var personsExist = await _context.Persons
+                    .Where(p => request.PersonTeamsIds.Contains(p.Id))
+                    .Select(p => p.Id)
+                    .ToListAsync(cancellationToken);
+
+                var invalidIds = request.PersonTeamsIds.Except(personsExist).ToList();
+
+                if (invalidIds.Any())
+                {
+                    return new ValidationFailed(new[] { $"Pessoas com IDs {string.Join(", ", invalidIds)} não encontradas." });
+                }
+            }
 
             var team = new Team
             {
+                Name = request.Name,
+                LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
                 ProjectProgramId = request.ProjectProgramId,
                 CourseId = request.CourseId
             };
 
-            _context.Teams.Add(team);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                // Salva o Team primeiro para gerar o Id
+                await _context.Teams.AddAsync(team, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
 
-            return team.Id;
+                //Adiciona os PersonTeams com TeamId garantido
+                if (request.PersonTeamsIds.Any())
+                {
+                    foreach (var personId in request.PersonTeamsIds)
+                    {
+                        team.PersonTeams.Add(new PersonTeam
+                        {
+                            TeamId = team.Id,
+                            PersonId = personId
+                        });
+                    }
+
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+
+                return team.Id;
+            }
+            catch (DbUpdateException ex)
+            {
+                return new ValidationFailed(new[] { "Erro ao salvar a turma no banco de dados." });
+            }
         }
     }
 }

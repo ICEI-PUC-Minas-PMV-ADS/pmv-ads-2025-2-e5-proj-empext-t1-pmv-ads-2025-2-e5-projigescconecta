@@ -7,23 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IgescConecta.API.Features.Teams.ListTeams
 {
-    public class ListTeamViewModel : PaginationResponse<TeamViewModel>
+    public class ListTeamViewModel : PaginationResponse<ListTeamItemViewModel>
     {
     }
 
-    public class TeamViewModel
+    public class ListTeamItemViewModel
     {
-        public int Id { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
-        public int ProjectProgramId { get; set; }
-        public string ProjectProgramName { get; set; }
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-
+        public int TeamId { get; set; }
+        public string? Name { get; set; }
+        public string? LessonTime { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? Finish { get; set; }
+        public int? ProjectProgramId { get; set; }
+        public string? ProjectProgramName { get; set; }
+        public int? CourseId { get; set; }
+        public string? CourseName { get; set; }
+        public int PersonTeamsCount { get; set; }
         public bool IsDeleted { get; set; }
     }
-
 
     public class ListTeamQuery : PaginationRequest, IRequest<ListTeamViewModel>
     {
@@ -44,50 +45,29 @@ namespace IgescConecta.API.Features.Teams.ListTeams
 
         public async Task<ListTeamViewModel> Handle(ListTeamQuery request, CancellationToken cancellationToken)
         {
-            // Pega todos os teams ativos
-            var query = _context.Teams
-                .Where(t => !t.IsDeleted)
-                .AsQueryable();
+            var expr = ExpressionBuilder.GetExpression<Team>(request.Filters);
 
-            if (request.Filters != null && request.Filters.Any())
-            {
-                try
-                {
-                    var expr = ExpressionBuilder.GetExpression<Team>(request.Filters);
-                    if (expr != null)
-                        query = query.Where(expr);
-                }
-                catch
-                {
-                    // Em dev
-                }
-            }
-
-            var totalRecords = await query.CountAsync(cancellationToken);
+            var query = _context.Teams.AsQueryable();
 
             var result = await query
-                .OrderByDescending(x => x.Id)
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(x => new TeamViewModel
+                .Where(expr)
+                .Select(team => new ListTeamItemViewModel
                 {
-                    Id = x.Id,
-                    Start = x.Start,
-                    Finish = x.Finish,
-                    ProjectProgramId = x.ProjectProgramId,
-                    // Mock for dev
-                    ProjectProgramName = _context.ProjectPrograms
-                                        .Where(p => p.Id == x.ProjectProgramId)
-                                        .Select(p => p.Name)
-                                        .FirstOrDefault() ?? "Mock Project",
-                    CourseId = x.CourseId,
-                    CourseName = _context.Courses
-                                    .Where(c => c.Id == x.CourseId)
-                                    .Select(c => c.Name)
-                                    .FirstOrDefault() ?? "Mock Course",
-                    IsDeleted = x.IsDeleted
+                    TeamId = team.Id,
+                    Name = team.Name,
+                    LessonTime = team.LessonTime,
+                    Start = team.Start,
+                    Finish = team.Finish,
+                    ProjectProgramId = team.ProjectProgramId,
+                    ProjectProgramName = team.ProjectProgram != null ? team.ProjectProgram.Name : "",
+                    CourseId = team.CourseId,
+                    CourseName = team.Course != null ? team.Course.Name : "",
+                    PersonTeamsCount = team.PersonTeams.Count,
+                    IsDeleted = team.IsDeleted
                 })
                 .ToListAsync(cancellationToken);
+
+            var totalRecords = await query.Where(expr).CountAsync(cancellationToken);
 
             return new ListTeamViewModel
             {
@@ -96,5 +76,4 @@ namespace IgescConecta.API.Features.Teams.ListTeams
             };
         }
     }
-
 }

@@ -1,6 +1,8 @@
 using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IgescConecta.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace IgescConecta.API.Features.Teams.CreateTeam
 {
@@ -17,13 +19,16 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
             _mediator = mediator;
         }
 
-        [HttpPost(Name = "CreateTeam")]
+        [HttpPost("CreateTeam", Name = "CreateTeam")]
         public async Task<ActionResult<CreateTeamResponse>> CreateTeam([FromBody] CreateTeamRequest request)
         {
             var result = await _mediator.Send(new CreateTeamCommand
             {
+                Name = request.Name,
+                LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
+                PersonTeamsIds = request.PersonTeamsIds,
                 ProjectProgramId = request.ProjectProgramId,
                 CourseId = request.CourseId
             });
@@ -36,10 +41,17 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
     public class CreateTeamRequest
     {
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
-        public int ProjectProgramId { get; set; }
-        public int CourseId { get; set; }
+        public string? Name { get; set; }
+
+        public string? LessonTime { get; set; }
+
+        public DateTime? Start { get; set; }
+
+        public DateTime? Finish { get; set; }
+
+        public List<int> PersonTeamsIds { get; set; } = [];
+        public int? ProjectProgramId { get; set; }
+        public int? CourseId { get; set; }
     }
 
     public class CreateTeamResponse

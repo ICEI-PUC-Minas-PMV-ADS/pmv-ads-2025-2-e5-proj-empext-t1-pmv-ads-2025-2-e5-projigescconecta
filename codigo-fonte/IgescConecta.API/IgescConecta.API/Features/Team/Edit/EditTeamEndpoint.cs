@@ -23,33 +23,42 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             var result = await _mediator.Send(new EditTeamCommand
             {
                 TeamId = teamId,
+                Name = request.Name,
+                LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
+                PersonTeamsIds = request.PersonTeamsIds,
                 ProjectProgramId = request.ProjectProgramId,
                 CourseId = request.CourseId
             });
 
-            return result.IsSuccess
-                ? Ok(new EditTeamResponse(result.Value))
-                : BadRequest(result.Error);
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            var editResponse = new EditTeamResponse
+            {
+                TeamId = teamId,
+                Name = result.Value.Name
+            };
+
+            return Ok(editResponse);
         }
     }
 
     public class EditTeamRequest
     {
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
-        public int ProjectProgramId { get; set; }
-        public int CourseId { get; set; }
+        public string? Name { get; set; }
+        public string? LessonTime { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? Finish { get; set; }
+        public List<int>? PersonTeamsIds { get; set; }
+        public int? ProjectProgramId { get; set; }
+        public int? CourseId { get; set; }
     }
 
     public class EditTeamResponse
     {
         public int TeamId { get; set; }
-
-        public EditTeamResponse(int teamId)
-        {
-            TeamId = teamId;
-        }
+        public string? Name { get; set; }
     }
 }

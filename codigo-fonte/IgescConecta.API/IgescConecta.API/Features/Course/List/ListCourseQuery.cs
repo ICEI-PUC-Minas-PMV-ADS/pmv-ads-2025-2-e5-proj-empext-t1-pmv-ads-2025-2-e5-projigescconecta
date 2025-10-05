@@ -13,21 +13,32 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
     public class CourseViewModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public int CourseId { get; set; }
+        public string? Name { get; set; }
+        public int TeamsCount { get; set; }
     }
 
     public class GetCourseByIdViewModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int CourseId { get; set; }
+        public string? Name { get; set; }
         public bool IsDeleted { get; set; }
+        public int? TeamsCount { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public List<TeamViewModel> Teams { get; set; } = new List<TeamViewModel>();
+    }
+
+    public class TeamViewModel
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? LessonTime { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? Finish { get; set; }
     }
 
     public class GetCourseByIdQuery : IRequest<GetCourseByIdViewModel>
@@ -59,35 +70,29 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
         public async Task<ListCourseViewModel> Handle(ListCourseQuery request, CancellationToken cancellationToken)
         {
+            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters);
+
             var query = _context.Courses.AsQueryable();
 
-            query = query.Where(c => c.IsDeleted == false);
-
-            if (request.Filters != null && request.Filters.Any())
-            {
-                var expr = ExpressionBuilder.GetExpression<Course>(request.Filters);
-                query = query.Where(expr);
-            }
-
-            var totalRecords = await query.CountAsync(cancellationToken);
-
             var result = await query
-                .OrderByDescending(x => x.Id)
+                .Where(expr)
+                .Select(c => new CourseViewModel
+                {
+                    CourseId = c.Id,
+                    Name = c.Name,
+                    TeamsCount = c.Teams.Count // Corrigido: Teams (plural)
+                })
+                .OrderBy(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var courses = result.Select(x => new CourseViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                IsDeleted = x.IsDeleted
-            }).ToList();
+            var totalRecords = await _context.Courses.CountAsync(expr, cancellationToken);
 
             return new ListCourseViewModel
             {
-                Items = courses,
-                TotalItems = totalRecords
+                Items = result,
+                TotalItems = totalRecords,
             };
         }
     }
@@ -104,24 +109,29 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public async Task<GetCourseByIdViewModel> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
             var course = await _context.Courses
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+                .Where(c => c.Id == request.Id)
+                .Select(c => new GetCourseByIdViewModel
+                {
+                    CourseId = c.Id,
+                    Name = c.Name,
+                    IsDeleted = c.IsDeleted,
+                    CreatedBy = c.CreatedBy,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedBy = c.UpdatedBy,
+                    UpdatedAt = c.UpdatedAt,
+                    TeamsCount = c.Teams.Count(),
+                    Teams = c.Teams.Select(t => new TeamViewModel
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        LessonTime = t.LessonTime,
+                        Start = t.Start,
+                        Finish = t.Finish
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (course == null || course.IsDeleted)
-            {
-                return null;
-            }
-
-            return new GetCourseByIdViewModel
-            {
-                Id = course.Id,
-                Name = course.Name,
-                IsDeleted = course.IsDeleted,
-                CreatedBy = course.CreatedBy,
-                CreatedAt = course.CreatedAt,
-                UpdatedBy = course.UpdatedBy,
-                UpdatedAt = course.UpdatedAt
-            };
+            return course;
         }
     }
 }

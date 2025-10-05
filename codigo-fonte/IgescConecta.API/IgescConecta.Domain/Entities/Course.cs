@@ -9,6 +9,8 @@ namespace IgescConecta.Domain.Entities
 {
     public class Course : BaseEntity
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
+        public ICollection<Team> Teams { get; set; } = new List<Team>();
+
     }
 }
