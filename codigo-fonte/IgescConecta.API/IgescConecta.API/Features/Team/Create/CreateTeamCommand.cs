@@ -18,7 +18,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public List<int> PersonTeamsIds { get; set; } = [];
         public int? ProjectProgramId { get; set; }
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
     }
 
     internal sealed class CreateTeamCommandHandler : IRequestHandler<CreateTeamCommand, Result<int, ValidationFailed>>
@@ -32,6 +32,12 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public async Task<Result<int, ValidationFailed>> Handle(CreateTeamCommand request, CancellationToken cancellationToken)
         {
+            var courseExists = await _context.Courses
+            .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
+
+            if (!courseExists)
+                return new ValidationFailed(new[] { $"Curso com ID {request.CourseId} não encontrado." });
+
             if (request.Start >= request.Finish)
             {
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
@@ -44,15 +50,6 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
                 if (!programExists)
                     return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
-            }
-
-            if (request.CourseId.HasValue)
-            {
-                var courseExists = await _context.Courses
-                    .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
-
-                if (!courseExists)
-                    return new ValidationFailed(new[] { $"Curso com ID {request.CourseId} não encontrado." });
             }
 
             if (request.PersonTeamsIds.Any())

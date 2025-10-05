@@ -51,7 +51,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public List<int> PersonTeamsIds { get; set; } = [];
         public int? ProjectProgramId { get; set; }
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
     }
 
     public class CreateTeamResponse

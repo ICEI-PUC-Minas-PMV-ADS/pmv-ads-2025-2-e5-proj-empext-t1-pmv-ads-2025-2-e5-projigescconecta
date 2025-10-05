@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace IgescConecta.Domain.Entities
 {
@@ -21,12 +23,14 @@ namespace IgescConecta.Domain.Entities
 
         public int? ProjectProgramId { get; set; }
 
-        public int? CourseId { get; set; }
-
         [ForeignKey("ProjectProgramId")]
         public ProjectProgram? ProjectProgram { get; set; }
 
+        [Required]
+        public int CourseId { get; set; }
+
         [ForeignKey("CourseId")]
-        public Course? Course { get; set; }
+        public Course Course { get; set; } = null!;
+
     }
 }
