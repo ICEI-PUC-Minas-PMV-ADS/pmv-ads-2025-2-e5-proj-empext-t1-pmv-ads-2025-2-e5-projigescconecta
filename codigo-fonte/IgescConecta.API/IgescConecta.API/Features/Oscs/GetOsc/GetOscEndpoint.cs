@@ -40,6 +40,7 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
                 OriginsBusinessCases = result.Value?.OriginsBusinessCases.Select(o => new GetOscOriginBusinessCaseResponse
                 {
                     OriginBusinessCaseId = o.Id,
+                    Name = o.Name
                 }).ToList()
             };
             return result.IsSuccess ? Ok(oscInfo) : BadRequest(result.Error);

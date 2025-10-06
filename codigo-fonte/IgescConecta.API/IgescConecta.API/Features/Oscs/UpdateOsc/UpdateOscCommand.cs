@@ -65,7 +65,7 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
                 osc.Beneficiaries = beneficiaries;
             }
 
-            if (request.OriginBusinessCaseIds.OrderBy(x => x)
+            if (!request.OriginBusinessCaseIds.OrderBy(x => x)
                 .SequenceEqual(osc.OriginsBusinessCases.Select(obc => obc.Id).OrderBy(x => x)))
             {
                 var originsBusinessCases = await _context.OriginBusinessCases
