@@ -21,7 +21,7 @@ namespace IgescConecta.API.Features.Auth
 
         [AllowAnonymous]
         [HttpPost("Login", Name = "Login")]
-        public async Task<ActionResult<UserToken>> LoginUser(UserLogin model)
+        public async Task<ActionResult<UserToken>> LoginUser([FromBody] UserLogin model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
 

@@ -24,6 +24,7 @@ namespace IgescConecta.API.Data
         // Identity
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         // Domínio
         public DbSet<Company> Companies { get; set; }

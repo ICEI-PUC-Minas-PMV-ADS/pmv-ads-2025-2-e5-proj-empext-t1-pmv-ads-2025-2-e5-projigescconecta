@@ -13,7 +13,7 @@ namespace IgescConecta.Domain.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<OdsType> OdsTypes { get; set; }
+        public IList<OdsType> OdsTypes { get; set; } = new List<OdsType>();
 
         public ProjectDecisionType Decision { get; set; }
 
