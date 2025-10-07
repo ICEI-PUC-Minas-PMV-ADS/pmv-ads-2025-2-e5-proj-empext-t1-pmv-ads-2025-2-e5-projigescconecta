@@ -1,6 +1,7 @@
 import { AuthApi, Configuration, LoginResponse } from '../api';
 import { jwtDecode } from 'jwt-decode';
 import { AxiosResponse } from 'axios';
+import { BASE_PATH } from '@/api/base';
 
 interface JwtPayload {
   exp: number;
@@ -72,3 +73,13 @@ export const refreshAccessToken = async (): Promise<boolean> => {
     return false;
   }
 };
+
+export const apiConfig = new Configuration({
+  basePath: BASE_PATH,
+  accessToken: async () => {
+    const loginResponseStr = localStorage.getItem('loginResponse');
+    if (!loginResponseStr) return '';
+    const loginResponse = JSON.parse(loginResponseStr);
+    return loginResponse.accessToken;
+  },
+});

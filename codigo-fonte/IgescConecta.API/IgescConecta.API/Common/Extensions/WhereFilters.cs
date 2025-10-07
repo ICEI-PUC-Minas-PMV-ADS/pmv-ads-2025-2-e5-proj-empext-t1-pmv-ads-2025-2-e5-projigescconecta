@@ -96,25 +96,65 @@ namespace IgescConecta.API.Common.Extensions
         {
             MemberExpression member = GetNestedPropertyExpression(param, filter.PropertyName);
             var value = filter.Value;
+
+            // Caso a propriedade seja enum, converte o valor para enum
             if (member.Type.IsEnum)
             {
                 value = value.ToString().GetValueFromName(member.Type);
             }
 
             object convertedValue;
-
             var targetType = member.Type.GetUnderlyingType();
 
-            if (targetType == typeof(string))
-
+            // Tratamento especial para JsonElement (quando o valor vem do JSON)
+            if (value is System.Text.Json.JsonElement je)
+            {
+                switch (je.ValueKind)
+                {
+                    case System.Text.Json.JsonValueKind.String:
+                        if (targetType == typeof(DateTime))
+                            convertedValue = DateTime.Parse(je.GetString());
+                        else
+                            convertedValue = je.GetString();
+                        break;
+                    case System.Text.Json.JsonValueKind.Number:
+                        if (targetType == typeof(int))
+                            convertedValue = je.GetInt32();
+                        else if (targetType == typeof(long))
+                            convertedValue = je.GetInt64();
+                        else if (targetType == typeof(double))
+                            convertedValue = je.GetDouble();
+                        else
+                            convertedValue = je.GetDecimal();
+                        break;
+                    case System.Text.Json.JsonValueKind.True:
+                        convertedValue = true;
+                        break;
+                    case System.Text.Json.JsonValueKind.False:
+                        convertedValue = false;
+                        break;
+                    case System.Text.Json.JsonValueKind.Null:
+                        convertedValue = null;
+                        break;
+                    default:
+                        convertedValue = je.GetRawText();
+                        break;
+                }
+            }
+            else if (targetType == typeof(string))
+            {
                 convertedValue = value?.ToString();
-
+            }
+            else if (targetType == typeof(DateTime) && value is string str)
+            {
+                convertedValue = DateTime.Parse(str);
+            }
             else
-
+            {
                 convertedValue = Convert.ChangeType(value, targetType);
+            }
 
             ConstantExpression constant = Expression.Constant(convertedValue, targetType);
-
             var convertedMember = Expression.Convert(member, targetType);
 
             return filter.Operation switch
@@ -123,12 +163,12 @@ namespace IgescConecta.API.Common.Extensions
                 Op.NotEquals => Expression.NotEqual(convertedMember, constant),
                 Op.GreaterThan => Expression.GreaterThan(convertedMember, constant),
                 Op.GreaterThanOrEquals => Expression.GreaterThanOrEqual(convertedMember, constant),
-                Op.LessThan => Expression.LessThan(member, constant),
+                Op.LessThan => Expression.LessThan(convertedMember, constant),
                 Op.LessThanOrEquals => Expression.LessThanOrEqual(convertedMember, constant),
                 Op.Contains => Expression.Call(convertedMember, containsMethod, constant),
                 Op.StartsWith => Expression.Call(convertedMember, startsWithMethod, constant),
                 Op.EndsWith => Expression.Call(convertedMember, endsWithMethod, constant),
-                Op.IsNull => Expression.Equal(member, Expression.Constant(null)),
+                Op.IsNull => Expression.Equal(convertedMember, Expression.Constant(null, targetType)),
                 _ => null,
             };
         }

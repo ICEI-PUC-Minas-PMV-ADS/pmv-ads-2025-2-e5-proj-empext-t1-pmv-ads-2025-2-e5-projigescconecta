@@ -158,7 +158,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -685,16 +684,22 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Finish")
+                    b.Property<DateTime?>("Finish")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LessonTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProjectProgramId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Start")
+                    b.Property<DateTime?>("Start")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -709,7 +714,7 @@ namespace IgescConecta.API.Migrations
 
                     b.HasIndex("ProjectProgramId");
 
-                    b.ToTable("Team");
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.User", b =>
@@ -730,7 +735,7 @@ namespace IgescConecta.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatedBy")
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -779,7 +784,7 @@ namespace IgescConecta.API.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UpdatedBy")
+                    b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
@@ -1087,7 +1092,7 @@ namespace IgescConecta.API.Migrations
             modelBuilder.Entity("IgescConecta.Domain.Entities.Team", b =>
                 {
                     b.HasOne("IgescConecta.Domain.Entities.Course", "Course")
-                        .WithMany()
+                        .WithMany("Teams")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1106,14 +1111,12 @@ namespace IgescConecta.API.Migrations
                     b.HasOne("IgescConecta.Domain.Entities.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("IgescConecta.Domain.Entities.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
 
@@ -1189,6 +1192,11 @@ namespace IgescConecta.API.Migrations
             modelBuilder.Entity("IgescConecta.Domain.Entities.BusinessCase", b =>
                 {
                     b.Navigation("Origins");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Course", b =>
+                {
+                    b.Navigation("Teams");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.Osc", b =>

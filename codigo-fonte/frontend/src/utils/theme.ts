@@ -38,9 +38,6 @@ const theme = createTheme({
             borderWidth: 2,
           },
         },
-        notchedOutline: {
-          borderColor: '#666f77',
-        },
         input: {
           color: '#000000',
           '&:-webkit-autofill': {

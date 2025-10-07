@@ -11,8 +11,7 @@ namespace IgescConecta.Domain.Entities
 {
     public class PersonTeam : BaseEntity
     {
-        public ICollection<MemberType> MemberTypes { get; set; }
-
+        public IList<MemberType> MemberTypes { get; set; } = new List<MemberType>();
         public int PersonId { get; set; }
 
         public int TeamId { get; set; }
