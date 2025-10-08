@@ -7,6 +7,8 @@ import Home from './../pages/Home';
 import PrivateRoute from './privateRoute';
 import Course from './../pages/Course';
 import Team from '@/pages/Team';
+import Osc from './../pages/Osc';
+import Beneficiary from '@/pages/Beneficiary';
 import { Box } from '@mui/material';
 import SideMenu from '@/components/SideMenu';
 
@@ -17,6 +19,8 @@ const routeConfig = [
   { path: '/home', element: <Home />, isPrivate: true },
   { path: '/course', element: <Course />, isPrivate: true },
   { path: '/team', element: <Team />, isPrivate: true },
+  { path: '/osc', element: <Osc />, isPrivate: true },
+  { path: '/beneficiary', element: <Beneficiary />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
@@ -33,7 +37,7 @@ export default function AppRoutes() {
           element={
             isPrivate ? (
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                {/* <SideMenu /> */} {/* Provisório para testes */}
+                <SideMenu /> {/* Provisório para testes */}
 
                 <PrivateRoute>{element}</PrivateRoute>
               </Box>

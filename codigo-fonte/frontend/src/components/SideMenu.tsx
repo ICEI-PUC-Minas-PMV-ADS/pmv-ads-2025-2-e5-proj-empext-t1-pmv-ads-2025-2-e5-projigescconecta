@@ -28,6 +28,8 @@ const menuItems = [
   { path: '/home', label: 'Início', icon: <HomeIcon /> },
   { path: '/course', label: 'Cursos', icon: <SchoolIcon /> },
   { path: '/team', label: 'Equipe', icon: <GroupIcon /> },
+  { path: '/osc', label: 'OSC', icon: <GroupIcon /> },
+  { path: '/beneficiary', label: 'Publico', icon: <GroupIcon /> },
 ];
 
 export default function SideMenu() {
