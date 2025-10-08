@@ -5,15 +5,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**courseId** | **number** |  | [optional] [default to undefined]
-**projectProgramId** | **number** |  | [optional] [default to undefined]
+**teamId** | **number** |  | [optional] [default to undefined]
+**name** | **string** |  | [optional] [default to undefined]
+**lessonTime** | **string** |  | [optional] [default to undefined]
 **start** | **string** |  | [optional] [default to undefined]
 **finish** | **string** |  | [optional] [default to undefined]
+**courseId** | **number** |  | [optional] [default to undefined]
+**courseName** | **string** |  | [optional] [default to undefined]
+**projectProgramId** | **number** |  | [optional] [default to undefined]
+**projectProgramName** | **string** |  | [optional] [default to undefined]
+**personTeamsCount** | **number** |  | [optional] [default to undefined]
 **isDeleted** | **boolean** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
-**courseName** | **string** |  | [optional] [default to undefined]
-**projectProgramName** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -21,15 +24,18 @@ Name | Type | Description | Notes
 import { GetTeamByIdResponse } from './api';
 
 const instance: GetTeamByIdResponse = {
-    id,
-    courseId,
-    projectProgramId,
+    teamId,
+    name,
+    lessonTime,
     start,
     finish,
+    courseId,
+    courseName,
+    projectProgramId,
+    projectProgramName,
+    personTeamsCount,
     isDeleted,
     createdAt,
-    courseName,
-    projectProgramName,
 };
 ```
 
