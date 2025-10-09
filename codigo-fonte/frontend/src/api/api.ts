@@ -84,19 +84,19 @@ export interface CourseViewModel {
      * @type {number}
      * @memberof CourseViewModel
      */
-    'id'?: number;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
      * @memberof CourseViewModel
      */
-    'name'?: string;
+    'name'?: string | null;
     /**
      * 
-     * @type {boolean}
+     * @type {number}
      * @memberof CourseViewModel
      */
-    'isDeleted'?: boolean;
+    'teamsCount'?: number;
 }
 /**
  * 
@@ -293,19 +293,37 @@ export interface CreateTeamRequest {
      * @type {string}
      * @memberof CreateTeamRequest
      */
-    'start'?: string;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof CreateTeamRequest
      */
-    'finish'?: string;
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateTeamRequest
+     */
+    'personTeamsIds'?: Array<number>;
     /**
      * 
      * @type {number}
      * @memberof CreateTeamRequest
      */
-    'projectProgramId'?: number;
+    'projectProgramId'?: number | null;
     /**
      * 
      * @type {number}
@@ -439,25 +457,43 @@ export interface EditTeamRequest {
      * @type {string}
      * @memberof EditTeamRequest
      */
-    'start'?: string;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof EditTeamRequest
      */
-    'finish'?: string;
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof EditTeamRequest
+     */
+    'personTeamsIds'?: Array<number> | null;
     /**
      * 
      * @type {number}
      * @memberof EditTeamRequest
      */
-    'projectProgramId'?: number;
+    'projectProgramId'?: number | null;
     /**
      * 
      * @type {number}
      * @memberof EditTeamRequest
      */
-    'courseId'?: number;
+    'courseId'?: number | null;
 }
 /**
  * 
@@ -471,6 +507,12 @@ export interface EditTeamResponse {
      * @memberof EditTeamResponse
      */
     'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamResponse
+     */
+    'name'?: string | null;
 }
 /**
  * 
@@ -630,19 +672,25 @@ export interface GetCourseByIdViewModel {
      * @type {number}
      * @memberof GetCourseByIdViewModel
      */
-    'id'?: number;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
      * @memberof GetCourseByIdViewModel
      */
-    'name'?: string;
+    'name'?: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof GetCourseByIdViewModel
      */
     'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseByIdViewModel
+     */
+    'teamsCount'?: number | null;
     /**
      * 
      * @type {number}
@@ -667,6 +715,12 @@ export interface GetCourseByIdViewModel {
      * @memberof GetCourseByIdViewModel
      */
     'updatedAt'?: string;
+    /**
+     * 
+     * @type {Array<TeamViewModel>}
+     * @memberof GetCourseByIdViewModel
+     */
+    'teams'?: Array<TeamViewModel>;
 }
 /**
  * 
@@ -828,31 +882,61 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
-    'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof GetTeamByIdResponse
-     */
-    'courseId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof GetTeamByIdResponse
-     */
-    'projectProgramId'?: number;
+    'teamId'?: number;
     /**
      * 
      * @type {string}
      * @memberof GetTeamByIdResponse
      */
-    'start'?: string;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof GetTeamByIdResponse
      */
-    'finish'?: string;
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'courseId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'courseName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'projectProgramId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'projectProgramName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'personTeamsCount'?: number;
     /**
      * 
      * @type {boolean}
@@ -865,18 +949,6 @@ export interface GetTeamByIdResponse {
      * @memberof GetTeamByIdResponse
      */
     'createdAt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetTeamByIdResponse
-     */
-    'courseName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetTeamByIdResponse
-     */
-    'projectProgramName'?: string;
 }
 /**
  * 
@@ -1101,6 +1173,79 @@ export interface ListOscViewModel {
 /**
  * 
  * @export
+ * @interface ListTeamItemViewModel
+ */
+export interface ListTeamItemViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'projectProgramId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'projectProgramName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'courseId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'courseName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'personTeamsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListTeamItemViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface ListTeamRequest
  */
 export interface ListTeamRequest {
@@ -1137,10 +1282,10 @@ export interface ListTeamViewModel {
     'totalItems'?: number;
     /**
      * 
-     * @type {Array<TeamViewModel>}
+     * @type {Array<ListTeamItemViewModel>}
      * @memberof ListTeamViewModel
      */
-    'items'?: Array<TeamViewModel>;
+    'items'?: Array<ListTeamItemViewModel>;
 }
 /**
  * 
@@ -1368,31 +1513,25 @@ export interface TeamViewModel {
      * @type {string}
      * @memberof TeamViewModel
      */
-    'start'?: string;
+    'name'?: string | null;
     /**
      * 
      * @type {string}
      * @memberof TeamViewModel
      */
-    'finish'?: string;
+    'lessonTime'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof TeamViewModel
      */
-    'projectProgramId'?: number;
+    'start'?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof TeamViewModel
      */
-    'courseId'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TeamViewModel
-     */
-    'isDeleted'?: boolean;
+    'finish'?: string | null;
 }
 /**
  * 
@@ -4138,7 +4277,7 @@ export const TeamsApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         createTeam: async (createTeamRequest?: CreateTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/teams`;
+            const localVarPath = `/api/teams/CreateTeam`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

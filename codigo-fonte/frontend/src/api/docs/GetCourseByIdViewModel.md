@@ -5,13 +5,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
+**courseId** | **number** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
 **isDeleted** | **boolean** |  | [optional] [default to undefined]
+**teamsCount** | **number** |  | [optional] [default to undefined]
 **createdBy** | **number** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
 **updatedBy** | **number** |  | [optional] [default to undefined]
 **updatedAt** | **string** |  | [optional] [default to undefined]
+**teams** | [**Array&lt;TeamViewModel&gt;**](TeamViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -19,13 +21,15 @@ Name | Type | Description | Notes
 import { GetCourseByIdViewModel } from './api';
 
 const instance: GetCourseByIdViewModel = {
-    id,
+    courseId,
     name,
     isDeleted,
+    teamsCount,
     createdBy,
     createdAt,
     updatedBy,
     updatedAt,
+    teams,
 };
 ```
 

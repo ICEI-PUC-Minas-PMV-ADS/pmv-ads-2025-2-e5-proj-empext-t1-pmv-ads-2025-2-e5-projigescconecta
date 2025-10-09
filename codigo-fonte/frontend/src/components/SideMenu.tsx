@@ -26,8 +26,9 @@ const IGESC_COLORS = {
 
 const menuItems = [
   { path: '/home', label: 'Início', icon: <HomeIcon /> },
-  { path: '/course', label: 'Cursos', icon: <SchoolIcon /> },
-  { path: '/team', label: 'Equipe', icon: <GroupIcon /> },
+  { path: '/course', label: 'Programa', icon: <SchoolIcon /> },
+  { path: '/team', label: 'Turma', icon: <GroupIcon /> },
+  { path: '/osc', label: 'Osc', icon: <GroupIcon /> },
 ];
 
 export default function SideMenu() {

@@ -9,6 +9,7 @@ import Course from './../pages/Course';
 import Team from '@/pages/Team';
 import { Box } from '@mui/material';
 import SideMenu from '@/components/SideMenu';
+import Osc from '@/pages/Osc';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -17,6 +18,7 @@ const routeConfig = [
   { path: '/home', element: <Home />, isPrivate: true },
   { path: '/course', element: <Course />, isPrivate: true },
   { path: '/team', element: <Team />, isPrivate: true },
+  { path: '/osc', element: <Osc />, isPrivate: true },
 ];
 
 export default function AppRoutes() {

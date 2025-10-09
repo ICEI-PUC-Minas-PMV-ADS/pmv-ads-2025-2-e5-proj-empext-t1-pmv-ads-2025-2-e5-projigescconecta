@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **totalItems** | **number** |  | [optional] [default to undefined]
-**items** | [**Array&lt;TeamViewModel&gt;**](TeamViewModel.md) |  | [optional] [default to undefined]
+**items** | [**Array&lt;ListTeamItemViewModel&gt;**](ListTeamItemViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
 
