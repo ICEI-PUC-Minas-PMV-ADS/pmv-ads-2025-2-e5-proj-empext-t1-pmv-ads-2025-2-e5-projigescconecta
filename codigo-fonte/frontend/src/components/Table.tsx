@@ -17,6 +17,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 /**
  * Exemplo de uso da Tabela com ações e paginação backend:
@@ -93,6 +94,7 @@ type TableProps<T> = {
   onView?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+  onOriginBusinessCase?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -108,6 +110,7 @@ function Table<T extends { [key: string]: any }>({
   onView,
   onEdit,
   onDelete,
+  onOriginBusinessCase,
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -121,7 +124,7 @@ function Table<T extends { [key: string]: any }>({
     onPageChange(0);
   };
 
-  const hasActions = onView || onEdit || onDelete;
+  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase;
 
   return (
     <Box>
@@ -314,6 +317,33 @@ function Table<T extends { [key: string]: any }>({
                           }}
                         >
                           Remover
+                        </Button>
+                      )}
+                      {onOriginBusinessCase &&(
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          startIcon={<TravelExploreIcon sx={{ fontSize: '1rem' }} />}
+                          onClick={() => onOriginBusinessCase?.(row)}
+                          sx={{
+                            minWidth: 0,
+                            color: '#7244efff',
+                            borderColor: alpha('#7244efff', 0.3),
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            fontSize: '0.85rem',
+                            px: 2,
+                            py: 0.75,
+                            borderRadius: 1.5,
+                            '&:hover': {
+                              borderColor: '#7244efff',
+                              bgcolor: alpha('#7244efff', 0.08),
+                              borderWidth: 1.5,
+                            },
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          Causas
                         </Button>
                       )}
                     </Stack>

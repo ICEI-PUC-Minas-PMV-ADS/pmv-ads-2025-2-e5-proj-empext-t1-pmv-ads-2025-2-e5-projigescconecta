@@ -31,38 +31,34 @@ import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { toast } from 'react-toastify';
 import {
-    OscsApi,
-    BeneficiariesApi,
-    CreateBeneficiaryRequest,
-    UpdateBeneficiaryRequest,
-    ListBeneficiaryRequest,
+    OriginsBusinessCasesApi,
+    CreateOriginBusinessCaseRequest,
+    UpdateOriginBusinessCaseRequest,
+    ListOriginBusinessCaseRequest,
     Filter,
     Op,
-} from './../api';
+} from '../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 dayjs.locale('pt-br');
 
-interface Beneficiary {
-    beneficiaryId?: number;
+interface OriginBusinessCase {
+    originBusinessCaseId?: number;
     name?: string;
-    oscs?: Osc[];
+    businessCaseId?: number;
 }
 
-interface Osc {
-    oscId?: number;
-    name?: string;
-    corporateName?: string;
-}
+const OriginBusinessCase: React.FC = () => {
+    const { businessCaseId } = useParams<{ businessCaseId: string }>();
 
-const Beneficiary: React.FC = () => {
-
-    const [beneficiary, setBeneficiaries] = useState<Beneficiary[]>([]);
+    const [originBusinessCase, setOriginBusinessCase] = useState<OriginBusinessCase[]>([]);
     const [loading, setLoading] = useState(false);
     const [modalLoading, setModalLoading] = useState(false);
     const [page, setPage] = useState(0);
@@ -71,59 +67,61 @@ const Beneficiary: React.FC = () => {
     const [noDataMessage, setNoDataMessage] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [isVisualizing, setIsVisualizing] = useState(false);
-    const [updateBeneficiary, setUpdateBeneficiary] = useState<Beneficiary | null>(null);
-    const [createBeneficiary, setCreateBeneficiary] = useState<Beneficiary | null>(null);
-    const [selectedBeneficiary, setSelectedBeneficiary] = useState<Beneficiary | null>(null);
+    const [updateOriginBusinessCase, setUpdateOriginBusinessCase] = useState<OriginBusinessCase | null>(null);
+    const [createOriginBusinessCase, setCreateOriginBusinessCase] = useState<OriginBusinessCase | null>(null);
+    const [selectedOriginBusinessCase, setSelectedOriginBusinessCase] = useState<OriginBusinessCase | null>(null);
 
-    const [filterBeneficiaryName, setFilterBeneficiaryName] = useState('');
+    const [filterOriginBusinessCaseName, setFilterOriginBusinessCaseName] = useState<string>('');
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
+    const [originBusinessCaseToDelete, setOriginBusinessCaseToDelete] = useState<OriginBusinessCase | null>(null);
 
-    const beneficiariesApi = new BeneficiariesApi(apiConfig);
-    const oscsApi = new OscsApi(apiConfig);
+    const originBusinessCasesApi = new OriginsBusinessCasesApi(apiConfig);
+    const navigate = useNavigate();
+
 
     const dialogTitle = () => {
-        return isVisualizing ? 'Visualizar Publico' : updateBeneficiary ? 'Atualizar Publico' : 'Criar Publico';
+        return isVisualizing ? 'Visualizar Causa' : updateOriginBusinessCase ? 'Editar Causa' : 'Adicionar Causa';
     }
 
     useEffect(() => {
-        fetchBeneficiaries();
+        fetchOriginBusinessCases();
     }, [page, rowsPerPage]);
 
-    const fetchBeneficiaries = async (customFilters?: Filter[]) => {
+    const fetchOriginBusinessCases = async (customFilters?: Filter[]) => {
         try {
             setLoading(true);
-            setBeneficiaries([]);
+            setOriginBusinessCase([]);
 
             const filters: Filter[] = customFilters ? customFilters : [];
 
-            const listBeneficiaryRequest: ListBeneficiaryRequest = {
+            const listOriginBusinessCaseRequest: ListOriginBusinessCaseRequest = {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
+                businessCaseId: businessCaseId!
             };
 
-            const { data } = await beneficiariesApi.listBeneficiary(listBeneficiaryRequest);
+            const { data } = await originBusinessCasesApi.listOriginBusinessCase(listOriginBusinessCaseRequest);
 
             if (!data.items || data.items.length === 0) {
-                setNoDataMessage('Nenhum público encontrado.');
-                setBeneficiaries([]);
+                setNoDataMessage('Nenhuma causa encontrada');
+                setOriginBusinessCase([]);
                 return;
             }
 
-            setBeneficiaries(
+            setOriginBusinessCase(
                 (data.items ?? []).map((item) => ({
-                    ...item,
+                    ...item
                 }))
             );
 
             setTotalCount(data.totalItems || 0);
             setNoDataMessage('');
         } catch (error) {
-            console.error('Erro ao carregar publico:', error);
-            toast.error('Erro ao carregar publico.');
-            setBeneficiaries([]);
+            console.error('Erro ao carregar causas:', error);
+            toast.error('Erro ao carregar causas');
+            setOriginBusinessCase([]);
             setTotalCount(0);
         } finally {
             setLoading(false);
@@ -133,26 +131,26 @@ const Beneficiary: React.FC = () => {
     const handleSearch = () => {
         const filters: Filter[] = [];
 
-        if (filterBeneficiaryName && filterBeneficiaryName.trim() !== '') {
+        if (filterOriginBusinessCaseName && filterOriginBusinessCaseName.trim() !== '') {
             filters.push({
                 propertyName: 'name',
                 operation: 7,
-                value: filterBeneficiaryName.trim(),
+                value: filterOriginBusinessCaseName.trim()
             });
         }
         setPage(0);
-        fetchBeneficiaries(filters);
+        fetchOriginBusinessCases(filters);
     }
 
     const handleClearFilters = () => {
         setPage(0);
-        setFilterBeneficiaryName('');
-        fetchBeneficiaries([]);
+        setFilterOriginBusinessCaseName('');
+        fetchOriginBusinessCases([]);
     }
 
     const handleAdd = () => {
-        setCreateBeneficiary({
-            name: ''
+        setCreateOriginBusinessCase({ 
+            name: '',
         });
         setIsVisualizing(false);
         resetForm();
@@ -160,7 +158,7 @@ const Beneficiary: React.FC = () => {
     }
 
     const resetForm = () => {
-        setUpdateBeneficiary(null);
+        setUpdateOriginBusinessCase(null);
     }
 
     const handleCloseModal = () => {
@@ -168,110 +166,112 @@ const Beneficiary: React.FC = () => {
         setTimeout(() => {
             resetForm();
             setIsVisualizing(false);
-            setSelectedBeneficiary(null);
+            setSelectedOriginBusinessCase(null);
         }, 300);
     }
 
-    const handleUpdateBeneficiary = async (beneficiary: Beneficiary) => {
+    const handleUpdateOriginBusinessCase = async (originBusinessCase: OriginBusinessCase) => {
         try {
             setModalLoading(true);
 
-            const { data } = await beneficiariesApi.getBeneficiary(beneficiary.beneficiaryId!);
+            const { data } = await originBusinessCasesApi.getOriginBusinessCase(originBusinessCase.originBusinessCaseId!);
 
-            setUpdateBeneficiary(data);
+            setUpdateOriginBusinessCase(data);
             setIsVisualizing(false);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar dados do publico:', error);
-            toast.error('Erro ao carregar dados do publico.');
+            console.error('Erro ao carregar causa:', error);
+            toast.error('Erro ao carregar causa');
         } finally {
             setModalLoading(false);
         }
     }
 
-    const handleView = async (beneficiary: Beneficiary) => {
+    const handleViewOriginBusinessCase = async (originBusinessCase: OriginBusinessCase) => {
         try {
-            const { data } = await beneficiariesApi.getBeneficiary(beneficiary.beneficiaryId!);
-            setSelectedBeneficiary(data);
+            const { data } = await originBusinessCasesApi.getOriginBusinessCase(originBusinessCase.originBusinessCaseId!);
+            setSelectedOriginBusinessCase(data);
             setIsVisualizing(true);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar dados do publico:', error);
-            toast.error('Erro ao carregar dados do publico.');
+            console.error('Erro ao carregar causa:', error);
+            toast.error('Erro ao carregar causa');
+        } finally {
+            setModalLoading(false);
         }
     }
 
-    const handleDelete = async (beneficiary: Beneficiary) => {
-        setBeneficiaryToDelete(beneficiary);
+    const handleDelete = async (originBusinessCase: OriginBusinessCase) => {
+        setOriginBusinessCaseToDelete(originBusinessCase);
         setOpenDeleteModal(true);
     }
 
     const confirmDelete = async () => {
-        if (!beneficiaryToDelete)
+        if (!originBusinessCaseToDelete)
             return;
 
         try {
-            await beneficiariesApi.deleteBeneficiary(beneficiaryToDelete.beneficiaryId!);
-            toast.success('Publico deletado com sucesso.');
-            fetchBeneficiaries();
+            await originBusinessCasesApi.deleteOriginBusinessCase(originBusinessCaseToDelete.originBusinessCaseId!);
+            toast.success('Causa deletada com sucesso');
+            fetchOriginBusinessCases();
         } catch (error) {
-            console.error('Erro ao deletar publico:', error);
-            toast.error('Erro ao deletar publico.');
+            console.error('Erro ao deletar causa:', error);
+            toast.error('Erro ao deletar causa');
         } finally {
             setOpenDeleteModal(false);
-            setBeneficiaryToDelete(null);
+            setOriginBusinessCaseToDelete(null);
         }
     }
 
     const handleSave = async () => {
-        const beneficiaryForm = updateBeneficiary || createBeneficiary;
+        const originBusinessCaseForm = updateOriginBusinessCase || createOriginBusinessCase;
 
-        if (!validateBeneficiaryForm(beneficiaryForm))
+        if (!validateBeneficiaryForm(originBusinessCaseForm))
             return;
 
-        if (updateBeneficiary) {
+        if (updateOriginBusinessCase) {
             try {
-                const updateBeneficiaryRequest: UpdateBeneficiaryRequest = {
-                    name: updateBeneficiary.name!,
+                const updateOriginBusinessCaseRequest: UpdateOriginBusinessCaseRequest = {
+                    name: originBusinessCaseForm?.name!,
                 };
 
-                await beneficiariesApi.updateBeneficiary(updateBeneficiary.beneficiaryId!, updateBeneficiaryRequest);
-
-                toast.success('Publico atualizado com sucesso.');
+                await originBusinessCasesApi.updateOriginBusinessCase(updateOriginBusinessCase!.originBusinessCaseId!, updateOriginBusinessCaseRequest);
+                toast.success('Causa atualizada com sucesso');
                 handleCloseModal();
-                fetchBeneficiaries();
+                fetchOriginBusinessCases();
             } catch (error) {
-                console.error('Erro ao atualizar publico:', error);
-                toast.error('Erro ao atualizar publico.');
+                console.error('Erro ao atualizar causa:', error);
+                toast.error('Erro ao atualizar causa');
             } finally {
                 setModalLoading(false);
             }
         }
         else {
             try {
-                const createBeneficiaryRequest: CreateBeneficiaryRequest = {
-                    name: createBeneficiary!.name!,
+                const createOriginBusinessCaseRequest: CreateOriginBusinessCaseRequest = {
+                    name: originBusinessCaseForm?.name!,
+                    businessCaseId: Number(businessCaseId),
                 };
 
-                await beneficiariesApi.createBeneficiary(createBeneficiaryRequest);
+                await originBusinessCasesApi.createOriginBusinessCase(createOriginBusinessCaseRequest);
 
-                toast.success('Publico criado com sucesso.');
+                toast.success('Causa criada com sucesso');
                 handleCloseModal();
-                fetchBeneficiaries();
+                fetchOriginBusinessCases();
             } catch (error) {
-                console.error('Erro ao criar publico:', error);
-                toast.error('Erro ao criar publico.');
+                console.error('Erro ao criar causa:', error);
+                toast.error('Erro ao criar causa');
             } finally {
                 setModalLoading(false);
             }
         }
     }
 
-    const validateBeneficiaryForm = (beneficiary: any): boolean => {
+    const validateBeneficiaryForm = (originBusinessCase: any): boolean => {
         const requiredFields = ['name'];
 
         for (const field of requiredFields) {
-            if (!beneficiary[field] || beneficiary[field].toString().trim() === '') {
+            if (!originBusinessCase[field] || originBusinessCase[field].toString().trim() === '') {
                 toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
                 return false;
             }
@@ -287,8 +287,8 @@ const Beneficiary: React.FC = () => {
         return mapping[field] || field;
     }
 
-    const columns: Column<Beneficiary>[] = [
-        { label: 'ID', field: 'beneficiaryId' },
+    const columns: Column<OriginBusinessCase>[] = [
+        { label: 'ID', field: 'originBusinessCaseId' },
         { label: 'Nome', field: 'name' },
     ];
 
@@ -313,9 +313,32 @@ const Beneficiary: React.FC = () => {
                     }}
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-                        <TitleAndButtons title="Lista de Publico" onAdd={handleAdd} addLabel="Novo Publico" />
 
-                        {/* Filtro por nome de Publico */}
+    <Button
+        variant="outlined"
+        startIcon={<ArrowBackIcon />}
+        onClick={() => navigate(-1)}
+        sx={{
+            borderColor: '#1E4EC4',
+            color: '#1E4EC4',
+            fontWeight: 600,
+            textTransform: 'none',
+            borderRadius: 2,
+            mr: 2,
+            mb: 2,
+            '&:hover': {
+                bgcolor: alpha('#1E4EC4', 0.05),
+                borderColor: '#1E4EC4',
+            },
+        }}
+    >
+        Voltar
+    </Button>
+
+
+                        <TitleAndButtons title="Lista de Causa" onAdd={handleAdd} addLabel="Novo Causa" />
+
+                        {/* Filtro por nome de Causa */}
                         <Paper
                             elevation={0}
                             sx={{
@@ -344,10 +367,10 @@ const Beneficiary: React.FC = () => {
                                         fontSize: '1.1rem',
                                     }}
                                 >
-                                    Busca de Publico
+                                    Busca de Causa
                                 </Typography>
 
-                                {filterBeneficiaryName && (
+                                {filterOriginBusinessCaseName && (
                                     <Chip
                                         label="Busca ativa"
                                         size="small"
@@ -365,9 +388,9 @@ const Beneficiary: React.FC = () => {
                             <Grid container spacing={{ xs: 2, md: 2.5 }}>
                                 <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                                     <TextField
-                                        label="Nome do Publico"
-                                        value={filterBeneficiaryName}
-                                        onChange={(e) => setFilterBeneficiaryName(e.target.value)}
+                                        label="Nome do Causa"
+                                        value={filterOriginBusinessCaseName}
+                                        onChange={(e) => setFilterOriginBusinessCaseName(e.target.value)}
                                         placeholder="Digite o nome..."
                                         fullWidth
                                         size="small"
@@ -468,14 +491,14 @@ const Beneficiary: React.FC = () => {
                             ) : (
                                 <Table
                                     columns={columns}
-                                    data={beneficiary}
+                                    data={originBusinessCase}
                                     page={page}
                                     rowsPerPage={rowsPerPage}
                                     totalCount={totalCount}
                                     onPageChange={setPage}
                                     onRowsPerPageChange={setRowsPerPage}
-                                    onEdit={handleUpdateBeneficiary}
-                                    onView={handleView}
+                                    onEdit={handleUpdateOriginBusinessCase}
+                                    onView={handleViewOriginBusinessCase}
                                     onDelete={handleDelete}
                                 />
                             )}
@@ -487,8 +510,8 @@ const Beneficiary: React.FC = () => {
                             onClose={() => setOpenDeleteModal(false)}
                             onConfirm={confirmDelete}
                             title='Confirmar exclusão'
-                            message='Deseja realmente excluir este Publico?'
-                            highlightText={beneficiaryToDelete?.name}
+                            message='Deseja realmente excluir este Causa?'
+                            highlightText={originBusinessCaseToDelete?.name}
                             confirmLabel='Excluir'
                             cancelLabel='Cancelar'
                             danger
@@ -522,79 +545,33 @@ const Beneficiary: React.FC = () => {
                             </DialogTitle>
 
                             <DialogContent sx={{ p: 3, mt: 1 }}>
-                                {isVisualizing && selectedBeneficiary ? (
+                                {isVisualizing && selectedOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                         {/* Dados principais */}
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes da Publico</Typography>
+                                            <Typography variant="h6" gutterBottom>Detalhes da Causa</Typography>
                                             <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedBeneficiary.beneficiaryId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedBeneficiary.name}</Typography>
-                                        </Box>
-
-                                        {/* OSC */}
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                <strong>OSC</strong>
-                                            </Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            {selectedBeneficiary.oscs && selectedBeneficiary.oscs.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1}>
-                                                    {selectedBeneficiary.oscs.map((b) => (
-                                                        <Chip
-                                                            key={b.oscId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                            sx={{ fontWeight: 500 }}
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary">Nenhum OSC associado.</Typography>
-                                            )}
+                                            <Typography><strong>ID:</strong> {selectedOriginBusinessCase.originBusinessCaseId}</Typography>
+                                            <Typography><strong>Nome:</strong> {selectedOriginBusinessCase.name}</Typography>
                                         </Box>
                                     </Box>
-                                ) : updateBeneficiary ? (
+                                ) : updateOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
                                             label="Nome"
-                                            value={updateBeneficiary.name || ''}
-                                            onChange={(e) => setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })}
+                                            value={updateOriginBusinessCase.name || ''}
+                                            onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
-
-                                        {/* Chips de OSC */}
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                <strong>OSC</strong>
-                                            </Typography>
-                                            <Divider sx={{ mb: 2 }} />
-
-                                            {updateBeneficiary.oscs && updateBeneficiary.oscs.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                                    {updateBeneficiary.oscs.map((b) => (
-                                                        <Chip
-                                                            key={b.oscId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary" mt={1}>Nenhum OSC.</Typography>
-                                            )}
-                                        </Box>
                                     </Box>
-                                ) : createBeneficiary ? (
+                                ) : createOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
                                             label="Nome"
-                                            value={createBeneficiary.name || ''}
-                                            onChange={(e) => setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })}
+                                            value={createOriginBusinessCase.name || ''}
+                                            onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                     </Box>) :
@@ -682,7 +659,7 @@ const Beneficiary: React.FC = () => {
                 </Paper>
             </Container>
         </LocalizationProvider>
-    );
-};
+    )
+}
 
-export default Beneficiary;
+export default OriginBusinessCase;

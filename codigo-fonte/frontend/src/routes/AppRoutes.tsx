@@ -11,6 +11,8 @@ import Osc from './../pages/Osc';
 import Beneficiary from '@/pages/Beneficiary';
 import { Box } from '@mui/material';
 import SideMenu from '@/components/SideMenu';
+import BusinessCase from '@/pages/BusinessCase';
+import OriginBusinessCase from '@/pages/OriginBusinessCase';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -21,6 +23,8 @@ const routeConfig = [
   { path: '/team', element: <Team />, isPrivate: true },
   { path: '/osc', element: <Osc />, isPrivate: true },
   { path: '/beneficiary', element: <Beneficiary />, isPrivate: true },
+  { path: '/business-case', element: <BusinessCase />, isPrivate: true },
+  { path: '/business-case/:businessCaseId/origin-business-case', element: <OriginBusinessCase />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
