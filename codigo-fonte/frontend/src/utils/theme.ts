@@ -33,7 +33,7 @@ const theme = createTheme({
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: '#1E4EC4',
           },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+          '&.Mui-focused:not(.Mui-disabled) .MuiOutlinedInput-notchedOutline:not(.Mui-disabled)': {
             borderColor: '#1E4EC4',
             borderWidth: 2,
           },
@@ -69,13 +69,8 @@ const theme = createTheme({
           textTransform: 'none',
           fontWeight: 600,
           '&:hover': {
-            backgroundColor: '#1a9446',
-            transform: 'scale(1.02)',
-          },
-          '&:disabled': {
-            backgroundColor: '#BEEBD0',
-            color: '#FFFFFF',
-          },
+            transform: 'scale(1.02)'
+          }
         },
       },
     },

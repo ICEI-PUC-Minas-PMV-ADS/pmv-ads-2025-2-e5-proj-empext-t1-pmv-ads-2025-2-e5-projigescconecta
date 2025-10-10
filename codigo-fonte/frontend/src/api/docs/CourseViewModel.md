@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
+**courseId** | **number** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
-**isDeleted** | **boolean** |  | [optional] [default to undefined]
+**teamsCount** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -15,9 +15,9 @@ Name | Type | Description | Notes
 import { CourseViewModel } from './api';
 
 const instance: CourseViewModel = {
-    id,
+    courseId,
     name,
-    isDeleted,
+    teamsCount,
 };
 ```
 

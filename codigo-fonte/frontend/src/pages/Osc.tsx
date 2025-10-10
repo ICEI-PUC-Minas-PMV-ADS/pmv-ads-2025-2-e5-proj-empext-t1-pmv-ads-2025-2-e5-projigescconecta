@@ -136,8 +136,8 @@ const Osc: React.FC = () => {
 
       setBeneficiaryResults(data.items || []);
     } catch (error) {
-      console.error('Erro ao buscar beneficiários', error);
-      toast.error('Erro ao buscar beneficiários');
+      console.error('Erro ao buscar Público', error);
+      toast.error('Erro ao buscar Público');
     } finally {
       setBeneficiaryLoading(false);
     }
@@ -166,8 +166,8 @@ const Osc: React.FC = () => {
 
       setOriginBusinessCaseResults(data.items || []);
     } catch (error) {
-      console.error('Erro ao buscar Casos de Negócio', error);
-      toast.error('Erro ao buscar Casos de Negócio');
+      console.error('Erro ao buscar Causa', error);
+      toast.error('Erro ao buscar Causa');
     } finally {
       setOriginBusinessCaseLoading(false);
     }
@@ -664,10 +664,10 @@ const Osc: React.FC = () => {
                       <Typography><strong>Documento Primário:</strong> {selectedOsc.oscPrimaryDocumment}</Typography>
                     </Box>
 
-                    {/* Beneficiários */}
+                    {/* Público */}
                     <Box>
                       <Typography variant="h6" gutterBottom>
-                        <strong>Beneficiários</strong>
+                        <strong>Público</strong>
                       </Typography>
                       <Divider sx={{ mb: 2 }} />
                       {selectedOsc.beneficiaries && selectedOsc.beneficiaries.length > 0 ? (
@@ -688,7 +688,7 @@ const Osc: React.FC = () => {
                     </Box>
                     <Box>
                       <Typography variant="h6" gutterBottom>
-                        <strong>Casos de Negócio</strong>
+                        <strong>Causas</strong>
                       </Typography>
                       <Divider sx={{ mb: 2 }} />
                       {selectedOsc.originsBusinessCases && selectedOsc.originsBusinessCases.length > 0 ? (
@@ -705,7 +705,7 @@ const Osc: React.FC = () => {
                         </Stack>
                       ) : (
                         <Typography color="text.secondary">
-                          Nenhum caso de negócio associado.
+                          Nenhuma causa associada.
                         </Typography>
                       )}
                     </Box>
@@ -750,9 +750,9 @@ const Osc: React.FC = () => {
                       fullWidth
                     />
 
-                    {/* Beneficiários editáveis */}
+                    {/* Público editáveis */}
                     <Box>
-                      <Typography variant="subtitle1"><strong>Beneficiários</strong></Typography>
+                      <Typography variant="subtitle1"><strong>Público</strong></Typography>
                       <Divider sx={{ mb: 2 }} />
 
                       <Autocomplete
@@ -816,9 +816,9 @@ const Osc: React.FC = () => {
                       )}
                     </Box>
 
-                    {/* Casos de negócio editáveis */}
+                    {/* Causa editáveis */}
                     <Box mt={3}>
-                      <Typography variant="subtitle1"><strong>Casos de Negócio</strong></Typography>
+                      <Typography variant="subtitle1"><strong>Causas</strong></Typography>
                       <Divider sx={{ mb: 2 }} />
 
                       <Autocomplete
@@ -848,7 +848,7 @@ const Osc: React.FC = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            placeholder="Buscar caso de negócio..."
+                            placeholder="Buscar causa..."
                             size="small"
                           />
                         )}
@@ -856,7 +856,7 @@ const Osc: React.FC = () => {
                         fullWidth
                       />
 
-                      {/* Chips de Casos de Negócio */}
+                      {/* Chips de Causa */}
                       {updateOsc.originsBusinessCases && updateOsc.originsBusinessCases.length > 0 ? (
                         <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                           {updateOsc.originsBusinessCases.map((obc) => (
@@ -877,7 +877,7 @@ const Osc: React.FC = () => {
                           ))}
                         </Stack>
                       ) : (
-                        <Typography color="text.secondary" mt={1}>Nenhum caso de negócio.</Typography>
+                        <Typography color="text.secondary" mt={1}>Nenhuma causa.</Typography>
                       )}
                     </Box>
                   </Box>
@@ -921,9 +921,9 @@ const Osc: React.FC = () => {
                       fullWidth
                     />
 
-                    {/* Beneficiários editáveis */}
+                    {/* Público editáveis */}
                     <Box>
-                      <Typography variant="subtitle1"><strong>Beneficiários</strong></Typography>
+                      <Typography variant="subtitle1"><strong>Público</strong></Typography>
                       <Divider sx={{ mb: 2 }} />
 
                       <Autocomplete
@@ -961,7 +961,7 @@ const Osc: React.FC = () => {
                         fullWidth
                       />
 
-                      {/* Chips de beneficiários */}
+                      {/* Chips de Público */}
                       {createOsc.beneficiaries && createOsc.beneficiaries.length > 0 ? (
                         <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                           {createOsc.beneficiaries.map((b) => (
@@ -986,9 +986,9 @@ const Osc: React.FC = () => {
                       )}
                     </Box>
 
-                    {/* Casos de negócio editáveis */}
+                    {/* Causa editáveis */}
                     <Box mt={3}>
-                      <Typography variant="subtitle1"><strong>Casos de Negócio</strong></Typography>
+                      <Typography variant="subtitle1"><strong>Causa</strong></Typography>
                       <Divider sx={{ mb: 2 }} />
 
                       <Autocomplete
@@ -1026,7 +1026,7 @@ const Osc: React.FC = () => {
                         fullWidth
                       />
 
-                      {/* Chips de Casos de Negócio */}
+                      {/* Chips de Causa */}
                       {createOsc.originsBusinessCases && createOsc.originsBusinessCases.length > 0 ? (
                         <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                           {createOsc.originsBusinessCases.map((obc) => (
@@ -1047,7 +1047,7 @@ const Osc: React.FC = () => {
                           ))}
                         </Stack>
                       ) : (
-                        <Typography color="text.secondary" mt={1}>Nenhum caso de negócio.</Typography>
+                        <Typography color="text.secondary" mt={1}>Nenhum causa.</Typography>
                       )}
                     </Box>
                   </Box>) :

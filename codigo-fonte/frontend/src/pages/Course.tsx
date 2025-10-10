@@ -16,10 +16,16 @@ import {
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
+import { ConfirmDialog } from '../components/ConfirmDelete';
 import { toast } from 'react-toastify';
+
 import {
   CoursesApi,
   CreateCourseRequest,
@@ -33,8 +39,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 interface Course {
-  id?: number;
+  courseId?: number;
   name?: string;
+  teamsCount?: number;
   isDeleted?: boolean;
 }
 
@@ -52,6 +59,11 @@ const Course: React.FC = () => {
   const [noDataMessage, setNoDataMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    course: null as Course | null,
+    loading: false,
+  });
 
   // ==================== COMPUTED/MEMOIZED ====================
   const apiInstance = new CoursesApi(apiConfig);
@@ -61,28 +73,33 @@ const Course: React.FC = () => {
       ? 'Visualizar Programa'
       : editingCourse
         ? 'Editar Programa'
-        : 'Novo Programa';
+        : 'Adicionar Programa';
   };
 
   const columns: Column<Course>[] = [
-    { label: 'ID', field: 'id' },
+    { label: 'Id', field: 'courseId' },
     { label: 'Nome do Programa', field: 'name' },
+    { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
   ];
 
   // ==================== FUNCTIONS ====================
-  const fetchCourses = async () => {
+  const fetchCourses = async (noFilter?) => {
     try {
       setLoading(true);
 
-      const filters: Filter[] = search.trim()
-        ? [
-            {
-              propertyName: 'name',
-              operation: Op.NUMBER_7,
-              value: search,
-            },
-          ]
-        : [];
+      let filters: Filter[] = [];
+
+      if (noFilter) filters = [];
+      else
+        filters = search.trim()
+          ? [
+              {
+                propertyName: 'name',
+                operation: Op.NUMBER_7,
+                value: search,
+              },
+            ]
+          : [];
 
       const listCourseRequest: ListCourseRequest = {
         pageNumber: page + 1,
@@ -111,6 +128,12 @@ const Course: React.FC = () => {
     }
   };
 
+  const handleClearFilters = () => {
+    setPage(0);
+    setSearch('');
+    fetchCourses([]);
+  };
+
   const handleSearch = () => {
     setPage(0);
     fetchCourses();
@@ -130,7 +153,7 @@ const Course: React.FC = () => {
 
   const handleView = async (course: Course) => {
     try {
-      const id: number = course.id!;
+      const id: number = course.courseId!;
       const { data } = await apiInstance.getCourseById(id);
       setIsVisualizing(true);
       setCourseName(data.name || '');
@@ -142,15 +165,36 @@ const Course: React.FC = () => {
   };
 
   const handleDelete = async (course: Course) => {
+    setConfirmDialog({
+      open: true,
+      course: course,
+      loading: false,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!confirmDialog.course) return;
+
     try {
-      const id: number = course.id!;
+      setConfirmDialog((prev) => ({ ...prev, loading: true }));
+      const id: number = confirmDialog.course.courseId!;
       await apiInstance.deleteCourse(id);
-      toast.success(`Programa "${course.name}" excluído com sucesso!`);
+      toast.success(`Programa "${confirmDialog.course.name}" excluído com sucesso!`);
+      handleCloseConfirmDialog();
       fetchCourses();
     } catch (error) {
       console.error('Erro ao excluir programa:', error);
       toast.error('Erro ao excluir programa');
+      setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      course: null,
+      loading: false,
+    });
   };
 
   const handleSave = async () => {
@@ -167,7 +211,7 @@ const Course: React.FC = () => {
           name: courseName,
         };
 
-        const id: number = editingCourse.id!;
+        const id: number = editingCourse.courseId!;
 
         await apiInstance.editCourse(id, editCourseRequest);
         toast.success('Programa atualizado com sucesso!');
@@ -257,7 +301,7 @@ const Course: React.FC = () => {
                     fontSize: '1.1rem',
                   }}
                 >
-                  Filtros de Busca
+                  Filtro de Busca
                 </Typography>
                 {search && (
                   <Chip
@@ -276,7 +320,7 @@ const Course: React.FC = () => {
 
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
                 <TextField
-                  label="Buscar por nome"
+                  label="Nome do Programa"
                   variant="outlined"
                   value={search}
                   size="small"
@@ -312,6 +356,29 @@ const Course: React.FC = () => {
                 >
                   Buscar
                 </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  sx={{
+                    borderColor: alpha('#1E4EC4', 0.3),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    px: 4,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.95rem',
+                    '&:hover': {
+                      borderColor: '#1E4EC4',
+                      bgcolor: alpha('#1E4EC4', 0.05),
+                      borderWidth: 1.5,
+                    },
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
               </Box>
             </Paper>
 
@@ -346,11 +413,34 @@ const Course: React.FC = () => {
             </Box>
 
             {/* Modal de Criação/Edição */}
-            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-              <DialogTitle>{dialogTitle()}</DialogTitle>
-              <DialogContent>
+            <Dialog
+              open={openModal}
+              onClose={handleCloseModal}
+              maxWidth="sm"
+              fullWidth
+              PaperProps={{
+                sx: {
+                  borderRadius: 3,
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+                },
+              }}
+            >
+              <DialogTitle
+                sx={{
+                  bgcolor: alpha('#1E4EC4', 0.03),
+                  borderBottom: '1px solid',
+                  borderColor: alpha('#1E4EC4', 0.1),
+                  py: 2.5,
+                  px: 3,
+                }}
+              >
+                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
+                  {dialogTitle()}
+                </Typography>
+              </DialogTitle>
+              <DialogContent sx={{ p: 3, mt: 1 }}>
                 <TextField
-                  autoFocus
+                  autoFocus={!isVisualizing}
                   margin="dense"
                   label="Nome do Programa"
                   type="text"
@@ -377,29 +467,80 @@ const Course: React.FC = () => {
                     variant="contained"
                     startIcon={<ArrowBackIcon />}
                     onClick={handleCloseModal}
-                    color="secondary"
-                    sx={{ backgroundColor: 'gray' }}
+                    sx={{
+                      bgcolor: '#6b7280',
+                      color: 'white',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     Voltar
                   </Button>
                 ) : (
                   <>
-                    <Button onClick={handleCloseModal} color="secondary" disabled={modalLoading}>
+                    <Button
+                      onClick={handleCloseModal}
+                      disabled={modalLoading}
+                      sx={{
+                        color: '#6b7280',
+                        fontWeight: 600,
+                        px: 3,
+                        py: 1,
+                        borderRadius: 1.5,
+                        textTransform: 'none',
+                        '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                      }}
+                    >
                       Cancelar
                     </Button>
                     <Button
                       onClick={handleSave}
-                      color="primary"
                       variant="contained"
                       disabled={modalLoading}
                       startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                      sx={{
+                        bgcolor: '#1E4EC4',
+                        color: 'white',
+                        fontWeight: 600,
+                        px: 3,
+                        py: 1,
+                        borderRadius: 1.5,
+                        textTransform: 'none',
+                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                        '&:hover': {
+                          bgcolor: '#1640a8',
+                          boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                          transform: 'translateY(-1px)',
+                        },
+                        '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                        transition: 'all 0.2s ease',
+                      }}
                     >
-                      {modalLoading ? 'Salvando...' : editingCourse ? 'Atualizar' : 'Criar'}
+                      Salvar
                     </Button>
                   </>
                 )}
               </DialogActions>
             </Dialog>
+
+            {/* Modal de Confirmação de Exclusão */}
+            <ConfirmDialog
+              open={confirmDialog.open}
+              title="Excluir Programa"
+              message="Tem certeza que deseja excluir o programa"
+              highlightText={confirmDialog.course?.name}
+              confirmLabel="Excluir"
+              cancelLabel="Cancelar"
+              onClose={handleCloseConfirmDialog}
+              onConfirm={handleConfirmDelete}
+              loading={confirmDialog.loading}
+              danger={true}
+            />
           </Box>
         </Paper>
       </Container>

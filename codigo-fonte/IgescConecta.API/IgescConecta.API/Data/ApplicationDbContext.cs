@@ -76,6 +76,7 @@ namespace IgescConecta.API.Data
             // ===== FILTROS EXPLÍCITOS (Original do código do colega) =====
             builder.Entity<Company>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Course>().HasQueryFilter(e => !e.IsDeleted);
+            builder.Entity<Team>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Donation>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<OriginBusinessCase>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Osc>().HasQueryFilter(e => !e.IsDeleted);

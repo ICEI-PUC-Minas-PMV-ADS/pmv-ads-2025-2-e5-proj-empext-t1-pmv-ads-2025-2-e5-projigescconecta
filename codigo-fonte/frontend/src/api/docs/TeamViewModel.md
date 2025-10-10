@@ -6,11 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **number** |  | [optional] [default to undefined]
+**name** | **string** |  | [optional] [default to undefined]
+**lessonTime** | **string** |  | [optional] [default to undefined]
 **start** | **string** |  | [optional] [default to undefined]
 **finish** | **string** |  | [optional] [default to undefined]
-**projectProgramId** | **number** |  | [optional] [default to undefined]
-**courseId** | **number** |  | [optional] [default to undefined]
-**isDeleted** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -19,11 +18,10 @@ import { TeamViewModel } from './api';
 
 const instance: TeamViewModel = {
     id,
+    name,
+    lessonTime,
     start,
     finish,
-    projectProgramId,
-    courseId,
-    isDeleted,
 };
 ```
 

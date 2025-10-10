@@ -15,10 +15,15 @@ import {
   Grid,
   SelectChangeEvent,
   Typography,
-  Stack,
+  Chip,
+  Paper,
+  alpha,
+  TextField,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ClearIcon from '@mui/icons-material/Clear';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,6 +31,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
+import { ConfirmDialog } from '../components/ConfirmDelete';
 import { toast } from 'react-toastify';
 import {
   TeamsApi,
@@ -37,22 +43,21 @@ import {
   CoursesApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
-import { alpha } from '@mui/material/styles';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import ClearIcon from '@mui/icons-material/Clear';
-import { Chip, Paper } from '@mui/material';
 
 dayjs.locale('pt-br');
 
 // Interfaces
 interface Team {
-  id?: number;
-  start?: string;
-  finish?: string;
-  projectProgramId?: number;
-  courseId?: number;
-  projectProgramName?: string;
-  courseName?: string;
+  teamId?: number;
+  name?: string | null;
+  lessonTime?: string | null;
+  start?: string | null;
+  finish?: string | null;
+  projectProgramId?: number | null;
+  courseId?: number | null;
+  projectProgramName?: string | null;
+  courseName?: string | null;
+  personTeamsCount?: number;
   isDeleted?: boolean;
 }
 
@@ -62,12 +67,18 @@ interface Program {
 }
 
 interface Course {
+  courseId?: number;
+  name?: string | null;
+}
+
+interface Person {
   id?: number;
   name?: string;
 }
 
 const Team: React.FC = () => {
   // Estados de filtros
+  const [filterName, setFilterName] = useState<string | ''>('');
   const [filterProgramId, setFilterProgramId] = useState<number | ''>('');
   const [filterCourseId, setFilterCourseId] = useState<number | ''>('');
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
@@ -76,21 +87,34 @@ const Team: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [programs, setPrograms] = useState<Program[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
+  const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
+
+  // Campos do formulário
+  const [teamName, setTeamName] = useState('');
+  const [lessonTime, setLessonTime] = useState('');
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [selectedProgramId, setSelectedProgramId] = useState<number | ''>('');
   const [selectedCourseId, setSelectedCourseId] = useState<number | ''>('');
+  const [selectedPersonIds, setSelectedPersonIds] = useState<number[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [programsLoading, setProgramsLoading] = useState(false);
   const [coursesLoading, setCoursesLoading] = useState(false);
+  const [personsLoading, setPersonsLoading] = useState(false);
   const [noDataMessage, setNoDataMessage] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    team: null as Team | null,
+    loading: false,
+  });
 
   // Instâncias da API
   const teamsApi = new TeamsApi(apiConfig);
@@ -108,6 +132,7 @@ const Team: React.FC = () => {
   useEffect(() => {
     fetchPrograms();
     fetchCourses();
+    fetchPersons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -119,6 +144,14 @@ const Team: React.FC = () => {
       const filters: Filter[] = customFilters ?? [];
 
       if (!customFilters) {
+        if (filterName) {
+          filters.push({
+            propertyName: 'name',
+            operation: Op.NUMBER_7,
+            value: filterName,
+          });
+        }
+
         if (filterProgramId) {
           filters.push({
             propertyName: 'projectProgramId',
@@ -163,8 +196,10 @@ const Team: React.FC = () => {
       if (!data.items || data.items.length === 0) {
         setNoDataMessage('Nenhuma turma encontrada');
         setTeams([]);
+        setTotalCount(0);
         return;
       }
+
       setTeams(
         (data.items ?? []).map((item) => ({
           ...item,
@@ -185,25 +220,46 @@ const Team: React.FC = () => {
     }
   };
 
+  /* Em mock */
   const fetchPrograms = async () => {
     try {
       setProgramsLoading(true);
-      // TODO: Substituir por chamada real quando ProgramsApi estiver disponível
+      // TODO: Substituir por chamada real quando ProjectProgramsApi estiver disponível
       await new Promise((resolve) => setTimeout(resolve, 300));
       const mockPrograms: Program[] = [
-        { id: 101, name: 'Programa de Inovação' },
-        { id: 102, name: 'Programa de Tecnologia' },
-        { id: 103, name: 'Programa de Liderança' },
-        { id: 104, name: 'Programa de Desenvolvimento Pessoal' },
-        { id: 105, name: 'Programa de Empreendedorismo' },
+        // { id: 101, name: 'Projeto de Inovação' },
+        // { id: 102, name: 'Projeto de Tecnologia' },
+        // { id: 103, name: 'Projeto de Liderança' },
+        // { id: 104, name: 'Projeto de Desenvolvimento Pessoal' },
+        // { id: 105, name: 'Projeto de Empreendedorismo' },
       ];
       setPrograms(mockPrograms);
     } catch (error) {
-      console.error('Erro ao carregar programas:', error);
-      toast.error('Erro ao carregar programas');
+      console.error('Erro ao carregar projetos:', error);
+      toast.error('Erro ao carregar projetos');
       setPrograms([]);
     } finally {
       setProgramsLoading(false);
+    }
+  };
+
+  const fetchPersons = async () => {
+    try {
+      setPersonsLoading(true);
+      // TODO: Substituir por chamada real quando PersonsApi estiver disponível
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      const mockPersons: Person[] = [
+        { id: 1, name: 'João Silva' },
+        { id: 2, name: 'Maria Santos' },
+        { id: 3, name: 'Pedro Oliveira' },
+      ];
+      setPersons(mockPersons);
+    } catch (error) {
+      console.error('Erro ao carregar pessoas:', error);
+      toast.error('Erro ao carregar pessoas');
+      setPersons([]);
+    } finally {
+      setPersonsLoading(false);
     }
   };
 
@@ -215,10 +271,9 @@ const Team: React.FC = () => {
         pageSize: 100,
       });
       setCourses(data.items || []);
-      console.log('courses:', data);
     } catch (error) {
-      console.error('Erro ao carregar cursos:', error);
-      toast.error('Erro ao carregar cursos');
+      console.error('Erro ao carregar programas:', error);
+      toast.error('Erro ao carregar programas');
       setCourses([]);
     } finally {
       setCoursesLoading(false);
@@ -226,11 +281,14 @@ const Team: React.FC = () => {
   };
 
   const columns: Column<Team>[] = [
-    { label: 'ID', field: 'id' },
+    { label: 'ID', field: 'teamId' },
+    { label: 'Nome', field: 'name' },
+    { label: 'Horário de Aula', field: 'lessonTime' },
     { label: 'Data Início', field: 'start' },
     { label: 'Data Fim', field: 'finish' },
-    { label: 'Programa {mock}', field: 'projectProgramId' },
-    { label: 'Curso', field: 'courseName' },
+    { label: 'Projeto', field: 'projectProgramName' },
+    { label: 'Programa', field: 'courseName' },
+    { label: 'Nº Alunos', field: 'personTeamsCount', align: 'center' },
   ];
 
   const handleSearch = () => {
@@ -239,6 +297,7 @@ const Team: React.FC = () => {
   };
 
   const handleClearFilters = () => {
+    setFilterName('');
     setFilterProgramId('');
     setFilterCourseId('');
     setFilterStartDate(null);
@@ -254,22 +313,32 @@ const Team: React.FC = () => {
 
   const handleEdit = (team: Team) => {
     setEditingTeam(team);
-    setStartDate(team.start ? dayjs(team.start) : null);
-    setEndDate(team.finish ? dayjs(team.finish) : null);
+    setTeamName(team.name || '');
+    setLessonTime(team.lessonTime || '');
+    setStartDate(team.start ? dayjs(team.start, 'DD/MM/YYYY') : null);
+    setEndDate(team.finish ? dayjs(team.finish, 'DD/MM/YYYY') : null);
     setSelectedProgramId(team.projectProgramId || '');
     setSelectedCourseId(team.courseId || '');
+    setSelectedPersonIds([]); // Será carregado no getTeamById
     setOpenModal(true);
   };
 
   const handleView = async (team: Team) => {
     try {
-      const id: number = team.id!;
+      const id: number = team.teamId!;
       const { data } = await teamsApi.getTeamById(id);
       setIsVisualizing(true);
+      setTeamName(data.name || '');
+      setLessonTime(data.lessonTime || '');
       setStartDate(data.start ? dayjs(data.start) : null);
       setEndDate(data.finish ? dayjs(data.finish) : null);
       setSelectedProgramId(data.projectProgramId || '');
       setSelectedCourseId(data.courseId || '');
+
+      // TODO: Quando a API retornar personTeamsIds, usar:
+      // setSelectedPersonIds(data.personTeamsIds || []);
+      setSelectedPersonIds([]); // Por enquanto vazio
+
       setOpenModal(true);
     } catch (error) {
       console.error('Erro ao visualizar turma:', error);
@@ -278,20 +347,41 @@ const Team: React.FC = () => {
   };
 
   const handleDelete = async (team: Team) => {
+    setConfirmDialog({
+      open: true,
+      team: team,
+      loading: false,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!confirmDialog.team) return;
+
     try {
-      const id: number = team.id!;
+      setConfirmDialog((prev) => ({ ...prev, loading: true }));
+      const id: number = confirmDialog.team.teamId!;
       await teamsApi.deleteTeam(id);
-      toast.success('Turma excluída com sucesso!');
+      toast.success(`Turma "${confirmDialog.team.name}" excluída com sucesso!`);
+      handleCloseConfirmDialog();
       fetchTeams();
     } catch (error) {
       console.error('Erro ao excluir turma:', error);
       toast.error('Erro ao excluir turma');
+      setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
   };
 
+  const handleCloseConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      team: null,
+      loading: false,
+    });
+  };
+
   const validateForm = (): boolean => {
-    if (!startDate || !endDate || !selectedProgramId || !selectedCourseId) {
-      toast.error('Todos os campos são obrigatórios!');
+    if (!startDate || !endDate || !selectedCourseId) {
+      toast.error('Data de início, data de fim e programa são obrigatórios!');
       return false;
     }
     if (endDate.isBefore(startDate)) {
@@ -309,21 +399,31 @@ const Team: React.FC = () => {
 
       if (editingTeam) {
         const editTeamRequest: EditTeamRequest = {
+          name: teamName || undefined,
+          lessonTime: lessonTime || undefined,
           start: startDate!.format('YYYY-MM-DD'),
           finish: endDate!.format('YYYY-MM-DD'),
-          projectProgramId: selectedProgramId as number,
           courseId: selectedCourseId as number,
+          // TODO: alterar pós adição de CRUD
+          /* Crud ainda n implementado */
+          // projectProgramId: selectedProgramId ? (selectedProgramId as number) : undefined,
+          // personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : undefined,
         };
 
-        const id: number = editingTeam.id!;
+        const id: number = editingTeam.teamId!;
         await teamsApi.editTeam(id, editTeamRequest);
         toast.success('Turma atualizada com sucesso!');
       } else {
         const createTeamRequest: CreateTeamRequest = {
+          name: teamName || undefined,
+          lessonTime: lessonTime || undefined,
           start: startDate!.format('YYYY-MM-DD'),
           finish: endDate!.format('YYYY-MM-DD'),
-          projectProgramId: selectedProgramId as number,
           courseId: selectedCourseId as number,
+          // TODO: alterar pós adição de CRUD
+          /* Crud ainda n implementado */
+          // projectProgramId: selectedProgramId ? (selectedProgramId as number) : undefined,
+          // personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : [],
         };
 
         await teamsApi.createTeam(createTeamRequest);
@@ -342,10 +442,13 @@ const Team: React.FC = () => {
 
   const resetForm = () => {
     setEditingTeam(null);
+    setTeamName('');
+    setLessonTime('');
     setStartDate(null);
     setEndDate(null);
     setSelectedProgramId('');
     setSelectedCourseId('');
+    setSelectedPersonIds([]);
   };
 
   const handleCloseModal = () => {
@@ -372,6 +475,11 @@ const Team: React.FC = () => {
     setFilterCourseId(event.target.value as number | '');
   };
 
+  const handlePersonChange = (event: SelectChangeEvent<number[]>) => {
+    const value = event.target.value;
+    setSelectedPersonIds(typeof value === 'string' ? [] : value);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
@@ -395,7 +503,7 @@ const Team: React.FC = () => {
           <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
             <TitleAndButtons title="Listar Turmas" onAdd={handleAdd} addLabel="Nova Turma" />
 
-            {/* Área de Filtros */}
+            {/* Campo de pesquisa + botão */}
             <Paper
               elevation={0}
               sx={{
@@ -424,9 +532,13 @@ const Team: React.FC = () => {
                     fontSize: '1.1rem',
                   }}
                 >
-                  Filtros de Busca
+                  Filtro de Busca
                 </Typography>
-                {(filterStartDate || filterEndDate || filterProgramId || filterCourseId) && (
+                {(filterName ||
+                  filterStartDate ||
+                  filterEndDate ||
+                  filterProgramId ||
+                  filterCourseId) && (
                   <Chip
                     label="Filtros ativos"
                     size="small"
@@ -441,194 +553,130 @@ const Team: React.FC = () => {
                 )}
               </Box>
 
-              <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                  <DatePicker
-                    label="Data Início"
-                    value={filterStartDate}
-                    onChange={setFilterStartDate}
-                    format="DD/MM/YYYY"
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        size: 'small',
-                        sx: {
-                          '& .MuiOutlinedInput-root': {
-                            borderRadius: 1.5,
-                            backgroundColor: 'white',
-                            '&:hover fieldset': {
-                              borderColor: '#1E4EC4',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#1E4EC4',
-                              borderWidth: 2,
-                            },
-                          },
-                          '& .MuiInputLabel-root.Mui-focused': {
-                            color: '#1E4EC4',
-                          },
-                        },
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+                <TextField
+                  label="Nome da Turma"
+                  variant="outlined"
+                  value={filterName}
+                  size="small"
+                  onChange={(e) => setFilterName(e.target.value)}
+                />
+                <DatePicker
+                  label="Data Início"
+                  value={filterStartDate}
+                  onChange={setFilterStartDate}
+                  format="DD/MM/YYYY"
+                  slotProps={{
+                    textField: {
+                      size: 'small',
+                      sx: {
+                        minWidth: 160,
                       },
-                    }}
-                  />
-                </Grid>
-
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                  <DatePicker
-                    label="Data Fim"
-                    value={filterEndDate}
-                    onChange={setFilterEndDate}
-                    format="DD/MM/YYYY"
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        size: 'small',
-                        sx: {
-                          '& .MuiOutlinedInput-root': {
-                            borderRadius: 1.5,
-                            backgroundColor: 'white',
-                            '&:hover fieldset': {
-                              borderColor: '#1E4EC4',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#1E4EC4',
-                              borderWidth: 2,
-                            },
-                          },
-                          '& .MuiInputLabel-root.Mui-focused': {
-                            color: '#1E4EC4',
-                          },
-                        },
+                    },
+                  }}
+                />
+                <DatePicker
+                  label="Data Fim"
+                  value={filterEndDate}
+                  onChange={setFilterEndDate}
+                  format="DD/MM/YYYY"
+                  slotProps={{
+                    textField: {
+                      size: 'small',
+                      sx: {
+                        minWidth: 160,
                       },
-                    }}
-                  />
-                </Grid>
-
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel sx={{ '&.Mui-focused': { color: '#1E4EC4' } }}>Programa</InputLabel>
-                    <Select
-                      value={filterProgramId}
-                      onChange={handleFilterProgramChange}
-                      label="Programa"
-                      disabled={programsLoading}
-                      sx={{
-                        borderRadius: 1.5,
-                        backgroundColor: 'white',
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#1E4EC4',
-                        },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#1E4EC4',
-                          borderWidth: 2,
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>Todos os programas</em>
-                      </MenuItem>
-                      {programs.map((program) => (
-                        <MenuItem key={program.id} value={program.id}>
-                          {program.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel sx={{ '&.Mui-focused': { color: '#1E4EC4' } }}>Curso</InputLabel>
-                    <Select
-                      value={filterCourseId}
-                      onChange={handleFilterCourseChange}
-                      label="Curso"
-                      disabled={coursesLoading}
-                      sx={{
-                        borderRadius: 1.5,
-                        backgroundColor: 'white',
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#1E4EC4',
-                        },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: '#1E4EC4',
-                          borderWidth: 2,
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>Todos os cursos</em>
-                      </MenuItem>
-                      {courses.map((course) => (
-                        <MenuItem key={course.id} value={course.id}>
-                          {course.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={1.5}
-                    sx={{ mt: { xs: 0, sm: 0.5 } }}
+                    },
+                  }}
+                />
+                <FormControl size="small" sx={{ minWidth: 200 }}>
+                  <InputLabel>Projeto</InputLabel>
+                  <Select
+                    value={filterProgramId}
+                    onChange={handleFilterProgramChange}
+                    label="Projeto"
+                    disabled={programsLoading}
                   >
-                    <Button
-                      variant="contained"
-                      startIcon={<SearchIcon />}
-                      onClick={handleSearch}
-                      sx={{
-                        bgcolor: '#1E4EC4',
-                        color: 'white',
-                        fontWeight: 600,
-                        px: 4,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        fontSize: '0.95rem',
-                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                        '&:hover': {
-                          bgcolor: '#1640a8',
-                          boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                          transform: 'translateY(-1px)',
-                        },
-                        transition: 'all 0.2s ease',
-                        flex: { xs: 1, sm: 'initial' },
-                      }}
-                    >
-                      Buscar
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      startIcon={<ClearIcon />}
-                      onClick={handleClearFilters}
-                      sx={{
-                        borderColor: alpha('#1E4EC4', 0.3),
-                        color: '#1E4EC4',
-                        fontWeight: 600,
-                        px: 4,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        fontSize: '0.95rem',
-                        '&:hover': {
-                          borderColor: '#1E4EC4',
-                          bgcolor: alpha('#1E4EC4', 0.05),
-                          borderWidth: 1.5,
-                        },
-                        transition: 'all 0.2s ease',
-                        flex: { xs: 1, sm: 'initial' },
-                      }}
-                    >
-                      Limpar Filtros
-                    </Button>
-                  </Stack>
-                </Grid>
-              </Grid>
+                    <MenuItem value="">
+                      <em>Todos os projetos</em>
+                    </MenuItem>
+                    {programs.map((program) => (
+                      <MenuItem key={program.id} value={program.id}>
+                        {program.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl size="small" sx={{ minWidth: 200 }}>
+                  <InputLabel>Programa</InputLabel>
+                  <Select
+                    value={filterCourseId}
+                    onChange={handleFilterCourseChange}
+                    label="Programa"
+                    disabled={coursesLoading}
+                  >
+                    <MenuItem value="">
+                      <em>Todos os programas</em>
+                    </MenuItem>
+                    {courses.map((course) => (
+                      <MenuItem key={course.courseId} value={course.courseId}>
+                        {course.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <Button
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                  onClick={handleSearch}
+                  sx={{
+                    bgcolor: '#1E4EC4',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.95rem',
+                    boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                    '&:hover': {
+                      bgcolor: '#1640a8',
+                      boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                      transform: 'translateY(-1px)',
+                    },
+                    transition: 'all 0.2s ease',
+                    flex: { xs: 1, sm: 'initial' },
+                  }}
+                >
+                  Buscar
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  sx={{
+                    borderColor: alpha('#1E4EC4', 0.3),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    px: 4,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.95rem',
+                    '&:hover': {
+                      borderColor: '#1E4EC4',
+                      bgcolor: alpha('#1E4EC4', 0.05),
+                      borderWidth: 1.5,
+                    },
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
+              </Box>
             </Paper>
 
-            {/* Área da Tabela */}
+            {/* Tabela */}
             <Box sx={{ flexGrow: 1 }}>
               {loading ? (
                 <Box
@@ -639,10 +687,10 @@ const Team: React.FC = () => {
                     height: 200,
                   }}
                 >
-                  <CircularProgress sx={{ color: '#1E4EC4' }} />
+                  <CircularProgress />
                 </Box>
               ) : (
-                <Table
+                <Table<Team>
                   columns={columns}
                   data={teams}
                   page={page}
@@ -658,11 +706,11 @@ const Team: React.FC = () => {
               )}
             </Box>
 
-            {/* Modal Melhorado */}
+            {/* Modal de Criação/Edição */}
             <Dialog
               open={openModal}
               onClose={handleCloseModal}
-              maxWidth="md"
+              maxWidth="sm"
               fullWidth
               PaperProps={{
                 sx: {
@@ -671,7 +719,6 @@ const Team: React.FC = () => {
                 },
               }}
             >
-              {/* Título reativo Modal */}
               <DialogTitle
                 sx={{
                   bgcolor: alpha('#1E4EC4', 0.03),
@@ -685,11 +732,46 @@ const Team: React.FC = () => {
                   {dialogTitle()}
                 </Typography>
               </DialogTitle>
+              <DialogContent sx={{ p: 3, mt: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      autoFocus={!isVisualizing}
+                      margin="dense"
+                      label="Nome da Turma"
+                      type="text"
+                      fullWidth
+                      variant="outlined"
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      slotProps={{
+                        input: {
+                          readOnly: isVisualizing,
+                        },
+                      }}
+                      sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                    />
+                  </Grid>
 
-              {/* Campos Modal */}
-              <DialogContent sx={{ p: 3, mt: 2 }}>
-                <Grid container spacing={3}>
-                  {/* Data Inicial */}
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      margin="dense"
+                      label="Horário de Aula"
+                      type="text"
+                      fullWidth
+                      variant="outlined"
+                      value={lessonTime}
+                      onChange={(e) => setLessonTime(e.target.value)}
+                      placeholder="Ex: 19:00 - 22:00"
+                      slotProps={{
+                        input: {
+                          readOnly: isVisualizing,
+                        },
+                      }}
+                      sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                    />
+                  </Grid>
+
                   <Grid size={{ xs: 12, md: 6 }}>
                     <DatePicker
                       label="Data de Início"
@@ -702,28 +784,12 @@ const Team: React.FC = () => {
                         textField: {
                           fullWidth: true,
                           variant: 'outlined',
-                          sx: {
-                            mt: 2,
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: 1.5,
-                              '&:hover fieldset': {
-                                borderColor: '#1E4EC4',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#1E4EC4',
-                                borderWidth: 2,
-                              },
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                              color: '#1E4EC4',
-                            },
-                          },
+                          margin: 'dense',
                         },
                       }}
                     />
                   </Grid>
 
-                  {/* Data Final */}
                   <Grid size={{ xs: 12, md: 6 }}>
                     <DatePicker
                       label="Data de Fim"
@@ -736,55 +802,28 @@ const Team: React.FC = () => {
                         textField: {
                           fullWidth: true,
                           variant: 'outlined',
-                          sx: {
-                            mt: 2,
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: 1.5,
-                              '&:hover fieldset': {
-                                borderColor: '#1E4EC4',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#1E4EC4',
-                                borderWidth: 2,
-                              },
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                              color: '#1E4EC4',
-                            },
-                          },
+                          margin: 'dense',
                         },
                       }}
                     />
                   </Grid>
 
-                  {/* Programa */}
                   <Grid size={{ xs: 12, md: 6 }}>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel sx={{ '&.Mui-focused': { color: '#1E4EC4' } }}>
-                        Programa
-                      </InputLabel>
+                    <FormControl fullWidth variant="outlined" margin="dense">
+                      <InputLabel>Projeto</InputLabel>
                       <Select
                         value={selectedProgramId}
                         onChange={handleProgramChange}
-                        label="Programa"
+                        label="Projeto"
                         disabled={programsLoading || isVisualizing}
-                        sx={{
-                          borderRadius: 1.5,
-                          '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#1E4EC4',
-                          },
-                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#1E4EC4',
-                            borderWidth: 2,
-                          },
-                        }}
                       >
+                        <MenuItem value="">
+                          <em>Nenhum projeto</em>
+                        </MenuItem>
                         {programsLoading ? (
                           <MenuItem disabled>
                             <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
                           </MenuItem>
-                        ) : programs.length === 0 ? (
-                          <MenuItem disabled>Nenhum programa cadastrado</MenuItem>
                         ) : (
                           programs.map((program) => (
                             <MenuItem key={program.id} value={program.id}>
@@ -796,36 +835,101 @@ const Team: React.FC = () => {
                     </FormControl>
                   </Grid>
 
-                  {/* Curso */}
                   <Grid size={{ xs: 12, md: 6 }}>
-                    <FormControl fullWidth variant="outlined">
-                      <InputLabel sx={{ '&.Mui-focused': { color: '#1E4EC4' } }}>Curso</InputLabel>
+                    <FormControl fullWidth variant="outlined" margin="dense">
+                      <InputLabel>Programa *</InputLabel>
                       <Select
                         value={selectedCourseId}
                         onChange={handleCourseChange}
-                        label="Curso"
+                        label="Programa *"
                         disabled={coursesLoading || isVisualizing}
-                        sx={{
-                          borderRadius: 1.5,
-                          '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#1E4EC4',
-                          },
-                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#1E4EC4',
-                            borderWidth: 2,
-                          },
-                        }}
                       >
                         {coursesLoading ? (
                           <MenuItem disabled>
                             <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
                           </MenuItem>
                         ) : courses.length === 0 ? (
-                          <MenuItem disabled>Nenhum curso cadastrado</MenuItem>
+                          <MenuItem disabled>Nenhum programa cadastrado</MenuItem>
                         ) : (
                           courses.map((course) => (
-                            <MenuItem key={course.id} value={course.id}>
+                            <MenuItem key={course.courseId} value={course.courseId}>
                               {course.name}
+                            </MenuItem>
+                          ))
+                        )}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid size={{ xs: 12 }}>
+                    <FormControl fullWidth variant="outlined" margin="dense">
+                      <InputLabel>Alunos</InputLabel>
+                      <Select
+                        multiple
+                        value={selectedPersonIds}
+                        onChange={handlePersonChange}
+                        label="Alunos"
+                        disabled={personsLoading || isVisualizing}
+                        renderValue={(selected) => {
+                          if (selected.length === 0) {
+                            return <em>Nenhum aluno selecionado</em>;
+                          }
+                          const selectedNames = persons
+                            .filter((person) => selected.includes(person.id!))
+                            .map((person) => person.name)
+                            .join(', ');
+                          return selectedNames || `${selected.length} aluno(s) selecionado(s)`;
+                        }}
+                      >
+                        {personsLoading ? (
+                          <MenuItem disabled>
+                            <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
+                          </MenuItem>
+                        ) : persons.length === 0 ? (
+                          <MenuItem disabled>Nenhuma pessoa cadastrada</MenuItem>
+                        ) : (
+                          persons.map((person) => (
+                            <MenuItem key={person.id} value={person.id}>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  width: '100%',
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    width: 20,
+                                    height: 20,
+                                    border: '2px solid',
+                                    borderColor: selectedPersonIds.includes(person.id!)
+                                      ? '#1E4EC4'
+                                      : '#ccc',
+                                    borderRadius: 0.5,
+                                    mr: 1.5,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    bgcolor: selectedPersonIds.includes(person.id!)
+                                      ? '#1E4EC4'
+                                      : 'transparent',
+                                  }}
+                                >
+                                  {selectedPersonIds.includes(person.id!) && (
+                                    <Box
+                                      sx={{
+                                        width: 12,
+                                        height: 12,
+                                        color: 'white',
+                                        fontSize: '0.8rem',
+                                      }}
+                                    >
+                                      ✓
+                                    </Box>
+                                  )}
+                                </Box>
+                                <Typography>{person.name}</Typography>
+                              </Box>
                             </MenuItem>
                           ))
                         )}
@@ -834,16 +938,7 @@ const Team: React.FC = () => {
                   </Grid>
                 </Grid>
               </DialogContent>
-              <DialogActions
-                sx={{
-                  px: 3,
-                  py: 2.5,
-                  bgcolor: alpha('#1E4EC4', 0.02),
-                  borderTop: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  gap: 1.5,
-                }}
-              >
+              <DialogActions>
                 {isVisualizing ? (
                   <Button
                     variant="contained"
@@ -857,10 +952,7 @@ const Team: React.FC = () => {
                       py: 1,
                       borderRadius: 1.5,
                       textTransform: 'none',
-                      '&:hover': {
-                        bgcolor: '#4b5563',
-                        transform: 'translateY(-1px)',
-                      },
+                      '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
                       transition: 'all 0.2s ease',
                     }}
                   >
@@ -878,9 +970,7 @@ const Team: React.FC = () => {
                         py: 1,
                         borderRadius: 1.5,
                         textTransform: 'none',
-                        '&:hover': {
-                          bgcolor: alpha('#6b7280', 0.1),
-                        },
+                        '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
                       }}
                     >
                       Cancelar
@@ -904,18 +994,30 @@ const Team: React.FC = () => {
                           boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
                           transform: 'translateY(-1px)',
                         },
-                        '&:disabled': {
-                          bgcolor: alpha('#1E4EC4', 0.5),
-                        },
+                        '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
                         transition: 'all 0.2s ease',
                       }}
                     >
-                      {modalLoading ? 'Salvando...' : editingTeam ? 'Atualizar' : 'Criar'}
+                      Salvar
                     </Button>
                   </>
                 )}
               </DialogActions>
             </Dialog>
+
+            {/* Modal de Confirmação de Exclusão */}
+            <ConfirmDialog
+              open={confirmDialog.open}
+              title="Excluir Turma"
+              message="Tem certeza que deseja excluir a turma"
+              highlightText={confirmDialog.team?.name || undefined}
+              confirmLabel="Excluir"
+              cancelLabel="Cancelar"
+              onClose={handleCloseConfirmDialog}
+              onConfirm={handleConfirmDelete}
+              loading={confirmDialog.loading}
+              danger={true}
+            />
           </Box>
         </Paper>
       </Container>

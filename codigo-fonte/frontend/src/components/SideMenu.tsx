@@ -13,7 +13,11 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupIcon from '@mui/icons-material/Group';
+import PublicIcon from '@mui/icons-material/Public';
+import GroupsIcon from '@mui/icons-material/Groups';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
 import { useNavigate, useLocation } from 'react-router-dom';
+import path from 'path';
 
 const IGESC_COLORS = {
   AZUL_CLARO: '#1E4EC4',
@@ -28,6 +32,9 @@ const menuItems = [
   { path: '/home', label: 'Início', icon: <HomeIcon /> },
   { path: '/course', label: 'Cursos', icon: <SchoolIcon /> },
   { path: '/team', label: 'Equipe', icon: <GroupIcon /> },
+  { path: '/osc', label: 'OSC', icon: <PublicIcon /> },
+  { path: '/beneficiary', label: 'Público', icon: <GroupsIcon /> },
+  { path: '/business-case', label: 'Grupo de Causas', icon: <Diversity2Icon /> },
 ];
 
 export default function SideMenu() {

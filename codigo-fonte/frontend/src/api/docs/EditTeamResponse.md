@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **teamId** | **number** |  | [optional] [default to undefined]
+**name** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -14,6 +15,7 @@ import { EditTeamResponse } from './api';
 
 const instance: EditTeamResponse = {
     teamId,
+    name,
 };
 ```
 
