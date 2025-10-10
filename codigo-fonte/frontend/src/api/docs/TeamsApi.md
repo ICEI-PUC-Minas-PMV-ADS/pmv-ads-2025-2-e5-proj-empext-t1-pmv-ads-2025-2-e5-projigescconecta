@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createTeam**](#createteam) | **POST** /api/teams | |
+|[**createTeam**](#createteam) | **POST** /api/teams/CreateTeam | |
 |[**deleteTeam**](#deleteteam) | **DELETE** /api/teams/{teamId} | |
 |[**editTeam**](#editteam) | **PUT** /api/teams/{teamId} | |
 |[**getTeamById**](#getteambyid) | **GET** /api/teams/{teamId} | |
