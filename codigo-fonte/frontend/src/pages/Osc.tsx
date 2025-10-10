@@ -877,7 +877,7 @@ const Osc: React.FC = () => {
                           ))}
                         </Stack>
                       ) : (
-                        <Typography color="text.secondary" mt={1}>Nenhum causa.</Typography>
+                        <Typography color="text.secondary" mt={1}>Nenhuma causa.</Typography>
                       )}
                     </Box>
                   </Box>
