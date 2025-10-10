@@ -2,6 +2,7 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
@@ -24,18 +25,22 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
         {
             var result = await _mediator.Send(new GetOriginBusinessCaseQuery(originBusinessCaseId));
 
-            var originBusinessCaseInfo = new GetOriginBusinessCaseResponse
+            if (result.IsSuccess)
             {
-                OriginBusinessCaseId = originBusinessCaseId,
-                Name = result.Value.Name,
-                Oscs = result.Value?.Oscs?.Select(o => new GetOriginBusinessCaseOscResponse
+                var originBusinessCaseInfo = new GetOriginBusinessCaseResponse
                 {
-                    OscId = o.Id,
-                    Name = o.Name
-                }).ToList()
-            };
+                    OriginBusinessCaseId = originBusinessCaseId,
+                    Name = result.Value.Name,
+                    Oscs = result.Value?.Oscs?.Select(o => new GetOriginBusinessCaseOscResponse
+                    {
+                        OscId = o.Id,
+                        Name = o.Name
+                    }).ToList()
+                };
+                return Ok(originBusinessCaseInfo);
+            }
 
-            return result.IsSuccess ? Ok(originBusinessCaseInfo) : BadRequest(result.Error);
+            return BadRequest(result.Error);
         }
     }
 
