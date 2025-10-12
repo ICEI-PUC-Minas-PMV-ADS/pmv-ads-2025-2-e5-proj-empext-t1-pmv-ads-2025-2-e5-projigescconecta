@@ -7,6 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http; // Necessário para IHttpContextAccessor
+using System.Collections.Generic; // Necessário para List<EntityEntry>
+using System.Linq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace IgescConecta.API.Data
 {
@@ -26,7 +32,7 @@ namespace IgescConecta.API.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
 
-        // Domínio
+        // Domínio 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Donation> Donations { get; set; }
@@ -40,12 +46,21 @@ namespace IgescConecta.API.Data
         public DbSet<PersonTeam> PersonTeams { get; set; }
         public DbSet<ProjectProgram> ProjectPrograms { get; set; }
         public DbSet<ProjectDocument> ProjectDocuments { get; set; }
-        public DbSet<ProjectTheme> projectThemes { get; set; }
+        public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
+
+        // Domínio (SEU CONTEÚDO ADICIONADO)
+        // O DbSet deve ser adicionado aqui, mesmo que o nome "Empresa" conflite com "Company"
+        // no mundo real. Assumimos que são entidades distintas no banco.
+        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Doacao> Doacoes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Mapeamentos de AUDITORIA/IDENTITY 
             builder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
                 .WithMany()
@@ -58,23 +73,7 @@ namespace IgescConecta.API.Data
                 .HasForeignKey(u => u.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ===== FOREACH COMENTADO =====
-            /*
-            foreach (var entityType in builder.Model.GetEntityTypes())
-            {
-                if (typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
-                {
-                    var parameter = Expression.Parameter(entityType.ClrType, "e");
-                    var property = Expression.Property(parameter, nameof(ISoftDeletable.IsDeleted));
-                    var compare  = Expression.Equal(property, Expression.Constant(false));
-                    var lambda   = Expression.Lambda(compare, parameter);
-
-                    builder.Entity(entityType.ClrType).HasQueryFilter(lambda);
-                }
-            }
-            */
-
-            // ===== Filtros explícitos por entidade (somente onde há IsDeleted) =====
+            // ===== FILTROS EXPLÍCITOS (Original do código do colega) =====
             builder.Entity<Company>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Course>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Team>().HasQueryFilter(e => !e.IsDeleted);
@@ -92,6 +91,38 @@ namespace IgescConecta.API.Data
             builder.Entity<ProjectTheme>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<ProjectType>().HasQueryFilter(e => !e.IsDeleted);
 
+            // ===== SUAS REGRAS (INTEGRAÇÃO) =====
+
+            // 1. Mapeamento de Empresas (PK e Filtro de Ativação)
+            builder.Entity<Empresa>().ToTable("Empresa"); // Adiciona o nome da tabela (opcional, mas bom)
+            builder.Entity<Empresa>().HasKey(e => e.CNPJ);
+            builder.Entity<Empresa>().HasQueryFilter(e => e.Ativa); // Seu filtro de soft delete
+
+            // 2. Mapeamento de Doações (Relacionamentos e CHECK CONSTRAINTS)
+            builder.Entity<Doacao>().ToTable("Doacao"); // Adiciona o nome da tabela
+
+            // Relacionamento Doacao <-> Empresa (DoadorEmpresa)
+            builder.Entity<Doacao>()
+                .HasOne(d => d.DoadorEmpresa)
+                .WithMany(e => e.DoacoesRealizadas)
+                .HasForeignKey(d => d.DoadorEmpresaCNPJ)
+                .IsRequired(false);
+
+            // Restrição 1: Doador deve ser Pessoa OU Empresa
+            builder.Entity<Doacao>()
+                .HasCheckConstraint("CHK_Doacao_DoadorExclusivo",
+                    "(IIF(DoadorPessoaCPF IS NULL, 0, 1) + IIF(DoadorEmpresaCNPJ IS NULL, 0, 1)) = 1");
+
+            // Restrição 2: Destino deve ser Turma OU OSC
+            builder.Entity<Doacao>()
+                .HasCheckConstraint("CHK_Doacao_DestinoExclusivo",
+                    "(IIF(DestinoTurmaId IS NULL, 0, 1) + IIF(DestinoOSCCodigo IS NULL, 0, 1)) <= 1");
+
+            // Se sua Doacao implementa ISoftDeletable:
+            builder.Entity<Doacao>().HasQueryFilter(e => !e.IsDeleted);
+
+
+            // Configurações de Identity (Original do código do colega)
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -101,6 +132,10 @@ namespace IgescConecta.API.Data
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
+
+        // ==========================================================
+        // MÉTODOS DE AUDITORIA E SOFT DELETE 
+        // ==========================================================
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
@@ -148,6 +183,7 @@ namespace IgescConecta.API.Data
 
             foreach (var entry in filtred)
             {
+                // Trata a auditoria de User
                 if (entry.Entity is User user)
                 {
                     if (entry.State == EntityState.Added)
@@ -159,6 +195,7 @@ namespace IgescConecta.API.Data
                     user.UpdatedAt = DateTime.UtcNow;
                     user.UpdatedBy = currentUserId;
                 }
+                // Trata a auditoria de BaseEntity
                 else if (entry.Entity is BaseEntity entity)
                 {
                     if (entry.State == EntityState.Added)
