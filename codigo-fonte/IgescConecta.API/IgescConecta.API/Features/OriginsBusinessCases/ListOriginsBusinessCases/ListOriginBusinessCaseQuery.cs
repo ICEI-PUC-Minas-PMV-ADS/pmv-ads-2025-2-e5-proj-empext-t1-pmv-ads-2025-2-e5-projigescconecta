@@ -16,6 +16,8 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
         public int OriginBusinessCaseId { get; set; }
 
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public class ListOriginBusinessCaseQuery : PaginationRequest, IRequest<ListOriginBusinessCaseViewModel>
@@ -42,6 +44,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
             var result = await query.Where(expr).Select(Osc => new OriginBusinessCaseViewModel
             {
                 Name = Osc.Name,
+                Notes = Osc.Notes,
                 OriginBusinessCaseId = Osc.Id,
             })
                 .OrderBy(x => x.OriginBusinessCaseId)

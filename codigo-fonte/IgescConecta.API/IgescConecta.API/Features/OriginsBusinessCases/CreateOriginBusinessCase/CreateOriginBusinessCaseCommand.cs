@@ -9,6 +9,8 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.CreateOriginBusinessCas
     {
         public string Name { get; set; }
 
+        public string Notes { get; set; }
+
         public int BusinessCaseId { get; set; }
     }
 
@@ -26,6 +28,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.CreateOriginBusinessCas
             var originBusinessCase = new OriginBusinessCase
             {
                 Name = request.Name,
+                Notes = request.Notes,
                 BusinessCaseId = request.BusinessCaseId
             };
 

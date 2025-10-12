@@ -31,6 +31,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
                 {
                     OriginBusinessCaseId = originBusinessCaseId,
                     Name = result.Value.Name,
+                    Notes = result.Value.Notes,
                     Oscs = result.Value?.Oscs?.Select(o => new GetOriginBusinessCaseOscResponse
                     {
                         OscId = o.Id,
@@ -50,7 +51,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Notes { get; set; }
 
         public List<GetOriginBusinessCaseOscResponse>? Oscs { get; set; }
     }
@@ -58,6 +59,9 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
     public class GetOriginBusinessCaseOscResponse
     {
         public int OscId { get; set; }
+
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 }

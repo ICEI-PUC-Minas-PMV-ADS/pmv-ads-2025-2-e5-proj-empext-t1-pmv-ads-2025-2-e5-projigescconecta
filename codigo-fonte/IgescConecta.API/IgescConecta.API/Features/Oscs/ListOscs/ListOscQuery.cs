@@ -23,6 +23,20 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
 
         public string Address { get; set; }
 
+        public string Neighborhood { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string WebUrl { get; set; }
+
+        public string SocialMedia { get; set; }
+
         public string ZipCode { get; set; }
 
         public string OscPrimaryDocumment { get; set; }
@@ -57,6 +71,13 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
                 Objective = osc.Objective,
                 CorporateName = osc.CorporateName,
                 Address = osc.Address,
+                Neighborhood = osc.Neighborhood,
+                City = osc.City,
+                State = osc.State,
+                PhoneNumber = osc.PhoneNumber,
+                Email = osc.Email,
+                WebUrl = osc.WebUrl,
+                SocialMedia = osc.SocialMedia,
                 ZipCode = osc.ZipCode,
                 OscPrimaryDocumment = osc.OscPrimaryDocumment,
                 BeneficiariesCount = _context.Beneficiaries

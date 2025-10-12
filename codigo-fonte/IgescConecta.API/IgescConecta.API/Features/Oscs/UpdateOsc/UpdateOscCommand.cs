@@ -18,6 +18,20 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
 
         public string? Address { get; set; }
 
+        public string? Neighborhood { get; set; }
+
+        public string? City { get; set; }
+
+        public string? State { get; set; }
+
+        public string? PhoneNumber { get; set; }
+
+        public string? Email { get; set; }
+
+        public string? WebUrl { get; set; }
+
+        public string? SocialMedia { get; set; }
+
         public string? ZipCode { get; set; }
 
         public string? OscPrimaryDocumment { get; set; }
@@ -52,6 +66,13 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
             osc.CorporateName = string.IsNullOrEmpty(request.CorporateName) ? osc.CorporateName : request.CorporateName;
             osc.Objective = string.IsNullOrEmpty(request.Objective) ? osc.Objective : request.Objective;
             osc.Address = string.IsNullOrEmpty(request.Address) ? osc.Address : request.Address;
+            osc.Neighborhood = string.IsNullOrEmpty(request.Neighborhood) ? osc.Neighborhood : request.Neighborhood;
+            osc.City = string.IsNullOrEmpty(request.City) ? osc.City : request.City;
+            osc.State = string.IsNullOrEmpty(request.State) ? osc.State : request.State;
+            osc.PhoneNumber = string.IsNullOrEmpty(request.PhoneNumber) ? osc.PhoneNumber : request.PhoneNumber;
+            osc.Email = string.IsNullOrEmpty(request.Email) ? osc.Email : request.Email;
+            osc.WebUrl = string.IsNullOrEmpty(request.WebUrl) ? osc.WebUrl : request.WebUrl;
+            osc.SocialMedia = string.IsNullOrEmpty(request.SocialMedia) ? osc.SocialMedia : request.SocialMedia;
             osc.ZipCode = string.IsNullOrEmpty(request.ZipCode) ? osc.ZipCode : request.ZipCode;
             osc.OscPrimaryDocumment = string.IsNullOrEmpty(request.OscPrimaryDocumment) ? osc.OscPrimaryDocumment : request.OscPrimaryDocumment;
             

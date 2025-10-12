@@ -19,6 +19,20 @@ namespace IgescConecta.API.Features.Oscs.CreateOsc
 
         public string ZipCode { get; set; }
 
+        public string Neighborhood { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string WebUrl { get; set; }
+
+        public string SocialMedia { get; set; }
+
         public string? OscPrimaryDocumment { get; set; }
 
         public List<int> BeneficiariesIds { get; set; } = [];
@@ -42,9 +56,16 @@ namespace IgescConecta.API.Features.Oscs.CreateOsc
                 Name = request.Name,
                 OscPrimaryDocumment = request.OscPrimaryDocumment,
                 Address = request.Address,
+                Neighborhood = request.Neighborhood,
+                City = request.City,
+                State = request.State,
+                PhoneNumber = request.PhoneNumber,
+                Email = request.Email,
+                WebUrl = request.WebUrl,
+                SocialMedia = request.SocialMedia,
                 CorporateName = request.CorporateName,
                 Objective = request.Objective,
-                ZipCode = request.ZipCode
+                ZipCode = request.ZipCode,
             };
 
             if (request.BeneficiariesIds.Any())

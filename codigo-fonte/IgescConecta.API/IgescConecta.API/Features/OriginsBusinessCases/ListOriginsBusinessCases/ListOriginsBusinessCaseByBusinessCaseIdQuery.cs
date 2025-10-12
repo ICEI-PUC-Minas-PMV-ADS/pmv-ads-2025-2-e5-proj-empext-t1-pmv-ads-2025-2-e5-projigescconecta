@@ -17,6 +17,8 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
 
         public string Name { get; set; }
 
+        public string Notes { get; set; }
+
         public int BusinessCaseId { get; set; }
     }
 
@@ -49,6 +51,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
             var result = await query.Where(expr).Select(osc => new OriginBusinessCaseByBusinessCaseIdViewModel
             {
                 Name = osc.Name,
+                Notes = osc.Notes,
                 OriginBusinessCaseId = osc.Id,
                 BusinessCaseId = osc.BusinessCaseId,
             })

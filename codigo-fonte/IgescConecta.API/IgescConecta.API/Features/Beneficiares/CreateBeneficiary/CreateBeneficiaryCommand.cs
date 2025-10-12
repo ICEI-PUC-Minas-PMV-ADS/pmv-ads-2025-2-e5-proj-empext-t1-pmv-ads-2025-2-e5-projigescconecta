@@ -8,6 +8,8 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
     public class CreateBeneficiaryCommand : IRequest<Result<int, ValidationFailed>>
     {
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     internal sealed class CreateBeneficiaryCommandHandler : IRequestHandler<CreateBeneficiaryCommand, Result<int, ValidationFailed>>
@@ -22,7 +24,8 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
         {
             var beneficiary = new Beneficiary
             {
-                Name = request.Name
+                Name = request.Name,
+                Notes = request.Notes
             };
 
             await _context.Beneficiaries.AddAsync(beneficiary, cancellationToken);
