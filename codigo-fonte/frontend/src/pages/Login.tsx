@@ -15,14 +15,10 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
-import { AuthApi, Configuration, LoginResponse, UserLogin } from './../api'
+import { AuthApi, Configuration, LoginResponse, UserLogin, UsersApi } from './../api'
 import logoGest from '../assets/logo-gesc.png'
-import { scheduleTokenRefresh } from '@/services/auth'
-
-/* ===== Validações ===== */
-const isValidEmail = (rawEmail: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(rawEmail.trim())
-const isValidPassword = (password: string) =>
-  password.length >= 6 && /[0-9]/.test(password) && /[a-z]/.test(password) && /[A-Z]/.test(password)
+import { apiConfig, persistLoginResponse, scheduleTokenRefresh } from '@/services/auth'
+import { jwtDecode } from 'jwt-decode'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -30,11 +26,14 @@ export default function Login() {
   const [touchedPassword, setTouchedPassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
+  const isValidEmail = (rawEmail: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(rawEmail.trim())
+  const isValidPassword = (pwd: string) =>
+    pwd.length >= 6 && /[0-9]/.test(pwd) && /[a-z]/.test(pwd) && /[A-Z]/.test(pwd)
+
   const emailValid = useMemo(() => isValidEmail(email), [email])
   const passwordValid = useMemo(() => isValidPassword(password), [password])
   const formValid = emailValid && passwordValid
 
-  // se quiser manter o BASE_PATH do client gerado, pode omitir a Configuration()
   const apiInstance = new AuthApi(new Configuration())
   const navigate = useNavigate()
 
@@ -54,14 +53,33 @@ export default function Login() {
       const { status, data } = await apiInstance.login(userLogin)
       if (status === 200) {
         toast.success('Login realizado com sucesso!')
+
         const loginResponse: LoginResponse = {
           accessToken: data.accessToken,
           refreshToken: data.refresfToken,
           expiresIn: data.expiresIn,
         }
-        localStorage.setItem('loginResponse', JSON.stringify(loginResponse))
-        if (loginResponse.expiresIn) scheduleTokenRefresh(parseInt(loginResponse.expiresIn))
-        navigate('/home') // garanta que a rota existe; senão use "/"
+
+        persistLoginResponse(loginResponse)
+
+        const expires = Number(loginResponse.expiresIn || 0)
+        if (expires > 0) scheduleTokenRefresh(expires)
+
+        try {
+          const decoded: any = jwtDecode(loginResponse.accessToken || '')
+          const userId = Number(
+            decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+          )
+          if (userId) {
+            const usersApi = new UsersApi(apiConfig)
+            const { data: user } = await usersApi.getUserById(userId)
+            if (user?.name) {
+              persistLoginResponse(loginResponse, user.name)
+            }
+          }
+        } catch {}
+
+        navigate('/home')
       }
     } catch {
       toast.error('Erro ao realizar login. Verifique suas credenciais.')
@@ -71,13 +89,11 @@ export default function Login() {
   return (
     <Box minHeight="100vh" bgcolor="#FCFCFC" display="flex" alignItems="center" justifyContent="center" px={2}>
       <Box width="100%" maxWidth={420} display="flex" flexDirection="column" alignItems="center">
-        {/* CABEÇALHO NO FLUXO (sem position: absolute) */}
         <Box display="flex" flexDirection="column" alignItems="center" mb={{ xs: 2, sm: 3 }}>
           <Box component="img" src={logoGest} alt="Instituto GESC" sx={{ width: { xs: 96, sm: 120 }, mb: 1.5 }} />
           <Box sx={{ width: { xs: 160, sm: 220 }, height: 2, bgcolor: '#264197', borderRadius: 1 }} />
         </Box>
 
-        {/* Título */}
         <Typography
           variant="h4"
           textAlign="center"
@@ -87,7 +103,6 @@ export default function Login() {
           Login
         </Typography>
 
-        {/* Form */}
         <Box component="form" onSubmit={handleSubmit} width="100%" px={{ xs: 1, sm: 0 }}>
           <TextField
             fullWidth
@@ -109,9 +124,6 @@ export default function Login() {
             margin="normal"
             required
             autoComplete="current-password"
-            // reative se quiser mostrar helper ao tocar:
-            // error={touchedPassword && !passwordValid}
-            // helperText={touchedPassword && !passwordValid ? 'Mín. 6 caracteres, com 1 dígito, 1 minúscula e 1 maiúscula.' : ' '}
             slotProps={{
               input: {
                 endAdornment: (
