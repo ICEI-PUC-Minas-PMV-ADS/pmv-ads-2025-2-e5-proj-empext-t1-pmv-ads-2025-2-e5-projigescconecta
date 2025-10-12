@@ -26,6 +26,7 @@ namespace IgescConecta.API.Features.Beneficiares.GetBeneficiary
             {
                 BeneficiaryId = beneficiaryId,
                 Name = result.Value?.Name,
+                Notes = result.Value?.Notes,
                 Oscs = result.Value?.Oscs.Select(o => new GetBeneficiaryOscResponse
                 {
                     OscId = o.Id,
@@ -42,6 +43,8 @@ namespace IgescConecta.API.Features.Beneficiares.GetBeneficiary
             public int BeneficiaryId { get; set; }
 
             public string Name { get; set; }
+
+            public string Notes { get; set; }
 
             public List<GetBeneficiaryOscResponse> Oscs { get; set; } = new();
         }

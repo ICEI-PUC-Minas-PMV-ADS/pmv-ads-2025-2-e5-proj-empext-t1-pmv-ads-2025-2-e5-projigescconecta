@@ -51,6 +51,7 @@ dayjs.locale('pt-br');
 interface Beneficiary {
     beneficiaryId?: number;
     name?: string;
+    notes?: string;
     oscs?: Osc[];
 }
 
@@ -152,7 +153,8 @@ const Beneficiary: React.FC = () => {
 
     const handleAdd = () => {
         setCreateBeneficiary({
-            name: ''
+            name: '',
+            notes: '',
         });
         setIsVisualizing(false);
         resetForm();
@@ -233,6 +235,7 @@ const Beneficiary: React.FC = () => {
             try {
                 const updateBeneficiaryRequest: UpdateBeneficiaryRequest = {
                     name: updateBeneficiary.name!,
+                    notes: updateBeneficiary.notes!,
                 };
 
                 await beneficiariesApi.updateBeneficiary(updateBeneficiary.beneficiaryId!, updateBeneficiaryRequest);
@@ -251,6 +254,7 @@ const Beneficiary: React.FC = () => {
             try {
                 const createBeneficiaryRequest: CreateBeneficiaryRequest = {
                     name: createBeneficiary!.name!,
+                    notes: createBeneficiary!.notes!,
                 };
 
                 await beneficiariesApi.createBeneficiary(createBeneficiaryRequest);
@@ -268,7 +272,7 @@ const Beneficiary: React.FC = () => {
     }
 
     const validateBeneficiaryForm = (beneficiary: any): boolean => {
-        const requiredFields = ['name'];
+        const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!beneficiary[field] || beneficiary[field].toString().trim() === '') {
@@ -283,6 +287,7 @@ const Beneficiary: React.FC = () => {
     const formatFieldName = (field: string): string => {
         const mapping: Record<string, string> = {
             name: 'Nome',
+            notes: 'Observações',
         };
         return mapping[field] || field;
     }
@@ -290,6 +295,7 @@ const Beneficiary: React.FC = () => {
     const columns: Column<Beneficiary>[] = [
         { label: 'ID', field: 'beneficiaryId' },
         { label: 'Nome', field: 'name' },
+        { label: 'Observações', field: 'notes' },
     ];
 
     return (
@@ -530,6 +536,7 @@ const Beneficiary: React.FC = () => {
                                             <Divider sx={{ mb: 2 }} />
                                             <Typography><strong>ID:</strong> {selectedBeneficiary.beneficiaryId}</Typography>
                                             <Typography><strong>Nome:</strong> {selectedBeneficiary.name}</Typography>
+                                            <Typography><strong>Observações:</strong> {selectedBeneficiary.notes}</Typography>
                                         </Box>
 
                                         {/* OSC */}
@@ -564,6 +571,12 @@ const Beneficiary: React.FC = () => {
                                             onChange={(e) => setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })}
                                             fullWidth
                                         />
+                                        <TextField
+                                            label="Observações"
+                                            value={updateBeneficiary.notes || ''}
+                                            onChange={(e) => setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })}
+                                            fullWidth
+                                        />
 
                                         {/* Chips de OSC */}
                                         <Box>
@@ -595,6 +608,12 @@ const Beneficiary: React.FC = () => {
                                             label="Nome"
                                             value={createBeneficiary.name || ''}
                                             onChange={(e) => setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })}
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Observações"
+                                            value={createBeneficiary.notes || ''}
+                                            onChange={(e) => setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })}
                                             fullWidth
                                         />
                                     </Box>) :

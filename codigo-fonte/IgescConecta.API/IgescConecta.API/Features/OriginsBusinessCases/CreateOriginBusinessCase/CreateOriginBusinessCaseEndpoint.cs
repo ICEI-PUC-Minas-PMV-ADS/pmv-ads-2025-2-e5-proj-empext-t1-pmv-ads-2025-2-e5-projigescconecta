@@ -23,6 +23,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.CreateOriginBusinessCas
             var result = await _mediator.Send(new CreateOriginBusinessCaseCommand
             {
                 Name = request.Name,
+                Notes = request.Notes,
                 BusinessCaseId = request.BusinessCaseId
             });
 
@@ -33,6 +34,9 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.CreateOriginBusinessCas
     public class CreateOriginBusinessCaseRequest
     {
         public string Name { get; set; }
+
+        public string Notes { get; set; }
+
         public int BusinessCaseId { get; set; }
     }
 

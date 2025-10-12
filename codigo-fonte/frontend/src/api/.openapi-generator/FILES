@@ -71,6 +71,8 @@ models/list-course-request.ts
 models/list-course-view-model.ts
 models/list-origin-business-case-request.ts
 models/list-origin-business-case-view-model.ts
+models/list-origins-business-case-by-business-case-id-request.ts
+models/list-origins-business-case-by-business-case-id-view-model.ts
 models/list-osc-request.ts
 models/list-osc-view-model.ts
 models/list-team-item-view-model.ts
@@ -80,6 +82,7 @@ models/list-user-request.ts
 models/list-user-view-model.ts
 models/login-response.ts
 models/op.ts
+models/origin-business-case-by-business-case-id-view-model.ts
 models/origin-business-case-view-model.ts
 models/osc-view-model.ts
 models/problem-details.ts

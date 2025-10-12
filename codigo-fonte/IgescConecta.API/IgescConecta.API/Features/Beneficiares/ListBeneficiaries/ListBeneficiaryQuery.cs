@@ -17,6 +17,8 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
 
         public string Name { get; set; }
 
+        public string Notes { get; set; }
+
         public int OscsCount { get; set; }
     }
 
@@ -44,6 +46,7 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
             {
                 BeneficiaryId = beneficiary.Id,
                 Name = beneficiary.Name,
+                Notes = beneficiary.Notes,
                 OscsCount = _context.Oscs
                     .Count(osc => osc.Beneficiaries.Any(b => b.Id == beneficiary.Id)),
             })
