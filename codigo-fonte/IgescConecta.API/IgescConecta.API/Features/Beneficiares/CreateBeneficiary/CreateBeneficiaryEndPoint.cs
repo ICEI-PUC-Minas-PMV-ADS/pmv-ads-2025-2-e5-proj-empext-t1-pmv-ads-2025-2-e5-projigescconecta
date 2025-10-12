@@ -22,7 +22,8 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
         {
             var result = await _mediator.Send(new CreateBeneficiaryCommand
             {
-                Name = request.Name
+                Name = request.Name,
+                Notes = request.Notes
             });
             return result.IsSuccess ? Ok(new CreateBeneficiaryResponse(result.Value)) : BadRequest(result.Error);
         }
@@ -31,6 +32,8 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
     public class CreateBeneficiaryRequest
     {
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public class CreateBeneficiaryResponse

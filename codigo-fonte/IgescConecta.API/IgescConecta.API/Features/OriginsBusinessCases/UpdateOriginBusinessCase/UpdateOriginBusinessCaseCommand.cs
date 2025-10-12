@@ -10,6 +10,8 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.UpdateOriginBusinessCas
         public int OriginBusinessCaseId { get; set; }
 
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     internal sealed class UpdateOriginBusinessCaseCommandHandler : IRequestHandler<UpdateOriginBusinessCaseCommand, Result<OriginBusinessCase, ValidationFailed>>
@@ -31,6 +33,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.UpdateOriginBusinessCas
             }
 
             originBusinessCase.Name = string.IsNullOrEmpty(request.Name) ? originBusinessCase.Name : request.Name;
+            originBusinessCase.Notes = string.IsNullOrEmpty(request.Notes) ? originBusinessCase.Notes : request.Notes;
 
             await _context.SaveChangesAsync(cancellationToken);
             return originBusinessCase;

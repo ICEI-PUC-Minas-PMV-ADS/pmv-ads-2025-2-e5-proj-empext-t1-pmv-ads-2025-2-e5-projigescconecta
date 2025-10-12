@@ -17,16 +17,13 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
 
         public string Name { get; set; }
 
-        public int BusinessCaseId { get; set; }
+        public string Notes { get; set; }
     }
 
     public class ListOriginBusinessCaseQuery : PaginationRequest, IRequest<ListOriginBusinessCaseViewModel>
     {
-        public int BusinessCaseId { get; set; }
-
-        public ListOriginBusinessCaseQuery(int pageNumber, int pageSize, List<Filter> filters, int businessCaseId) : base(pageNumber, pageSize, filters)
+        public ListOriginBusinessCaseQuery(int pageNumber, int pageSize, List<Filter> filters) : base(pageNumber, pageSize, filters)
         {
-            BusinessCaseId = businessCaseId;
         }
     }
 
@@ -43,22 +40,19 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
         {
             var expr = ExpressionBuilder.GetExpression<OriginBusinessCase>(request.Filters);
             var query = _context.OriginBusinessCases
-                .AsQueryable()
-                .Where(obc => obc.BusinessCaseId == request.BusinessCaseId)
-                .Where(expr);
+                .AsQueryable();
             var result = await query.Where(expr).Select(Osc => new OriginBusinessCaseViewModel
             {
                 Name = Osc.Name,
+                Notes = Osc.Notes,
                 OriginBusinessCaseId = Osc.Id,
-                BusinessCaseId = Osc.BusinessCaseId,
             })
                 .OrderBy(x => x.OriginBusinessCaseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            //var totalRecords = await _context.OriginBusinessCases.CountAsync(expr, cancellationToken);
-            var totalRecords = await query.CountAsync(expr, cancellationToken);
+            var totalRecords = await _context.OriginBusinessCases.CountAsync(expr, cancellationToken);
 
             return new ListOriginBusinessCaseViewModel
             {

@@ -32,6 +32,10 @@ import type { ListOriginBusinessCaseRequest } from '../models';
 // @ts-ignore
 import type { ListOriginBusinessCaseViewModel } from '../models';
 // @ts-ignore
+import type { ListOriginsBusinessCaseByBusinessCaseIdRequest } from '../models';
+// @ts-ignore
+import type { ListOriginsBusinessCaseByBusinessCaseIdViewModel } from '../models';
+// @ts-ignore
 import type { UpdateOriginBusinessCaseRequest } from '../models';
 // @ts-ignore
 import type { UpdateOriginBusinessCaseResponse } from '../models';
@@ -191,6 +195,43 @@ export const OriginsBusinessCasesApiAxiosParamCreator = function (configuration?
         },
         /**
          * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginsBusinessCaseByBusinessCaseId: async (listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/origins-business-cases/ListOriginsBusinessCaseByBusinessCaseId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listOriginsBusinessCaseByBusinessCaseIdRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} originBusinessCaseId 
          * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
          * @param {*} [options] Override http request option.
@@ -290,6 +331,18 @@ export const OriginsBusinessCasesApiFp = function(configuration?: Configuration)
         },
         /**
          * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOriginsBusinessCaseByBusinessCaseIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} originBusinessCaseId 
          * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
          * @param {*} [options] Override http request option.
@@ -346,6 +399,15 @@ export const OriginsBusinessCasesApiFactory = function (configuration?: Configur
          */
         listOriginBusinessCase(listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options?: any): AxiosPromise<ListOriginBusinessCaseViewModel> {
             return localVarFp.listOriginBusinessCase(listOriginBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: any): AxiosPromise<ListOriginsBusinessCaseByBusinessCaseIdViewModel> {
+            return localVarFp.listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -409,6 +471,17 @@ export class OriginsBusinessCasesApi extends BaseAPI {
      */
     public listOriginBusinessCase(listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options?: RawAxiosRequestConfig) {
         return OriginsBusinessCasesApiFp(this.configuration).listOriginBusinessCase(listOriginBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -20,26 +20,32 @@ import type { Filter } from './filter';
 /**
  * 
  * @export
- * @interface ListOriginBusinessCaseRequest
+ * @interface ListOriginsBusinessCaseByBusinessCaseIdRequest
  */
-export interface ListOriginBusinessCaseRequest {
+export interface ListOriginsBusinessCaseByBusinessCaseIdRequest {
     /**
      * 
      * @type {number}
-     * @memberof ListOriginBusinessCaseRequest
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
      */
     'pageNumber'?: number;
     /**
      * 
      * @type {number}
-     * @memberof ListOriginBusinessCaseRequest
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
      */
     'pageSize'?: number;
     /**
      * 
      * @type {Array<Filter>}
-     * @memberof ListOriginBusinessCaseRequest
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'businessCaseId'?: number;
 }
 

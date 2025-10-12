@@ -23,13 +23,15 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.UpdateOriginBusinessCas
             var result = await _mediator.Send(new UpdateOriginBusinessCaseCommand
             {
                 OriginBusinessCaseId = originBusinessCaseId,
-                Name = request.Name
+                Name = request.Name,
+                Notes = request.Notes
             });
 
             var updateResponse = new UpdateOriginBusinessCaseResponse
             {
                 OriginBusinessCaseId = originBusinessCaseId,
-                Name = result.Value.Name
+                Name = result.Value.Name,
+                Notes = result.Value.Notes
             };
 
             return result.IsSuccess ? Ok(updateResponse) : BadRequest(result.Error);
@@ -39,11 +41,16 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.UpdateOriginBusinessCas
     public class UpdateOriginBusinessCaseRequest
     {
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public class UpdateOriginBusinessCaseResponse
     {
         public int OriginBusinessCaseId { get; set; }
+
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 }

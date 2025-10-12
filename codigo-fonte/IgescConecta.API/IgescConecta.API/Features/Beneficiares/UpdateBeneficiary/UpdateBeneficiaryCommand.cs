@@ -10,6 +10,8 @@ namespace IgescConecta.API.Features.Beneficiares.UpdateBeneficiary
         public int BeneficiaryId { get; set; }
 
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     internal sealed class UpdateBeneficiaryCommandHandler : IRequestHandler<UpdateBeneficiaryCommand, Result<Beneficiary, ValidationFailed>>
@@ -31,6 +33,7 @@ namespace IgescConecta.API.Features.Beneficiares.UpdateBeneficiary
             }
 
             beneficiary.Name = string.IsNullOrEmpty(request.Name) ? beneficiary.Name : request.Name;
+            beneficiary.Notes = string.IsNullOrEmpty(request.Notes) ? beneficiary.Notes : request.Notes;
 
             await _context.SaveChangesAsync(cancellationToken);
 

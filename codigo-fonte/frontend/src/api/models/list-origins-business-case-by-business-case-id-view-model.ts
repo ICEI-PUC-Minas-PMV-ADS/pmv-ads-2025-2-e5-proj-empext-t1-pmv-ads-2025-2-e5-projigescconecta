@@ -15,31 +15,25 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Filter } from './filter';
+import type { OriginBusinessCaseByBusinessCaseIdViewModel } from './origin-business-case-by-business-case-id-view-model';
 
 /**
  * 
  * @export
- * @interface ListOriginBusinessCaseRequest
+ * @interface ListOriginsBusinessCaseByBusinessCaseIdViewModel
  */
-export interface ListOriginBusinessCaseRequest {
+export interface ListOriginsBusinessCaseByBusinessCaseIdViewModel {
     /**
      * 
      * @type {number}
-     * @memberof ListOriginBusinessCaseRequest
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdViewModel
      */
-    'pageNumber'?: number;
+    'totalItems'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof ListOriginBusinessCaseRequest
+     * @type {Array<OriginBusinessCaseByBusinessCaseIdViewModel>}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdViewModel
      */
-    'pageSize'?: number;
-    /**
-     * 
-     * @type {Array<Filter>}
-     * @memberof ListOriginBusinessCaseRequest
-     */
-    'filters'?: Array<Filter>;
+    'items'?: Array<OriginBusinessCaseByBusinessCaseIdViewModel>;
 }
 
