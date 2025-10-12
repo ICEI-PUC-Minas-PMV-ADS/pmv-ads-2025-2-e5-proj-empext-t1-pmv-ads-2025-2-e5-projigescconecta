@@ -1,9 +1,6 @@
-﻿using IgescConecta.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using IgescConecta.Domain.Shared;
 
 namespace IgescConecta.Domain.Entities
 {
@@ -15,10 +12,17 @@ namespace IgescConecta.Domain.Entities
 
         public string PersonalDocumment { get; set; }
 
+        public string? SecondaryEmail { get; set; }
+        public string? PrimaryPhone { get; set; }
+        public string? SecondaryPhone { get; set; }
+        public string? Education1 { get; set; }
+        public string? Education2 { get; set; }
+        public string? ProfessionalActivity { get; set; }
+        public bool IsActive { get; set; } = true;
+
         public ICollection<PersonTeam>? Teams { get; set; }
-
         public ICollection<PersonOsc>? Oscs { get; set; }
-
         public ICollection<PersonCompany>? Companies { get; set; }
+
     }
 }
