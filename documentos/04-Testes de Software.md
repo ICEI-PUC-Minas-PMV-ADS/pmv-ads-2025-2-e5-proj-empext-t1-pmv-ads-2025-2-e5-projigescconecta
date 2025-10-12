@@ -300,8 +300,405 @@ ________________________________________________________________________________
   </tr>
 </table>
 
+<details>
+<summary><h2>🎓 Programa</h2></summary>
 
- 
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P01 - S<br>Criar Programa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite criar um novo Programa com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Lucas Xavier</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Programas.<br>
+      2. Clicar em "Novo".<br>
+      3. Preencher o campo Nome.<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome:</strong> Programa Desenvolvimento Tech
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar o Programa e exibi-lo corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P02 - S<br>Editar Programa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite editar as informações de um Programa existente.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Lucas</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Programa existente.<br>
+      2. Alterar o campo Nome.<br>
+      3. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar e exibir o novo nome do Programa corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P03 - S<br>Remover Programa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir um Programa existente, exibindo modal de confirmação antes da exclusão.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Lucas</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Programa existente.<br>
+      2. Clicar em "Remover".<br>
+      3. Confirmar a exclusão no modal exibido.<br>
+      4. Verificar a listagem atualizada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover o Programa e atualizar a lista sem o item excluído.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P04 - I01<br>Criar Programa sem nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede o cadastro de um Programa sem o preenchimento do campo Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Lucas</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Programas.<br>
+      2. Clicar em "Novo".<br>
+      3. Deixar o campo Nome vazio.<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que o campo Nome é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P05 - S<br>Listar Programas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema exibe corretamente todos os Programas cadastrados e permite a filtragem por Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Lucas</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-003</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Programas.<br>
+      2. Visualizar listagem de Programas cadastrados.<br>
+      3. Aplicar filtro por Nome e pesquisar.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a lista de Programas corretamente, incluindo o resultado filtrado conforme o Nome informado.</td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+  <summary><h2>👥 Turma</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-T01 - S<br>Criar Turma</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Este caso de teste verifica se o sistema permite criar uma nova Turma vinculada a um Programa com sucesso.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-004</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Turmas.<br>
+        2. Clicar em "Nova Turma".<br>
+        3. Preencher os campos: Curso, Número da Turma, Data de Início, Data de Término e Horário.<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Dados de teste</strong></td>
+      <td>
+        - Curso: Desenvolvimento Tech<br>
+        - Nome da Turma: 2025A<br>
+        - Data Início: 10/05/2025<br>
+        - Data Fim: 10/08/2025<br>
+        - Horário: 14h às 18h
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve cadastrar a Turma e exibi-la corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  ---
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-T02 - I01<br>Criar Turma sem Curso associado</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Este caso de teste verifica se o sistema impede o cadastro de uma Turma sem vincular um Curso obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-004</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Turmas.<br>
+        2. Clicar em "Nova Turma".<br>
+        3. Preencher os campos Nome da Turma, Data de Início, Data de Término e Horário, deixando o campo Curso vazio.<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Dados de teste</strong></td>
+      <td>
+        - Curso: (vazio)<br>
+        - Número da Turma: 2025B<br>
+        - Data Início: 15/05/2025<br>
+        - Data Fim: 15/08/2025<br>
+        - Horário: 09h às 13h
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir uma mensagem de erro informando que o campo Curso é obrigatório.</td>
+    </tr>
+  </table>
+
+  ---
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-T03 - S<br>Editar Turma</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Este caso de teste verifica se o sistema permite editar as informações de uma Turma existente, como datas e horário.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-004</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar uma Turma existente.<br>
+        2. Alterar os campos: Nome, Data Fim e/ou Horário.<br>
+        3. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve atualizar e exibir as informações da Turma corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  ---
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-T04 - S<br>Excluir Turma</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Este caso de teste verifica se o sistema permite excluir uma Turma existente, exibindo modal de confirmação antes da exclusão.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-004</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar uma Turma existente.<br>
+        2. Clicar em "Remover".<br>
+        3. Confirmar a exclusão no modal exibido.<br>
+        4. Verificar a listagem atualizada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve remover a Turma e atualizar a lista sem o item excluído.</td>
+    </tr>
+  </table>
+
+  ---
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-T05 - S<br>Listar Turmas</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Este caso de teste verifica se o sistema exibe corretamente todas as Turmas cadastradas e permite a filtragem por Curso ou Nome da Turma.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Lucas</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-004</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Turmas.<br>
+        2. Visualizar a listagem de Turmas cadastradas.<br>
+        3. Aplicar filtro por Curso ou Nome da Turma.<br>
+        4. Clicar em "Pesquisar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir a lista de Turmas corretamente, incluindo o resultado filtrado conforme o parâmetro informado.</td>
+    </tr>
+  </table>
+
+</details>
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
