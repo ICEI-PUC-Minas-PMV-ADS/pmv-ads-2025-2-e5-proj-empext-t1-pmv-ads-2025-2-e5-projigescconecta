@@ -3,8 +3,19 @@ import { jwtDecode } from 'jwt-decode';
 import { AxiosResponse } from 'axios';
 import { BASE_PATH } from '@/api/base';
 
-interface JwtPayload {
-  exp: number;
+interface JwtPayload { exp: number; }
+
+export function persistLoginResponse(data: LoginResponse, name?: string) {
+  const payload = {
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+    expiresIn: data.expiresIn,
+    ...(name ? { name } : {}),
+    ...(data as any).name ? { name: (data as any).name } : {},
+  };
+  localStorage.setItem('loginResponse', JSON.stringify(payload));
+  localStorage.setItem('accessToken', data.accessToken || '');
+  localStorage.setItem('refreshToken', data.refreshToken || '');
 }
 
 const configuration = new Configuration();
@@ -22,24 +33,22 @@ export const isTokenValid = (token: string | null): boolean => {
 };
 
 export const scheduleTokenRefresh = (expiresInSeconds: number) => {
-  const timeout = (expiresInSeconds - 60) * 1000; // renova 1 minuto antes de expirar
+  const expires = Number(expiresInSeconds);
+  const timeout = ((Number.isFinite(expires) && expires > 0 ? expires : 600) - 60) * 1000;
   setTimeout(async () => {
     const success = await refreshAccessToken();
     if (success) {
-      const newLogin = JSON.parse(localStorage.getItem('loginResponse')!);
-      scheduleTokenRefresh(parseInt(newLogin.expiresIn)); // agenda próxima renovação
+      const newLogin = JSON.parse(localStorage.getItem('loginResponse') || '{}');
+      scheduleTokenRefresh(Number(newLogin.expiresIn || 600));
     } else {
-      console.log('Refresh token expirou. Usuário precisa logar novamente.');
       localStorage.removeItem('loginResponse');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      window.location.href = '/login'; // força logout
+      window.location.href = '/login';
     }
-  }, timeout);
+  }, Math.max(timeout, 15000));
 };
 
-
-// Função para tentar renovar o access token usando o refresh token
 export const refreshAccessToken = async (): Promise<boolean> => {
   const loginResponseStr = localStorage.getItem('loginResponse');
   if (!loginResponseStr) return false;
@@ -47,29 +56,13 @@ export const refreshAccessToken = async (): Promise<boolean> => {
   const loginResponse: LoginResponse = JSON.parse(loginResponseStr);
 
   try {
-    // Recebe o retorno do Axios com o tipo correto
-    const response: AxiosResponse<LoginResponse> = await apiInstance.refreshToken(
-      loginResponse
-    );
-
-    console.log('Resposta do refresh token:', response);
-
+    const response: AxiosResponse<LoginResponse> = await apiInstance.refreshToken(loginResponse);
     if (response.status === 200 && response.data) {
-      const data = response.data;
-      // Atualiza os dados no localStorage
-      localStorage.setItem(
-        'loginResponse',
-        JSON.stringify({
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-          expiresIn: data.expiresIn,
-        })
-      );
+      persistLoginResponse(response.data);
       return true;
     }
-
     return false;
-  } catch (error) {
+  } catch {
     return false;
   }
 };
@@ -77,9 +70,7 @@ export const refreshAccessToken = async (): Promise<boolean> => {
 export const apiConfig = new Configuration({
   basePath: BASE_PATH,
   accessToken: async () => {
-    const loginResponseStr = localStorage.getItem('loginResponse');
-    if (!loginResponseStr) return '';
-    const loginResponse = JSON.parse(loginResponseStr);
-    return loginResponse.accessToken;
+    const t = localStorage.getItem('accessToken');
+    return t || '';
   },
 });
