@@ -49,18 +49,13 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
 
-        // Domínio (SEU CONTEÚDO ADICIONADO)
-        // O DbSet deve ser adicionado aqui, mesmo que o nome "Empresa" conflite com "Company"
-        // no mundo real. Assumimos que são entidades distintas no banco.
-        public DbSet<Empresa> Empresas { get; set; }
-        public DbSet<Doacao> Doacoes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Mapeamentos de AUDITORIA/IDENTITY 
+
             builder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
                 .WithMany()
@@ -73,7 +68,6 @@ namespace IgescConecta.API.Data
                 .HasForeignKey(u => u.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ===== FILTROS EXPLÍCITOS (Original do código do colega) =====
             builder.Entity<Company>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Course>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Team>().HasQueryFilter(e => !e.IsDeleted);
@@ -91,35 +85,6 @@ namespace IgescConecta.API.Data
             builder.Entity<ProjectTheme>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<ProjectType>().HasQueryFilter(e => !e.IsDeleted);
 
-            // ===== SUAS REGRAS (INTEGRAÇÃO) =====
-
-            // 1. Mapeamento de Empresas (PK e Filtro de Ativação)
-            builder.Entity<Empresa>().ToTable("Empresa"); // Adiciona o nome da tabela (opcional, mas bom)
-            builder.Entity<Empresa>().HasKey(e => e.CNPJ);
-            builder.Entity<Empresa>().HasQueryFilter(e => e.Ativa); // Seu filtro de soft delete
-
-            // 2. Mapeamento de Doações (Relacionamentos e CHECK CONSTRAINTS)
-            builder.Entity<Doacao>().ToTable("Doacao"); // Adiciona o nome da tabela
-
-            // Relacionamento Doacao <-> Empresa (DoadorEmpresa)
-            builder.Entity<Doacao>()
-                .HasOne(d => d.DoadorEmpresa)
-                .WithMany(e => e.DoacoesRealizadas)
-                .HasForeignKey(d => d.DoadorEmpresaCNPJ)
-                .IsRequired(false);
-
-            // Restrição 1: Doador deve ser Pessoa OU Empresa
-            builder.Entity<Doacao>()
-                .HasCheckConstraint("CHK_Doacao_DoadorExclusivo",
-                    "(IIF(DoadorPessoaCPF IS NULL, 0, 1) + IIF(DoadorEmpresaCNPJ IS NULL, 0, 1)) = 1");
-
-            // Restrição 2: Destino deve ser Turma OU OSC
-            builder.Entity<Doacao>()
-                .HasCheckConstraint("CHK_Doacao_DestinoExclusivo",
-                    "(IIF(DestinoTurmaId IS NULL, 0, 1) + IIF(DestinoOSCCodigo IS NULL, 0, 1)) <= 1");
-
-            // Se sua Doacao implementa ISoftDeletable:
-            builder.Entity<Doacao>().HasQueryFilter(e => !e.IsDeleted);
 
 
             // Configurações de Identity (Original do código do colega)

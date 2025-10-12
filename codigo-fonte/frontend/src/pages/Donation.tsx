@@ -1,8 +1,8 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Box, Container, Button, Dialog, DialogTitle, DialogContent, DialogActions,
-  CircularProgress, Grid, Typography, Stack, Divider, TextField, Chip, Paper,
-  alpha, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent
+    Box, Container, Button, Dialog, DialogTitle, DialogContent, DialogActions,
+    CircularProgress, Grid, Typography, Stack, Divider, TextField, Chip, Paper,
+    alpha, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,254 +12,193 @@ import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { mask } from 'remask';
 import dayjs from 'dayjs';
+import { apiConfig } from '@/services/auth';
 
-// URL base dos seus Endpoints
-const API_BASE_URL = 'http://localhost:5000/api/donations';
+import {
+    CreateDonationEndpointApi,
+    ListDonationEndpointApi,
+    UpdateDonationEndpointApi,
+    DeleteDonationEndpointApi,
+    type CreateDonationCommand,
+    type UpdateDonationCommand,
+} from '@/api';
 
-// ==================== TIPOS E INTERFACES (PascalCase para Backend) ====================
-type DoadorType = 'Pessoa' | 'Empresa' | '';
-type DestinoType = 'Turma' | 'OSC' | 'Nenhum';
-
-interface Doacao {
-    IDDoacao: string;
+interface Donation {
+    Id: number;
     Valor: number;
     Data: string;
-    DoadorPessoaCPF: string | null;
-    DoadorEmpresaCNPJ: string | null;
-    DestinoTipo: string | null;
-    DestinoTurmaId: string | null;
-    DestinoOSCCodigo: string | null;
+    PersonId: number | null;
+    CompanyId: number | null;
+    OscId: number | null;
+    TeamId: number | null;
 }
 
-// ==================== FUNÇÕES DE RENDERIZAÇÃO (FORA DO COMPONENTE) ====================
+type DoadorType = 'Pessoa' | 'Empresa';
+type DestinoType = 'OSC' | 'Team' | 'Nenhum';
 
-const formatDoador = (doacao: Doacao) => {
-    if (doacao.DoadorPessoaCPF) {
-        return `Pessoa: ${mask(doacao.DoadorPessoaCPF, ['999.999.999-99'])}`;
-    }
-    if (doacao.DoadorEmpresaCNPJ) {
-        return `Empresa: ${mask(doacao.DoadorEmpresaCNPJ, ['99.999.999/9999-99'])}`;
-    }
-    return 'N/A';
-};
-
-const formatDestino = (doacao: Doacao) => {
-    if (doacao.DestinoTipo === 'TURMA') {
-        return `Turma: ${doacao.DestinoTurmaId}`;
-    }
-    if (doacao.DestinoTipo === 'OSC') {
-        return `OSC: ${doacao.DestinoOSCCodigo}`;
-    }
-    return 'Geral';
-};
-
-// ==================== COLUNAS DA TABELA (FINALMENTE CORRIGIDAS) ====================
-const columns: Column<Doacao>[] = [
-    { label: 'ID', field: 'IDDoacao' },
+const columns: Column<Donation>[] = [
+    { label: 'ID', field: 'Id' },
     { label: 'Valor', field: 'Valor', render: (data) => `R$ ${data.Valor.toFixed(2)}` },
     { label: 'Data', field: 'Data', render: (data) => dayjs(data.Data).format('DD/MM/YYYY') },
-    { label: 'Doador', field: 'DoadorPessoaCPF', render: (data) => formatDoador(data) },
-    { label: 'Destino', field: 'DestinoTipo', render: (data) => formatDestino(data) },
+    { label: 'Doador', render: (data) => data.PersonId ? `Pessoa ID: ${data.PersonId}` : `Empresa ID: ${data.CompanyId}` },
+    { label: 'Destino', render: (data) => data.OscId ? `OSC ID: ${data.OscId}` : data.TeamId ? `Turma ID: ${data.TeamId}` : 'Geral' },
 ];
 
-
-// ==================== O COMPONENTE PRINCIPAL ====================
 const DonationPage: React.FC = () => {
-    // ... (Estados de dados e UI - inalterados)
-    const [doacoes, setDoacoes] = useState<Doacao[]>([]);
-    const [editingDoacao, setEditingDoacao] = useState<Doacao | null>(null);
+    const createApi = useMemo(() => new CreateDonationEndpointApi(apiConfig), []);
+    const listApi = useMemo(() => new ListDonationEndpointApi(apiConfig), []);
+    const updateApi = useMemo(() => new UpdateDonationEndpointApi(apiConfig), []);
+    const deleteApi = useMemo(() => new DeleteDonationEndpointApi(apiConfig), []);
+
+    const [donations, setDonations] = useState<Donation[]>([]);
+    const [editingDonation, setEditingDonation] = useState<Partial<Donation> | null>(null);
     const [filterId, setFilterId] = useState('');
     const [loading, setLoading] = useState(false);
     const [modalLoading, setModalLoading] = useState(false);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [totalCount, setTotalCount] = useState(0);
     const [openModal, setOpenModal] = useState(false);
-    const [isVisualizing, setIsVisualizing] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [donationToDelete, setDonationToDelete] = useState<Donation | null>(null);
     const [uiDoadorTipo, setUiDoadorTipo] = useState<DoadorType>('Pessoa');
     const [uiDestinoTipo, setUiDestinoTipo] = useState<DestinoType>('Nenhum');
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [doacaoToDelete, setDoacaoToDelete] = useState<Doacao | null>(null);
-
-    const dialogTitle = isVisualizing ? 'Visualizar Doação' : editingDoacao ? 'Editar Doação' : 'Nova Doação';
     
-    // ... (fetchDoacoes, handleSearch, handleClearFilters - inalterados)
-    const fetchDoacoes = async (idFilter?: string) => {
-        if (!idFilter) {
-            setDoacoes([]);
-            setTotalCount(0);
-            setLoading(false);
+    const isCreating = editingDonation ? !('Id' in editingDonation) : false;
+    const dialogTitle = isCreating ? 'Nova Doação' : 'Editar Doação';
+
+    const fetchDonation = async (idFilter?: string) => {
+        if (!idFilter || isNaN(parseInt(idFilter, 10))) {
+            setDonations([]);
             return;
         }
-
         try {
             setLoading(true);
-            const { data } = await axios.get<Doacao>(`${API_BASE_URL}/${idFilter}`);
-            setDoacoes([data]);
-            setTotalCount(1);
+            const { data } = await listApi.get(parseInt(idFilter, 10));
+            setDonations([data as Donation]);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
                 toast.info('Nenhuma doação encontrada com este ID.');
-                setDoacoes([]);
+                setDonations([]);
             } else {
-                toast.error('Erro ao buscar doações');
+                toast.error('Erro ao buscar doação.');
             }
         } finally {
             setLoading(false);
         }
     };
-    
-    useEffect(() => {
-        if (filterId) fetchDoacoes(filterId);
-    }, [page, rowsPerPage]);
 
     const handleSearch = () => {
-        if (filterId.trim() === '') {
-            toast.warn("Digite um ID (GUID) para buscar.");
+        if (filterId.trim() === '' || isNaN(parseInt(filterId, 10))) {
+            toast.warn("Digite um ID numérico para buscar.");
             return;
         }
-        setPage(0);
-        fetchDoacoes(filterId);
+        fetchDonation(filterId);
     };
 
     const handleClearFilters = () => {
-        setPage(0);
         setFilterId('');
-        setDoacoes([]);
+        setDonations([]);
     };
-    
+
     const handleAdd = () => {
-        setEditingDoacao({
-            IDDoacao: '',
+        setEditingDonation({
             Valor: 0,
-            Data: new Date().toISOString().split('T')[0],
-            DoadorPessoaCPF: '',
-            DoadorEmpresaCNPJ: null,
-            DestinoTipo: null,
-            DestinoTurmaId: null,
-            DestinoOSCCodigo: null,
+            Data: dayjs().format('YYYY-MM-DD'),
+            PersonId: null,
+            CompanyId: null,
+            OscId: null,
+            TeamId: null,
         });
         setUiDoadorTipo('Pessoa');
         setUiDestinoTipo('Nenhum');
-        setIsVisualizing(false);
         setOpenModal(true);
     };
 
-    const handleEdit = async (doacao: Doacao) => {
-        try {
-            setModalLoading(true);
-            const { data } = await axios.get<Doacao>(`${API_BASE_URL}/${doacao.IDDoacao}`);
-            
-            setUiDoadorTipo(data.DoadorPessoaCPF ? 'Pessoa' : data.DoadorEmpresaCNPJ ? 'Empresa' : '');
-            setUiDestinoTipo(data.DestinoTipo === 'TURMA' ? 'Turma' : data.DestinoTipo === 'OSC' ? 'OSC' : 'Nenhum');
-            
-            setEditingDoacao(data);
-            setIsVisualizing(false);
-            setOpenModal(true);
-        } catch (error) {
-            toast.error('Erro ao carregar edição da doação');
-        } finally {
-            setModalLoading(false);
-        }
+    const handleEdit = async (donation: Donation) => {
+        setUiDoadorTipo(donation.PersonId ? 'Pessoa' : 'Empresa');
+        setUiDestinoTipo(donation.OscId ? 'OSC' : donation.TeamId ? 'Team' : 'Nenhum');
+        setEditingDonation(donation);
+        setOpenModal(true);
     };
-    
-    const handleDelete = (doacao: Doacao) => {
-        setDoacaoToDelete(doacao);
+
+    const handleDelete = (donation: Donation) => {
+        setDonationToDelete(donation);
         setOpenDeleteModal(true);
     }
-    
+
     const confirmDelete = async () => {
-        if (!doacaoToDelete) return;
-    
+        if (!donationToDelete) return;
         try {
             setModalLoading(true);
-            await axios.delete(`${API_BASE_URL}/${doacaoToDelete.IDDoacao}`);
-            
-            toast.success(`Doação excluída com sucesso!`);
-            fetchDoacoes(filterId);
+            await deleteApi._delete(donationToDelete.Id);
+            toast.success(`Doação ID ${donationToDelete.Id} excluída com sucesso!`);
+            handleClearFilters();
         } catch (error) {
-            toast.error('Erro ao excluir doação');
+            toast.error('Erro ao excluir doação.');
         } finally {
             setModalLoading(false);
             setOpenDeleteModal(false);
-            setDoacaoToDelete(null);
+            setDonationToDelete(null);
         }
     };
-    
+
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type } = e.target;
-        const newValue = type === 'number' ? parseFloat(value) : value;
-        setEditingDoacao(prev => ({ 
-            ...prev!, 
-            [name]: newValue 
+        const { name, value } = e.target;
+        setEditingDonation(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleDoadorTipoChange = (event: SelectChangeEvent<DoadorType>) => {
+        const newType = event.target.value as DoadorType;
+        setUiDoadorTipo(newType);
+        setEditingDonation(prev => ({
+            ...prev,
+            PersonId: newType === 'Pessoa' ? (prev?.PersonId ?? null) : null,
+            CompanyId: newType === 'Empresa' ? (prev?.CompanyId ?? null) : null,
         }));
     };
 
-    const handleDoadorTipoChange = (newType: DoadorType) => {
-        setUiDoadorTipo(newType);
-        setEditingDoacao(prev => ({
-            ...prev!,
-            DoadorPessoaCPF: newType === 'Pessoa' ? prev!.DoadorPessoaCPF : null,
-            DoadorEmpresaCNPJ: newType === 'Empresa' ? prev!.DoadorEmpresaCNPJ : null,
-        }));
-    };
-    
     const handleDestinoTipoChange = (event: SelectChangeEvent<DestinoType>) => {
         const newType = event.target.value as DestinoType;
         setUiDestinoTipo(newType);
-        
-        setEditingDoacao(prev => ({
-            ...prev!,
-            DestinoTipo: newType === 'Nenhum' ? null : newType.toUpperCase(),
-            
-            // Lógica para manter/limpar os IDs
-            DestinoTurmaId: newType === 'Turma' ? prev!.DestinoTurmaId : null,
-            DestinoOSCCodigo: newType === 'OSC' ? prev!.DestinoOSCCodigo : null,
+        setEditingDonation(prev => ({
+            ...prev,
+            OscId: newType === 'OSC' ? (prev?.OscId ?? null) : null,
+            TeamId: newType === 'Team' ? (prev?.TeamId ?? null) : null,
         }));
     };
 
-
     const handleSave = async () => {
-        const data = editingDoacao;
+        const data = editingDonation;
+        if (!data) return;
 
-        if (!data?.Valor || data.Valor <= 0) {
+        if (!data.Valor || data.Valor <= 0) {
             toast.error('O valor da doação deve ser positivo.');
             return;
         }
 
-        const isCreating = data.IDDoacao === '';
-        
-        if (isCreating) {
-            const doadorIsPessoa = uiDoadorTipo === 'Pessoa' && !!data.DoadorPessoaCPF;
-            const doadorIsEmpresa = uiDoadorTipo === 'Empresa' && !!data.DoadorEmpresaCNPJ;
-            
-            if (!doadorIsPessoa && !doadorIsEmpresa) {
-                toast.error("Obrigatório informar o CPF da Pessoa OU o CNPJ da Empresa.");
-                return;
-            }
-        }
-        
+        const requestData = {
+            value: Number(data.Valor),
+            donationDate: data.Data,
+            personId: data.PersonId ? Number(data.PersonId) : undefined,
+            companyId: data.CompanyId ? Number(data.CompanyId) : undefined,
+            oscId: data.OscId ? Number(data.OscId) : undefined,
+            teamId: data.TeamId ? Number(data.TeamId) : undefined,
+        };
+
         try {
             setModalLoading(true);
-            
-            const { IDDoacao, ...requestData } = data; 
-            
             if (isCreating) {
-                await axios.post(API_BASE_URL, requestData);
+                await createApi.post(requestData as CreateDonationCommand);
                 toast.success('Doação criada com sucesso!');
             } else {
-                await axios.put(`${API_BASE_URL}/${IDDoacao}`, requestData);
+                await updateApi.put(data.Id!, requestData as UpdateDonationCommand);
                 toast.success('Doação atualizada com sucesso!');
             }
-
             handleCloseModal();
-            fetchDoacoes(filterId);
+            fetchDonation(filterId);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                const errorDetails = error.response.data.errors?.join('; ') || 'Erro desconhecido.';
-                toast.error(`Falha ao salvar: ${errorDetails}`);
+                const message = error.response.data?.title || 'Erro desconhecido.';
+                toast.error(`Falha ao salvar: ${message}`);
             } else {
                 toast.error('Erro de rede ou servidor não respondeu.');
             }
@@ -267,160 +206,92 @@ const DonationPage: React.FC = () => {
             setModalLoading(false);
         }
     };
-    
+
     const handleCloseModal = () => {
         setOpenModal(false);
-        setEditingDoacao(null);
-        setIsVisualizing(false);
+        setEditingDonation(null);
     };
 
-
-    // ==================== RENDERIZAÇÃO DE COMPONENTES ====================
     return (
         <Container maxWidth="xl" sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}>
             <Paper elevation={0} sx={{ backgroundColor: '#ffffff', borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: alpha('#1E4EC4', 0.1) }}>
                 <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
                     <TitleAndButtons title="Lista de Doações" onAdd={handleAdd} addLabel="Nova Doação" />
-
-                    {/* Filtro de Busca (ID) */}
+                    
                     <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, mb: 3, backgroundColor: alpha('#1E4EC4', 0.02), border: '1px solid', borderColor: alpha('#1E4EC4', 0.1), borderRadius: 2 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
                             <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
                             <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>Busca de Doação (ID)</Typography>
-                            {filterId && <Chip label="Busca ativa" size="small" sx={{ ml: 1, bgcolor: alpha('#1E4EC4', 0.1), color: '#1E4EC4', fontWeight: 600 }} />}
                         </Box>
-
                         <Grid container spacing={2.5}> 
                             <Grid item xs={12} sm={6} md={4}> 
-                                <TextField label="ID da Doação (GUID)" value={filterId} onChange={(e) => setFilterId(e.target.value)} fullWidth size="small"/>
+                                <TextField label="ID da Doação" value={filterId} onChange={(e) => setFilterId(e.target.value)} fullWidth size="small" type="number" />
                             </Grid>
                             <Grid item xs={12} sm={6} md={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, gap: 1.5 }}>
                                 <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearch} sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 4, py: 1, borderRadius: 1.5 }}>Buscar</Button>
-                                <Button variant="outlined" startIcon={<ClearIcon />} onClick={handleClearFilters} sx={{ color: '#1E4EC4', fontWeight: 600, px: 4, py: 1, borderRadius: 1.5 }}>Limpar Filtros</Button>
+                                <Button variant="outlined" startIcon={<ClearIcon />} onClick={handleClearFilters} sx={{ color: '#1E4EC4', fontWeight: 600, px: 4, py: 1, borderRadius: 1.5 }}>Limpar</Button>
                             </Grid>
                         </Grid>
                     </Paper>
-
-                    {/* Tabela de Doações */}
+                    
                     <Box sx={{ flexGrow: 1, mt: 3 }}>
                         {loading ? (
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}><CircularProgress sx={{ color: '#1E4EC4' }} /></Box>
                         ) : (
                             <Table
                                 columns={columns}
-                                data={doacoes}
-                                page={page}
-                                rowsPerPage={rowsPerPage}
-                                totalCount={totalCount}
-                                onPageChange={setPage}
-                                onRowsPerPageChange={setRowsPerPage}
+                                data={donations}
                                 onEdit={handleEdit}
-                                onView={handleEdit} 
                                 onDelete={handleDelete}
-                                noDataMessage={filterId ? "Nenhuma doação encontrada com este ID ou inativa." : "Use o filtro acima para buscar doações."}
+                                noDataMessage={filterId ? "Nenhuma doação encontrada com este ID." : "Use o filtro acima para buscar doações."}
                             />
                         )}
                     </Box>
 
-                    {/* Delete Modal (Inalterado) */}
-                    <ConfirmDialog open={openDeleteModal} onClose={() => setOpenDeleteModal(false)} onConfirm={confirmDelete} title='Confirmar Exclusão' message='Deseja realmente EXCLUIR DEFINITIVAMENTE esta Doação?' highlightText={doacaoToDelete?.IDDoacao} confirmLabel='Excluir' cancelLabel='Cancelar' danger/>
+                    <ConfirmDialog open={openDeleteModal} onClose={() => setOpenDeleteModal(false)} onConfirm={confirmDelete} title='Confirmar Exclusão' message='Deseja realmente excluir esta Doação?' highlightText={`ID: ${donationToDelete?.Id}`} confirmLabel='Excluir' cancelLabel='Cancelar' danger/>
 
-                    {/* Modal de Criação/Edição/Visualização */}
-                    <Dialog open={openModal} onClose={handleCloseModal} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
-                        <DialogTitle sx={{ bgcolor: alpha('#1E4EC4', 0.03), borderBottom: '1px solid', borderColor: alpha('#1E4EC4', 0.1), py: 2.5, px: 3 }}>
-                            <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>{dialogTitle}</Typography>
-                        </DialogTitle>
+                    <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+                        <DialogTitle>{dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            {editingDonation && (
+                                <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+                                    <TextField label="Valor" type="number" name="Valor" value={editingDonation.Valor ?? ''} onChange={handleValueChange} fullWidth size="small" />
+                                    <TextField label="Data" type="date" name="Data" value={dayjs(editingDonation.Data).format('YYYY-MM-DD')} onChange={handleValueChange} fullWidth size="small" InputLabelProps={{ shrink: true }} />
 
-                        <DialogContent sx={{ p: 3, mt: 1 }}>
-                            {editingDoacao && (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 1 }}>
-                                    {/* DADOS PRINCIPAIS */}
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6}>
-                                            <TextField label="Valor" type="number" name="Valor" value={editingDoacao.Valor} onChange={handleValueChange} fullWidth disabled={isVisualizing} size="small" inputProps={{ readOnly: isVisualizing || !editingDoacao.IDDoacao }}/>
-                                        </Grid>
-                                        <Grid item xs={12} md={6}>
-                                            <TextField label="Data" type="date" name="Data" value={editingDoacao.Data} onChange={handleValueChange} fullWidth disabled={isVisualizing} size="small" inputProps={{ readOnly: isVisualizing || !editingDoacao.IDDoacao }}/>
-                                        </Grid>
-                                    </Grid>
+                                    <Divider sx={{ my: 1 }} />
+                                    <Typography variant="subtitle1">Doador</Typography>
+                                    <FormControl fullWidth size="small" disabled={!isCreating}>
+                                        <InputLabel>Tipo de Doador</InputLabel>
+                                        <Select value={uiDoadorTipo} label="Tipo de Doador" onChange={handleDoadorTipoChange}>
+                                            <MenuItem value="Pessoa">Pessoa</MenuItem>
+                                            <MenuItem value="Empresa">Empresa</MenuItem>
+                                        </Select>
+                                    </FormControl>
 
-                                    {/* INFO DOADOR */}
-                                    <Box>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Doador (Não Editável na Edição)</Typography>
-                                        <Divider sx={{ mb: 1 }} />
-                                        <Typography color="text.secondary">
-                                            {editingDoacao.IDDoacao ? formatDoador(editingDoacao) : 'Defina na criação'}
-                                        </Typography>
-                                    </Box>
-                                    
-                                    {/* SEÇÃO DOADOR (Apenas na CRIAÇÃO) */}
-                                    {!editingDoacao.IDDoacao && (
-                                        <Box>
-                                            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Quem doou?</Typography>
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={12} md={4}>
-                                                    <FormControl fullWidth size="small">
-                                                        <InputLabel>Tipo de Doador</InputLabel>
-                                                        <Select value={uiDoadorTipo} label="Tipo de Doador" onChange={(e: SelectChangeEvent<DoadorType>) => handleDoadorTipoChange(e.target.value as DoadorType)} disabled={isVisualizing}>
-                                                            <MenuItem value={'Pessoa'}>Pessoa (CPF)</MenuItem>
-                                                            <MenuItem value={'Empresa'}>Empresa (CNPJ)</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </Grid>
-                                                <Grid item xs={12} md={8}>
-                                                    {uiDoadorTipo === 'Pessoa' && (
-                                                        <TextField label="CPF do Doador" name="DoadorPessoaCPF" value={editingDoacao.DoadorPessoaCPF || ''} onChange={handleValueChange} fullWidth size="small" disabled={isVisualizing} inputProps={{ readOnly: isVisualizing }}/>
-                                                    )}
-                                                    {uiDoadorTipo === 'Empresa' && (
-                                                        <TextField label="CNPJ da Empresa" name="DoadorEmpresaCNPJ" value={editingDoacao.DoadorEmpresaCNPJ || ''} onChange={handleValueChange} fullWidth size="small" disabled={isVisualizing} inputProps={{ readOnly: isVisualizing }}/>
-                                                    )}
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                    )}
+                                    {uiDoadorTipo === 'Pessoa' && <TextField label="ID da Pessoa" type="number" name="PersonId" value={editingDonation.PersonId ?? ''} onChange={handleValueChange} fullWidth size="small" disabled={!isCreating} />}
+                                    {uiDoadorTipo === 'Empresa' && <TextField label="ID da Empresa" type="number" name="CompanyId" value={editingDonation.CompanyId ?? ''} onChange={handleValueChange} fullWidth size="small" disabled={!isCreating} />}
 
-                                    {/* SEÇÃO DESTINO (Editável em ambas as situações) */}
-                                    <Box>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Destino da Doação</Typography>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12} md={4}>
-                                                <FormControl fullWidth size="small">
-                                                    <InputLabel>Destino</InputLabel>
-                                                    <Select value={uiDestinoTipo} label="Destino" onChange={handleDestinoTipoChange} disabled={isVisualizing}>
-                                                        <MenuItem value={'Nenhum'}>Nenhum (Geral)</MenuItem>
-                                                        <MenuItem value={'Turma'}>Turma</MenuItem>
-                                                        <MenuItem value={'OSC'}>OSC</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                            <Grid item xs={12} md={8}>
-                                                {uiDestinoTipo === 'Turma' && (
-                                                    <TextField label="ID da Turma" name="DestinoTurmaId" value={editingDoacao.DestinoTurmaId || ''} onChange={handleValueChange} fullWidth size="small" disabled={isVisualizing} inputProps={{ readOnly: isVisualizing }}/>
-                                                )}
-                                                {uiDestinoTipo === 'OSC' && (
-                                                    <TextField label="Código da OSC" name="DestinoOSCCodigo" value={editingDoacao.DestinoOSCCodigo || ''} onChange={handleValueChange} fullWidth size="small" disabled={isVisualizing} inputProps={{ readOnly: isVisualizing }}/>
-                                                )}
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
+                                    <Divider sx={{ my: 1 }} />
+                                    <Typography variant="subtitle1">Destino</Typography>
+                                    <FormControl fullWidth size="small">
+                                        <InputLabel>Tipo de Destino</InputLabel>
+                                        <Select value={uiDestinoTipo} label="Tipo de Destino" onChange={handleDestinoTipoChange}>
+                                            <MenuItem value="Nenhum">Nenhum (Geral)</MenuItem>
+                                            <MenuItem value="OSC">OSC</MenuItem>
+                                            <MenuItem value="Team">Turma</MenuItem>
+                                        </Select>
+                                    </FormControl>
 
+                                    {uiDestinoTipo === 'OSC' && <TextField label="ID da OSC" type="number" name="OscId" value={editingDonation.OscId ?? ''} onChange={handleValueChange} fullWidth size="small" />}
+                                    {uiDestinoTipo === 'Team' && <TextField label="ID da Turma" type="number" name="TeamId" value={editingDonation.TeamId ?? ''} onChange={handleValueChange} fullWidth size="small" />}
                                 </Box>
                             )}
-                            {!editingDoacao && <Typography>Nenhum dado encontrado.</Typography>}
                         </DialogContent>
-
-                        <DialogActions sx={{ px: 3, py: 2.5, bgcolor: alpha('#1E4EC4', 0.02), borderTop: '1px solid', borderColor: alpha('#1E4EC4', 0.1), gap: 1.5 }}>
-                            {isVisualizing ? (
-                                <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleCloseModal} sx={{ bgcolor: '#6b7280', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5 }}>Voltar</Button>
-                            ) : (
-                                <>
-                                    <Button onClick={handleCloseModal} disabled={modalLoading} sx={{ color: '#6b7280', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5 }}>Cancelar</Button>
-                                    <Button onClick={handleSave} variant="contained" disabled={modalLoading} startIcon={modalLoading ? <CircularProgress size={20} color="inherit" /> : null} 
-                                            sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none' }}>
-                                        {editingDoacao?.IDDoacao ? 'Atualizar' : 'Criar'}
-                                    </Button>
-                                </>
-                            )}
+                        <DialogActions>
+                            <Button onClick={handleCloseModal} disabled={modalLoading}>Cancelar</Button>
+                            <Button onClick={handleSave} variant="contained" disabled={modalLoading}>
+                                {modalLoading ? <CircularProgress size={24} /> : (isCreating ? 'Criar' : 'Atualizar')}
+                            </Button>
                         </DialogActions>
                     </Dialog>
                 </Box>

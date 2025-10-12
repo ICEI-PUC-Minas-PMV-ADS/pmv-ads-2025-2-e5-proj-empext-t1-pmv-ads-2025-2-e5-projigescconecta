@@ -1,15 +1,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IgescConecta.API.Features.Empresas.InativarEmpresa
+namespace IgescConecta.API.Features.Companies.InactivateCompany
 {
     [ApiController]
-    [Route("api/empresas")]
-    public class InativarEmpresaEndpoint : ControllerBase
+    [Route("api/companies")]
+    public class InactivateCompanyEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public InativarEmpresaEndpoint(IMediator mediator)
+        public InactivateCompanyEndpoint(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -17,13 +17,12 @@ namespace IgescConecta.API.Features.Empresas.InativarEmpresa
         [HttpDelete("{cnpj}")]
         public async Task<IActionResult> Delete(string cnpj)
         {
-            var request = new InativarEmpresaCommand { CNPJ = cnpj };
+            var request = new InactivateCompanyCommand { CNPJ = cnpj };
 
             var result = await _mediator.Send(request);
 
             if (result.IsSuccess)
             {
-                // Retorna 204 No Content para indicar sucesso na exclusão (lógica)
                 return NoContent();
             }
 
