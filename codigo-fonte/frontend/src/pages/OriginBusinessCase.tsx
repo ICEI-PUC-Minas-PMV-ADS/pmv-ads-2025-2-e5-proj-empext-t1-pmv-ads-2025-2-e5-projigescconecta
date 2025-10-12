@@ -37,6 +37,7 @@ import {
     ListOriginBusinessCaseRequest,
     Filter,
     Op,
+    ListOriginsBusinessCaseByBusinessCaseIdRequest
 } from '../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
@@ -52,6 +53,7 @@ dayjs.locale('pt-br');
 interface OriginBusinessCase {
     originBusinessCaseId?: number;
     name?: string;
+    notes?: string;
     businessCaseId?: number;
 }
 
@@ -95,14 +97,14 @@ const OriginBusinessCase: React.FC = () => {
 
             const filters: Filter[] = customFilters ? customFilters : [];
 
-            const listOriginBusinessCaseRequest: ListOriginBusinessCaseRequest = {
+            const listOriginBusinessCaseRequest: ListOriginsBusinessCaseByBusinessCaseIdRequest = {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
                 businessCaseId: businessCaseId!
             };
 
-            const { data } = await originBusinessCasesApi.listOriginBusinessCase(listOriginBusinessCaseRequest);
+            const { data } = await originBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId(listOriginBusinessCaseRequest);
 
             if (!data.items || data.items.length === 0) {
                 setNoDataMessage('Nenhuma causa encontrada');
@@ -149,7 +151,7 @@ const OriginBusinessCase: React.FC = () => {
     }
 
     const handleAdd = () => {
-        setCreateOriginBusinessCase({ 
+        setCreateOriginBusinessCase({
             name: '',
         });
         setIsVisualizing(false);
@@ -233,6 +235,7 @@ const OriginBusinessCase: React.FC = () => {
             try {
                 const updateOriginBusinessCaseRequest: UpdateOriginBusinessCaseRequest = {
                     name: originBusinessCaseForm?.name!,
+                    notes: originBusinessCaseForm?.notes!,
                 };
 
                 await originBusinessCasesApi.updateOriginBusinessCase(updateOriginBusinessCase!.originBusinessCaseId!, updateOriginBusinessCaseRequest);
@@ -250,6 +253,7 @@ const OriginBusinessCase: React.FC = () => {
             try {
                 const createOriginBusinessCaseRequest: CreateOriginBusinessCaseRequest = {
                     name: originBusinessCaseForm?.name!,
+                    notes: originBusinessCaseForm?.notes!,
                     businessCaseId: Number(businessCaseId),
                 };
 
@@ -268,7 +272,7 @@ const OriginBusinessCase: React.FC = () => {
     }
 
     const validateBeneficiaryForm = (originBusinessCase: any): boolean => {
-        const requiredFields = ['name'];
+        const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!originBusinessCase[field] || originBusinessCase[field].toString().trim() === '') {
@@ -283,6 +287,7 @@ const OriginBusinessCase: React.FC = () => {
     const formatFieldName = (field: string): string => {
         const mapping: Record<string, string> = {
             name: 'Nome',
+            notes: 'Observações',
         };
         return mapping[field] || field;
     }
@@ -290,6 +295,7 @@ const OriginBusinessCase: React.FC = () => {
     const columns: Column<OriginBusinessCase>[] = [
         { label: 'ID', field: 'originBusinessCaseId' },
         { label: 'Nome', field: 'name' },
+        { label: 'Observações', field: 'notes' },
     ];
 
     return (
@@ -314,26 +320,26 @@ const OriginBusinessCase: React.FC = () => {
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
 
-    <Button
-        variant="outlined"
-        startIcon={<ArrowBackIcon />}
-        onClick={() => navigate(-1)}
-        sx={{
-            borderColor: '#1E4EC4',
-            color: '#1E4EC4',
-            fontWeight: 600,
-            textTransform: 'none',
-            borderRadius: 2,
-            mr: 2,
-            mb: 2,
-            '&:hover': {
-                bgcolor: alpha('#1E4EC4', 0.05),
-                borderColor: '#1E4EC4',
-            },
-        }}
-    >
-        Voltar
-    </Button>
+                        <Button
+                            variant="outlined"
+                            startIcon={<ArrowBackIcon />}
+                            onClick={() => navigate(-1)}
+                            sx={{
+                                borderColor: '#1E4EC4',
+                                color: '#1E4EC4',
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                borderRadius: 2,
+                                mr: 2,
+                                mb: 2,
+                                '&:hover': {
+                                    bgcolor: alpha('#1E4EC4', 0.05),
+                                    borderColor: '#1E4EC4',
+                                },
+                            }}
+                        >
+                            Voltar
+                        </Button>
 
 
                         <TitleAndButtons title="Lista de Causa" onAdd={handleAdd} addLabel="Novo Causa" />
@@ -553,6 +559,7 @@ const OriginBusinessCase: React.FC = () => {
                                             <Divider sx={{ mb: 2 }} />
                                             <Typography><strong>ID:</strong> {selectedOriginBusinessCase.originBusinessCaseId}</Typography>
                                             <Typography><strong>Nome:</strong> {selectedOriginBusinessCase.name}</Typography>
+                                            <Typography><strong>Observações:</strong> {selectedOriginBusinessCase.notes}</Typography>
                                         </Box>
                                     </Box>
                                 ) : updateOriginBusinessCase ? (
@@ -564,6 +571,12 @@ const OriginBusinessCase: React.FC = () => {
                                             onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
+                                        <TextField
+                                            label="Observações"
+                                            value={updateOriginBusinessCase.notes || ''}
+                                            onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, notes: e.target.value })}
+                                            fullWidth
+                                        />
                                     </Box>
                                 ) : createOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
@@ -572,6 +585,12 @@ const OriginBusinessCase: React.FC = () => {
                                             label="Nome"
                                             value={createOriginBusinessCase.name || ''}
                                             onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, name: e.target.value })}
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Observações"
+                                            value={createOriginBusinessCase.notes || ''}
+                                            onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, notes: e.target.value })}
                                             fullWidth
                                         />
                                     </Box>) :
