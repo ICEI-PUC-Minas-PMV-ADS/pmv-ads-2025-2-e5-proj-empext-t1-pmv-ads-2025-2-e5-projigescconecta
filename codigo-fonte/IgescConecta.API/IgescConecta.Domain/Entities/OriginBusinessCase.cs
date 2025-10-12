@@ -12,6 +12,8 @@ namespace IgescConecta.Domain.Entities
     {
         public string Name { get; set; }
 
+        public string Notes { get; set; }
+
         public int BusinessCaseId { get; set; }
 
         public ICollection<Osc>? Oscs { get; set; }

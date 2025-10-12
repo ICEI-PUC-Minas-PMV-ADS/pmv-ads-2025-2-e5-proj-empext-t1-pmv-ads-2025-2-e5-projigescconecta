@@ -21,7 +21,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
         [HttpPost("ListOriginBusinessCase", Name = "ListOriginBusinessCase")]
         public async Task<ActionResult<ListOriginBusinessCaseViewModel>> ListOriginBusinessCase(ListOriginBusinessCaseRequest request)
         {
-            var result = await _mediator.Send(new ListOriginBusinessCaseQuery(request.PageNumber, request.PageSize, request.Filters, request.BusinessCaseId));
+            var result = await _mediator.Send(new ListOriginBusinessCaseQuery(request.PageNumber, request.PageSize, request.Filters));
             return Ok(result);
         }
     }
@@ -33,7 +33,5 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
         public int PageSize { get; set; }
 
         public List<Filter> Filters { get; set; } = [];
-
-        public int BusinessCaseId { get; set; }
     }
 }

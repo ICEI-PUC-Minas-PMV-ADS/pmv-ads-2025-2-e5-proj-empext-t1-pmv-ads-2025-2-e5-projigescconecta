@@ -28,6 +28,13 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
                 CorporateName = result.Value.CorporateName,
                 Objective = result.Value.Objective,
                 Address = result.Value.Address,
+                Neighborhood = result.Value.Neighborhood,
+                City = result.Value.City,
+                State = result.Value.State,
+                PhoneNumber = result.Value.PhoneNumber,
+                Email = result.Value.Email,
+                WebUrl = result.Value.WebUrl,
+                SocialMedia = result.Value.SocialMedia,
                 OscPrimaryDocumment = result.Value?.OscPrimaryDocumment,
                 ZipCode = result.Value.ZipCode,
 
@@ -58,6 +65,20 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
         public string Objective { get; set; }
 
         public string Address { get; set; }
+
+        public string Neighborhood { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string WebUrl { get; set; }
+
+        public string SocialMedia { get; set; }
 
         public string ZipCode { get; set; }
 

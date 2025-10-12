@@ -23,13 +23,15 @@ namespace IgescConecta.API.Features.Beneficiares.UpdateBeneficiary
             var result = await _mediator.Send(new UpdateBeneficiaryCommand
             {
                 BeneficiaryId = beneficiaryId,
-                Name = request.Name
+                Name = request.Name,
+                Notes = request.Notes
             });
 
             var updateResponse = new UpdateBeneficiaryResponse
             {
                 BeneficiaryId = beneficiaryId,
-                Name = result.Value.Name
+                Name = result.Value.Name,
+                Notes = result.Value.Notes
             };
 
             return result.IsSuccess ? Ok(updateResponse) : BadRequest(result.Error);
@@ -39,11 +41,16 @@ namespace IgescConecta.API.Features.Beneficiares.UpdateBeneficiary
     public class UpdateBeneficiaryRequest
     {
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 
     public class UpdateBeneficiaryResponse
     {
         public int BeneficiaryId { get; set; }
+
         public string Name { get; set; }
+
+        public string Notes { get; set; }
     }
 }
