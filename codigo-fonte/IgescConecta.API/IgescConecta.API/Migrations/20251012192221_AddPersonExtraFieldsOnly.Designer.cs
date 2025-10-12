@@ -4,6 +4,7 @@ using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251012192221_AddPersonExtraFieldsOnly")]
+    partial class AddPersonExtraFieldsOnly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,10 +58,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -362,10 +361,6 @@ namespace IgescConecta.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -391,10 +386,6 @@ namespace IgescConecta.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CorporateName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -405,18 +396,10 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Neighborhood")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -425,19 +408,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OscPrimaryDocumment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SocialMedia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -445,10 +415,6 @@ namespace IgescConecta.API.Migrations
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
-
-                    b.Property<string>("WebUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
@@ -482,9 +448,6 @@ namespace IgescConecta.API.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1225,7 +1188,7 @@ namespace IgescConecta.API.Migrations
             modelBuilder.Entity("IgescConecta.Domain.Entities.ProjectProgram", b =>
                 {
                     b.HasOne("IgescConecta.Domain.Entities.Osc", "Osc")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("OscId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1378,6 +1341,11 @@ namespace IgescConecta.API.Migrations
             modelBuilder.Entity("IgescConecta.Domain.Entities.Empresa", b =>
                 {
                     b.Navigation("DoacoesRealizadas");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Osc", b =>
+                {
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.Person", b =>

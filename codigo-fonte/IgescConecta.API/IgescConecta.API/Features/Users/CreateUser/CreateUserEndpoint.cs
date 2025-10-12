@@ -1,5 +1,6 @@
 ﻿using IgescConecta.API.Common.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Users.CreateUser
@@ -9,6 +10,7 @@ namespace IgescConecta.API.Features.Users.CreateUser
     [Route("/api/users")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Users")]
+    [Authorize(Roles = "Admin,Editor")]
     public class CreateUserEndPoint : ControllerBase
     {
         private readonly IMediator _mediator;
