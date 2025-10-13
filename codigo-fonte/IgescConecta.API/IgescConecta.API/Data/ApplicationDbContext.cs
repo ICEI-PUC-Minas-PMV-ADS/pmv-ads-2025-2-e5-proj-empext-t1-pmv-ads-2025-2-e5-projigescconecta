@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http; // Necessário para IHttpContextAccessor
-using System.Collections.Generic; // Necessário para List<EntityEntry>
+using Microsoft.AspNetCore.Http; 
+using System.Collections.Generic; 
 using System.Linq;
 using System;
 using System.Threading;
@@ -27,12 +27,10 @@ namespace IgescConecta.API.Data
             _contextAccessor = contextAccessor;
         }
 
-        // Identity
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
 
-        // Domínio 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Donation> Donations { get; set; }
@@ -87,7 +85,6 @@ namespace IgescConecta.API.Data
 
 
 
-            // Configurações de Identity (Original do código do colega)
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -97,10 +94,6 @@ namespace IgescConecta.API.Data
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
-
-        // ==========================================================
-        // MÉTODOS DE AUDITORIA E SOFT DELETE 
-        // ==========================================================
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
@@ -122,7 +115,6 @@ namespace IgescConecta.API.Data
                 .Where(x => x.Entity is BaseEntity || x.Entity is User)
                 .ToList();
 
-            // Soft delete
             var softDeleteEntries = ChangeTracker
                 .Entries<ISoftDeletable>()
                 .Where(e => e.State == EntityState.Deleted);
@@ -148,7 +140,6 @@ namespace IgescConecta.API.Data
 
             foreach (var entry in filtred)
             {
-                // Trata a auditoria de User
                 if (entry.Entity is User user)
                 {
                     if (entry.State == EntityState.Added)
@@ -160,7 +151,6 @@ namespace IgescConecta.API.Data
                     user.UpdatedAt = DateTime.UtcNow;
                     user.UpdatedBy = currentUserId;
                 }
-                // Trata a auditoria de BaseEntity
                 else if (entry.Entity is BaseEntity entity)
                 {
                     if (entry.State == EntityState.Added)
