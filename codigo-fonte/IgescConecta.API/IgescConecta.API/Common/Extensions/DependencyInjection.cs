@@ -11,7 +11,6 @@ namespace IgescConecta.API.Common.Extensions
 {
     public static class DependencyInjection
     {
-        // === DbContext: Azure SQL (DefaultConnection) ===
         public static IServiceCollection AddDbContextIgesc(this IServiceCollection services, IConfiguration cfg)
         {
             services.AddHttpContextAccessor();
@@ -26,11 +25,9 @@ namespace IgescConecta.API.Common.Extensions
                 options.UseSqlServer(cs, sql =>
                 {
                     // resiliente para nuvem
-                    sql.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(10),
-                        errorNumbersToAdd: null
-                    );
+                    sql.EnableRetryOnFailure(maxRetryCount: 5,
+                                             maxRetryDelay: TimeSpan.FromSeconds(10),
+                                             errorNumbersToAdd: null);
                     sql.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
                 });
             });
@@ -39,7 +36,6 @@ namespace IgescConecta.API.Common.Extensions
             return services;
         }
 
-        // === Swagger + Bearer JWT ===
         public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
@@ -49,22 +45,8 @@ namespace IgescConecta.API.Common.Extensions
                     Title = "IGESC API",
                     Version = "v1"
                 });
+                c.CustomSchemaIds(t => t.FullName);
 
-                // 🔧 Schema IDs: preserva nomes curtos usados no front e normaliza os demais
-                c.CustomSchemaIds(t =>
-                {
-                    // manter nomes curtos esperados pelo front
-                    if (t.FullName == "IgescConecta.API.Common.Extensions.Op") return "Op";
-                    if (t.FullName == "IgescConecta.API.Common.Extensions.Filter") return "Filter";
-
-                    // normalização (substitui '+' por '.', remove sufixo de genéricos `1, `2...)
-                    var name = t.FullName ?? t.Name;
-                    name = name.Replace("+", ".");
-                    var backtick = name.IndexOf('`');
-                    return backtick > 0 ? name[..backtick] : name;
-                });
-
-                // Agrupamento por controller/GroupName
                 c.TagActionsBy(api =>
                 {
                     if (api.GroupName != null) return new[] { api.GroupName };
@@ -74,8 +56,6 @@ namespace IgescConecta.API.Common.Extensions
 
                 c.DocInclusionPredicate((name, api) => true);
                 c.SupportNonNullableReferenceTypes();
-
-                // Segurança: Bearer
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -105,15 +85,12 @@ namespace IgescConecta.API.Common.Extensions
             return services;
         }
 
-        // === Serviços de domínio (Auth/Email) + opções ===
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration cfg)
         {
             services.AddScoped<IAuthAuthenticatonService, AuthAuthenticatonService>();
 
-            // Vincula SmtpOptions à seção "Smtp" (host, port, ssl)
             services.Configure<SmtpOptions>(cfg.GetSection("Smtp"));
 
-            // Seleciona o provedor por configuração: Email:Provider = Dev | Smtp
             services.AddScoped<IEmailService>(sp =>
             {
                 var provider = cfg["Email:Provider"] ?? "Dev";
@@ -126,28 +103,17 @@ namespace IgescConecta.API.Common.Extensions
                         cfg
                     );
                 }
-
-                // Dev (log/console)
                 return new ConsoleEmailService(sp.GetRequiredService<ILogger<ConsoleEmailService>>());
             });
 
             return services;
         }
-
-        // === Identity Core + Roles + Tokens ===
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentityCore<User>(op =>
             {
                 op.SignIn.RequireConfirmedAccount = false;
                 op.User.RequireUniqueEmail = true;
-
-                // (ex.: regras de senha, se quiser ativar futuramente)
-                // op.Password.RequiredLength = 6;
-                // op.Password.RequireNonAlphanumeric = false;
-                // op.Password.RequireUppercase = true;
-                // op.Password.RequireLowercase = true;
-                // op.Password.RequireDigit = true;
             })
             .AddRoles<Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
