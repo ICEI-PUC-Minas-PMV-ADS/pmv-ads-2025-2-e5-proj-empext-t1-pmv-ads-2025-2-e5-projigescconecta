@@ -2,12 +2,12 @@ using MediatR;
 using IgescConecta.API.Data;
 using IgescConecta.API.Common.Validation;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks; // Necessário para Task.FromResult
+using System.Threading.Tasks; // NecessÃ¡rio para Task.FromResult
 
 namespace IgescConecta.API.Features.Empresas.ListEmpresa
 {
-    // DTO de Saída (Mantido com todos os campos necessários para a API)
-    public class EmpresaDto
+Â  Â  // DTO de SaÃ­da (Mantido com todos os campos necessÃ¡rios para a API)
+Â  Â  public class EmpresaDto
     {
         public string CNPJ { get; set; } = string.Empty;
         public string Nome { get; set; } = string.Empty;
@@ -17,14 +17,14 @@ namespace IgescConecta.API.Features.Empresas.ListEmpresa
         public bool Ativa { get; set; }
     }
 
-    // DTO de Entrada (Query)
-    public class ListEmpresaQuery : IRequest<Result<EmpresaDto, ValidationFailed>>
+Â  Â  // DTO de Entrada (Query)
+Â  Â  public class ListEmpresaQuery : IRequest<Result<EmpresaDto, ValidationFailed>>
     {
         public string CNPJ { get; set; } = string.Empty;
     }
 
-    // Handler da Consulta (Lógica de Leitura)
-    internal sealed class ListEmpresaQueryHandler : IRequestHandler<ListEmpresaQuery, Result<EmpresaDto, ValidationFailed>>
+Â  Â  // Handler da Consulta (LÃ³gica de Leitura)
+Â  Â  internal sealed class ListEmpresaQueryHandler : IRequestHandler<ListEmpresaQuery, Result<EmpresaDto, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -41,14 +41,14 @@ namespace IgescConecta.API.Features.Empresas.ListEmpresa
 
             if (empresa == null)
             {
-                // RETORNO DE FALHA: Usando Task.FromResult com conversão explícita
-                return await Task.FromResult((Result<EmpresaDto, ValidationFailed>)new ValidationFailed(new[] {
-          $"Empresa com CNPJ {request.CNPJ} não encontrada ou inativa."
+Â  Â  Â  Â  Â  Â  Â  Â  // RETORNO DE FALHA: Usando Task.FromResult com conversÃ£o explÃ­cita
+Â  Â  Â  Â  Â  Â  Â  Â  return await Task.FromResult((Result<EmpresaDto, ValidationFailed>)new ValidationFailed(new[] {
+          $"Empresa com CNPJ {request.CNPJ} nÃ£o encontrada ou inativa."
         }));
             }
 
-            // Mapeamento para o DTO
-            var dto = new EmpresaDto
+Â  Â  Â  Â  Â  Â  // Mapeamento para o DTO
+Â  Â  Â  Â  Â  Â  var dto = new EmpresaDto
             {
                 CNPJ = empresa.CNPJ,
                 Nome = empresa.Nome,
@@ -58,8 +58,8 @@ namespace IgescConecta.API.Features.Empresas.ListEmpresa
                 Ativa = empresa.Ativa
             };
 
-            // RETORNO DE SUCESSO: Usando Task.FromResult com conversão explícita
-            return await Task.FromResult((Result<EmpresaDto, ValidationFailed>)dto);
+Â  Â  Â  Â  Â  Â  // RETORNO DE SUCESSO: Usando Task.FromResult com conversÃ£o explÃ­cita
+Â  Â  Â  Â  Â  Â  return await Task.FromResult((Result<EmpresaDto, ValidationFailed>)dto);
         }
     }
 }

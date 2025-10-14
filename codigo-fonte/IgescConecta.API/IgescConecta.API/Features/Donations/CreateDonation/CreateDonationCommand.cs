@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace IgescConecta.API.Features.Donations.CreateDonation
 {
-    // DTO (Data Transfer Object) (inalterado)
-    public class CreateDonationCommand : IRequest<Result<Guid, ValidationFailed>>
+Â  Â  // DTO (Data Transfer Object) (inalterado)
+Â  Â  public class CreateDonationCommand : IRequest<Result<Guid, ValidationFailed>>
     {
         public decimal Valor { get; set; }
         public DateTime Data { get; set; }
@@ -21,8 +21,8 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
         public string? DestinoOSCCodigo { get; set; }
     }
 
-    // Handler (Lógica de Negócio e Validação)
-    internal sealed class CreateDonationCommandHandler : IRequestHandler<CreateDonationCommand, Result<Guid, ValidationFailed>>
+Â  Â  // Handler (LÃ³gica de NegÃ³cio e ValidaÃ§Ã£o)
+Â  Â  internal sealed class CreateDonationCommandHandler : IRequestHandler<CreateDonationCommand, Result<Guid, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -33,9 +33,9 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
 
         public async Task<Result<Guid, ValidationFailed>> Handle(CreateDonationCommand request, CancellationToken cancellationToken)
         {
-            // ... (Validações de exclusividade e valor - inalteradas) ...
+            // ... (ValidaÃ§Ãµes de exclusividade e valor - inalteradas) ...
 
-            // Validação 1: Doador Exclusivo (Exatamente 1: Pessoa OU Empresa)
+            // ValidaÃ§Ã£o 1: Doador Exclusivo (Exatamente 1: Pessoa OU Empresa)
             var doadorCount = new[]
       {
         request.DoadorPessoaCPF,
@@ -45,27 +45,27 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
 
             if (doadorCount != 1)
             {
-                return new ValidationFailed(new[] { "A doação deve ser feita por EXATAMENTE uma Pessoa (CPF) ou uma Empresa (CNPJ)." });
+                return new ValidationFailed(new[] { "A doaÃ§Ã£o deve ser feita por EXATAMENTE uma Pessoa (CPF) ou uma Empresa (CNPJ)." });
             }
 
-            // Validação 2: Destino Exclusivo (No Máximo 1: Turma OU OSC OU Nenhum)
-            var destinoCount = 0;
+Â  Â  Â  Â  Â  Â  // ValidaÃ§Ã£o 2: Destino Exclusivo (No MÃ¡ximo 1: Turma OU OSC OU Nenhum)
+Â  Â  Â  Â  Â  Â  var destinoCount = 0;
             if (request.DestinoTurmaId.HasValue && request.DestinoTurmaId != Guid.Empty) destinoCount++;
             if (!string.IsNullOrEmpty(request.DestinoOSCCodigo)) destinoCount++;
 
             if (destinoCount > 1)
             {
-                return new ValidationFailed(new[] { "O destino da doação deve ser APENAS uma Turma ou APENAS uma OSC." });
+                return new ValidationFailed(new[] { "O destino da doaÃ§Ã£o deve ser APENAS uma Turma ou APENAS uma OSC." });
             }
 
-            // Validação 3: Valor
-            if (request.Valor <= 0)
+Â  Â  Â  Â  Â  Â  // ValidaÃ§Ã£o 3: Valor
+Â  Â  Â  Â  Â  Â  if (request.Valor <= 0)
             {
-                return new ValidationFailed(new[] { "O valor da doação deve ser maior que zero." });
+                return new ValidationFailed(new[] { "O valor da doaÃ§Ã£o deve ser maior que zero." });
             }
 
-            // Validação 4: Destino Tipo (Se destino existir, o tipo deve ser "OSC" ou "TURMA")
-            if (destinoCount == 1)
+Â  Â  Â  Â  Â  Â  // ValidaÃ§Ã£o 4: Destino Tipo (Se destino existir, o tipo deve ser "OSC" ou "TURMA")
+Â  Â  Â  Â  Â  Â  if (destinoCount == 1)
             {
                 if (string.IsNullOrEmpty(request.DestinoTipo) || !new[] { "OSC", "TURMA" }.Any(t => t.Equals(request.DestinoTipo, StringComparison.OrdinalIgnoreCase)))
                 {
@@ -73,8 +73,8 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
                 }
             }
 
-            // 3. Mapeamento e Persistência
-            var novaDoacao = new Doacao
+Â  Â  Â  Â  Â  Â  // 3. Mapeamento e PersistÃªncia
+Â  Â  Â  Â  Â  Â  var novaDoacao = new Doacao
             {
                 IDDoacao = Guid.NewGuid(),
                 Valor = request.Valor,
@@ -89,9 +89,9 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
             _context.Doacoes.Add(novaDoacao);
             await _context.SaveChangesAsync(cancellationToken);
 
-            // 4. Retorno de SUCESSO CORRIGIDO:
-            // Usamos o operador implícito para converter Guid para Result<Guid, ValidationFailed>
-            return novaDoacao.IDDoacao;
+Â  Â  Â  Â  Â  Â  // 4. Retorno de SUCESSO CORRIGIDO:
+Â  Â  Â  Â  Â  Â  // Usamos o operador implÃ­cito para converter Guid para Result<Guid, ValidationFailed>
+Â  Â  Â  Â  Â  Â  return novaDoacao.IDDoacao;
         }
     }
 }
