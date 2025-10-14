@@ -301,6 +301,850 @@ ________________________________________________________________________________
 </table>
 
 <details>
+<summary><h2>🏛️ OSC</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O01 - S<br>Criar OSC</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite criar uma nova OSC (Organização da Sociedade Civil) com sucesso, preenchendo todos os campos obrigatórios e incluindo a referência à Causa e Público.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Nova OSC".<br>
+      3. Preencher todos os campos obrigatórios:<br>
+      &nbsp;&nbsp;- Nome<br>
+      &nbsp;&nbsp;- Telefone<br>
+      &nbsp;&nbsp;- Email<br>
+      &nbsp;&nbsp;- Website<br>
+      &nbsp;&nbsp;- Mídia Social<br>
+      &nbsp;&nbsp;- Razão Social<br>
+      &nbsp;&nbsp;- Objetivo<br>
+      &nbsp;&nbsp;- CEP<br>
+      &nbsp;&nbsp;- Endereço<br>
+      &nbsp;&nbsp;- Bairro<br>
+      &nbsp;&nbsp;- Cidade<br>
+      &nbsp;&nbsp;- Estado<br>
+      &nbsp;&nbsp;- CNPJ<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome:</strong> Instituto Vida Melhor<br>
+      - <strong>Telefone:</strong> (11) 98877-6655<br>
+      - <strong>Email:</strong> contato@vidamelhor.org.br<br>
+      - <strong>Website:</strong> www.vidamelhor.org.br<br>
+      - <strong>Mídia Social:</strong> instagram.com/vidamelhor<br>
+      - <strong>Razão Social:</strong> Instituto Vida Melhor<br>
+      - <strong>Objetivo:</strong> Promover educação e inclusão social<br>
+      - <strong>CEP:</strong> 04567-000<br>
+      - <strong>Endereço:</strong> Rua das Flores, 120<br>
+      - <strong>Bairro:</strong> Jardim Esperança<br>
+      - <strong>Cidade:</strong> São Paulo<br>
+      - <strong>Estado:</strong> SP<br>
+      - <strong>CNPJ:</strong> 12.345.678/0001-90
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar a OSC e exibi-la corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O02 - S<br>Editar OSC</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite editar as informações de uma OSC existente, modificando qualquer campo obrigatório e salvando com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar uma OSC existente.<br>
+      2. Alterar um ou mais campos obrigatórios (ex: Nome, Objetivo ou CNPJ).<br>
+      3. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar as informações e exibi-las corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O03 - S<br>Remover OSC</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir uma OSC existente, exibindo modal de confirmação antes da exclusão.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar uma OSC existente.<br>
+      2. Clicar em "Remover".<br>
+      3. Confirmar a exclusão no modal exibido.<br>
+      4. Verificar a listagem atualizada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover a OSC e atualizar a lista sem o item excluído.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O04 - I01<br>Criar OSC sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede o cadastro de uma OSC sem o preenchimento do campo Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Nova OSC".<br>
+      3. Deixar o campo Nome vazio.<br>
+      4. Preencher os demais campos obrigatórios.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que o campo Nome é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O05 - S<br>Listar OSCs</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema exibe corretamente todas as OSCs cadastradas e permite a filtragem por Nome, Cidade, Estado ou Causa.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Visualizar a listagem de OSCs cadastradas.<br>
+      3. Aplicar filtros por Nome, Cidade, Estado ou Causa.<br>
+      4. Verificar o resultado da pesquisa.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a lista de OSCs corretamente, incluindo os resultados filtrados conforme os critérios informados.</td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>🧍‍♂️ Público</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU01 - S<br>Criar Público</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite criar um novo Público com sucesso, preenchendo todos os campos obrigatórios.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Públicos.<br>
+      2. Clicar em "Novo Público".<br>
+      3. Preencher os campos obrigatórios:<br>
+      &nbsp;&nbsp;- Nome<br>
+      &nbsp;&nbsp;- Observações<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome:</strong> Jovens em situação de vulnerabilidade<br>
+      - <strong>Observações:</strong> Público voltado a adolescentes de 12 a 17 anos em áreas de risco social.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar o Público e exibi-lo corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU02 - S<br>Editar Público</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite editar as informações de um Público existente com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Público existente.<br>
+      2. Alterar o campo Nome ou Observações.<br>
+      3. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar as informações e exibi-las corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU03 - S<br>Remover Público</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir um Público existente, exibindo modal de confirmação antes da exclusão.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Público existente.<br>
+      2. Clicar em "Remover".<br>
+      3. Confirmar a exclusão no modal exibido.<br>
+      4. Verificar a listagem atualizada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover o Público e atualizar a lista sem o item excluído.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU04 - I01<br>Criar Público sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede o cadastro de um Público sem o preenchimento do campo Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Públicos.<br>
+      2. Clicar em "Novo Público".<br>
+      3. Deixar o campo Nome vazio.<br>
+      4. Preencher apenas o campo Observações.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que o campo Nome é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU05 - I02<br>Criar Público sem Observações</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede o cadastro de um Público sem o preenchimento do campo Observações.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Públicos.<br>
+      2. Clicar em "Novo Público".<br>
+      3. Preencher o campo Nome.<br>
+      4. Deixar o campo Observações vazio.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que o campo Observações é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-PU06 - S<br>Listar Públicos</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema exibe corretamente todos os Públicos cadastrados e permite a filtragem por Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-008</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Públicos.<br>
+      2. Visualizar a listagem de Públicos cadastrados.<br>
+      3. Aplicar filtro por Nome e pesquisar.<br>
+      4. Verificar o resultado exibido.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a lista de Públicos corretamente, incluindo os resultados filtrados conforme o Nome informado.</td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>💠 Grupo de Causas</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC01 - S<br>Criar Grupo de Causas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite criar um novo Grupo de Causas preenchendo o campo obrigatório "Nome".</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Grupo de Causas.<br>
+      2. Clicar em "Novo Grupo".<br>
+      3. Preencher o campo <strong>Nome</strong>.<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td><strong>Nome:</strong> Desenvolvimento Sustentável</td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar o Grupo de Causas e exibi-lo na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC02 - I01<br>Criar Grupo de Causas sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema impede o cadastro de um Grupo de Causas sem preencher o campo obrigatório "Nome".</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Grupo de Causas.<br>
+      2. Clicar em "Novo Grupo".<br>
+      3. Deixar o campo Nome vazio.<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir mensagem de erro indicando que o campo Nome é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC03 - S<br>Editar Grupo de Causas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite editar o Nome de um Grupo de Causas existente com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Grupo de Causas existente.<br>
+      2. Alterar o campo Nome.<br>
+      3. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar o Nome do Grupo de Causas e exibi-lo corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC04 - S<br>Remover Grupo de Causas (Cascade Delete)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se, ao excluir um Grupo de Causas, todas as Causas associadas são removidas automaticamente (delete em cascata).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Grupo de Causas que contenha Causas associadas.<br>
+      2. Clicar em "Remover".<br>
+      3. Confirmar a exclusão.<br>
+      4. Verificar se o Grupo e suas Causas foram excluídos.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover o Grupo e todas as Causas relacionadas (delete cascade).</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC05 - S<br>Listar Grupos de Causas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema exibe corretamente todos os Grupos de Causas cadastrados, permitindo busca por Nome e acesso à tela de Causas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Grupo de Causas.<br>
+      2. Visualizar a listagem de Grupos cadastrados.<br>
+      3. Aplicar filtro por Nome.<br>
+      4. Clicar no botão "Acessar Causas" para um Grupo.<br>
+      5. Verificar redirecionamento para a rota <code>business-case/{id}/origin-business-case</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir os Grupos e permitir o redirecionamento correto para a página de Causas.</td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>🎯 Causa</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-C01 - S<br>Criar Causa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite criar uma nova Causa vinculada automaticamente ao Grupo de Causas acessado.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar um Grupo de Causas existente.<br>
+      2. Clicar em "Acessar Causas".<br>
+      3. Clicar em "Nova Causa".<br>
+      4. Preencher o campo <strong>Nome</strong> e <strong>Observação</strong>.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome:</strong> Inclusão Social e Igualdade <br>
+      - <strong>Observação:</strong> objetivo promover oportunidades equitativas e reduzir disparidades sociais, assegurando que indivíduos e grupos em situação de vulnerabilidade tenham acesso igualitário a recursos, direitos e participação ativa na sociedade.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>A Causa deve ser cadastrada e exibida na lista vinculada ao Grupo correspondente.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-C02 - I01<br>Criar Causa sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema impede o cadastro de uma Causa sem preenchimento do campo obrigatório "Nome".</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar um Grupo de Causas existente.<br>
+      2. Clicar em "Nova Causa".<br>
+      3. Deixar o campo Nome vazio.<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir mensagem informando que o campo Nome é obrigatório.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-C03 - S<br>Editar Causa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite editar o Nome de uma Causa existente vinculada a um Grupo.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar um Grupo de Causas existente.<br>
+      2. Clicar em "Acessar Causas".<br>
+      3. Selecionar uma Causa existente.<br>
+      4. Alterar o campo Nome.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar o Nome da Causa e exibi-lo corretamente na listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-C04 - S<br>Remover Causa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite remover uma Causa existente vinculada a um Grupo de Causas.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar um Grupo de Causas existente.<br>
+      2. Clicar em "Acessar Causas".<br>
+      3. Selecionar uma Causa existente.<br>
+      4. Clicar em "Remover".<br>
+      5. Confirmar exclusão.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover a Causa e atualizar a listagem.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-C05 - S<br>Listar Causas por Grupo</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema exibe corretamente todas as Causas pertencentes ao Grupo selecionado, permitindo busca por Nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar um Grupo de Causas existente.<br>
+      2. Clicar em "Acessar Causas".<br>
+      3. Visualizar a listagem de Causas cadastradas.<br>
+      4. Aplicar filtro por Nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir todas as Causas associadas ao Grupo corretamente, incluindo o filtro funcional.</td>
+  </tr>
+</table>
+
+</details>
+
+<details>
 <summary><h2>🎓 Programa</h2></summary>
 
 <table>
