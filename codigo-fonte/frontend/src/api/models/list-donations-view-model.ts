@@ -13,24 +13,27 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { DonationViewModel } from './donation-view-model';
 
 /**
  * 
  * @export
- * @interface UpdateOriginBusinessCaseRequest
+ * @interface ListDonationsViewModel
  */
-export interface UpdateOriginBusinessCaseRequest {
+export interface ListDonationsViewModel {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {number}
+     * @memberof ListDonationsViewModel
      */
-    'name'?: string;
+    'totalItems'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {Array<DonationViewModel>}
+     * @memberof ListDonationsViewModel
      */
-    'notes'?: string;
+    'items'?: Array<DonationViewModel>;
 }
 

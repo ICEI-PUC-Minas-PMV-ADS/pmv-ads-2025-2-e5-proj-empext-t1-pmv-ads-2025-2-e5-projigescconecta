@@ -22,22 +22,22 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 /**
- * ListDonationEndpointApi - axios parameter creator
+ * ListCompanyEndpointApi - axios parameter creator
  * @export
  */
-export const ListDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ListCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDonationById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getDonationById', 'id', id)
-            const localVarPath = `/api/donations/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        getCompanyByCnpj: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('getCompanyByCnpj', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -68,62 +68,62 @@ export const ListDonationEndpointApiAxiosParamCreator = function (configuration?
 };
 
 /**
- * ListDonationEndpointApi - functional programming interface
+ * ListCompanyEndpointApi - functional programming interface
  * @export
  */
-export const ListDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListDonationEndpointApiAxiosParamCreator(configuration)
+export const ListCompanyEndpointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ListCompanyEndpointApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDonationById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDonationById(id, options);
+        async getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompanyByCnpj(cnpj, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListDonationEndpointApi.getDonationById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ListCompanyEndpointApi.getCompanyByCnpj']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * ListDonationEndpointApi - factory interface
+ * ListCompanyEndpointApi - factory interface
  * @export
  */
-export const ListDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListDonationEndpointApiFp(configuration)
+export const ListCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ListCompanyEndpointApiFp(configuration)
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDonationById(id: number, options?: any): AxiosPromise<void> {
-            return localVarFp.getDonationById(id, options).then((request) => request(axios, basePath));
+        getCompanyByCnpj(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.getCompanyByCnpj(cnpj, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * ListDonationEndpointApi - object-oriented interface
+ * ListCompanyEndpointApi - object-oriented interface
  * @export
- * @class ListDonationEndpointApi
+ * @class ListCompanyEndpointApi
  * @extends {BaseAPI}
  */
-export class ListDonationEndpointApi extends BaseAPI {
+export class ListCompanyEndpointApi extends BaseAPI {
     /**
      * 
-     * @param {number} id 
+     * @param {string} cnpj 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ListDonationEndpointApi
+     * @memberof ListCompanyEndpointApi
      */
-    public getDonationById(id: number, options?: RawAxiosRequestConfig) {
-        return ListDonationEndpointApiFp(this.configuration).getDonationById(id, options).then((request) => request(this.axios, this.basePath));
+    public getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig) {
+        return ListCompanyEndpointApiFp(this.configuration).getCompanyByCnpj(cnpj, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

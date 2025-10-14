@@ -22,21 +22,25 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { CreateEmpresaCommand } from '../models';
+import type { UpdateCompanyCommand } from '../models';
 /**
- * CreateEmpresaEndpointApi - axios parameter creator
+ * UpdateCompanyEndpointApi - axios parameter creator
  * @export
  */
-export const CreateEmpresaEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const UpdateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {CreateEmpresaCommand} [createEmpresaCommand] 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasPost: async (createEmpresaCommand?: CreateEmpresaCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/empresas`;
+        apiCompaniesCnpjPut: async (cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjPut', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -44,7 +48,7 @@ export const CreateEmpresaEndpointApiAxiosParamCreator = function (configuration
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -59,7 +63,7 @@ export const CreateEmpresaEndpointApiAxiosParamCreator = function (configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createEmpresaCommand, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(updateCompanyCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -70,62 +74,65 @@ export const CreateEmpresaEndpointApiAxiosParamCreator = function (configuration
 };
 
 /**
- * CreateEmpresaEndpointApi - functional programming interface
+ * UpdateCompanyEndpointApi - functional programming interface
  * @export
  */
-export const CreateEmpresaEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = CreateEmpresaEndpointApiAxiosParamCreator(configuration)
+export const UpdateCompanyEndpointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UpdateCompanyEndpointApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {CreateEmpresaCommand} [createEmpresaCommand] 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiEmpresasPost(createEmpresaCommand?: CreateEmpresaCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEmpresasPost(createEmpresaCommand, options);
+        async apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CreateEmpresaEndpointApi.apiEmpresasPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UpdateCompanyEndpointApi.apiCompaniesCnpjPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * CreateEmpresaEndpointApi - factory interface
+ * UpdateCompanyEndpointApi - factory interface
  * @export
  */
-export const CreateEmpresaEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = CreateEmpresaEndpointApiFp(configuration)
+export const UpdateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UpdateCompanyEndpointApiFp(configuration)
     return {
         /**
          * 
-         * @param {CreateEmpresaCommand} [createEmpresaCommand] 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasPost(createEmpresaCommand?: CreateEmpresaCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiEmpresasPost(createEmpresaCommand, options).then((request) => request(axios, basePath));
+        apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * CreateEmpresaEndpointApi - object-oriented interface
+ * UpdateCompanyEndpointApi - object-oriented interface
  * @export
- * @class CreateEmpresaEndpointApi
+ * @class UpdateCompanyEndpointApi
  * @extends {BaseAPI}
  */
-export class CreateEmpresaEndpointApi extends BaseAPI {
+export class UpdateCompanyEndpointApi extends BaseAPI {
     /**
      * 
-     * @param {CreateEmpresaCommand} [createEmpresaCommand] 
+     * @param {string} cnpj 
+     * @param {UpdateCompanyCommand} [updateCompanyCommand] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CreateEmpresaEndpointApi
+     * @memberof UpdateCompanyEndpointApi
      */
-    public apiEmpresasPost(createEmpresaCommand?: CreateEmpresaCommand, options?: RawAxiosRequestConfig) {
-        return CreateEmpresaEndpointApiFp(this.configuration).apiEmpresasPost(createEmpresaCommand, options).then((request) => request(this.axios, this.basePath));
+    public apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig) {
+        return UpdateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

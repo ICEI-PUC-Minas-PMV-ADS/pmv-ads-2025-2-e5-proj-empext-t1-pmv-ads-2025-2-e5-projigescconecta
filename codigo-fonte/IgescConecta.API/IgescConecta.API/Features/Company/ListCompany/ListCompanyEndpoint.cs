@@ -1,3 +1,4 @@
+using IgescConecta.API.Features.Companies.ListCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,19 +15,16 @@ namespace IgescConecta.API.Features.Companies.ListCompany
             _mediator = mediator;
         }
 
-        [HttpGet("{cnpj}")]
+        [HttpGet("{cnpj}", Name = "GetCompanyByCnpj")]
         public async Task<IActionResult> Get(string cnpj)
         {
             var query = new ListCompanyQuery { CNPJ = cnpj };
-
             var result = await _mediator.Send(query);
-
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
-
-            return BadRequest(result.Error);
+            return NotFound(result.Error);
         }
     }
 }

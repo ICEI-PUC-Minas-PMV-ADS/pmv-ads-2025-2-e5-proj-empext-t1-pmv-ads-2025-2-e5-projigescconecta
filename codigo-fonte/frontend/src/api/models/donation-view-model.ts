@@ -17,38 +17,38 @@
 /**
  * 
  * @export
- * @interface CreateEmpresaCommand
+ * @interface DonationViewModel
  */
-export interface CreateEmpresaCommand {
+export interface DonationViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof DonationViewModel
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DonationViewModel
+     */
+    'value'?: number;
     /**
      * 
      * @type {string}
-     * @memberof CreateEmpresaCommand
+     * @memberof DonationViewModel
      */
-    'cnpj'?: string;
+    'donationDate'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateEmpresaCommand
+     * @memberof DonationViewModel
      */
-    'nome'?: string;
+    'doadorNome'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateEmpresaCommand
+     * @memberof DonationViewModel
      */
-    'endereco'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEmpresaCommand
-     */
-    'telefone'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEmpresaCommand
-     */
-    'email'?: string;
+    'destinoNome'?: string;
 }
 

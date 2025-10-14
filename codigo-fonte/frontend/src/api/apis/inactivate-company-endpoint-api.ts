@@ -22,22 +22,22 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 /**
- * ListDonationEndpointApi - axios parameter creator
+ * InactivateCompanyEndpointApi - axios parameter creator
  * @export
  */
-export const ListDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const InactivateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDonationById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getDonationById', 'id', id)
-            const localVarPath = `/api/donations/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        apiCompaniesCnpjDelete: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjDelete', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -45,7 +45,7 @@ export const ListDonationEndpointApiAxiosParamCreator = function (configuration?
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -68,62 +68,62 @@ export const ListDonationEndpointApiAxiosParamCreator = function (configuration?
 };
 
 /**
- * ListDonationEndpointApi - functional programming interface
+ * InactivateCompanyEndpointApi - functional programming interface
  * @export
  */
-export const ListDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListDonationEndpointApiAxiosParamCreator(configuration)
+export const InactivateCompanyEndpointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InactivateCompanyEndpointApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDonationById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDonationById(id, options);
+        async apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjDelete(cnpj, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListDonationEndpointApi.getDonationById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['InactivateCompanyEndpointApi.apiCompaniesCnpjDelete']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * ListDonationEndpointApi - factory interface
+ * InactivateCompanyEndpointApi - factory interface
  * @export
  */
-export const ListDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListDonationEndpointApiFp(configuration)
+export const InactivateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InactivateCompanyEndpointApiFp(configuration)
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} cnpj 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDonationById(id: number, options?: any): AxiosPromise<void> {
-            return localVarFp.getDonationById(id, options).then((request) => request(axios, basePath));
+        apiCompaniesCnpjDelete(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjDelete(cnpj, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * ListDonationEndpointApi - object-oriented interface
+ * InactivateCompanyEndpointApi - object-oriented interface
  * @export
- * @class ListDonationEndpointApi
+ * @class InactivateCompanyEndpointApi
  * @extends {BaseAPI}
  */
-export class ListDonationEndpointApi extends BaseAPI {
+export class InactivateCompanyEndpointApi extends BaseAPI {
     /**
      * 
-     * @param {number} id 
+     * @param {string} cnpj 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ListDonationEndpointApi
+     * @memberof InactivateCompanyEndpointApi
      */
-    public getDonationById(id: number, options?: RawAxiosRequestConfig) {
-        return ListDonationEndpointApiFp(this.configuration).getDonationById(id, options).then((request) => request(this.axios, this.basePath));
+    public apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig) {
+        return InactivateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjDelete(cnpj, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

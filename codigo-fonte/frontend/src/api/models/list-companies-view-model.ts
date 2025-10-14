@@ -13,24 +13,27 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { CompanyViewModel } from './company-view-model';
 
 /**
  * 
  * @export
- * @interface UpdateOriginBusinessCaseRequest
+ * @interface ListCompaniesViewModel
  */
-export interface UpdateOriginBusinessCaseRequest {
+export interface ListCompaniesViewModel {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {number}
+     * @memberof ListCompaniesViewModel
      */
-    'name'?: string;
+    'totalItems'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {Array<CompanyViewModel>}
+     * @memberof ListCompaniesViewModel
      */
-    'notes'?: string;
+    'items'?: Array<CompanyViewModel>;
 }
 

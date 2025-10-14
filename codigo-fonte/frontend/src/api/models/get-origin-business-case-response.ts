@@ -40,7 +40,7 @@ export interface GetOriginBusinessCaseResponse {
      * @type {string}
      * @memberof GetOriginBusinessCaseResponse
      */
-    'description'?: string;
+    'notes'?: string;
     /**
      * 
      * @type {Array<GetOriginBusinessCaseOscResponse>}

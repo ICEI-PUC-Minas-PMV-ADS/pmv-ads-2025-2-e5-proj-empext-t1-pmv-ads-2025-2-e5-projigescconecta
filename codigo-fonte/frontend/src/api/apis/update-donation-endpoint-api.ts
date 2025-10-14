@@ -22,25 +22,25 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { UpdateEmpresaCommand } from '../models';
+import type { UpdateDonationCommand } from '../models';
 /**
- * UpdateEmpresaEndpointApi - axios parameter creator
+ * UpdateDonationEndpointApi - axios parameter creator
  * @export
  */
-export const UpdateEmpresaEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const UpdateDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} cnpj 
-         * @param {UpdateEmpresaCommand} [updateEmpresaCommand] 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasCnpjPut: async (cnpj: string, updateEmpresaCommand?: UpdateEmpresaCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('apiEmpresasCnpjPut', 'cnpj', cnpj)
-            const localVarPath = `/api/empresas/{cnpj}`
-                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+        apiDonationsIdPut: async (id: number, updateDonationCommand?: UpdateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiDonationsIdPut', 'id', id)
+            const localVarPath = `/api/donations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -63,7 +63,7 @@ export const UpdateEmpresaEndpointApiAxiosParamCreator = function (configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateEmpresaCommand, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDonationCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -74,65 +74,65 @@ export const UpdateEmpresaEndpointApiAxiosParamCreator = function (configuration
 };
 
 /**
- * UpdateEmpresaEndpointApi - functional programming interface
+ * UpdateDonationEndpointApi - functional programming interface
  * @export
  */
-export const UpdateEmpresaEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UpdateEmpresaEndpointApiAxiosParamCreator(configuration)
+export const UpdateDonationEndpointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UpdateDonationEndpointApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {string} cnpj 
-         * @param {UpdateEmpresaCommand} [updateEmpresaCommand] 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiEmpresasCnpjPut(cnpj: string, updateEmpresaCommand?: UpdateEmpresaCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEmpresasCnpjPut(cnpj, updateEmpresaCommand, options);
+        async apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdPut(id, updateDonationCommand, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UpdateEmpresaEndpointApi.apiEmpresasCnpjPut']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UpdateDonationEndpointApi.apiDonationsIdPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * UpdateEmpresaEndpointApi - factory interface
+ * UpdateDonationEndpointApi - factory interface
  * @export
  */
-export const UpdateEmpresaEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UpdateEmpresaEndpointApiFp(configuration)
+export const UpdateDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UpdateDonationEndpointApiFp(configuration)
     return {
         /**
          * 
-         * @param {string} cnpj 
-         * @param {UpdateEmpresaCommand} [updateEmpresaCommand] 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasCnpjPut(cnpj: string, updateEmpresaCommand?: UpdateEmpresaCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiEmpresasCnpjPut(cnpj, updateEmpresaCommand, options).then((request) => request(axios, basePath));
+        apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * UpdateEmpresaEndpointApi - object-oriented interface
+ * UpdateDonationEndpointApi - object-oriented interface
  * @export
- * @class UpdateEmpresaEndpointApi
+ * @class UpdateDonationEndpointApi
  * @extends {BaseAPI}
  */
-export class UpdateEmpresaEndpointApi extends BaseAPI {
+export class UpdateDonationEndpointApi extends BaseAPI {
     /**
      * 
-     * @param {string} cnpj 
-     * @param {UpdateEmpresaCommand} [updateEmpresaCommand] 
+     * @param {number} id 
+     * @param {UpdateDonationCommand} [updateDonationCommand] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UpdateEmpresaEndpointApi
+     * @memberof UpdateDonationEndpointApi
      */
-    public apiEmpresasCnpjPut(cnpj: string, updateEmpresaCommand?: UpdateEmpresaCommand, options?: RawAxiosRequestConfig) {
-        return UpdateEmpresaEndpointApiFp(this.configuration).apiEmpresasCnpjPut(cnpj, updateEmpresaCommand, options).then((request) => request(this.axios, this.basePath));
+    public apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig) {
+        return UpdateDonationEndpointApiFp(this.configuration).apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

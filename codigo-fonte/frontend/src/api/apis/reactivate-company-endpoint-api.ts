@@ -22,10 +22,10 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 /**
- * ListEmpresaEndpointApi - axios parameter creator
+ * ReactivateCompanyEndpointApi - axios parameter creator
  * @export
  */
-export const ListEmpresaEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ReactivateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -33,10 +33,10 @@ export const ListEmpresaEndpointApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasCnpjGet: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiCompaniesCnpjActivatePatch: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('apiEmpresasCnpjGet', 'cnpj', cnpj)
-            const localVarPath = `/api/empresas/{cnpj}`
+            assertParamExists('apiCompaniesCnpjActivatePatch', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}/activate`
                 .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -45,7 +45,7 @@ export const ListEmpresaEndpointApiAxiosParamCreator = function (configuration?:
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -68,11 +68,11 @@ export const ListEmpresaEndpointApiAxiosParamCreator = function (configuration?:
 };
 
 /**
- * ListEmpresaEndpointApi - functional programming interface
+ * ReactivateCompanyEndpointApi - functional programming interface
  * @export
  */
-export const ListEmpresaEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListEmpresaEndpointApiAxiosParamCreator(configuration)
+export const ReactivateCompanyEndpointApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ReactivateCompanyEndpointApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -80,21 +80,21 @@ export const ListEmpresaEndpointApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiEmpresasCnpjGet(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEmpresasCnpjGet(cnpj, options);
+        async apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjActivatePatch(cnpj, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListEmpresaEndpointApi.apiEmpresasCnpjGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ReactivateCompanyEndpointApi.apiCompaniesCnpjActivatePatch']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * ListEmpresaEndpointApi - factory interface
+ * ReactivateCompanyEndpointApi - factory interface
  * @export
  */
-export const ListEmpresaEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListEmpresaEndpointApiFp(configuration)
+export const ReactivateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ReactivateCompanyEndpointApiFp(configuration)
     return {
         /**
          * 
@@ -102,28 +102,28 @@ export const ListEmpresaEndpointApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEmpresasCnpjGet(cnpj: string, options?: any): AxiosPromise<void> {
-            return localVarFp.apiEmpresasCnpjGet(cnpj, options).then((request) => request(axios, basePath));
+        apiCompaniesCnpjActivatePatch(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * ListEmpresaEndpointApi - object-oriented interface
+ * ReactivateCompanyEndpointApi - object-oriented interface
  * @export
- * @class ListEmpresaEndpointApi
+ * @class ReactivateCompanyEndpointApi
  * @extends {BaseAPI}
  */
-export class ListEmpresaEndpointApi extends BaseAPI {
+export class ReactivateCompanyEndpointApi extends BaseAPI {
     /**
      * 
      * @param {string} cnpj 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ListEmpresaEndpointApi
+     * @memberof ReactivateCompanyEndpointApi
      */
-    public apiEmpresasCnpjGet(cnpj: string, options?: RawAxiosRequestConfig) {
-        return ListEmpresaEndpointApiFp(this.configuration).apiEmpresasCnpjGet(cnpj, options).then((request) => request(this.axios, this.basePath));
+    public apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig) {
+        return ReactivateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

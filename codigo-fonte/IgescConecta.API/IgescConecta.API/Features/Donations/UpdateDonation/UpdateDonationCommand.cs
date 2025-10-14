@@ -15,8 +15,8 @@ namespace IgescConecta.API.Features.Donations.UpdateDonation
         public decimal Value { get; set; }
         public DateTime DonationDate { get; set; }
 
-        // Os relacionamentos que podem ser alterados
         public int? OscId { get; set; }
+        public int? CourseId { get; set; } 
         public int? TeamId { get; set; }
     }
 
@@ -44,15 +44,27 @@ namespace IgescConecta.API.Features.Donations.UpdateDonation
                 return new ValidationFailed("O valor da doação deve ser maior que zero.");
             }
 
-            if (request.OscId.HasValue && request.TeamId.HasValue)
+            if (request.OscId.HasValue && request.CourseId.HasValue)
             {
-                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para uma Turma, mas não para ambas ao mesmo tempo.");
+                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para um Curso/Turma, mas não para ambos ao mesmo tempo.");
+            }
+
+            if (request.TeamId.HasValue && !request.CourseId.HasValue)
+            {
+                return new ValidationFailed("Uma doação para uma Turma (TeamId) também deve especificar o Curso (CourseId).");
+            }
+
+            if (request.CourseId.HasValue && !request.TeamId.HasValue)
+            {
+                return new ValidationFailed("Uma doação para um Curso deve especificar uma Turma (TeamId).");
             }
 
             donation.Value = request.Value;
             donation.DonationDate = request.DonationDate;
             donation.OscId = request.OscId;
+            donation.CourseId = request.CourseId;
             donation.TeamId = request.TeamId;
+
 
             await _context.SaveChangesAsync(cancellationToken);
 

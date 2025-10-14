@@ -1,3 +1,4 @@
+using IgescConecta.API.Features.Companies.CreateCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace IgescConecta.API.Features.Companies.CreateCompany
 
             if (result.IsSuccess)
             {
-                return CreatedAtAction("Get", "ListCompany", new { cnpj = result.Value }, new { cnpj = result.Value });
+                return CreatedAtRoute("GetCompanyByCnpj", new { cnpj = result.Value }, result.Value);
             }
 
             return BadRequest(result.Error);

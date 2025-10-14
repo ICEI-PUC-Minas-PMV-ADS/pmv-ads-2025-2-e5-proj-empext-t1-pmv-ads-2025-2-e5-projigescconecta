@@ -17,38 +17,44 @@
 /**
  * 
  * @export
- * @interface UpdateEmpresaCommand
+ * @interface CompanyViewModel
  */
-export interface UpdateEmpresaCommand {
+export interface CompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof CompanyViewModel
+     */
+    'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmpresaCommand
+     * @memberof CompanyViewModel
      */
     'cnpj'?: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmpresaCommand
+     * @memberof CompanyViewModel
      */
     'nome'?: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmpresaCommand
+     * @memberof CompanyViewModel
      */
-    'endereco'?: string;
+    'razaoSocial'?: string;
     /**
      * 
      * @type {string}
-     * @memberof UpdateEmpresaCommand
+     * @memberof CompanyViewModel
      */
-    'telefone'?: string;
+    'telefone'?: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateEmpresaCommand
+     * @type {boolean}
+     * @memberof CompanyViewModel
      */
-    'email'?: string;
+    'ativa'?: boolean;
 }
 

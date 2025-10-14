@@ -3,6 +3,7 @@ using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,10 +37,28 @@ namespace IgescConecta.API.Features.Companies.CreateCompany
 
         public async Task<Result<string, ValidationFailed>> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
         {
-            var existingCompany = await _context.Companies.FirstOrDefaultAsync(c => c.CNPJ == request.CNPJ, cancellationToken);
+            if (string.IsNullOrWhiteSpace(request.CNPJ) || request.CNPJ.Length != 14 || !request.CNPJ.All(char.IsDigit))
+            {
+                return new ValidationFailed("O CNPJ deve conter exatamente 14 dígitos numéricos.");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.CompanyName))
+            {
+                return new ValidationFailed("O nome da empresa (CompanyName) é obrigatório.");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.CorporateReason))
+            {
+                return new ValidationFailed("A razão social (CorporateReason) é obrigatória.");
+            }
+
+            var existingCompany = await _context.Companies
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c => c.CNPJ == request.CNPJ, cancellationToken);
+
             if (existingCompany != null)
             {
-                return new ValidationFailed("Uma empresa com este CNPJ já está cadastrada.");
+                return new ValidationFailed("Uma empresa com este CNPJ já está cadastrada (seja ela ativa ou inativa).");
             }
 
             var company = new Company
@@ -56,7 +75,7 @@ namespace IgescConecta.API.Features.Companies.CreateCompany
                 PhoneNumber = request.PhoneNumber,
                 Website = request.Website,
                 SocialMedia = request.SocialMedia,
-                IsActive = request.IsActive
+                IsDeleted = !request.IsActive
             };
 
             await _context.Companies.AddAsync(company, cancellationToken);

@@ -4,6 +4,7 @@ using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251013213927_AddProjectProgramToDonation")]
+    partial class AddProjectProgramToDonation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +231,6 @@ namespace IgescConecta.API.Migrations
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -249,6 +249,9 @@ namespace IgescConecta.API.Migrations
                     b.Property<int?>("PersonId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProjectProgramId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
@@ -265,11 +268,11 @@ namespace IgescConecta.API.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("CourseId");
-
                     b.HasIndex("OscId");
 
                     b.HasIndex("PersonId");
+
+                    b.HasIndex("ProjectProgramId");
 
                     b.HasIndex("TeamId");
 
@@ -1031,10 +1034,6 @@ namespace IgescConecta.API.Migrations
                         .WithMany("Donations")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("IgescConecta.Domain.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
-
                     b.HasOne("IgescConecta.Domain.Entities.Osc", "Osc")
                         .WithMany()
                         .HasForeignKey("OscId");
@@ -1043,17 +1042,21 @@ namespace IgescConecta.API.Migrations
                         .WithMany()
                         .HasForeignKey("PersonId");
 
+                    b.HasOne("IgescConecta.Domain.Entities.ProjectProgram", "ProjectProgram")
+                        .WithMany()
+                        .HasForeignKey("ProjectProgramId");
+
                     b.HasOne("IgescConecta.Domain.Entities.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId");
 
                     b.Navigation("Company");
 
-                    b.Navigation("Course");
-
                     b.Navigation("Osc");
 
                     b.Navigation("Person");
+
+                    b.Navigation("ProjectProgram");
 
                     b.Navigation("Team");
                 });

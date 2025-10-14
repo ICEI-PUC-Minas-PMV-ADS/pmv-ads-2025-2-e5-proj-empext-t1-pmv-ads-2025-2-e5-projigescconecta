@@ -12,10 +12,10 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
     {
         public decimal Value { get; set; }
         public DateTime DonationDate { get; set; }
-
         public int? PersonId { get; set; }
         public int? CompanyId { get; set; }
         public int? OscId { get; set; }
+        public int? CourseId { get; set; }
         public int? TeamId { get; set; }
     }
 
@@ -40,18 +40,31 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
                 return new ValidationFailed("A doação deve ter exatamente um doador: ou uma Pessoa (PersonId) ou uma Empresa (CompanyId).");
             }
 
-            if (request.OscId.HasValue && request.TeamId.HasValue)
+            if (request.OscId.HasValue && request.CourseId.HasValue)
             {
-                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para uma Turma, mas não para ambas ao mesmo tempo.");
+                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para um Curso/Turma, mas não para ambos ao mesmo tempo.");
             }
+
+            if (request.TeamId.HasValue && !request.CourseId.HasValue)
+            {
+                return new ValidationFailed("Uma doação para uma Turma (TeamId) também deve especificar o Curso (CourseId).");
+            }
+
+            if (request.CourseId.HasValue && !request.TeamId.HasValue)
+            {
+                return new ValidationFailed("Uma doação para um Curso deve especificar uma Turma (TeamId). A doação não pode ser para um curso em geral.");
+            }
+
+            var finalDonationDate = request.DonationDate.Date + DateTime.UtcNow.TimeOfDay;
 
             var donation = new Donation
             {
                 Value = request.Value,
-                DonationDate = request.DonationDate,
+                DonationDate = finalDonationDate,
                 PersonId = request.PersonId,
                 CompanyId = request.CompanyId,
                 OscId = request.OscId,
+                CourseId = request.CourseId,
                 TeamId = request.TeamId
             };
 

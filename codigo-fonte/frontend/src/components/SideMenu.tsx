@@ -40,7 +40,7 @@ const menuItems = [
   { path: '/osc', label: 'OSC', icon: <PublicIcon /> },
   { path: '/beneficiary', label: 'Público', icon: <GroupsIcon /> },
   { path: '/business-case', label: 'Grupo de Causas', icon: <Diversity2Icon /> },
-  { path: '/empresa', label: 'Empresa', icon: <BusinessIcon /> },
+  { path: '/company', label: 'Empresa', icon: <BusinessIcon /> },
   { path: '/donation', label: 'Doações', icon: <VolunteerActivismIcon /> },
   { path: '/user', label: 'Usuários', icon: <PeopleAltIcon /> },
 ];

@@ -17,44 +17,44 @@
 /**
  * 
  * @export
- * @interface UptadeDonationCommand
+ * @interface UpdateDonationCommand
  */
-export interface UptadeDonationCommand {
-    /**
-     * 
-     * @type {string}
-     * @memberof UptadeDonationCommand
-     */
-    'idDoacao'?: string;
+export interface UpdateDonationCommand {
     /**
      * 
      * @type {number}
-     * @memberof UptadeDonationCommand
+     * @memberof UpdateDonationCommand
      */
-    'valor'?: number;
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'value'?: number;
     /**
      * 
      * @type {string}
-     * @memberof UptadeDonationCommand
+     * @memberof UpdateDonationCommand
      */
-    'data'?: string;
+    'donationDate'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof UptadeDonationCommand
+     * @type {number}
+     * @memberof UpdateDonationCommand
      */
-    'destinoTipo'?: string | null;
+    'oscId'?: number | null;
     /**
      * 
-     * @type {string}
-     * @memberof UptadeDonationCommand
+     * @type {number}
+     * @memberof UpdateDonationCommand
      */
-    'destinoTurmaId'?: string | null;
+    'courseId'?: number | null;
     /**
      * 
-     * @type {string}
-     * @memberof UptadeDonationCommand
+     * @type {number}
+     * @memberof UpdateDonationCommand
      */
-    'destinoOSCCodigo'?: string | null;
+    'teamId'?: number | null;
 }
 

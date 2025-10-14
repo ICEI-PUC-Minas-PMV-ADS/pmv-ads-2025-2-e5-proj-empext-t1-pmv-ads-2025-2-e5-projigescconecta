@@ -13,24 +13,33 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Filter } from './filter';
 
 /**
  * 
  * @export
- * @interface UpdateOriginBusinessCaseRequest
+ * @interface ListCompaniesRequest
  */
-export interface UpdateOriginBusinessCaseRequest {
+export interface ListCompaniesRequest {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {number}
+     * @memberof ListCompaniesRequest
      */
-    'name'?: string;
+    'pageNumber'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseRequest
+     * @type {number}
+     * @memberof ListCompaniesRequest
      */
-    'notes'?: string;
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListCompaniesRequest
+     */
+    'filters'?: Array<Filter>;
 }
 

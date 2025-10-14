@@ -32,5 +32,11 @@ export interface UpdateBeneficiaryResponse {
      * @memberof UpdateBeneficiaryResponse
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryResponse
+     */
+    'notes'?: string;
 }
 
