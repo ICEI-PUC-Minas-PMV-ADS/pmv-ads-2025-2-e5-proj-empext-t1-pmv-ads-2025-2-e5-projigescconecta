@@ -304,7 +304,9 @@ const BusinessCase: React.FC = () => {
                     minHeight: '100vh',
                     py: { xs: 2, sm: 3, md: 4 },
                     px: { xs: 2, sm: 3 },
-                }}
+                    maxWidth: '100%',
+                    overflowX: 'hidden',
+                    }}
             >
                 <Paper
                     elevation={0}

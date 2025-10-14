@@ -465,11 +465,12 @@ const Osc: React.FC = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
-        maxWidth="xl"
         sx={{
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },
           px: { xs: 2, sm: 3 },
+          maxWidth: '100%',
+          overflowX: 'hidden',
         }}
       >
         <Paper

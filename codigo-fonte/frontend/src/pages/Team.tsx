@@ -77,7 +77,8 @@ interface Person {
 }
 
 const Team: React.FC = () => {
-  // Estados de filtros
+  /* ------------------------------ Variáveis ------------------------------ */
+
   const [filterName, setFilterName] = useState<string | ''>('');
   const [filterProgramId, setFilterProgramId] = useState<number | ''>('');
   const [filterCourseId, setFilterCourseId] = useState<number | ''>('');
@@ -95,11 +96,11 @@ const Team: React.FC = () => {
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
 
-  // Campos do formulário
+
   const [teamName, setTeamName] = useState('');
   const [lessonTime, setLessonTime] = useState('');
-  const [startDate, setStartDate] = useState<Dayjs | null>(null);
-  const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [startDate, setStartDate] = useState<Dayjs | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Dayjs | undefined>(undefined);
   const [selectedProgramId, setSelectedProgramId] = useState<number | ''>('');
   const [selectedCourseId, setSelectedCourseId] = useState<number | ''>('');
   const [selectedPersonIds, setSelectedPersonIds] = useState<number[]>([]);
@@ -123,6 +124,8 @@ const Team: React.FC = () => {
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
   };
+
+  /* --------------------------------- Funções -------------------------------- */
 
   useEffect(() => {
     fetchTeams();
@@ -315,8 +318,8 @@ const Team: React.FC = () => {
     setEditingTeam(team);
     setTeamName(team.name || '');
     setLessonTime(team.lessonTime || '');
-    setStartDate(team.start ? dayjs(team.start, 'DD/MM/YYYY') : null);
-    setEndDate(team.finish ? dayjs(team.finish, 'DD/MM/YYYY') : null);
+    setStartDate(team.start ? dayjs(team.start, 'DD/MM/YYYY') : undefined);
+    setEndDate(team.finish ? dayjs(team.finish, 'DD/MM/YYYY') : undefined);
     setSelectedProgramId(team.projectProgramId || '');
     setSelectedCourseId(team.courseId || '');
     setSelectedPersonIds([]); // Será carregado no getTeamById
@@ -330,8 +333,8 @@ const Team: React.FC = () => {
       setIsVisualizing(true);
       setTeamName(data.name || '');
       setLessonTime(data.lessonTime || '');
-      setStartDate(data.start ? dayjs(data.start) : null);
-      setEndDate(data.finish ? dayjs(data.finish) : null);
+      setStartDate(data.start ? dayjs(data.start) : undefined);
+      setEndDate(data.finish ? dayjs(data.finish) : undefined);
       setSelectedProgramId(data.projectProgramId || '');
       setSelectedCourseId(data.courseId || '');
 
@@ -444,8 +447,8 @@ const Team: React.FC = () => {
     setEditingTeam(null);
     setTeamName('');
     setLessonTime('');
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate(undefined);
+    setEndDate(undefined);
     setSelectedProgramId('');
     setSelectedCourseId('');
     setSelectedPersonIds([]);
@@ -483,11 +486,12 @@ const Team: React.FC = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
-        maxWidth="xl"
         sx={{
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },
           px: { xs: 2, sm: 3 },
+          maxWidth: '100%',
+          overflowX: 'hidden',
         }}
       >
         <Paper
@@ -500,7 +504,7 @@ const Team: React.FC = () => {
             borderColor: alpha('#1E4EC4', 0.1),
           }}
         >
-          <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+          <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
             <TitleAndButtons title="Listar Turmas" onAdd={handleAdd} addLabel="Nova Turma" />
 
             {/* Campo de pesquisa + botão */}
@@ -677,350 +681,349 @@ const Team: React.FC = () => {
             </Paper>
 
             {/* Tabela */}
-            <Box sx={{ flexGrow: 1 }}>
-              {loading ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 200,
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <Table<Team>
-                  columns={columns}
-                  data={teams}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  totalCount={totalCount}
-                  onPageChange={setPage}
-                  onRowsPerPageChange={setRowsPerPage}
-                  onView={handleView}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  noDataMessage={noDataMessage}
-                />
-              )}
-            </Box>
-
-            {/* Modal de Criação/Edição */}
-            <Dialog
-              open={openModal}
-              onClose={handleCloseModal}
-              maxWidth="sm"
-              fullWidth
-              PaperProps={{
-                sx: {
-                  borderRadius: 3,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                },
-              }}
-            >
-              <DialogTitle
+            {loading ? (
+              <Box
                 sx={{
-                  bgcolor: alpha('#1E4EC4', 0.03),
-                  borderBottom: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  py: 2.5,
-                  px: 3,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
                 }}
               >
-                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                  {dialogTitle()}
-                </Typography>
-              </DialogTitle>
-              <DialogContent sx={{ p: 3, mt: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid size={{ xs: 12 }}>
-                    <TextField
-                      autoFocus={!isVisualizing}
-                      margin="dense"
-                      label="Nome da Turma"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      value={teamName}
-                      onChange={(e) => setTeamName(e.target.value)}
-                      slotProps={{
-                        input: {
-                          readOnly: isVisualizing,
-                        },
-                      }}
-                      sx={isVisualizing ? { pointerEvents: 'none' } : {}}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12 }}>
-                    <TextField
-                      margin="dense"
-                      label="Horário de Aula"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      value={lessonTime}
-                      onChange={(e) => setLessonTime(e.target.value)}
-                      placeholder="Ex: 19:00 - 22:00"
-                      slotProps={{
-                        input: {
-                          readOnly: isVisualizing,
-                        },
-                      }}
-                      sx={isVisualizing ? { pointerEvents: 'none' } : {}}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <DatePicker
-                      label="Data de Início"
-                      value={startDate}
-                      onChange={setStartDate}
-                      format="DD/MM/YYYY"
-                      disabled={isVisualizing}
-                      maxDate={endDate}
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          variant: 'outlined',
-                          margin: 'dense',
-                        },
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <DatePicker
-                      label="Data de Fim"
-                      value={endDate}
-                      onChange={setEndDate}
-                      format="DD/MM/YYYY"
-                      minDate={startDate}
-                      disabled={isVisualizing || !startDate}
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          variant: 'outlined',
-                          margin: 'dense',
-                        },
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <FormControl fullWidth variant="outlined" margin="dense">
-                      <InputLabel>Projeto</InputLabel>
-                      <Select
-                        value={selectedProgramId}
-                        onChange={handleProgramChange}
-                        label="Projeto"
-                        disabled={programsLoading || isVisualizing}
-                      >
-                        <MenuItem value="">
-                          <em>Nenhum projeto</em>
-                        </MenuItem>
-                        {programsLoading ? (
-                          <MenuItem disabled>
-                            <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
-                          </MenuItem>
-                        ) : (
-                          programs.map((program) => (
-                            <MenuItem key={program.id} value={program.id}>
-                              {program.name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <FormControl fullWidth variant="outlined" margin="dense">
-                      <InputLabel>Programa *</InputLabel>
-                      <Select
-                        value={selectedCourseId}
-                        onChange={handleCourseChange}
-                        label="Programa *"
-                        disabled={coursesLoading || isVisualizing}
-                      >
-                        {coursesLoading ? (
-                          <MenuItem disabled>
-                            <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
-                          </MenuItem>
-                        ) : courses.length === 0 ? (
-                          <MenuItem disabled>Nenhum programa cadastrado</MenuItem>
-                        ) : (
-                          courses.map((course) => (
-                            <MenuItem key={course.courseId} value={course.courseId}>
-                              {course.name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-
-                  <Grid size={{ xs: 12 }}>
-                    <FormControl fullWidth variant="outlined" margin="dense">
-                      <InputLabel>Alunos</InputLabel>
-                      <Select
-                        multiple
-                        value={selectedPersonIds}
-                        onChange={handlePersonChange}
-                        label="Alunos"
-                        disabled={personsLoading || isVisualizing}
-                        renderValue={(selected) => {
-                          if (selected.length === 0) {
-                            return <em>Nenhum aluno selecionado</em>;
-                          }
-                          const selectedNames = persons
-                            .filter((person) => selected.includes(person.id!))
-                            .map((person) => person.name)
-                            .join(', ');
-                          return selectedNames || `${selected.length} aluno(s) selecionado(s)`;
-                        }}
-                      >
-                        {personsLoading ? (
-                          <MenuItem disabled>
-                            <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
-                          </MenuItem>
-                        ) : persons.length === 0 ? (
-                          <MenuItem disabled>Nenhuma pessoa cadastrada</MenuItem>
-                        ) : (
-                          persons.map((person) => (
-                            <MenuItem key={person.id} value={person.id}>
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  width: '100%',
-                                }}
-                              >
-                                <Box
-                                  sx={{
-                                    width: 20,
-                                    height: 20,
-                                    border: '2px solid',
-                                    borderColor: selectedPersonIds.includes(person.id!)
-                                      ? '#1E4EC4'
-                                      : '#ccc',
-                                    borderRadius: 0.5,
-                                    mr: 1.5,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    bgcolor: selectedPersonIds.includes(person.id!)
-                                      ? '#1E4EC4'
-                                      : 'transparent',
-                                  }}
-                                >
-                                  {selectedPersonIds.includes(person.id!) && (
-                                    <Box
-                                      sx={{
-                                        width: 12,
-                                        height: 12,
-                                        color: 'white',
-                                        fontSize: '0.8rem',
-                                      }}
-                                    >
-                                      ✓
-                                    </Box>
-                                  )}
-                                </Box>
-                                <Typography>{person.name}</Typography>
-                              </Box>
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-              </DialogContent>
-              <DialogActions>
-                {isVisualizing ? (
-                  <Button
-                    variant="contained"
-                    startIcon={<ArrowBackIcon />}
-                    onClick={handleCloseModal}
-                    sx={{
-                      bgcolor: '#6b7280',
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Voltar
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      onClick={handleCloseModal}
-                      disabled={modalLoading}
-                      sx={{
-                        color: '#6b7280',
-                        fontWeight: 600,
-                        px: 3,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
-                      }}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      onClick={handleSave}
-                      variant="contained"
-                      disabled={modalLoading}
-                      startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                      sx={{
-                        bgcolor: '#1E4EC4',
-                        color: 'white',
-                        fontWeight: 600,
-                        px: 3,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                        '&:hover': {
-                          bgcolor: '#1640a8',
-                          boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                          transform: 'translateY(-1px)',
-                        },
-                        '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      Salvar
-                    </Button>
-                  </>
-                )}
-              </DialogActions>
-            </Dialog>
-
-            {/* Modal de Confirmação de Exclusão */}
-            <ConfirmDialog
-              open={confirmDialog.open}
-              title="Excluir Turma"
-              message="Tem certeza que deseja excluir a turma"
-              highlightText={confirmDialog.team?.name || undefined}
-              confirmLabel="Excluir"
-              cancelLabel="Cancelar"
-              onClose={handleCloseConfirmDialog}
-              onConfirm={handleConfirmDelete}
-              loading={confirmDialog.loading}
-              danger={true}
-            />
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Table<Team>
+                columns={columns}
+                data={teams}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                totalCount={totalCount}
+                onPageChange={setPage}
+                onRowsPerPageChange={setRowsPerPage}
+                onView={handleView}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                noDataMessage={noDataMessage}
+              />
+            )}
           </Box>
         </Paper>
       </Container>
+      {/* --------------------------------- Modais --------------------------------- */}
+
+      {/* ------------------------- Criação/Edição ------------------------ */}
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            bgcolor: alpha('#1E4EC4', 0.03),
+            borderBottom: '1px solid',
+            borderColor: alpha('#1E4EC4', 0.1),
+            py: 2.5,
+            px: 3,
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
+            {dialogTitle()}
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ p: 3, mt: 1 }}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                autoFocus={!isVisualizing}
+                margin="dense"
+                label="Nome da Turma"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
+                slotProps={{
+                  input: {
+                    readOnly: isVisualizing,
+                  },
+                }}
+                sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                margin="dense"
+                label="Horário de Aula"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={lessonTime}
+                onChange={(e) => setLessonTime(e.target.value)}
+                placeholder="Ex: 19:00 - 22:00"
+                slotProps={{
+                  input: {
+                    readOnly: isVisualizing,
+                  },
+                }}
+                sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <DatePicker
+                label="Data de Início"
+                value={startDate}
+                onChange={(value) => setStartDate(value || undefined)}
+                format="DD/MM/YYYY"
+                disabled={isVisualizing}
+                maxDate={endDate}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: 'outlined',
+                    margin: 'dense',
+                  },
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <DatePicker
+                label="Data de Fim"
+                value={endDate}
+                onChange={(value) => setEndDate(value || undefined)}
+                format="DD/MM/YYYY"
+                minDate={startDate}
+                disabled={isVisualizing || !startDate}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: 'outlined',
+                    margin: 'dense',
+                  },
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Projeto</InputLabel>
+                <Select
+                  value={selectedProgramId}
+                  onChange={handleProgramChange}
+                  label="Projeto"
+                  disabled={programsLoading || isVisualizing}
+                >
+                  <MenuItem value="">
+                    <em>Nenhum projeto</em>
+                  </MenuItem>
+                  {programsLoading ? (
+                    <MenuItem disabled>
+                      <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
+                    </MenuItem>
+                  ) : (
+                    programs.map((program) => (
+                      <MenuItem key={program.id} value={program.id}>
+                        {program.name}
+                      </MenuItem>
+                    ))
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Programa *</InputLabel>
+                <Select
+                  value={selectedCourseId}
+                  onChange={handleCourseChange}
+                  label="Programa *"
+                  disabled={coursesLoading || isVisualizing}
+                >
+                  {coursesLoading ? (
+                    <MenuItem disabled>
+                      <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
+                    </MenuItem>
+                  ) : courses.length === 0 ? (
+                    <MenuItem disabled>Nenhum programa cadastrado</MenuItem>
+                  ) : (
+                    courses.map((course) => (
+                      <MenuItem key={course.courseId} value={course.courseId}>
+                        {course.name}
+                      </MenuItem>
+                    ))
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Alunos</InputLabel>
+                <Select
+                  multiple
+                  value={selectedPersonIds}
+                  onChange={handlePersonChange}
+                  label="Alunos"
+                  disabled={personsLoading || isVisualizing}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em>Nenhum aluno selecionado</em>;
+                    }
+                    const selectedNames = persons
+                      .filter((person) => selected.includes(person.id!))
+                      .map((person) => person.name)
+                      .join(', ');
+                    return selectedNames || `${selected.length} aluno(s) selecionado(s)`;
+                  }}
+                >
+                  {personsLoading ? (
+                    <MenuItem disabled>
+                      <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
+                    </MenuItem>
+                  ) : persons.length === 0 ? (
+                    <MenuItem disabled>Nenhuma pessoa cadastrada</MenuItem>
+                  ) : (
+                    persons.map((person) => (
+                      <MenuItem key={person.id} value={person.id}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              width: 20,
+                              height: 20,
+                              border: '2px solid',
+                              borderColor: selectedPersonIds.includes(person.id!)
+                                ? '#1E4EC4'
+                                : '#ccc',
+                              borderRadius: 0.5,
+                              mr: 1.5,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              bgcolor: selectedPersonIds.includes(person.id!)
+                                ? '#1E4EC4'
+                                : 'transparent',
+                            }}
+                          >
+                            {selectedPersonIds.includes(person.id!) && (
+                              <Box
+                                sx={{
+                                  width: 12,
+                                  height: 12,
+                                  color: 'white',
+                                  fontSize: '0.8rem',
+                                }}
+                              >
+                                ✓
+                              </Box>
+                            )}
+                          </Box>
+                          <Typography>{person.name}</Typography>
+                        </Box>
+                      </MenuItem>
+                    ))
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          {isVisualizing ? (
+            <Button
+              variant="contained"
+              startIcon={<ArrowBackIcon />}
+              onClick={handleCloseModal}
+              sx={{
+                bgcolor: '#6b7280',
+                color: 'white',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 1.5,
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                transition: 'all 0.2s ease',
+              }}
+            >
+              Voltar
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={handleCloseModal}
+                disabled={modalLoading}
+                sx={{
+                  color: '#6b7280',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSave}
+                variant="contained"
+                disabled={modalLoading}
+                startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                sx={{
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Salvar
+              </Button>
+            </>
+          )}
+        </DialogActions>
+      </Dialog>
+
+      {/* -------------------- Confirmação de Exclusão -------------------- */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        title="Excluir Turma"
+        message="Tem certeza que deseja excluir a turma"
+        highlightText={confirmDialog.team?.name || undefined}
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        onClose={handleCloseConfirmDialog}
+        onConfirm={handleConfirmDelete}
+        loading={confirmDialog.loading}
+        danger={true}
+      />
     </LocalizationProvider>
   );
 };
