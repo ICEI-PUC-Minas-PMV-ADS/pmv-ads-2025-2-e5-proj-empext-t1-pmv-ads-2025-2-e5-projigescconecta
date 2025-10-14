@@ -28,7 +28,8 @@ namespace IgescConecta.API.Features.Courses.EditCourse
             }
 
             var course = await _context.Courses
-                .FirstOrDefaultAsync(c => c.Id == request.CourseId && c.IsDeleted == false, cancellationToken);
+                .Where(c => c.Id == request.CourseId)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (course == null)
             {
