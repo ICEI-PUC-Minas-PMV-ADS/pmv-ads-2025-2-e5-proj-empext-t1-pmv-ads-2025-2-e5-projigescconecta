@@ -16,9 +16,10 @@ import GroupIcon from '@mui/icons-material/Group';
 import PublicIcon from '@mui/icons-material/Public';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
-import BusinessIcon from '@mui/icons-material/Business';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -40,8 +41,11 @@ const menuItems = [
   { path: '/osc', label: 'OSC', icon: <PublicIcon /> },
   { path: '/beneficiary', label: 'Público', icon: <GroupsIcon /> },
   { path: '/business-case', label: 'Grupo de Causas', icon: <Diversity2Icon /> },
-  { path: '/empresa', label: 'Empresa', icon: <BusinessIcon /> },
+
+  { path: '/person', label: 'Pessoas', icon: <PersonOutlineIcon /> },
+  { path: '/empresa', label: 'Empresas', icon: <ApartmentIcon /> },
   { path: '/donation', label: 'Doações', icon: <VolunteerActivismIcon /> },
+
   { path: '/user', label: 'Usuários', icon: <PeopleAltIcon /> },
 ];
 
