@@ -1,3 +1,4 @@
+using IgescConecta.API.Features.Donations.CreateDonation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
 
             if (result.IsSuccess)
             {
-                return CreatedAtAction("Get", "ListDonation", new { id = result.Value }, new { id = result.Value });
+                return CreatedAtRoute("GetDonationById", new { id = result.Value }, result.Value);
             }
 
             return BadRequest(result.Error);

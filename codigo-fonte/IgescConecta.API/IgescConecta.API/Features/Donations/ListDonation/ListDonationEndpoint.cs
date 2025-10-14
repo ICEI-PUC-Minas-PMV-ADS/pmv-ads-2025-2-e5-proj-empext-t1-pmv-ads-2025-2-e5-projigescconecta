@@ -1,3 +1,4 @@
+using IgescConecta.API.Features.Donations.ListDonation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +15,16 @@ namespace IgescConecta.API.Features.Donations.ListDonation
             _mediator = mediator;
         }
 
-        [HttpGet("{id:guid}")] // Rota para buscar uma única doação por ID
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("{id:int}", Name = "GetDonationById")]
+        public async Task<IActionResult> Get(int id)
         {
-            var query = new ListDonationQuery { IDDoacao = id };
+            var query = new ListDonationQuery { Id = id };
             var result = await _mediator.Send(query);
-
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
-
             return NotFound(result.Error);
         }
-
-        // TODO: Você pode adicionar um [HttpGet] sem rota para listar todas (com paginação)
     }
 }

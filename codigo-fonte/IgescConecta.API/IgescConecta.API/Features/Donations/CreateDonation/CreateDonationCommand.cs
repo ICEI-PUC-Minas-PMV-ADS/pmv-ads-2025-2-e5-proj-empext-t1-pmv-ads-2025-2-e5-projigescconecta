@@ -1,28 +1,25 @@
-using MediatR;
+using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
-using IgescConecta.API.Common.Validation;
-using System.Linq;
+using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace IgescConecta.API.Features.Donations.CreateDonation
 {
-    // DTO (Data Transfer Object) (inalterado)
-    public class CreateDonationCommand : IRequest<Result<Guid, ValidationFailed>>
+    public class CreateDonationCommand : IRequest<Result<int, ValidationFailed>>
     {
-        public decimal Valor { get; set; }
-        public DateTime Data { get; set; }
-        public string? DoadorPessoaCPF { get; set; }
-        public string? DoadorEmpresaCNPJ { get; set; }
-        public string? DestinoTipo { get; set; }
-        public Guid? DestinoTurmaId { get; set; }
-        public string? DestinoOSCCodigo { get; set; }
+        public decimal Value { get; set; }
+        public DateTime DonationDate { get; set; }
+        public int? PersonId { get; set; }
+        public int? CompanyId { get; set; }
+        public int? OscId { get; set; }
+        public int? CourseId { get; set; }
+        public int? TeamId { get; set; }
     }
 
-    // Handler (Lógica de Negócio e Validação)
-    internal sealed class CreateDonationCommandHandler : IRequestHandler<CreateDonationCommand, Result<Guid, ValidationFailed>>
+    internal sealed class CreateDonationCommandHandler : IRequestHandler<CreateDonationCommand, Result<int, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -31,67 +28,50 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
             _context = context;
         }
 
-        public async Task<Result<Guid, ValidationFailed>> Handle(CreateDonationCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int, ValidationFailed>> Handle(CreateDonationCommand request, CancellationToken cancellationToken)
         {
-            // ... (Validações de exclusividade e valor - inalteradas) ...
-
-            // Validação 1: Doador Exclusivo (Exatamente 1: Pessoa OU Empresa)
-            var doadorCount = new[]
-      {
-        request.DoadorPessoaCPF,
-        request.DoadorEmpresaCNPJ
-      }
-      .Count(id => !string.IsNullOrEmpty(id));
-
-            if (doadorCount != 1)
+            if (request.Value <= 0)
             {
-                return new ValidationFailed(new[] { "A doação deve ser feita por EXATAMENTE uma Pessoa (CPF) ou uma Empresa (CNPJ)." });
+                return new ValidationFailed("O valor da doação deve ser maior que zero.");
             }
 
-            // Validação 2: Destino Exclusivo (No Máximo 1: Turma OU OSC OU Nenhum)
-            var destinoCount = 0;
-            if (request.DestinoTurmaId.HasValue && request.DestinoTurmaId != Guid.Empty) destinoCount++;
-            if (!string.IsNullOrEmpty(request.DestinoOSCCodigo)) destinoCount++;
-
-            if (destinoCount > 1)
+            if (request.PersonId.HasValue == request.CompanyId.HasValue)
             {
-                return new ValidationFailed(new[] { "O destino da doação deve ser APENAS uma Turma ou APENAS uma OSC." });
+                return new ValidationFailed("A doação deve ter exatamente um doador: ou uma Pessoa (PersonId) ou uma Empresa (CompanyId).");
             }
 
-            // Validação 3: Valor
-            if (request.Valor <= 0)
+            if (request.OscId.HasValue && request.CourseId.HasValue)
             {
-                return new ValidationFailed(new[] { "O valor da doação deve ser maior que zero." });
+                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para um Curso/Turma, mas não para ambos ao mesmo tempo.");
             }
 
-            // Validação 4: Destino Tipo (Se destino existir, o tipo deve ser "OSC" ou "TURMA")
-            if (destinoCount == 1)
+            if (request.TeamId.HasValue && !request.CourseId.HasValue)
             {
-                if (string.IsNullOrEmpty(request.DestinoTipo) || !new[] { "OSC", "TURMA" }.Any(t => t.Equals(request.DestinoTipo, StringComparison.OrdinalIgnoreCase)))
-                {
-                    return new ValidationFailed(new[] { "O DestinoTipo deve ser 'OSC' ou 'TURMA' se um destino for fornecido." });
-                }
+                return new ValidationFailed("Uma doação para uma Turma (TeamId) também deve especificar o Curso (CourseId).");
             }
 
-            // 3. Mapeamento e Persistência
-            var novaDoacao = new Doacao
+            if (request.CourseId.HasValue && !request.TeamId.HasValue)
             {
-                IDDoacao = Guid.NewGuid(),
-                Valor = request.Valor,
-                Data = request.Data,
-                DoadorPessoaCPF = request.DoadorPessoaCPF,
-                DoadorEmpresaCNPJ = request.DoadorEmpresaCNPJ,
-                DestinoTipo = request.DestinoTipo,
-                DestinoTurmaId = request.DestinoTurmaId,
-                DestinoOSCCodigo = request.DestinoOSCCodigo,
+                return new ValidationFailed("Uma doação para um Curso deve especificar uma Turma (TeamId). A doação não pode ser para um curso em geral.");
+            }
+
+            var finalDonationDate = request.DonationDate.Date + DateTime.UtcNow.TimeOfDay;
+
+            var donation = new Donation
+            {
+                Value = request.Value,
+                DonationDate = finalDonationDate,
+                PersonId = request.PersonId,
+                CompanyId = request.CompanyId,
+                OscId = request.OscId,
+                CourseId = request.CourseId,
+                TeamId = request.TeamId
             };
 
-            _context.Doacoes.Add(novaDoacao);
+            await _context.Donations.AddAsync(donation, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            // 4. Retorno de SUCESSO CORRIGIDO:
-            // Usamos o operador implícito para converter Guid para Result<Guid, ValidationFailed>
-            return novaDoacao.IDDoacao;
+            return donation.Id;
         }
     }
 }
