@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { apiConfig } from '@/services/auth';
 import {
-    // APIs de Doação
     CreateDonationEndpointApi,
     ListDonationsEndpointApi,
     ListDonationEndpointApi,
@@ -24,7 +23,6 @@ import {
     OscsApi,
     CoursesApi,
     TeamsApi,
-    // Tipos
     type CreateDonationCommand,
     type UpdateDonationCommand,
     type DonationViewModel,
@@ -114,7 +112,6 @@ const DonationPage: React.FC = () => {
 
     useEffect(() => {
         fetchDropdownData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchDonations = async (idFilter: string) => {
@@ -138,7 +135,6 @@ const DonationPage: React.FC = () => {
 
     useEffect(() => {
         fetchDonations(filterId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, rowsPerPage]);
 
     const handleSearch = () => {
@@ -154,7 +150,6 @@ const DonationPage: React.FC = () => {
     
     useEffect(() => {
         if (filterId === '') fetchDonations('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterId]);
 
     const handleAdd = () => {
