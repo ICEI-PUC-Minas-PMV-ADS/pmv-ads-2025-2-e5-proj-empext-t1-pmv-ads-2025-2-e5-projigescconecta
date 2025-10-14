@@ -34,6 +34,12 @@ export interface BeneficiaryViewModel {
     'name'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof BeneficiaryViewModel
+     */
+    'notes'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof BeneficiaryViewModel
      */

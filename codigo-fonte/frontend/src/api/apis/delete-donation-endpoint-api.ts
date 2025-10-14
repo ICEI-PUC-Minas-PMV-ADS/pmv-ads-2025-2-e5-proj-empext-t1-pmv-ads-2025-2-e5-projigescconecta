@@ -29,11 +29,11 @@ export const DeleteDonationEndpointApiAxiosParamCreator = function (configuratio
     return {
         /**
          * 
-         * @param {string} id 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiDonationsIdDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiDonationsIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('apiDonationsIdDelete', 'id', id)
             const localVarPath = `/api/donations/{id}`
@@ -76,11 +76,11 @@ export const DeleteDonationEndpointApiFp = function(configuration?: Configuratio
     return {
         /**
          * 
-         * @param {string} id 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiDonationsIdDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdDelete(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DeleteDonationEndpointApi.apiDonationsIdDelete']?.[localVarOperationServerIndex]?.url;
@@ -98,11 +98,11 @@ export const DeleteDonationEndpointApiFactory = function (configuration?: Config
     return {
         /**
          * 
-         * @param {string} id 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiDonationsIdDelete(id: string, options?: any): AxiosPromise<void> {
+        apiDonationsIdDelete(id: number, options?: any): AxiosPromise<void> {
             return localVarFp.apiDonationsIdDelete(id, options).then((request) => request(axios, basePath));
         },
     };
@@ -117,12 +117,12 @@ export const DeleteDonationEndpointApiFactory = function (configuration?: Config
 export class DeleteDonationEndpointApi extends BaseAPI {
     /**
      * 
-     * @param {string} id 
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DeleteDonationEndpointApi
      */
-    public apiDonationsIdDelete(id: string, options?: RawAxiosRequestConfig) {
+    public apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig) {
         return DeleteDonationEndpointApiFp(this.configuration).apiDonationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 }

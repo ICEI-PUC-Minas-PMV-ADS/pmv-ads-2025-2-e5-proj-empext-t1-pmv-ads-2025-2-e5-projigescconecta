@@ -49,6 +49,48 @@ export interface CreateOscRequest {
      * @type {string}
      * @memberof CreateOscRequest
      */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
     'zipCode'?: string;
     /**
      * 

@@ -32,5 +32,11 @@ export interface OriginBusinessCaseViewModel {
      * @memberof OriginBusinessCaseViewModel
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OriginBusinessCaseViewModel
+     */
+    'notes'?: string;
 }
 

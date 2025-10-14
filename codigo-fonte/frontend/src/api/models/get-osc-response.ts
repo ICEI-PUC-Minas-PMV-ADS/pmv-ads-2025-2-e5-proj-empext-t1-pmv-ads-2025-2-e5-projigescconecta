@@ -61,6 +61,48 @@ export interface GetOscResponse {
      * @type {string}
      * @memberof GetOscResponse
      */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
     'zipCode'?: string;
     /**
      * 
