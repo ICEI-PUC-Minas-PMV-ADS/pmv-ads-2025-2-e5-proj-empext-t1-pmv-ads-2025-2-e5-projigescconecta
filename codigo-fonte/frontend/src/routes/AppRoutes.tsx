@@ -16,6 +16,7 @@ import OriginBusinessCase from '@/pages/OriginBusinessCase';
 import Company from '@/pages/Company';
 import Donation from '@/pages/Donation';
 import User from '@/pages/User';
+import Person from '@/pages/Person';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -31,6 +32,7 @@ const routeConfig = [
   { path: '/company', element: <Company />, isPrivate: true },
   { path: '/donation', element: <Donation />, isPrivate: true },
   { path: '/user', element: <User />, isPrivate: true },
+  { path: '/person', element: <Person />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
