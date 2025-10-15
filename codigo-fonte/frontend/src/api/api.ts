@@ -28,6 +28,7 @@ export * from './apis/list-donation-endpoint-api';
 export * from './apis/list-donations-endpoint-api';
 export * from './apis/origins-business-cases-api';
 export * from './apis/oscs-api';
+export * from './apis/persons-api';
 export * from './apis/reactivate-company-endpoint-api';
 export * from './apis/teams-api';
 export * from './apis/update-company-endpoint-api';

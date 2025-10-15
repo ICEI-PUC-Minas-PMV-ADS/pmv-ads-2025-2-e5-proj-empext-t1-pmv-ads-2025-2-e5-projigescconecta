@@ -16,6 +16,7 @@ apis/list-donation-endpoint-api.ts
 apis/list-donations-endpoint-api.ts
 apis/origins-business-cases-api.ts
 apis/oscs-api.ts
+apis/persons-api.ts
 apis/reactivate-company-endpoint-api.ts
 apis/teams-api.ts
 apis/update-company-endpoint-api.ts
@@ -42,6 +43,8 @@ models/create-origin-business-case-request.ts
 models/create-origin-business-case-response.ts
 models/create-osc-request.ts
 models/create-osc-response.ts
+models/create-person-request.ts
+models/create-person-response.ts
 models/create-team-request.ts
 models/create-team-response.ts
 models/create-user-request.ts
@@ -84,6 +87,8 @@ models/list-origins-business-case-by-business-case-id-request.ts
 models/list-origins-business-case-by-business-case-id-view-model.ts
 models/list-osc-request.ts
 models/list-osc-view-model.ts
+models/list-person-request.ts
+models/list-person-view-model.ts
 models/list-team-item-view-model.ts
 models/list-team-request.ts
 models/list-team-view-model.ts
@@ -94,6 +99,8 @@ models/op.ts
 models/origin-business-case-by-business-case-id-view-model.ts
 models/origin-business-case-view-model.ts
 models/osc-view-model.ts
+models/person-list-item-view-model.ts
+models/person-view-model.ts
 models/problem-details.ts
 models/reset-password-request.ts
 models/reset-password-response.ts
@@ -111,6 +118,8 @@ models/update-origin-business-case-request.ts
 models/update-origin-business-case-response.ts
 models/update-osc-request.ts
 models/update-osc-response.ts
+models/update-person-request.ts
+models/update-person-response.ts
 models/update-user-request.ts
 models/update-user-response.ts
 models/user-login.ts
