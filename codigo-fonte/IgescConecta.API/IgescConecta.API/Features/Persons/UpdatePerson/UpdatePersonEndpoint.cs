@@ -16,7 +16,7 @@ namespace IgescConecta.API.Features.Persons.UpdatePerson
         }
 
         [HttpPut("{personId}", Name = "UpdatePerson")]
-        public async Task<ActionResult<PersonResponse>> UpdatePerson(
+        public async Task<ActionResult<UpdatePersonResponse>> UpdatePerson(
             int personId,
             [FromBody] UpdatePersonRequest request)
         {
@@ -39,7 +39,7 @@ namespace IgescConecta.API.Features.Persons.UpdatePerson
                 return BadRequest(result.Error);
 
             var p = result.Value;
-            var resp = new PersonResponse
+            var resp = new UpdatePersonResponse
             {
                 PersonId = p.Id,
                 Name = p.Name,
@@ -72,7 +72,7 @@ namespace IgescConecta.API.Features.Persons.UpdatePerson
         public bool? IsActive { get; set; } 
     }
 
-    public class PersonResponse
+    public class UpdatePersonResponse
     {
         public int PersonId { get; set; }
         public string Name { get; set; }

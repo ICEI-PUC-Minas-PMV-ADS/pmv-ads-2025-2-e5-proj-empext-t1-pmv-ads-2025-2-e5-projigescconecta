@@ -17,7 +17,7 @@ namespace IgescConecta.API.Features.Persons.CreatePerson
         }
 
         [HttpPost(Name = "CreatePerson")]
-        public async Task<ActionResult<PersonResponse>> CreatePerson([FromBody] CreatePersonRequest request)
+        public async Task<ActionResult<CreatePersonResponse>> CreatePerson([FromBody] CreatePersonRequest request)
         {
             var result = await _mediator.Send(new CreatePersonCommand
             {
@@ -37,7 +37,7 @@ namespace IgescConecta.API.Features.Persons.CreatePerson
                 return BadRequest(result.Error);
 
             var p = result.Value;
-            var resp = new PersonResponse
+            var resp = new CreatePersonResponse
             {
                 PersonId = p.Id,
                 Name = p.Name,
@@ -70,7 +70,7 @@ namespace IgescConecta.API.Features.Persons.CreatePerson
         public bool IsActive { get; set; } = true;
     }
 
-    public class PersonResponse
+    public class CreatePersonResponse
     {
         public int PersonId { get; set; }
         public string Name { get; set; }

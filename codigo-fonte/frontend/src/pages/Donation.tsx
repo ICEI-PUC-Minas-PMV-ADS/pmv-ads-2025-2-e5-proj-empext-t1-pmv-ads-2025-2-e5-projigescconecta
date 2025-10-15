@@ -18,7 +18,7 @@ import {
     ListDonationEndpointApi,
     UpdateDonationEndpointApi,
     DeleteDonationEndpointApi,
-    PersonApi,
+ // PersonApi,
     ListCompaniesEndpointApi,
     OscsApi,
     CoursesApi,
@@ -62,7 +62,7 @@ const DonationPage: React.FC = () => {
     const listAllApi = useMemo(() => new ListDonationsEndpointApi(apiConfig), []);
     const updateApi = useMemo(() => new UpdateDonationEndpointApi(apiConfig), []);
     const deleteApi = useMemo(() => new DeleteDonationEndpointApi(apiConfig), []);
-    const peopleApi = useMemo(() => new PersonApi(apiConfig), []);
+ // const peopleApi = useMemo(() => new PersonApi(apiConfig), []);
     const companiesApi = useMemo(() => new ListCompaniesEndpointApi(apiConfig), []);
     const oscsApi = useMemo(() => new OscsApi(apiConfig), []);
     const coursesApi = useMemo(() => new CoursesApi(apiConfig), []);
