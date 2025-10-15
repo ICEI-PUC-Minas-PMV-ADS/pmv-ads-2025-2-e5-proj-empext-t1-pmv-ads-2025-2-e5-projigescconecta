@@ -6,9 +6,11 @@ Apresente os casos de testes utilizados na realização da verificação e valid
 - **Sucesso**: Tem o objetivo de verificar se as funcionalidades funcionam corretamente.
 - **Insucesso**: Tem o objetivo de verificar se o sistema trata erros de maneira correta.
 
-### ETAPA 2  
+## ETAPA 2  
 
-
+<details>
+<summary><h2>💻 Fluxo de Acesso</h2></summary>
+  
 <table>
   <tr>
     <th colspan="2" width="1000">CT-001 - S<br>Teste de Login</th>
@@ -299,6 +301,10 @@ ________________________________________________________________________________
     <td>O sistema deve apresentar mensagem de erro.</td>
   </tr>
 </table>
+</details>
+
+## ETAPA 3  
+
 
 <details>
 <summary><h2>🏛️ OSC</h2></summary>
@@ -1550,7 +1556,7 @@ Apresente imagens e/ou vídeos que comprovam que um determinado teste foi execut
 ## Parte 1 - Testes de desenvolvimento
 Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, utilizando casos de teste, tanto de sucesso quanto de insucesso, elaborados por ele. Todos os testes devem ser evidenciados.
 
-### ETAPA 2
+## ETAPA 2
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
@@ -1745,6 +1751,161 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <img width="1560" height="580" alt="Captura de tela 2025-09-21 192326" src="https://github.com/user-attachments/assets/bd2896aa-2e1a-4113-bf76-cc9efd8b02e1" />
 
+## Etapa 3
+
+<details>
+<summary><h2>Testes: Programa</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-P01<br>Criar Programa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve cadastrar o Programa e exibi-lo corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Xavier</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">__/__/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema permite criar o Programa com sucesso, exibindo-o corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-P02<br>Editar Programa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve atualizar e exibir o novo nome do Programa corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>__/__/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição do Programa realizada com sucesso. Alterações refletidas corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-P03<br>Remover Programa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve remover o Programa e atualizar a lista sem o item excluído.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>__/__/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema exclui o Programa e remove corretamente da listagem após confirmação.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-P04 - I01<br>Criar Programa sem nome</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>__/__/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Sistema impediu corretamente o cadastro e exibiu mensagem de campo obrigatório.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-P05<br>Listar Programas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir a lista de Programas corretamente, incluindo os resultados filtrados por Nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>__/__/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Listagem e filtros funcionando conforme esperado.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"></td>
+  </tr>
+</table>
+</details>
 
 
 
