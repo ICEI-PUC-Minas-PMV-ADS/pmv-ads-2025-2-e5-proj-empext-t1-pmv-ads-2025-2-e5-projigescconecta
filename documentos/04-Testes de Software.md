@@ -1770,7 +1770,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td width="430">Lucas Xavier</td>
     <td width="100"><strong>Data do Teste</strong></td>
-    <td width="150">__/__/2025</td>
+    <td width="150">15/10/2025</td>
   </tr>
   <tr>
     <td><strong>Comentário</strong></td>
@@ -1782,7 +1782,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"></td>
+    <td colspan="6" align="center"> <img width="1738" height="545" alt="image" src="https://github.com/user-attachments/assets/8b381dcc-c585-466f-a432-0cf9c6916262" />
+</td>
   </tr>
 </table>
 
@@ -1800,7 +1801,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td>Lucas Xavier</td>
     <td><strong>Data do Teste</strong></td>
-    <td>__/__/2025</td>
+    <td>15/10/2025</td>
   </tr>
   <tr>
     <td><strong>Comentário</strong></td>
@@ -1812,7 +1813,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"></td>
+    <td colspan="6" align="center">
+      <img width="1572" height="504" alt="image" src="https://github.com/user-attachments/assets/07ff184c-5327-4f70-884c-dbaac601e02e" /></td>
   </tr>
 </table>
 
@@ -1830,7 +1832,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td>Lucas Xavier</td>
     <td><strong>Data do Teste</strong></td>
-    <td>__/__/2025</td>
+    <td>15/10/2025</td>
   </tr>
   <tr>
     <td><strong>Comentário</strong></td>
@@ -1842,7 +1844,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"></td>
+    <td colspan="6" align="center"><img width="1699" height="519" alt="image" src="https://github.com/user-attachments/assets/b1b7d65c-9745-40ef-96aa-5b3057987fe6" />
+</td>
   </tr>
 </table>
 
@@ -1860,7 +1863,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td>Lucas Xavier</td>
     <td><strong>Data do Teste</strong></td>
-    <td>__/__/2025</td>
+    <td>15/10/2025</td>
   </tr>
   <tr>
     <td><strong>Comentário</strong></td>
@@ -1872,7 +1875,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"></td>
+    <td colspan="6" align="center"><img width="1911" height="713" alt="image" src="https://github.com/user-attachments/assets/99ffb429-1121-4e37-8d99-b1733cac4c4d" />
+</td>
   </tr>
 </table>
 
@@ -1890,7 +1894,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
     <td>Lucas Xavier</td>
     <td><strong>Data do Teste</strong></td>
-    <td>__/__/2025</td>
+    <td>15/10/2025</td>
   </tr>
   <tr>
     <td><strong>Comentário</strong></td>
@@ -1902,7 +1906,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"></td>
+    <td colspan="6" align="center"><img width="1610" height="519" alt="image" src="https://github.com/user-attachments/assets/eaddbd19-f5e3-42e7-a0b5-d28efa8479b2" />
+</td>
   </tr>
 </table>
 </details>
