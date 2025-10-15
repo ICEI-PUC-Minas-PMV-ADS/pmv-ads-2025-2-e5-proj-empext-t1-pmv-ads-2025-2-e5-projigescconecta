@@ -13,7 +13,7 @@ import { Box } from '@mui/material';
 import SideMenu from '@/components/SideMenu';
 import BusinessCase from '@/pages/BusinessCase';
 import OriginBusinessCase from '@/pages/OriginBusinessCase';
-import Empresa from '@/pages/Empresa';
+import Company from '@/pages/Company';
 import Donation from '@/pages/Donation';
 import User from '@/pages/User';
 
@@ -28,7 +28,7 @@ const routeConfig = [
   { path: '/beneficiary', element: <Beneficiary />, isPrivate: true },
   { path: '/business-case', element: <BusinessCase />, isPrivate: true },
   { path: '/business-case/:businessCaseId/origin-business-case', element: <OriginBusinessCase />, isPrivate: true },
-  { path: '/empresa', element: <Empresa />, isPrivate: true },
+  { path: '/company', element: <Company />, isPrivate: true },
   { path: '/donation', element: <Donation />, isPrivate: true },
   { path: '/user', element: <User />, isPrivate: true },
 ];

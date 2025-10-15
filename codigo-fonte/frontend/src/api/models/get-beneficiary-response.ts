@@ -37,6 +37,12 @@ export interface GetBeneficiaryResponse {
     'name'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'notes'?: string;
+    /**
+     * 
      * @type {Array<GetBeneficiaryOscResponse>}
      * @memberof GetBeneficiaryResponse
      */

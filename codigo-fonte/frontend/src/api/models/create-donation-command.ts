@@ -25,42 +25,42 @@ export interface CreateDonationCommand {
      * @type {number}
      * @memberof CreateDonationCommand
      */
-    'valor'?: number;
+    'value'?: number;
     /**
      * 
      * @type {string}
      * @memberof CreateDonationCommand
      */
-    'data'?: string;
+    'donationDate'?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CreateDonationCommand
      */
-    'doadorPessoaCPF'?: string | null;
+    'personId'?: number | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CreateDonationCommand
      */
-    'doadorEmpresaCNPJ'?: string | null;
+    'companyId'?: number | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CreateDonationCommand
      */
-    'destinoTipo'?: string | null;
+    'oscId'?: number | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CreateDonationCommand
      */
-    'destinoTurmaId'?: string | null;
+    'courseId'?: number | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CreateDonationCommand
      */
-    'destinoOSCCodigo'?: string | null;
+    'teamId'?: number | null;
 }
 

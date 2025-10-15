@@ -26,5 +26,11 @@ export interface UpdateBeneficiaryRequest {
      * @memberof UpdateBeneficiaryRequest
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryRequest
+     */
+    'notes'?: string;
 }
 

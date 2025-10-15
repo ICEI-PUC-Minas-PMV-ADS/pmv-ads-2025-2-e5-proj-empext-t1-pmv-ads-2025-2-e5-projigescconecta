@@ -2,6 +2,7 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,6 +12,7 @@ namespace IgescConecta.API.Features.Users.DeleteUser
     [Route("api/users")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "Users")]
+    [Authorize(Roles = "Admin,Editor")]
     public class DeleteUserEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

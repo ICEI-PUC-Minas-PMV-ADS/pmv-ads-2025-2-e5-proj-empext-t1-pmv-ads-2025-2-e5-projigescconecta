@@ -32,5 +32,11 @@ export interface GetOriginBusinessCaseOscResponse {
      * @memberof GetOriginBusinessCaseOscResponse
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseOscResponse
+     */
+    'notes'?: string;
 }
 

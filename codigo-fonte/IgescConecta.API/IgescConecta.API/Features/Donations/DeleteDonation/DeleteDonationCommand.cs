@@ -1,18 +1,18 @@
-﻿using MediatR;
+﻿using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
-using IgescConecta.API.Common.Validation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace IgescConecta.API.Features.Donations.DeleteDonation
 {
-    // DTO de Entrada (Command)
-    public class DeleteDonationCommand : IRequest<Result<Guid, ValidationFailed>>
+    public class DeleteDonationCommand : IRequest<Result<Unit, ValidationFailed>>
     {
-        public Guid IDDoacao { get; set; }
+        public int Id { get; set; }
     }
 
-    // Handler (Lógica de Negócio)
-    internal sealed class DeleteDonationCommandHandler : IRequestHandler<DeleteDonationCommand, Result<Guid, ValidationFailed>>
+    internal sealed class DeleteDonationCommandHandler : IRequestHandler<DeleteDonationCommand, Result<Unit, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -21,25 +21,26 @@ namespace IgescConecta.API.Features.Donations.DeleteDonation
             _context = context;
         }
 
-        public async Task<Result<Guid, ValidationFailed>> Handle(DeleteDonationCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit, ValidationFailed>> Handle(DeleteDonationCommand request, CancellationToken cancellationToken)
         {
-            // 1. Busca pela Doação
-            var doacao = await _context.Doacoes
-                .SingleOrDefaultAsync(d => d.IDDoacao == request.IDDoacao, cancellationToken);
+            var donation = await _context.Donations
+                .FirstOrDefaultAsync(d => d.Id == request.Id, cancellationToken);
 
-            if (doacao == null)
+            if (donation is null)
             {
-                return new ValidationFailed(new[] { $"Doação com ID {request.IDDoacao} não encontrada." });
+                return new ValidationFailed($"Doação com ID {request.Id} não encontrada.");
             }
 
-            // 2. Remoção Física (Hard Delete)
-            _context.Doacoes.Remove(doacao);
+            if (donation.IsDeleted)
+            {
+                return new ValidationFailed($"Doação com ID {request.Id} já está inativa/deletada.");
+            }
 
-            // 3. Persistência
+            donation.IsDeleted = true;
+
             await _context.SaveChangesAsync(cancellationToken);
 
-            // 4. Retorno de Sucesso
-            return request.IDDoacao;
+            return Unit.Value;
         }
     }
 }

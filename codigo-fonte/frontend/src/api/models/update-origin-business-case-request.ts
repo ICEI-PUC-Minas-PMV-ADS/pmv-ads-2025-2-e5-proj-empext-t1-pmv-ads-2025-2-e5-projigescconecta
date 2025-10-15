@@ -26,5 +26,11 @@ export interface UpdateOriginBusinessCaseRequest {
      * @memberof UpdateOriginBusinessCaseRequest
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseRequest
+     */
+    'notes'?: string;
 }
 
