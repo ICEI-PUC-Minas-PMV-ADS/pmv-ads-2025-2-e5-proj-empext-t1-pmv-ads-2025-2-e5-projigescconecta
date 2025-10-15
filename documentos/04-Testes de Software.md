@@ -879,11 +879,48 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-GC04 - S<br>Remover Grupo de Causas (Cascade Delete)</th>
+    <th colspan="2" width="1000">CT-GC04 - I01<br>Tentar remover Grupo de Causas com Causas vinculadas</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Verifica se, ao excluir um Grupo de Causas, todas as Causas associadas são removidas automaticamente (delete em cascata).</td>
+    <td>Verifica se o sistema impede a exclusão de um Grupo de Causas quando existem Causas vinculadas a ele.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Felipe van Oorschot</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-007</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar um Grupo de Causas que possua uma ou mais Causas associadas.<br>
+      2. Clicar no botão "Remover".<br>
+      3. Confirmar a tentativa de exclusão.<br>
+      4. Observar o comportamento do sistema.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve impedir a exclusão do Grupo e exibir uma mensagem informando que há Causas vinculadas.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-GC05 - S<br>Remover Grupo de Causas sem Causas vinculadas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite excluir corretamente um Grupo de Causas quando não há Causas associadas a ele.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste</strong></td>
@@ -900,15 +937,15 @@ ________________________________________________________________________________
   <tr>
     <td><strong>Passos</strong></td>
     <td>
-      1. Selecionar um Grupo de Causas que contenha Causas associadas.<br>
-      2. Clicar em "Remover".<br>
+      1. Selecionar um Grupo de Causas que não possua nenhuma Causa vinculada.<br>
+      2. Clicar no botão "Remover".<br>
       3. Confirmar a exclusão.<br>
-      4. Verificar se o Grupo e suas Causas foram excluídos.
+      4. Verificar se o Grupo foi removido da listagem.
     </td>
   </tr>
   <tr>
     <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve remover o Grupo e todas as Causas relacionadas (delete cascade).</td>
+    <td>O sistema deve permitir a exclusão do Grupo de Causas e removê-lo corretamente da listagem.</td>
   </tr>
 </table>
 
@@ -916,7 +953,7 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-GC05 - S<br>Listar Grupos de Causas</th>
+    <th colspan="2" width="1000">CT-GC06 - S<br>Listar Grupos de Causas</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -1848,7 +1885,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-O04 - I01<br>Criar OSC sem Nome</th>
+    <th colspan="6" width="1000">CT-O04<br>Criar OSC sem Nome</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -2128,12 +2165,12 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-GC03<br>Remover Grupo de Causas (com Delete Cascade)</th>
+    <th colspan="6" width="1000">CT-GC03<br>Tentar remover Grupo de Causas com Causas vinculadas</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
     <td colspan="5">
-      O sistema deve excluir o Grupo de Causas selecionado e, automaticamente, todas as Causas associadas, refletindo a exclusão completa na listagem.
+      O sistema deve impedir a exclusão do Grupo de Causas e exibir uma mensagem informando que há Causas vinculadas.
     </td>
   </tr>
   <tr>
@@ -2145,7 +2182,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   <tr>
     <td><strong>Comentário</strong></td>
     <td colspan="5">
-      Exclusão realizada com sucesso. Todas as causas vinculadas ao grupo também foram removidas, confirmando o funcionamento do delete cascade.
+      O sistema bloqueou corretamente a exclusão do Grupo de Causas e apresentou mensagem informando que existem Causas vinculadas, conforme regra de negócio atualizada.
     </td>
   </tr>
   <tr>
@@ -2158,7 +2195,37 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-GC04 - I01<br>Tentar criar Grupo de Causas sem nome</th>
+    <th colspan="6" width="1000">CT-GC04<br>Remover Grupo de Causas sem Causas vinculadas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a exclusão do Grupo de Causas quando não houver Causas vinculadas, removendo-o corretamente da listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema permitiu corretamente a exclusão do Grupo de Causas sem vínculos, removendo-o da listagem após confirmação do usuário.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC05<br>Tentar criar Grupo de Causas sem nome</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -2188,7 +2255,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-GC05<br>Listar Grupos de Causas</th>
+    <th colspan="6" width="1000">CT-GC06<br>Listar Grupos de Causas</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -2313,7 +2380,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-C04 - I01<br>Tentar criar Causa sem nome</th>
+    <th colspan="6" width="1000">CT-C04<br>Tentar criar Causa sem nome</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
