@@ -112,7 +112,7 @@ const BusinessCase: React.FC = () => {
             const { data } = await businessCaseApi.listBusinessCase(listBusinessCaseRequest);
 
             if (!data.items || data.items.length === 0) {
-                setNoDataMessage('Nenhum caso de negócio encontrado.');
+                setNoDataMessage('Nenhum Grupo de Causas encontrado.');
                 setBusinessCase([]);
                 return;
             }
@@ -126,8 +126,8 @@ const BusinessCase: React.FC = () => {
             setTotalCount(data.totalItems || 0);
             setNoDataMessage('');
         } catch (error) {
-            console.error('Erro ao carregar casos de negócio:', error);
-            toast.error('Erro ao carregar casos de negócio.');
+            console.error('Erro ao carregar Grupo de Causas:', error);
+            toast.error('Erro ao carregar Grupo de Causas.');
         } finally {
             setLoading(false);
         }
@@ -185,8 +185,8 @@ const BusinessCase: React.FC = () => {
             setIsVisualizing(false);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar caso de negócio:', error);
-            toast.error('Erro ao carregar caso de negócio.');
+            console.error('Erro ao carregar Grupo de Causas:', error);
+            toast.error('Erro ao carregar Grupo de Causas.');
         } finally {
             setModalLoading(false);
         }
@@ -199,8 +199,8 @@ const BusinessCase: React.FC = () => {
             setIsVisualizing(true);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar caso de negócio:', error);
-            toast.error('Erro ao carregar caso de negócio.');
+            console.error('Erro ao carregar Grupo de Causas:', error);
+            toast.error('Erro ao carregar Grupo de Causas.');
         }
     }
 
@@ -215,10 +215,10 @@ const BusinessCase: React.FC = () => {
 
         try {
             await businessCaseApi.deleteBusinessCase(businessCaseToDelete.businessCaseId!);
-            toast.success('Caso de negócio deletado com sucesso.');
+            toast.success('Grupo de Causas deletado com sucesso.');
             fetchBusinessCases();
         } catch (error) {
-            console.error('Erro ao deletar caso de negócio:', error);
+            console.error('Erro ao deletar Grupo de Causas:', error);
             toast.error(error?.response?.data?.errors?.[0]);
         } finally {
             setOpenDeleteModal(false);
@@ -240,12 +240,12 @@ const BusinessCase: React.FC = () => {
 
                 await businessCaseApi.updateBusinessCase(updateBusinessCase.businessCaseId!, updateBusinessCaseRequest);
 
-                toast.success('Caso de negócio atualizado com sucesso.');
+                toast.success('Grupo de Causas atualizado com sucesso.');
                 handleCloseModal();
                 fetchBusinessCases();
             } catch (error) {
-                console.error('Erro ao atualizar caso de negócio:', error);
-                toast.error('Erro ao atualizar caso de negócio.');
+                console.error('Erro ao atualizar Grupo de Causas:', error);
+                toast.error('Erro ao atualizar Grupo de Causas.');
             } finally {
                 setModalLoading(false);
             }
@@ -258,12 +258,12 @@ const BusinessCase: React.FC = () => {
 
                 await businessCaseApi.createBusinessCase(createBusinessCaseRequest);
 
-                toast.success('Caso de negócio criado com sucesso.');
+                toast.success('Grupo de Causas criado com sucesso.');
                 handleCloseModal();
                 fetchBusinessCases();
             } catch (error) {
-                console.error('Erro ao criar caso de negócio:', error);
-                toast.error('Erro ao criar caso de negócio.');
+                console.error('Erro ao criar Grupo de Causas:', error);
+                toast.error('Erro ao criar Grupo de Causas.');
             } finally {
                 setModalLoading(false);
             }
