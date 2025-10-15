@@ -1754,6 +1754,626 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 ## Etapa 3
 
 <details>
+<summary><h2>Testes: 🏛️ OSC</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O01<br>Criar OSC</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir o cadastro de uma nova OSC, exibindo-a corretamente na listagem após a criação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Felipe van Oorschot</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O cadastro da OSC foi realizado com sucesso. A nova OSC foi listada corretamente e os campos obrigatórios foram validados.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O02<br>Editar OSC</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir editar as informações da OSC e refletir as alterações corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição concluída com sucesso. As alterações foram salvas e exibidas corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O03<br>Remover OSC</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve excluir a OSC selecionada e atualizar a listagem, removendo-a completamente após confirmação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão realizada corretamente. A OSC foi removida da listagem e não aparece após atualização.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O04 - I01<br>Criar OSC sem Nome</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir o cadastro de uma OSC sem o preenchimento do campo obrigatório “Nome”, exibindo mensagem de erro adequada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema impediu corretamente o cadastro sem nome, exibindo mensagem informando que o campo é obrigatório.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O05<br>Listar OSCs</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir corretamente todas as OSCs cadastradas, com suporte a filtros e pesquisa por Nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A listagem e o filtro por Nome funcionaram corretamente, exibindo os resultados esperados.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>Testes: 🧍‍♂️ Público</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-PUB01<br>Criar Público</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir o cadastro de um novo Público, exigindo os campos obrigatórios “Nome” e “Observações”, e exibi-lo corretamente na listagem após a criação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Felipe van Oorschot</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O cadastro do Público foi realizado com sucesso. A listagem refletiu corretamente a nova entrada e os campos obrigatórios foram validados.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-PUB02<br>Editar Público</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a edição das informações de um Público existente e refletir as alterações na listagem após a atualização.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição do Público concluída com sucesso. Alterações refletidas corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-PUB03<br>Remover Público</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve excluir o Público selecionado após confirmação e atualizar a listagem removendo o item.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão realizada com sucesso. O item foi removido da listagem e não aparece mais após atualização.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-PUB04 - I01<br>Criar Público sem preencher campos obrigatórios</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir o cadastro de um Público caso os campos “Nome” e/ou “Observações” não sejam preenchidos, exibindo mensagem de erro adequada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema validou corretamente os campos obrigatórios, impedindo o cadastro e apresentando mensagens de erro apropriadas.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-PUB05<br>Listar Públicos</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir corretamente a lista de Públicos cadastrados, com suporte à busca e filtragem por Nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A listagem e o filtro de Públicos funcionaram conforme o esperado, exibindo corretamente os registros e resultados da pesquisa.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>Testes: 💠 Grupo de Causas</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC01<br>Criar Grupo de Causas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir o cadastro de um novo Grupo de Causas, exigindo o preenchimento do campo “Nome”, e exibi-lo corretamente na listagem após a criação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Felipe van Oorschot</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Cadastro realizado com sucesso. O novo Grupo de Causas foi exibido corretamente na listagem e validou o campo obrigatório “Nome”.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC02<br>Editar Grupo de Causas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a edição do nome de um Grupo de Causas existente e refletir a alteração na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição concluída com sucesso. O novo nome foi atualizado corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC03<br>Remover Grupo de Causas (com Delete Cascade)</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve excluir o Grupo de Causas selecionado e, automaticamente, todas as Causas associadas, refletindo a exclusão completa na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão realizada com sucesso. Todas as causas vinculadas ao grupo também foram removidas, confirmando o funcionamento do delete cascade.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC04 - I01<br>Tentar criar Grupo de Causas sem nome</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir o cadastro de um Grupo de Causas sem preenchimento do campo “Nome”, exibindo mensagem de erro adequada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Validação de campo obrigatório funcionando corretamente. Sistema bloqueou a criação e apresentou mensagem informativa.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-GC05<br>Listar Grupos de Causas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve listar corretamente todos os Grupos de Causas cadastrados, exibindo os resultados de forma ordenada e permitindo busca por nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Listagem e filtro funcionando conforme esperado. Todos os registros são exibidos corretamente.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+<summary><h2>Testes: 🎯 Causa</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-C01<br>Criar Causa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a criação de uma nova Causa vinculada automaticamente ao Grupo de Causas selecionado, exigindo o preenchimento do campo “Nome”.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Felipe van Oorschot</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Cadastro da Causa realizado com sucesso. O vínculo com o Grupo de Causas foi criado automaticamente e o registro apareceu corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-C02<br>Editar Causa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a edição do nome de uma Causa existente e refletir a alteração na listagem da página.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Alteração da Causa realizada com sucesso. A listagem foi atualizada corretamente com o novo nome.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-C03<br>Remover Causa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir a exclusão de uma Causa e removê-la da listagem, mantendo o Grupo de Causas associado inalterado.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão de Causa concluída com sucesso. O Grupo de Causas permanece existente e as demais causas não foram afetadas.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-C04 - I01<br>Tentar criar Causa sem nome</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir o cadastro de uma Causa sem preenchimento do campo “Nome”, exibindo mensagem de erro adequada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema bloqueou corretamente a criação da Causa e apresentou mensagem informando a obrigatoriedade do campo “Nome”.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-C05<br>Listar Causas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir corretamente todas as Causas cadastradas para o Grupo de Causas selecionado, permitindo filtragem por nome.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Felipe van Oorschot</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A listagem de Causas foi exibida corretamente, com os filtros e paginação funcionando conforme esperado.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img alt="image" src="" /></td>
+  </tr>
+</table>
+
+</details>
+
+<details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
 <table>
