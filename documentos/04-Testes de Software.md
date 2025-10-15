@@ -1370,14 +1370,14 @@ ________________________________________________________________________________
       <td>
         1. Acessar a tela de Turmas.<br>
         2. Clicar em "Nova Turma".<br>
-        3. Preencher os campos: Curso, Número da Turma, Data de Início, Data de Término e Horário.<br>
+        3. Preencher os campos: Programa, Número da Turma, Data de Início, Data de Término e Horário.<br>
         4. Clicar em "Salvar".
       </td>
     </tr>
     <tr>
       <td><strong>Dados de teste</strong></td>
       <td>
-        - Curso: Desenvolvimento Tech<br>
+        - Programa: Desenvolvimento Tech<br>
         - Nome da Turma: 2025A<br>
         - Data Início: 10/05/2025<br>
         - Data Fim: 10/08/2025<br>
@@ -1394,11 +1394,11 @@ ________________________________________________________________________________
 
   <table>
     <tr>
-      <th colspan="2" width="1000">CT-T02 - I01<br>Criar Turma sem Curso associado</th>
+      <th colspan="2" width="1000">CT-T02 - I01<br>Criar Turma sem Programa associado</th>
     </tr>
     <tr>
       <td width="150"><strong>Descrição</strong></td>
-      <td>Este caso de teste verifica se o sistema impede o cadastro de uma Turma sem vincular um Curso obrigatório.</td>
+      <td>Este caso de teste verifica se o sistema impede o cadastro de uma Turma sem vincular um Programa obrigatório.</td>
     </tr>
     <tr>
       <td><strong>Responsável Caso de Teste</strong></td>
@@ -1417,14 +1417,14 @@ ________________________________________________________________________________
       <td>
         1. Acessar a tela de Turmas.<br>
         2. Clicar em "Nova Turma".<br>
-        3. Preencher os campos Nome da Turma, Data de Início, Data de Término e Horário, deixando o campo Curso vazio.<br>
+        3. Preencher os campos Nome da Turma, Data de Início, Data de Término e Horário, deixando o campo Programa vazio.<br>
         4. Clicar em "Salvar".
       </td>
     </tr>
     <tr>
       <td><strong>Dados de teste</strong></td>
       <td>
-        - Curso: (vazio)<br>
+        - Programa: (vazio)<br>
         - Número da Turma: 2025B<br>
         - Data Início: 15/05/2025<br>
         - Data Fim: 15/08/2025<br>
@@ -1433,7 +1433,7 @@ ________________________________________________________________________________
     </tr>
     <tr>
       <td><strong>Critérios de êxito</strong></td>
-      <td>O sistema deve exibir uma mensagem de erro informando que o campo Curso é obrigatório.</td>
+      <td>O sistema deve exibir uma mensagem de erro informando que o campo Programa é obrigatório.</td>
     </tr>
   </table>
 
@@ -1537,7 +1537,7 @@ ________________________________________________________________________________
       <td>
         1. Acessar a tela de Turmas.<br>
         2. Visualizar a listagem de Turmas cadastradas.<br>
-        3. Aplicar filtro por Curso ou Nome da Turma.<br>
+        3. Aplicar filtro por Programa ou Nome da Turma.<br>
         4. Clicar em "Pesquisar".
       </td>
     </tr>
@@ -1754,7 +1754,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 ## Etapa 3
 
 <details>
-<summary><h2>Testes: Programa</h2></summary>
+<summary><h2>Testes: 🎓 Programa</h2></summary>
 
 <table>
   <tr>
@@ -1912,9 +1912,164 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </table>
 </details>
 
+<details>
+<summary><h2>Testes: 👥 Turmas</h2></summary>  
+  
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-T01<br>Criar Turma</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve cadastrar a Turma e exibi-la corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Lucas Xavier</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Criação da Turma realizada com sucesso. A Turma é exibida corretamente na listagem vinculada ao Programa.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1510" height="769" alt="image" src="https://github.com/user-attachments/assets/ae83a9f3-2667-45a2-80dc-95f787a2e361" />
+</td>
+  </tr>
+</table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-T02 - I01<br>Criar Turma sem Programa associado</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir uma mensagem de erro informando que o campo Programa é obrigatório.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Sistema impediu corretamente o cadastro e exibiu mensagem de obrigatoriedade do Programa.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1901" height="845" alt="image" src="https://github.com/user-attachments/assets/3a15b3a9-020a-4624-866d-dffcc4967b56" />
+</td>
+  </tr>
+</table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-T03<br>Editar Turma</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve atualizar e exibir as informações da Turma corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição realizada com sucesso. As novas informações da Turma foram atualizadas corretamente.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1427" height="740" alt="image" src="https://github.com/user-attachments/assets/a6a3808f-1c59-4b13-b0c9-a2720a061865" />
+</td>
+  </tr>
+</table>
 
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-T04<br>Excluir Turma</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve remover a Turma e atualizar a lista sem o item excluído.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão confirmada e refletida corretamente na listagem. O item foi removido conforme esperado.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1665" height="475" alt="image" src="https://github.com/user-attachments/assets/0ab89f84-bf43-477c-ac5f-b92ccca76680" />
+</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-T05<br>Listar Turmas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir a lista de Turmas corretamente, incluindo o resultado filtrado conforme o parâmetro informado.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Lucas Xavier</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>15/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A listagem de Turmas e o filtro por Programa e Nome estão funcionando corretamente.
+    </td>
+  </tr> 
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1561" height="731" alt="image" src="https://github.com/user-attachments/assets/f82b497f-c3eb-4886-b22c-62a098d3baae" />
+</td>
+  </tr>
+</table>
+</details>
 
 ## Parte 2 - Testes por pares
 A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade deve ser testada por um colega e os testes devem ser evidenciados. O colega "Tester" deve utilizar o caso de teste criado pelo desenvolvedor responsável pela funcionalidade (desenvolveu a funcionalidade e criou o caso de testes descrito no plano de testes) e caso perceba a necessidade de outros casos de teste, deve acrescentá-los na sessão "Plano de Testes".
