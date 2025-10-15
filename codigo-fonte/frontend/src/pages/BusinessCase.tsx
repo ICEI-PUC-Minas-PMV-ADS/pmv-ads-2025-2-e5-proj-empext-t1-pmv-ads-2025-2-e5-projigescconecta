@@ -219,7 +219,7 @@ const BusinessCase: React.FC = () => {
             fetchBusinessCases();
         } catch (error) {
             console.error('Erro ao deletar caso de negócio:', error);
-            toast.error('Erro ao deletar caso de negócio.');
+            toast.error(error?.response?.data?.errors?.[0]);
         } finally {
             setOpenDeleteModal(false);
             setBusinessCaseToDelete(null);

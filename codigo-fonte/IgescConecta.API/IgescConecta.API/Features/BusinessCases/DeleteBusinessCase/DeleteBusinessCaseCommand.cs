@@ -1,6 +1,7 @@
 ﻿using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace IgescConecta.API.Features.BusinessCases.DeleteBusinessCase
 {
@@ -29,6 +30,14 @@ namespace IgescConecta.API.Features.BusinessCases.DeleteBusinessCase
             if (businessCase == null)
             {
                 return new ValidationFailed(new[] { "Business Case não encontrado." });
+            }
+
+            var hasRelatedOrigins = await _context.OriginBusinessCases
+                .AnyAsync(obc => obc.BusinessCaseId == businessCase.Id && !obc.IsDeleted, cancellationToken);
+
+            if (hasRelatedOrigins)
+            {
+                return new ValidationFailed(new[] { "Não é possível deletar o Grupo de Causas pois existem Causas relacionadas." });
             }
 
             _context.BusinessCases.Remove(businessCase);
