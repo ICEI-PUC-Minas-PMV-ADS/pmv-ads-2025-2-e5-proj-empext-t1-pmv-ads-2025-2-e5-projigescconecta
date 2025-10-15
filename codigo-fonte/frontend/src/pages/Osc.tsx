@@ -45,7 +45,7 @@ import { alpha } from '@mui/material/styles';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
-import { ConfirmDialog } from '@/components/ConfirmDelete';3
+import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
 
 dayjs.locale('pt-br');
@@ -465,6 +465,7 @@ const Osc: React.FC = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
+        maxWidth="xl"
         sx={{
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },

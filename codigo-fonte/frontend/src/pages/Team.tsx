@@ -19,6 +19,10 @@ import {
   Paper,
   alpha,
   TextField,
+  Autocomplete,
+  Divider,
+  Stack,
+  Checkbox,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
@@ -96,7 +100,6 @@ const Team: React.FC = () => {
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
 
-
   const [teamName, setTeamName] = useState('');
   const [lessonTime, setLessonTime] = useState('');
   const [startDate, setStartDate] = useState<Dayjs | undefined>(undefined);
@@ -104,12 +107,15 @@ const Team: React.FC = () => {
   const [selectedProgramId, setSelectedProgramId] = useState<number | ''>('');
   const [selectedCourseId, setSelectedCourseId] = useState<number | ''>('');
   const [selectedPersonIds, setSelectedPersonIds] = useState<number[]>([]);
+  const [personsResults, setPersonsResults] = useState<Person[]>([]);
+  const [personsLoading, setPersonsLoading] = useState(false);
+  const [inputPersonValue, setInputPersonValue] = useState('');
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [programsLoading, setProgramsLoading] = useState(false);
   const [coursesLoading, setCoursesLoading] = useState(false);
-  const [personsLoading, setPersonsLoading] = useState(false);
   const [noDataMessage, setNoDataMessage] = useState('');
   const [confirmDialog, setConfirmDialog] = useState({
     open: false,
@@ -284,9 +290,7 @@ const Team: React.FC = () => {
   };
 
   const columns: Column<Team>[] = [
-    { label: 'ID', field: 'teamId' },
     { label: 'Nome', field: 'name' },
-    { label: 'Horário de Aula', field: 'lessonTime' },
     { label: 'Data Início', field: 'start' },
     { label: 'Data Fim', field: 'finish' },
     { label: 'Projeto', field: 'projectProgramName' },
@@ -383,11 +387,11 @@ const Team: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!startDate || !endDate || !selectedCourseId) {
-      toast.error('Data de início, data de fim e programa são obrigatórios!');
+    if (!selectedCourseId) {
+      toast.error('Deve ser informado um programa!');
       return false;
     }
-    if (endDate.isBefore(startDate)) {
+    if (endDate && endDate.isBefore(startDate)) {
       toast.error('A data de fim deve ser posterior à data de início!');
       return false;
     }
@@ -404,8 +408,8 @@ const Team: React.FC = () => {
         const editTeamRequest: EditTeamRequest = {
           name: teamName || undefined,
           lessonTime: lessonTime || undefined,
-          start: startDate!.format('YYYY-MM-DD'),
-          finish: endDate!.format('YYYY-MM-DD'),
+          start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
+          finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           courseId: selectedCourseId as number,
           // TODO: alterar pós adição de CRUD
           /* Crud ainda n implementado */
@@ -420,8 +424,8 @@ const Team: React.FC = () => {
         const createTeamRequest: CreateTeamRequest = {
           name: teamName || undefined,
           lessonTime: lessonTime || undefined,
-          start: startDate!.format('YYYY-MM-DD'),
-          finish: endDate!.format('YYYY-MM-DD'),
+          start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
+          finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           courseId: selectedCourseId as number,
           // TODO: alterar pós adição de CRUD
           /* Crud ainda n implementado */
@@ -434,7 +438,7 @@ const Team: React.FC = () => {
       }
 
       handleCloseModal();
-      fetchTeams();
+      fetchTeams([]);
     } catch (error) {
       console.error('Erro ao salvar turma:', error);
       toast.error('Erro ao salvar turma');
@@ -486,6 +490,7 @@ const Team: React.FC = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
+        maxWidth="xl"
         sx={{
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },
@@ -629,6 +634,19 @@ const Team: React.FC = () => {
                     ))}
                   </Select>
                 </FormControl>
+              </Box>
+
+              {/* Testan  */}
+              <Box
+                sx={{
+                  mt: 2.5,
+                  gap: 3,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'start',
+                  flexWrap: 'wrap',
+                }}
+              >
                 <Button
                   variant="contained"
                   startIcon={<SearchIcon />}
@@ -868,79 +886,60 @@ const Team: React.FC = () => {
             </Grid>
 
             <Grid size={{ xs: 12 }}>
-              <FormControl fullWidth variant="outlined" margin="dense">
-                <InputLabel>Alunos</InputLabel>
-                <Select
+              {/* Alunos editáveis */}
+              <Box mt={3}>
+                <Typography variant="subtitle1">
+                  <strong>Alunos</strong>
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+
+                <Autocomplete
                   multiple
-                  value={selectedPersonIds}
-                  onChange={handlePersonChange}
-                  label="Alunos"
-                  disabled={personsLoading || isVisualizing}
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <em>Nenhum aluno selecionado</em>;
-                    }
-                    const selectedNames = persons
-                      .filter((person) => selected.includes(person.id!))
-                      .map((person) => person.name)
-                      .join(', ');
-                    return selectedNames || `${selected.length} aluno(s) selecionado(s)`;
+                  options={persons}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option.name || ''}
+                  value={persons.filter((p) => selectedPersonIds.includes(p.id))}
+                  onChange={(_, values) => {
+                    setSelectedPersonIds(values.map((v) => v.id));
                   }}
-                >
-                  {personsLoading ? (
-                    <MenuItem disabled>
-                      <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
-                    </MenuItem>
-                  ) : persons.length === 0 ? (
-                    <MenuItem disabled>Nenhuma pessoa cadastrada</MenuItem>
-                  ) : (
-                    persons.map((person) => (
-                      <MenuItem key={person.id} value={person.id}>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: '100%',
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              width: 20,
-                              height: 20,
-                              border: '2px solid',
-                              borderColor: selectedPersonIds.includes(person.id!)
-                                ? '#1E4EC4'
-                                : '#ccc',
-                              borderRadius: 0.5,
-                              mr: 1.5,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              bgcolor: selectedPersonIds.includes(person.id!)
-                                ? '#1E4EC4'
-                                : 'transparent',
-                            }}
-                          >
-                            {selectedPersonIds.includes(person.id!) && (
-                              <Box
-                                sx={{
-                                  width: 12,
-                                  height: 12,
-                                  color: 'white',
-                                  fontSize: '0.8rem',
-                                }}
-                              >
-                                ✓
-                              </Box>
-                            )}
-                          </Box>
-                          <Typography>{person.name}</Typography>
-                        </Box>
-                      </MenuItem>
-                    ))
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox checked={selected} sx={{ mr: 1 }} />
+                      {option.name}
+                    </li>
                   )}
-                </Select>
-              </FormControl>
+                  renderTags={() => null}
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder="Selecionar alunos..." size="small" />
+                  )}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  fullWidth
+                  disabled={personsLoading || isVisualizing}
+                />
+
+                {/* Chips de Alunos */}
+                {selectedPersonIds.length > 0 ? (
+                  <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                    {persons
+                      .filter((p) => selectedPersonIds.includes(p.id))
+                      .map((p) => (
+                        <Chip
+                          key={p.id}
+                          label={p.name}
+                          color="primary"
+                          variant="outlined"
+                          onDelete={() => {
+                            setSelectedPersonIds(selectedPersonIds.filter((id) => id !== p.id));
+                          }}
+                        />
+                      ))}
+                  </Stack>
+                ) : (
+                  <Typography color="text.secondary" mt={1}>
+                    Nenhum aluno.
+                  </Typography>
+                )}
+              </Box>
             </Grid>
           </Grid>
         </DialogContent>

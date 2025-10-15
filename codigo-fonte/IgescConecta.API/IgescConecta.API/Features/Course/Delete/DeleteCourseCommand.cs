@@ -25,7 +25,15 @@ namespace IgescConecta.API.Features.Courses.DeleteCourse
 
             if (course == null)
             {
-                return new ValidationFailed(new[] { "Curso não encontrado ou já está excluído." });
+                return new ValidationFailed(new[] { "Programa não encontrado ou já está excluído." });
+            }
+
+            var hasTeams = await _context.Teams
+                .AnyAsync(t => t.CourseId == request.CourseId, cancellationToken);
+
+            if (hasTeams)
+            {
+                return new ValidationFailed(new[] { "Desvincule as Turmas desse Programa antes de excluí-lo." });
             }
 
             _context.Courses.Remove(course);

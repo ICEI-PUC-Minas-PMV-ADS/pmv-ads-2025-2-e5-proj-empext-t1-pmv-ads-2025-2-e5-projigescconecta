@@ -17,7 +17,7 @@ namespace IgescConecta.API.Features.Courses.CreateCourse
             _mediator = mediator;
         }
 
-        [HttpPost("CreateCourse", Name = "CreateCourse")]
+        [HttpPost(Name = "CreateCourse")]
         public async Task<ActionResult<CreateCourseResponse>> CreateCourse([FromBody] CreateCourseRequest request)
         {
             var result = await _mediator.Send(new CreateCourseCommand

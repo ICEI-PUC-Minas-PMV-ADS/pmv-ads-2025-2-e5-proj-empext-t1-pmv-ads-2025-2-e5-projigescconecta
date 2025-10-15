@@ -23,7 +23,7 @@ namespace IgescConecta.API.Features.Courses.CreateCourse
         {
             if (string.IsNullOrWhiteSpace(request.Name))
             {
-                return new ValidationFailed(new[] { "O nome do curso é obrigatório." });
+                return new ValidationFailed(new[] { "O nome do Programa é obrigatório." });
             }
 
             var course = new Course

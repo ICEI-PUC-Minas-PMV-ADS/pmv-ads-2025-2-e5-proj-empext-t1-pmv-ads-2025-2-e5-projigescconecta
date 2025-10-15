@@ -25,7 +25,7 @@ namespace IgescConecta.API.Features.Teams.DeleteTeam
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { "Time não encontrado ou já excluído." });
+                return new ValidationFailed(new[] { "Turma não encontrado ou já excluída." });
             }
 
             _context.Teams.Remove(team);

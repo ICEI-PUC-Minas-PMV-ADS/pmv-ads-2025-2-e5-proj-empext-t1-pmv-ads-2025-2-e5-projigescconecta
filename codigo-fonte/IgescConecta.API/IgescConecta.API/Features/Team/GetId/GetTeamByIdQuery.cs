@@ -36,7 +36,7 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { $"Time com ID {request.TeamId} não encontrado ou está inativo." });
+                return new ValidationFailed(new[] { $"Turma com ID {request.TeamId} não encontrado ou está inativo." });
             }
 
             return team;

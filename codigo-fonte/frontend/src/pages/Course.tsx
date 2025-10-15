@@ -46,7 +46,6 @@ interface Course {
 }
 
 const Course: React.FC = () => {
-
   /* ------------------------------ Variáveis ------------------------------ */
 
   const [search, setSearch] = useState('');
@@ -83,7 +82,6 @@ const Course: React.FC = () => {
     { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
   ];
 
-
   /* --------------------------------- Funções -------------------------------- */
 
   const fetchCourses = async (noFilter?) => {
@@ -119,7 +117,7 @@ const Course: React.FC = () => {
       }
 
       setNoDataMessage('');
-      setCourses(data.items as Course[] || []);
+      setCourses((data.items as Course[]) || []);
       setTotalCount(data.totalItems || 0);
     } catch (error) {
       console.error('Erro ao carregar programas:', error);
@@ -175,6 +173,14 @@ const Course: React.FC = () => {
     });
   };
 
+  const handleCloseConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      course: null,
+      loading: false,
+    });
+  };
+
   const handleConfirmDelete = async () => {
     if (!confirmDialog.course) return;
 
@@ -184,20 +190,18 @@ const Course: React.FC = () => {
       await apiInstance.deleteCourse(id);
       toast.success(`Programa "${confirmDialog.course.name}" excluído com sucesso!`);
       handleCloseConfirmDialog();
-      fetchCourses();
-    } catch (error) {
+      fetchCourses([]);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.errors?.join(', ') ||
+        'Erro ao excluir programa';
+
+      toast.error(message);
+
       console.error('Erro ao excluir programa:', error);
-      toast.error('Erro ao excluir programa');
       setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
-  };
-
-  const handleCloseConfirmDialog = () => {
-    setConfirmDialog({
-      open: false,
-      course: null,
-      loading: false,
-    });
   };
 
   const handleSave = async () => {
@@ -228,7 +232,7 @@ const Course: React.FC = () => {
       }
 
       handleCloseModal();
-      fetchCourses();
+      fetchCourses([]);
     } catch (error) {
       console.error('Erro ao salvar programa:', error);
       toast.error('Erro ao salvar programa');
@@ -254,6 +258,7 @@ const Course: React.FC = () => {
     /* -------------------------------- Template -------------------------------- */
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
+        maxWidth="xl"
         sx={{
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },

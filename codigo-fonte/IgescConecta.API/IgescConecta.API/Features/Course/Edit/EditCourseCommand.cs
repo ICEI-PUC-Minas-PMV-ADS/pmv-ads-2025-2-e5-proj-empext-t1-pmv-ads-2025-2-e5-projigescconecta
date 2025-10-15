@@ -24,7 +24,7 @@ namespace IgescConecta.API.Features.Courses.EditCourse
         {
             if (string.IsNullOrWhiteSpace(request.Name))
             {
-                return new ValidationFailed(new[] { "O nome do curso é obrigatório." });
+                return new ValidationFailed(new[] { "O nome do Programa é obrigatório." });
             }
 
             var course = await _context.Courses
@@ -33,7 +33,7 @@ namespace IgescConecta.API.Features.Courses.EditCourse
 
             if (course == null)
             {
-                return new ValidationFailed(new[] { "Curso não encontrado." });
+                return new ValidationFailed(new[] { "Programa não encontrado." });
             }
 
             course.Name = request.Name;
