@@ -4,6 +4,7 @@ using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251012192221_AddPersonExtraFieldsOnly")]
+    partial class AddPersonExtraFieldsOnly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,10 +58,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -113,27 +112,16 @@ namespace IgescConecta.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<string>("CNPJ")
                         .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorporateReason")
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -141,45 +129,14 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("FieldOfActivity")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Neighborhood")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("SocialMedia")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("State")
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
-
-                    b.Property<string>("Website")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
 
                     b.HasKey("Id");
 
@@ -217,6 +174,67 @@ namespace IgescConecta.API.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Doacao", b =>
+                {
+                    b.Property<Guid>("IDDoacao")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DestinoOSCCodigo")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("DestinoTipo")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid?>("DestinoTurmaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DoadorEmpresaCNPJ")
+                        .HasMaxLength(14)
+                        .HasColumnType("CHAR(14)");
+
+                    b.Property<string>("DoadorPessoaCPF")
+                        .HasMaxLength(11)
+                        .HasColumnType("CHAR(11)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("IDDoacao");
+
+                    b.HasIndex("DoadorEmpresaCNPJ");
+
+                    b.ToTable("Doacao", null, t =>
+                        {
+                            t.HasCheckConstraint("CHK_Doacao_DestinoExclusivo", "(IIF(DestinoTurmaId IS NULL, 0, 1) + IIF(DestinoOSCCodigo IS NULL, 0, 1)) <= 1");
+
+                            t.HasCheckConstraint("CHK_Doacao_DoadorExclusivo", "(IIF(DoadorPessoaCPF IS NULL, 0, 1) + IIF(DoadorEmpresaCNPJ IS NULL, 0, 1)) = 1");
+                        });
+                });
+
             modelBuilder.Entity("IgescConecta.Domain.Entities.Donation", b =>
                 {
                     b.Property<int>("Id")
@@ -226,9 +244,6 @@ namespace IgescConecta.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -265,8 +280,6 @@ namespace IgescConecta.API.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("CourseId");
-
                     b.HasIndex("OscId");
 
                     b.HasIndex("PersonId");
@@ -274,6 +287,54 @@ namespace IgescConecta.API.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("Donations");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Empresa", b =>
+                {
+                    b.Property<string>("CNPJ")
+                        .HasColumnType("CHAR(14)");
+
+                    b.Property<bool>("Ativa")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("CNPJ");
+
+                    b.ToTable("Empresa", (string)null);
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.OriginBusinessCase", b =>
@@ -297,10 +358,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -329,10 +386,6 @@ namespace IgescConecta.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CorporateName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -343,18 +396,10 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Neighborhood")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -363,19 +408,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OscPrimaryDocumment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SocialMedia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -383,10 +415,6 @@ namespace IgescConecta.API.Migrations
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
-
-                    b.Property<string>("WebUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
@@ -420,9 +448,6 @@ namespace IgescConecta.API.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1046,15 +1071,20 @@ namespace IgescConecta.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Doacao", b =>
+                {
+                    b.HasOne("IgescConecta.Domain.Entities.Empresa", "DoadorEmpresa")
+                        .WithMany("DoacoesRealizadas")
+                        .HasForeignKey("DoadorEmpresaCNPJ");
+
+                    b.Navigation("DoadorEmpresa");
+                });
+
             modelBuilder.Entity("IgescConecta.Domain.Entities.Donation", b =>
                 {
                     b.HasOne("IgescConecta.Domain.Entities.Company", "Company")
-                        .WithMany("Donations")
-                        .HasForeignKey("CompanyId");
-
-                    b.HasOne("IgescConecta.Domain.Entities.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("IgescConecta.Domain.Entities.Osc", "Osc")
                         .WithMany()
@@ -1069,8 +1099,6 @@ namespace IgescConecta.API.Migrations
                         .HasForeignKey("TeamId");
 
                     b.Navigation("Company");
-
-                    b.Navigation("Course");
 
                     b.Navigation("Osc");
 
@@ -1160,7 +1188,7 @@ namespace IgescConecta.API.Migrations
             modelBuilder.Entity("IgescConecta.Domain.Entities.ProjectProgram", b =>
                 {
                     b.HasOne("IgescConecta.Domain.Entities.Osc", "Osc")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("OscId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1305,14 +1333,19 @@ namespace IgescConecta.API.Migrations
                     b.Navigation("Origins");
                 });
 
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Company", b =>
-                {
-                    b.Navigation("Donations");
-                });
-
             modelBuilder.Entity("IgescConecta.Domain.Entities.Course", b =>
                 {
                     b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Empresa", b =>
+                {
+                    b.Navigation("DoacoesRealizadas");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.Osc", b =>
+                {
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.Person", b =>
