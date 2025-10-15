@@ -18,7 +18,7 @@ import {
     ListDonationEndpointApi,
     UpdateDonationEndpointApi,
     DeleteDonationEndpointApi,
- // PersonApi,
+    PersonsApi,
     ListCompaniesEndpointApi,
     OscsApi,
     CoursesApi,
@@ -62,7 +62,7 @@ const DonationPage: React.FC = () => {
     const listAllApi = useMemo(() => new ListDonationsEndpointApi(apiConfig), []);
     const updateApi = useMemo(() => new UpdateDonationEndpointApi(apiConfig), []);
     const deleteApi = useMemo(() => new DeleteDonationEndpointApi(apiConfig), []);
- // const peopleApi = useMemo(() => new PersonApi(apiConfig), []);
+    const peopleApi = useMemo(() => new PersonsApi(apiConfig), []);
     const companiesApi = useMemo(() => new ListCompaniesEndpointApi(apiConfig), []);
     const oscsApi = useMemo(() => new OscsApi(apiConfig), []);
     const coursesApi = useMemo(() => new CoursesApi(apiConfig), []);
@@ -93,12 +93,13 @@ const DonationPage: React.FC = () => {
 
     const fetchDropdownData = async () => {
         try {
+            const requestParams = { pageNumber: 1, pageSize: 1000 };
             const [peopleRes, companiesRes, oscsRes, coursesRes, teamsRes] = await Promise.all([
-                peopleApi.apiPeopleSearchPost({ pageNumber: 1, pageSize: 1000 }),
-                companiesApi.apiCompaniesSearchPost({ pageNumber: 1, pageSize: 1000 }),
-                oscsApi.listOsc({ pageNumber: 1, pageSize: 1000 }),
-                coursesApi.listCourse({ pageNumber: 1, pageSize: 1000 }),
-                teamsApi.listTeam({ pageNumber: 1, pageSize: 1000 }),
+                peopleApi.listPerson(requestParams),
+                companiesApi.apiCompaniesSearchPost(requestParams),
+                oscsApi.listOsc(requestParams),
+                coursesApi.listCourse(requestParams),
+                teamsApi.listTeam(requestParams),
             ]);
             setPeople(peopleRes.data.items ?? []);
             setCompanies(companiesRes.data.items ?? []);
@@ -112,6 +113,7 @@ const DonationPage: React.FC = () => {
 
     useEffect(() => {
         fetchDropdownData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchDonations = async (idFilter: string) => {
@@ -135,11 +137,12 @@ const DonationPage: React.FC = () => {
 
     useEffect(() => {
         fetchDonations(filterId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, rowsPerPage]);
 
     const handleSearch = () => {
         setPage(0);
-        if(page === 0) fetchDonations(filterId);
+        if (page === 0) fetchDonations(filterId);
     };
 
     const handleClearFilters = () => {
@@ -150,6 +153,7 @@ const DonationPage: React.FC = () => {
     
     useEffect(() => {
         if (filterId === '') fetchDonations('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterId]);
 
     const handleAdd = () => {
@@ -197,9 +201,17 @@ const DonationPage: React.FC = () => {
         }
     };
 
-    const handleFormChange = (event: SelectChangeEvent<string | number> | React.ChangeEvent<HTMLInputElement>) => {
+    const handleFormChange = (event: SelectChangeEvent<any> | React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setEditingData(prev => (prev ? { ...prev, [name]: value === '' ? null : value } : null));
+        const numericFields = ['value', 'personId', 'companyId', 'oscId', 'courseId', 'teamId'];
+        
+        let finalValue: string | number | null = value;
+
+        if (numericFields.includes(name)) {
+            finalValue = value === '' || value === null ? null : Number(value);
+        }
+        
+        setEditingData(prev => (prev ? { ...prev, [name]: finalValue } : null));
     };
     
     const handleDoadorTipoChange = (event: SelectChangeEvent<DoadorType>) => {
@@ -268,7 +280,7 @@ const DonationPage: React.FC = () => {
                         </Grid>
                     </Paper>
                     <Box sx={{ mt: 3 }}>
-                        {loading ? <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}><CircularProgress /></Box> : <Table columns={columns} data={donations} page={page} rowsPerPage={rowsPerPage} totalCount={totalCount} onPageChange={setPage} onRowsPerPageChange={setRowsPerPage} onEdit={handleEdit} onDelete={handleDelete} noDataMessage={"Nenhuma doação encontrada."} />}
+                        {loading ? <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}><CircularProgress /></Box> : <Table columns={columns} data={donations} page={page} rowsPerPage={rowsPerPage} totalCount={totalCount} onPageChange={setPage} onRowsPerPageChange={setRowsPerPage} onEdit={handleEdit} onDelete={handleDelete} noDataMessage={donations.length > 0 ? '' : "Nenhuma doação encontrada."} />}
                     </Box>
                     <ConfirmDialog open={openDeleteModal} onClose={() => setOpenDeleteModal(false)} onConfirm={confirmDelete} title='Confirmar Exclusão' message='Deseja realmente excluir esta Doação?' highlightText={`ID: ${donationToDelete?.id}`} confirmLabel='Excluir' cancelLabel='Cancelar' danger/>
                     <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
@@ -285,7 +297,7 @@ const DonationPage: React.FC = () => {
                                         <Select value={uiDoadorTipo} label="Tipo de Doador" onChange={handleDoadorTipoChange}><MenuItem value="Pessoa">Pessoa</MenuItem><MenuItem value="Empresa">Empresa</MenuItem></Select>
                                     </FormControl>
 
-                                    {uiDoadorTipo === 'Pessoa' && <FormControl fullWidth size="small" disabled={!isCreating}><InputLabel>Pessoa (Doador)</InputLabel><Select name="personId" value={editingData.personId ?? ''} label="Pessoa (Doador)" onChange={handleFormChange}>{people.map(p => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}</Select></FormControl>}
+                                    {uiDoadorTipo === 'Pessoa' && <FormControl fullWidth size="small" disabled={!isCreating}><InputLabel>Pessoa (Doador)</InputLabel><Select name="personId" value={editingData.personId ?? ''} label="Pessoa (Doador)" onChange={handleFormChange}>{people.map(p => <MenuItem key={p.personId} value={p.personId}>{p.name}</MenuItem>)}</Select></FormControl>}
                                     {uiDoadorTipo === 'Empresa' && <FormControl fullWidth size="small" disabled={!isCreating}><InputLabel>Empresa (Doador)</InputLabel><Select name="companyId" value={editingData.companyId ?? ''} label="Empresa (Doador)" onChange={handleFormChange}>{companies.map(c => <MenuItem key={c.id} value={c.id}>{c.nome}</MenuItem>)}</Select></FormControl>}
 
                                     <Divider sx={{ my: 1 }} />
@@ -295,7 +307,7 @@ const DonationPage: React.FC = () => {
                                         <Select value={uiDestinoTipo} label="Tipo de Destino" onChange={handleDestinoTipoChange}><MenuItem value="Nenhum">IGESC (Geral)</MenuItem><MenuItem value="OSC">OSC</MenuItem><MenuItem value="Team">Turma</MenuItem></Select>
                                     </FormControl>
 
-                                    {uiDestinoTipo === 'OSC' && <FormControl fullWidth size="small"><InputLabel>OSC</InputLabel><Select name="oscId" value={editingData.oscId ?? ''} label="OSC" onChange={handleFormChange}>{oscs.map(o => <MenuItem key={o.id} value={o.id}>{o.name}</MenuItem>)}</Select></FormControl>}
+                                    {uiDestinoTipo === 'OSC' && <FormControl fullWidth size="small"><InputLabel>OSC</InputLabel><Select name="oscId" value={editingData.oscId ?? ''} label="OSC" onChange={handleFormChange}>{oscs.map(o => <MenuItem key={o.oscId} value={o.oscId}>{o.name}</MenuItem>)}</Select></FormControl>}
                                     {uiDestinoTipo === 'Team' && (<>
                                         <FormControl fullWidth size="small"><InputLabel>Programa</InputLabel><Select name="courseId" value={editingData.courseId ?? ''} label="Programa" onChange={handleFormChange}>{courses.map(c => <MenuItem key={c.courseId} value={c.courseId}>{c.name}</MenuItem>)}</Select></FormControl>
                                         <FormControl fullWidth size="small"><InputLabel>Turma</InputLabel><Select name="teamId" value={editingData.teamId ?? ''} label="Turma" onChange={handleFormChange}>{teams.map(t => <MenuItem key={t.teamId} value={t.teamId}>{t.name}</MenuItem>)}</Select></FormControl>
