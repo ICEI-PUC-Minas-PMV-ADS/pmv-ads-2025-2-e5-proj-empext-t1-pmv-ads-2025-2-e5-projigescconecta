@@ -26,11 +26,9 @@ namespace IgescConecta.API.Common.Extensions
                 options.UseSqlServer(cs, sql =>
                 {
                     // resiliente para nuvem
-                    sql.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(10),
-                        errorNumbersToAdd: null
-                    );
+                    sql.EnableRetryOnFailure(maxRetryCount: 5,
+                                             maxRetryDelay: TimeSpan.FromSeconds(10),
+                                             errorNumbersToAdd: null);
                     sql.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
                 });
             });
@@ -44,26 +42,6 @@ namespace IgescConecta.API.Common.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "IGESC API",
-                    Version = "v1"
-                });
-
-                // 🔧 Schema IDs: preserva nomes curtos usados no front e normaliza os demais
-                c.CustomSchemaIds(t =>
-                {
-                    // manter nomes curtos esperados pelo front
-                    if (t.FullName == "IgescConecta.API.Common.Extensions.Op") return "Op";
-                    if (t.FullName == "IgescConecta.API.Common.Extensions.Filter") return "Filter";
-
-                    // normalização (substitui '+' por '.', remove sufixo de genéricos `1, `2...)
-                    var name = t.FullName ?? t.Name;
-                    name = name.Replace("+", ".");
-                    var backtick = name.IndexOf('`');
-                    return backtick > 0 ? name[..backtick] : name;
-                });
-
                 // Agrupamento por controller/GroupName
                 c.TagActionsBy(api =>
                 {
@@ -142,7 +120,7 @@ namespace IgescConecta.API.Common.Extensions
                 op.SignIn.RequireConfirmedAccount = false;
                 op.User.RequireUniqueEmail = true;
 
-                // (ex.: regras de senha, se quiser ativar futuramente)
+                // (opcional) regras de senha customizadas:
                 // op.Password.RequiredLength = 6;
                 // op.Password.RequireNonAlphanumeric = false;
                 // op.Password.RequireUppercase = true;
