@@ -1005,7 +1005,7 @@ const Osc: React.FC = () => {
                       fullWidth
                       value={createOsc.phoneNumber || ''}
                       onValueChange={(values) =>
-                        setUpdateOsc({ ...createOsc, phoneNumber: values.value })
+                        setCreateOsc({ ...createOsc, phoneNumber: values.value })
                       }
                       format="(##) #####-####"
                       mask="_"
@@ -1040,7 +1040,7 @@ const Osc: React.FC = () => {
                       fullWidth
                       value={createOsc.oscPrimaryDocumment || ''}
                       onValueChange={(values) =>
-                        setUpdateOsc({ ...createOsc, oscPrimaryDocumment: values.value })
+                        setCreateOsc({ ...createOsc, oscPrimaryDocumment: values.value })
                       }
                       format="##.###.###/####-##"
                       mask="_"
@@ -1063,7 +1063,7 @@ const Osc: React.FC = () => {
                       fullWidth
                       value={createOsc.zipCode || ''}
                       onValueChange={(values) =>
-                        setUpdateOsc({ ...createOsc, zipCode: values.value })
+                        setCreateOsc({ ...createOsc, zipCode: values.value })
                       }
                       format="#####-###"
                       mask="_"

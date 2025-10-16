@@ -28,6 +28,12 @@ export interface CreateOriginBusinessCaseRequest {
     'name'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof CreateOriginBusinessCaseRequest
+     */
+    'notes'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof CreateOriginBusinessCaseRequest
      */

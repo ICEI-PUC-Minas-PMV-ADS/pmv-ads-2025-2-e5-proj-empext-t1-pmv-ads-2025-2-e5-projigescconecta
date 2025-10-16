@@ -26,5 +26,11 @@ export interface CreateBeneficiaryRequest {
      * @memberof CreateBeneficiaryRequest
      */
     'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBeneficiaryRequest
+     */
+    'notes'?: string;
 }
 

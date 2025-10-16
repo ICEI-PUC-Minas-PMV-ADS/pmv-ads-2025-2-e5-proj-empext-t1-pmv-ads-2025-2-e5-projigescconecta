@@ -55,6 +55,48 @@ export interface OscViewModel {
      * @type {string}
      * @memberof OscViewModel
      */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
     'zipCode'?: string;
     /**
      * 
