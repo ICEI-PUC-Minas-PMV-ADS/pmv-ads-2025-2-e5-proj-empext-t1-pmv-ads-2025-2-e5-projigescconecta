@@ -45,7 +45,7 @@ import { alpha } from '@mui/material/styles';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
-import { ConfirmDialog } from '@/components/ConfirmDelete';3
+import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
 
 dayjs.locale('pt-br');
@@ -459,7 +459,7 @@ const Osc: React.FC = () => {
     { label: 'Endereço', field: 'address' },
     { label: 'CEP', field: 'zipCode' },
     { label: 'Objetivo', field: 'objective' },
-    { label: 'Publico Atendido', field: 'beneficiariesCount' },
+    { label: 'Público Atendido', field: 'beneficiariesCount' },
   ];
 
   return (
@@ -470,6 +470,8 @@ const Osc: React.FC = () => {
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },
           px: { xs: 2, sm: 3 },
+          maxWidth: '100%',
+          overflowX: 'hidden',
         }}
       >
         <Paper

@@ -84,9 +84,13 @@ const BusinessCase: React.FC = () => {
     const navigate = useNavigate();
 
     const handleDirect = (businessCase: BusinessCase) => {
-    if (!businessCase.businessCaseId) return;
-    navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`);
-};
+        if (!businessCase.businessCaseId) 
+            return;
+
+        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`,{
+            state: {name: businessCase.name}
+        });
+    };
 
     const dialogTitle = () => {
         return isVisualizing ? 'Visualizar Grupo de Causas' : selectedBusinessCase ? 'Editar Grupo de Causas' : 'Adicionar Grupo de Causas';
@@ -304,7 +308,9 @@ const BusinessCase: React.FC = () => {
                     minHeight: '100vh',
                     py: { xs: 2, sm: 3, md: 4 },
                     px: { xs: 2, sm: 3 },
-                }}
+                    maxWidth: '100%',
+                    overflowX: 'hidden',
+                    }}
             >
                 <Paper
                     elevation={0}
@@ -492,7 +498,7 @@ const BusinessCase: React.FC = () => {
                             onClose={() => setOpenDeleteModal(false)}
                             onConfirm={confirmDelete}
                             title='Confirmar exclusão'
-                            message='Deseja realmente excluir este Publico?'
+                            message='Deseja realmente excluir este Público?'
                             highlightText={businessCaseToDelete?.name}
                             confirmLabel='Excluir'
                             cancelLabel='Cancelar'
