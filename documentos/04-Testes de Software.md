@@ -2959,3 +2959,712 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </td>
   </tr>
 </table>
+
+<details>
+  <summary><h2>Testes: 🏛️ OSC</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O01<br>Criar OSC</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve permitir o cadastro de uma nova OSC, exibindo-a corretamente na listagem após a criação.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td width="430">Felipe</td>
+      <td width="100"><strong>Responsável pelo teste</strong></td>
+      <td width="150">Lucas Xavier</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        O cadastro da OSC foi efetuado com sucesso. A nova OSC apareceu corretamente na listagem e os campos obrigatórios foram verificados conforme esperado.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1496" height="585" alt="image" src="https://github.com/user-attachments/assets/7b752d25-dce2-4409-bf0a-7f270b22a38a" />
+</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O02<br>Editar OSC</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve permitir editar as informações da OSC e refletir as alterações corretamente na listagem.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        A edição foi concluída com êxito. As mudanças realizadas foram salvas e apresentadas corretamente na listagem.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1673" height="541" alt="image" src="https://github.com/user-attachments/assets/8b429c48-7b2a-405f-b9e8-6202e399ee62" />
+</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O03<br>Remover OSC</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve excluir a OSC selecionada e atualizar a listagem, removendo-a completamente após confirmação.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        A exclusão ocorreu conforme o esperado. A OSC foi removida da listagem e não reapareceu após a atualização.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1569" height="496" alt="image" src="https://github.com/user-attachments/assets/0c3304b7-deea-4f5b-adc4-ba72e7f892e1" />
+</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O04<br>Criar OSC sem Nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir o cadastro de uma OSC sem o preenchimento do campo obrigatório “Nome”, exibindo mensagem de erro adequada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        O sistema bloqueou corretamente a criação sem nome e apresentou a mensagem de validação informando que o campo é obrigatório.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1324" height="904" alt="image" src="https://github.com/user-attachments/assets/f92462ae-5c76-45a3-abaa-9d1ae2252e6f" />
+</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O05<br>Listar OSCs</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve exibir corretamente todas as OSCs cadastradas, com suporte a filtros e pesquisa por Nome.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        A listagem e o filtro por nome funcionaram corretamente, apresentando os registros de forma consistente.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1605" height="501" alt="image" src="https://github.com/user-attachments/assets/ad438383-2f72-4541-9454-1f9d262a54c3" />
+</td>
+    </tr>
+  </table>
+</details>
+
+<details>
+  <summary><h2>Testes: 🧍‍♂️ Público</h2></summary>
+
+  <table>
+    <tr>
+        <th colspan="6" width="1000">CT-PUB01<br>Criar Público</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir o cadastro de um novo Público, exigindo os campos obrigatórios “Nome” e “Observações”, e exibi-lo corretamente na listagem após a criação.
+        </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Cadastro realizado sem problemas. A listagem exibiu a nova entrada corretamente e os campos obrigatórios foram validados como esperado.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1610" height="509" alt="image" src="https://github.com/user-attachments/assets/93284928-8514-4045-acd4-254153804d42" />
+</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+        <th colspan="6" width="1000">CT-PUB02<br>Editar Público</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a edição das informações de um Público existente e refletir as alterações na listagem após a atualização.
+        </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            A edição do Público foi efetuada com sucesso e as alterações apareceram corretamente na listagem.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1612" height="518" alt="image" src="https://github.com/user-attachments/assets/f9f4546b-c331-45d8-af6e-c0b0af525158" />
+</td>
+    </tr>
+  </table>
+
+  
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-PUB03<br>Remover Público</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve excluir o Público selecionado após confirmação e atualizar a listagem removendo o item.
+        </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Exclusão realizada corretamente. O item sumiu da listagem e não foi mais exibido após atualização.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img width="1596" height="494" alt="image" src="https://github.com/user-attachments/assets/d5405887-51d4-478d-94f1-87d6fb3f679b" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+        <th colspan="6" width="1000">CT-PUB04 - I01<br>Criar Público sem preencher campos obrigatórios</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve impedir o cadastro de um Público caso os campos “Nome” e/ou “Observações” não sejam preenchidos, exibindo mensagem de erro adequada.
+        </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            O sistema validou corretamente os campos obrigatórios, bloqueando o cadastro e exibindo mensagens de erro apropriadas.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1582" height="737" alt="image" src="https://github.com/user-attachments/assets/e6574d10-73d9-4bad-8dd4-309ba8ebaf1c" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-PUB05<br>Listar Públicos</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve exibir corretamente a lista de Públicos cadastrados, com suporte à busca e filtragem por Nome.
+        </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            A listagem de Públicos funcionou bem. Filtros e busca retornaram os resultados esperados.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1662" height="476" alt="image" src="https://github.com/user-attachments/assets/6066447a-4d51-4af2-8477-7c6f4a33ed88" />
+</td>
+    </tr>
+</table>
+
+</details>
+
+<details> <summary><h2>Testes: 💠 Grupo de Causas</h2></summary>
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC01<br>Criar Grupo de Causas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir o cadastro de um novo Grupo de Causas, exigindo o preenchimento do campo “Nome”, e exibi-lo corretamente na listagem após a criação.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Cadastro concluído corretamente. O Grupo de Causas apareceu na listagem e validou o campo obrigatório “Nome”.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1624" height="435" alt="image" src="https://github.com/user-attachments/assets/5dd2402f-44ae-4cd3-9c76-8236e5563072" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC02<br>Editar Grupo de Causas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a edição do nome de um Grupo de Causas existente e refletir a alteração na listagem.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Edição realizada com sucesso. O novo nome do Grupo de Causas foi exibido corretamente na listagem.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1559" height="747" alt="image" src="https://github.com/user-attachments/assets/3122e0c9-be99-4e0a-8bf2-29f567945022" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC03<br>Tentar remover Grupo de Causas com Causas vinculadas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve impedir a exclusão do Grupo de Causas e exibir uma mensagem informando que há Causas vinculadas.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            O sistema bloqueou corretamente a exclusão, exibindo mensagem informativa sobre as Causas vinculadas, conforme esperado.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1659" height="433" alt="image" src="https://github.com/user-attachments/assets/5a8e39b7-b6b0-45a6-ac85-2209a2868d0c" />
+
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC04<br>Remover Grupo de Causas sem Causas vinculadas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a exclusão do Grupo de Causas quando não houver Causas vinculadas, removendo-o corretamente da listagem.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Exclusão realizada corretamente. O Grupo de Causas sem vínculos foi removido da listagem após confirmação.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1648" height="454" alt="image" src="https://github.com/user-attachments/assets/62066720-e183-48f2-aaa2-812bc2beda81" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC05<br>Tentar criar Grupo de Causas sem nome</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve impedir o cadastro de um Grupo de Causas sem preenchimento do campo “Nome”, exibindo mensagem de erro adequada.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Validação de obrigatoriedade do campo “Nome” funcionando corretamente. Sistema bloqueou a criação e exibiu mensagem apropriada.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1536" height="663" alt="image" src="https://github.com/user-attachments/assets/a88f90c0-29f7-4def-901b-3031cb6b59bf" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-GC06<br>Listar Grupos de Causas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve listar corretamente todos os Grupos de Causas cadastrados, exibindo os resultados de forma ordenada e permitindo busca por nome.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Listagem e filtros funcionando conforme esperado. Todos os registros aparecem corretamente.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1669" height="414" alt="image" src="https://github.com/user-attachments/assets/58528a17-7c4d-4e30-8f16-890a90be5eb6" />
+</td>
+    </tr>
+</table>
+
+</details>
+
+<details> <summary><h2>Testes: 🎯 Causa</h2></summary>
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-C01<br>Criar Causa</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a criação de uma nova Causa vinculada automaticamente ao Grupo de Causas selecionado, exigindo o preenchimento do campo “Nome”.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Causa cadastrada com sucesso. O vínculo com o Grupo de Causas foi estabelecido automaticamente e o registro aparece corretamente na listagem.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1546" height="641" alt="image" src="https://github.com/user-attachments/assets/a061157e-ceba-41e2-88ba-417e4bdc2b66" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-C02<br>Editar Causa</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a edição do nome de uma Causa existente e refletir a alteração na listagem da página.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Alteração da Causa realizada com êxito. A listagem refletiu o novo nome corretamente.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1743" height="487" alt="image" src="https://github.com/user-attachments/assets/38790b4e-cef6-4031-bc7e-2396e52379ad" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-C03<br>Remover Causa</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve permitir a exclusão de uma Causa e removê-la da listagem, mantendo o Grupo de Causas associado inalterado.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Exclusão de Causa realizada com sucesso. O Grupo de Causas continua intacto e outras causas não foram afetadas.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1703" height="545" alt="image" src="https://github.com/user-attachments/assets/90ee5033-36ab-44aa-a661-86445c19cb2c" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-C04<br>Tentar criar Causa sem nome</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve impedir o cadastro de uma Causa sem preenchimento do campo “Nome”, exibindo mensagem de erro adequada.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            O sistema bloqueou a criação da Causa corretamente e apresentou mensagem sobre a obrigatoriedade do campo “Nome”.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1520" height="682" alt="image" src="https://github.com/user-attachments/assets/90c8817c-038d-43bc-ba92-ba7a8e6744ed" />
+</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th colspan="6" width="1000">CT-C05<br>Listar Causas</th>
+    </tr>
+    <tr>
+        <td width="170"><strong>Critérios de êxito</strong></td>
+        <td colspan="5">
+            O sistema deve exibir corretamente todas as Causas cadastradas para o Grupo de Causas selecionado, permitindo filtragem por nome.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+        <td>Felipe van Oorschot</td>
+        <td><strong>Responsável pelo teste</strong></td>
+        <td>Lucas Xavier</td>
+        <td><strong>Data do Teste</strong></td>
+        <td>16/10/2025</td>
+    </tr>
+    <tr>
+        <td><strong>Comentário</strong></td>
+        <td colspan="5">
+            Listagem de Causas exibida corretamente, com filtros funcionando e registros visíveis conforme esperado.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+        <td colspan="6" align="center"><img width="1761" height="495" alt="image" src="https://github.com/user-attachments/assets/a81a0c87-2bd6-4242-a829-30327476f12e" />
+</td>
+    </tr>
+</table>
+
+</details>
