@@ -3717,7 +3717,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1767" height="475" alt="image" src="https://github.com/user-attachments/assets/8395ab77-8bc8-46bb-be72-3fc5278880bf" />
+</td>
     </tr>
   </table>
 
@@ -3745,7 +3746,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1770" height="482" alt="image" src="https://github.com/user-attachments/assets/416412b7-c0d7-4ee8-8ddf-9d5ca637c341" />
+</td>
     </tr>
   </table>
 
@@ -3773,7 +3775,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1770" height="471" alt="image" src="https://github.com/user-attachments/assets/ed6eb280-0bf5-4173-b6ff-0ab96e6facc0" />
+</td>
     </tr>
   </table>
 
@@ -3801,7 +3804,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1309" height="703" alt="image" src="https://github.com/user-attachments/assets/02a038b1-6372-4a21-8945-4c4aa9d4aa4a" />
+</td>
     </tr>
   </table>
 
@@ -3829,7 +3833,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1308" height="701" alt="image" src="https://github.com/user-attachments/assets/9d36e483-72d6-4bce-bb0a-0a7ea2815743" />
+</td>
     </tr>
   </table>
 
@@ -3862,7 +3867,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1765" height="472" alt="image" src="https://github.com/user-attachments/assets/f5c89a9f-4cb7-4054-9bb3-b3f50c82d93a" />
+</td>
     </tr>
   </table>
 
@@ -3890,7 +3896,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1302" height="699" alt="image" src="https://github.com/user-attachments/assets/dd6a832b-e8ec-464d-855a-2cc5d3d1cfd0" />
+</td>
     </tr>
   </table>
 
@@ -3918,7 +3925,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1755" height="469" alt="image" src="https://github.com/user-attachments/assets/937c5237-16fe-4bcb-b953-c692b3916077" />
+</td>
     </tr>
   </table>
 
@@ -3946,7 +3954,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1308" height="701" alt="image" src="https://github.com/user-attachments/assets/2d71412e-5e1b-415f-902d-5d0f34cfe9e6" />
+</td>
     </tr>
   </table>
 
@@ -3974,7 +3983,8 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
       <td colspan="6" align="center"><strong>Evidência</strong></td>
     </tr>
     <tr>
-      <td colspan="6" align="center"><img alt="image" src="" /></td>
+      <td colspan="6" align="center"><img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/56a03b8d-14a3-4ec4-b77b-2f0a15c34cd3" />
+</td>
     </tr>
   </table>
 
