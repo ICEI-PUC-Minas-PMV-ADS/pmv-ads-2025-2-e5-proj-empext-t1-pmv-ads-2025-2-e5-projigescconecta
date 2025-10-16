@@ -169,7 +169,11 @@ const CompanyPage: React.FC = () => {
   const handleClearFilters = () => {
     setFilterText('');
     setStatusFilter('ativas');
-    setPage(0);
+    if (page !== 0) {
+        setPage(0);
+    } else if (filterText || statusFilter !== 'ativas') {
+        fetchCompanies();
+    }
   };
 
   const handleAdd = () => {
@@ -397,7 +401,7 @@ const CompanyPage: React.FC = () => {
                 onEdit={handleEdit}
                 onView={handleView}
                 onDelete={handleToggleActive}
-                noDataMessage={'Nenhuma empresa encontrada.'}
+                noDataMessage={companies.length > 0 ? '' : 'Nenhuma empresa encontrada.'}
               />
             )}
           </Box>

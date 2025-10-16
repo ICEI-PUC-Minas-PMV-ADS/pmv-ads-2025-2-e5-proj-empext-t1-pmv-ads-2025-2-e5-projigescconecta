@@ -21,17 +21,22 @@ namespace IgescConecta.API.Features.Courses.DeleteCourse
 
         public async Task<Result<int, ValidationFailed>> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
         {
-            var course = await _context.Courses
-
-                .FirstOrDefaultAsync(c => c.Id == request.CourseId && c.IsDeleted == false, cancellationToken);
+            var course = await _context.Courses.FindAsync(request.CourseId);
 
             if (course == null)
             {
-                return new ValidationFailed(new[] { "Curso não encontrado ou já está excluído." });
+                return new ValidationFailed(new[] { "Programa não encontrado ou já está excluído." });
             }
 
-            course.IsDeleted = true;
+            var hasTeams = await _context.Teams
+                .AnyAsync(t => t.CourseId == request.CourseId, cancellationToken);
 
+            if (hasTeams)
+            {
+                return new ValidationFailed(new[] { "Desvincule as Turmas desse Programa antes de excluí-lo." });
+            }
+
+            _context.Courses.Remove(course);
             await _context.SaveChangesAsync(cancellationToken);
 
             return course.Id;
