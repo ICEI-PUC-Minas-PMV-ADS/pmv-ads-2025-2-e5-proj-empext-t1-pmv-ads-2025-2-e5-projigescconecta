@@ -459,7 +459,7 @@ const Osc: React.FC = () => {
     { label: 'Endereço', field: 'address' },
     { label: 'CEP', field: 'zipCode' },
     { label: 'Objetivo', field: 'objective' },
-    { label: 'Publico Atendido', field: 'beneficiariesCount' },
+    { label: 'Público Atendido', field: 'beneficiariesCount' },
   ];
 
   return (

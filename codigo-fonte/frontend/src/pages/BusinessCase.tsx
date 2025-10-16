@@ -494,7 +494,7 @@ const BusinessCase: React.FC = () => {
                             onClose={() => setOpenDeleteModal(false)}
                             onConfirm={confirmDelete}
                             title='Confirmar exclusão'
-                            message='Deseja realmente excluir este Publico?'
+                            message='Deseja realmente excluir este Público?'
                             highlightText={businessCaseToDelete?.name}
                             confirmLabel='Excluir'
                             cancelLabel='Cancelar'
