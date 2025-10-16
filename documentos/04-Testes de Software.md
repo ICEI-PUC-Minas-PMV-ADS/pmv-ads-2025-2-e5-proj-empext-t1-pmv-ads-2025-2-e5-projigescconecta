@@ -1819,7 +1819,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/d3d1ee29-f083-4502-a754-1bcdc27b1e08" />
+</td>
   </tr>
 </table>
 
@@ -1849,7 +1850,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1808" height="495" alt="image" src="https://github.com/user-attachments/assets/628da359-cb8e-4ec4-8668-bf442b9b3830" />
+</td>
   </tr>
 </table>
 
@@ -1879,7 +1881,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1835" height="488" alt="image" src="https://github.com/user-attachments/assets/87fd76b2-7d34-4e22-af4c-f387a7c6c86a" />
+</td>
   </tr>
 </table>
 
@@ -1909,7 +1912,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1462" height="827" alt="image" src="https://github.com/user-attachments/assets/05dc0813-49d6-4374-b263-7fa37c3ee920" />
+</td>
   </tr>
 </table>
 
@@ -1939,7 +1943,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1458" height="784" alt="image" src="https://github.com/user-attachments/assets/e3e8ce80-85e8-4942-8583-46b1b076bff7" />
+</td>
   </tr>
 </table>
 
@@ -1974,7 +1979,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1844" height="489" alt="image" src="https://github.com/user-attachments/assets/b7c1fc18-27ec-4c24-aeaa-0714a7c732ee" />
+</td>
   </tr>
 </table>
 
@@ -2004,7 +2010,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1852" height="484" alt="image" src="https://github.com/user-attachments/assets/763932a8-d32e-4951-b829-f9936487a004" />
+</td>
   </tr>
 </table>
 
@@ -2034,7 +2041,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1850" height="493" alt="image" src="https://github.com/user-attachments/assets/fe2c208a-bd0b-4927-96d2-3f07ee5df6ea" />
+</td>
   </tr>
 </table>
 
@@ -2064,7 +2072,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1459" height="788" alt="image" src="https://github.com/user-attachments/assets/e102447f-c597-4a0b-bc1f-8df4fb1f1da8" />
+</td>
   </tr>
 </table>
 
@@ -2094,7 +2103,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1450" height="782" alt="image" src="https://github.com/user-attachments/assets/51eb044b-76c2-4f11-a3d8-78cd9900f92a" />
+</td>
   </tr>
 </table>
 
@@ -2129,7 +2139,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1839" height="486" alt="image" src="https://github.com/user-attachments/assets/84770ea9-8c93-4125-bd3f-e37c874116f8" />
+</td>
   </tr>
 </table>
 
@@ -2159,7 +2170,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1832" height="484" alt="image" src="https://github.com/user-attachments/assets/0421dd7d-e084-49b1-b363-c64bb331ea55" />
+</td>
   </tr>
 </table>
 
@@ -2189,7 +2201,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1712" height="307" alt="image" src="https://github.com/user-attachments/assets/514518d8-81a4-4e46-b04b-fa4f4e6d2df7" />
+</td>
   </tr>
 </table>
 
@@ -2219,7 +2232,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1577" height="417" alt="image" src="https://github.com/user-attachments/assets/ee10800d-cbf1-4280-b752-53e288058965" />
+</td>
   </tr>
 </table>
 
@@ -2249,7 +2263,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1448" height="775" alt="image" src="https://github.com/user-attachments/assets/77f18259-83e7-4d53-bfda-8a1048956ea7" />
+</td>
   </tr>
 </table>
 
@@ -2279,7 +2294,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1448" height="781" alt="image" src="https://github.com/user-attachments/assets/f0f59c3d-6afe-4af6-acb7-157b271d3c18" />
+</td>
   </tr>
 </table>
 
@@ -2314,7 +2330,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1786" height="943" alt="image" src="https://github.com/user-attachments/assets/c314e0af-679f-4066-9034-cae5b59e14ef" />
+</td>
   </tr>
 </table>
 
@@ -2344,7 +2361,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1765" height="467" alt="image" src="https://github.com/user-attachments/assets/74f1b1d1-578a-4304-9465-a22910f7e72b" />
+</td>
   </tr>
 </table>
 
@@ -2374,7 +2392,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1761" height="461" alt="image" src="https://github.com/user-attachments/assets/45a0af31-b02e-4177-a046-541eb83f4bdb" />
+</td>
   </tr>
 </table>
 
@@ -2404,7 +2423,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1254" height="672" alt="image" src="https://github.com/user-attachments/assets/8bf024d2-2c65-49fe-ba4d-692ef4194186" />
+</td>
   </tr>
 </table>
 
@@ -2434,7 +2454,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img alt="image" src="" /></td>
+    <td colspan="6" align="center"><img width="1441" height="771" alt="image" src="https://github.com/user-attachments/assets/a9db52fa-2933-4c30-b648-902dade4658a" />
+</td>
   </tr>
 </table>
 
