@@ -46,7 +46,8 @@ interface Course {
 }
 
 const Course: React.FC = () => {
-  // ==================== ESTADOS REATIVOS ====================
+  /* ------------------------------ Variáveis ------------------------------ */
+
   const [search, setSearch] = useState('');
   const [courses, setCourses] = useState<Course[]>([]);
   const [page, setPage] = useState(0);
@@ -65,7 +66,6 @@ const Course: React.FC = () => {
     loading: false,
   });
 
-  // ==================== COMPUTED/MEMOIZED ====================
   const apiInstance = new CoursesApi(apiConfig);
 
   const dialogTitle = () => {
@@ -82,7 +82,8 @@ const Course: React.FC = () => {
     { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
   ];
 
-  // ==================== FUNCTIONS ====================
+  /* --------------------------------- Funções -------------------------------- */
+
   const fetchCourses = async (noFilter?) => {
     try {
       setLoading(true);
@@ -116,7 +117,7 @@ const Course: React.FC = () => {
       }
 
       setNoDataMessage('');
-      setCourses(data.items || []);
+      setCourses((data.items as Course[]) || []);
       setTotalCount(data.totalItems || 0);
     } catch (error) {
       console.error('Erro ao carregar programas:', error);
@@ -172,6 +173,14 @@ const Course: React.FC = () => {
     });
   };
 
+  const handleCloseConfirmDialog = () => {
+    setConfirmDialog({
+      open: false,
+      course: null,
+      loading: false,
+    });
+  };
+
   const handleConfirmDelete = async () => {
     if (!confirmDialog.course) return;
 
@@ -181,20 +190,18 @@ const Course: React.FC = () => {
       await apiInstance.deleteCourse(id);
       toast.success(`Programa "${confirmDialog.course.name}" excluído com sucesso!`);
       handleCloseConfirmDialog();
-      fetchCourses();
-    } catch (error) {
+      fetchCourses([]);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.errors?.join(', ') ||
+        'Erro ao excluir programa';
+
+      toast.error(message);
+
       console.error('Erro ao excluir programa:', error);
-      toast.error('Erro ao excluir programa');
       setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
-  };
-
-  const handleCloseConfirmDialog = () => {
-    setConfirmDialog({
-      open: false,
-      course: null,
-      loading: false,
-    });
   };
 
   const handleSave = async () => {
@@ -225,7 +232,7 @@ const Course: React.FC = () => {
       }
 
       handleCloseModal();
-      fetchCourses();
+      fetchCourses([]);
     } catch (error) {
       console.error('Erro ao salvar programa:', error);
       toast.error('Erro ao salvar programa');
@@ -243,13 +250,12 @@ const Course: React.FC = () => {
     }, 300);
   };
 
-  // ==================== EFFECTS (onMount/watch) ====================
   useEffect(() => {
     fetchCourses();
   }, [page, rowsPerPage]);
 
-  // ==================== RENDER ====================
   return (
+    /* -------------------------------- Template -------------------------------- */
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
         maxWidth="xl"
@@ -257,6 +263,8 @@ const Course: React.FC = () => {
           minHeight: '100vh',
           py: { xs: 2, sm: 3, md: 4 },
           px: { xs: 2, sm: 3 },
+          maxWidth: '100%',
+          overflowX: 'hidden',
         }}
       >
         <Paper
@@ -267,283 +275,284 @@ const Course: React.FC = () => {
             overflow: 'hidden',
             border: '1px solid',
             borderColor: alpha('#1E4EC4', 0.1),
+            p: { xs: 2, sm: 3, md: 4 },
           }}
         >
-          <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-            <TitleAndButtons title="Listar Programas" onAdd={handleAdd} addLabel="Novo Programa" />
+          <TitleAndButtons title="Listar Programas" onAdd={handleAdd} addLabel="Novo Programa" />
 
-            {/* Campo de pesquisa + botão */}
-            <Paper
-              elevation={0}
+          {/* Campo de pesquisa + botão */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 2, sm: 2.5, md: 3 },
+              mb: 3,
+              backgroundColor: alpha('#1E4EC4', 0.02),
+              border: '1px solid',
+              borderColor: alpha('#1E4EC4', 0.1),
+              borderRadius: 2,
+            }}
+          >
+            <Box
               sx={{
-                p: { xs: 2, sm: 2.5, md: 3 },
-                mb: 3,
-                backgroundColor: alpha('#1E4EC4', 0.02),
-                border: '1px solid',
-                borderColor: alpha('#1E4EC4', 0.1),
-                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                mb: 2.5,
               }}
             >
-              <Box
+              <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
+              <Typography
+                variant="h6"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  mb: 2.5,
+                  color: '#1a1a2e',
+                  fontWeight: 600,
+                  fontSize: '1.1rem',
                 }}
               >
-                <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: '#1a1a2e',
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                  }}
-                >
-                  Filtro de Busca
-                </Typography>
-                {search && (
-                  <Chip
-                    label="Filtros ativos"
-                    size="small"
-                    sx={{
-                      ml: 1,
-                      bgcolor: alpha('#1E4EC4', 0.1),
-                      color: '#1E4EC4',
-                      fontWeight: 600,
-                      fontSize: '0.75rem',
-                    }}
-                  />
-                )}
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-                <TextField
-                  label="Nome do Programa"
-                  variant="outlined"
-                  value={search}
+                Filtro de Busca
+              </Typography>
+              {search && (
+                <Chip
+                  label="Filtros ativos"
                   size="small"
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyUp={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSearch();
-                    }
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  startIcon={<SearchIcon />}
-                  onClick={handleSearch}
                   sx={{
-                    bgcolor: '#1E4EC4',
-                    color: 'white',
-                    fontWeight: 600,
-                    px: 3,
-                    py: 1,
-                    borderRadius: 1.5,
-                    textTransform: 'none',
-                    fontSize: '0.95rem',
-                    boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                    '&:hover': {
-                      bgcolor: '#1640a8',
-                      boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                      transform: 'translateY(-1px)',
-                    },
-                    transition: 'all 0.2s ease',
-                    flex: { xs: 1, sm: 'initial' },
-                  }}
-                >
-                  Buscar
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<ClearIcon />}
-                  onClick={handleClearFilters}
-                  sx={{
-                    borderColor: alpha('#1E4EC4', 0.3),
+                    ml: 1,
+                    bgcolor: alpha('#1E4EC4', 0.1),
                     color: '#1E4EC4',
                     fontWeight: 600,
-                    px: 4,
-                    py: 1,
-                    borderRadius: 1.5,
-                    textTransform: 'none',
-                    fontSize: '0.95rem',
-                    '&:hover': {
-                      borderColor: '#1E4EC4',
-                      bgcolor: alpha('#1E4EC4', 0.05),
-                      borderWidth: 1.5,
-                    },
-                    transition: 'all 0.2s ease',
+                    fontSize: '0.75rem',
                   }}
-                >
-                  Limpar Filtros
-                </Button>
-              </Box>
-            </Paper>
-
-            {/* Tabela */}
-            <Box sx={{ flexGrow: 1 }}>
-              {loading ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 200,
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <Table<Course>
-                  columns={columns}
-                  data={courses}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  totalCount={totalCount}
-                  onPageChange={setPage}
-                  onRowsPerPageChange={setRowsPerPage}
-                  onView={handleView}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  noDataMessage={noDataMessage}
                 />
               )}
             </Box>
 
-            {/* Modal de Criação/Edição */}
-            <Dialog
-              open={openModal}
-              onClose={handleCloseModal}
-              maxWidth="sm"
-              fullWidth
-              PaperProps={{
-                sx: {
-                  borderRadius: 3,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                },
-              }}
-            >
-              <DialogTitle
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+              <TextField
+                label="Nome do Programa"
+                variant="outlined"
+                value={search}
+                size="small"
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
+              />
+              <Button
+                variant="contained"
+                startIcon={<SearchIcon />}
+                onClick={handleSearch}
                 sx={{
-                  bgcolor: alpha('#1E4EC4', 0.03),
-                  borderBottom: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  py: 2.5,
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
                   px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                  boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  transition: 'all 0.2s ease',
+                  flex: { xs: 1, sm: 'initial' },
                 }}
               >
-                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                  {dialogTitle()}
-                </Typography>
-              </DialogTitle>
-              <DialogContent sx={{ p: 3, mt: 1 }}>
-                <TextField
-                  autoFocus={!isVisualizing}
-                  margin="dense"
-                  label="Nome do Programa"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  value={courseName}
-                  onChange={(e) => setCourseName(e.target.value)}
-                  onKeyUp={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSave();
-                    }
-                  }}
-                  slotProps={{
-                    input: {
-                      readOnly: isVisualizing,
-                    },
-                  }}
-                  sx={isVisualizing ? { pointerEvents: 'none' } : {}}
-                />
-              </DialogContent>
-              <DialogActions>
-                {isVisualizing ? (
-                  <Button
-                    variant="contained"
-                    startIcon={<ArrowBackIcon />}
-                    onClick={handleCloseModal}
-                    sx={{
-                      bgcolor: '#6b7280',
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Voltar
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      onClick={handleCloseModal}
-                      disabled={modalLoading}
-                      sx={{
-                        color: '#6b7280',
-                        fontWeight: 600,
-                        px: 3,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
-                      }}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      onClick={handleSave}
-                      variant="contained"
-                      disabled={modalLoading}
-                      startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                      sx={{
-                        bgcolor: '#1E4EC4',
-                        color: 'white',
-                        fontWeight: 600,
-                        px: 3,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                        '&:hover': {
-                          bgcolor: '#1640a8',
-                          boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                          transform: 'translateY(-1px)',
-                        },
-                        '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      Salvar
-                    </Button>
-                  </>
-                )}
-              </DialogActions>
-            </Dialog>
+                Buscar
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ClearIcon />}
+                onClick={handleClearFilters}
+                sx={{
+                  borderColor: alpha('#1E4EC4', 0.3),
+                  color: '#1E4EC4',
+                  fontWeight: 600,
+                  px: 4,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    borderColor: '#1E4EC4',
+                    bgcolor: alpha('#1E4EC4', 0.05),
+                    borderWidth: 1.5,
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Limpar Filtros
+              </Button>
+            </Box>
+          </Paper>
 
-            {/* Modal de Confirmação de Exclusão */}
-            <ConfirmDialog
-              open={confirmDialog.open}
-              title="Excluir Programa"
-              message="Tem certeza que deseja excluir o programa"
-              highlightText={confirmDialog.course?.name}
-              confirmLabel="Excluir"
-              cancelLabel="Cancelar"
-              onClose={handleCloseConfirmDialog}
-              onConfirm={handleConfirmDelete}
-              loading={confirmDialog.loading}
-              danger={true}
-            />
+          {/* Tabela */}
+          <Box sx={{ flexGrow: 1 }}>
+            {loading ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Table<Course>
+                columns={columns}
+                data={courses}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                totalCount={totalCount}
+                onPageChange={setPage}
+                onRowsPerPageChange={setRowsPerPage}
+                onView={handleView}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                noDataMessage={noDataMessage}
+              />
+            )}
           </Box>
         </Paper>
       </Container>
+
+      {/* --------------------------------- Modais --------------------------------- */}
+
+      {/* ------------------------- Criação/Edição ------------------------ */}
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            bgcolor: alpha('#1E4EC4', 0.03),
+            borderBottom: '1px solid',
+            borderColor: alpha('#1E4EC4', 0.1),
+            py: 2.5,
+            px: 3,
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
+            {dialogTitle()}
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ p: 3, mt: 1 }}>
+          <TextField
+            autoFocus={!isVisualizing}
+            margin="dense"
+            label="Nome do Programa"
+            type="text"
+            fullWidth
+            variant="outlined"
+            value={courseName}
+            onChange={(e) => setCourseName(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                handleSave();
+              }
+            }}
+            slotProps={{
+              input: {
+                readOnly: isVisualizing,
+              },
+            }}
+            sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+          />
+        </DialogContent>
+        <DialogActions>
+          {isVisualizing ? (
+            <Button
+              variant="contained"
+              startIcon={<ArrowBackIcon />}
+              onClick={handleCloseModal}
+              sx={{
+                bgcolor: '#6b7280',
+                color: 'white',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 1.5,
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                transition: 'all 0.2s ease',
+              }}
+            >
+              Voltar
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={handleCloseModal}
+                disabled={modalLoading}
+                sx={{
+                  color: '#6b7280',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSave}
+                variant="contained"
+                disabled={modalLoading}
+                startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                sx={{
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Salvar
+              </Button>
+            </>
+          )}
+        </DialogActions>
+      </Dialog>
+
+      {/* -------------------- Confirmação de Exclusão -------------------- */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        title="Excluir Programa"
+        message="Tem certeza que deseja excluir o programa"
+        highlightText={confirmDialog.course?.name}
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        onClose={handleCloseConfirmDialog}
+        onConfirm={handleConfirmDelete}
+        loading={confirmDialog.loading}
+        danger={true}
+      />
     </LocalizationProvider>
   );
 };

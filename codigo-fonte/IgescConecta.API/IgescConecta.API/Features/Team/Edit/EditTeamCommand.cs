@@ -38,7 +38,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { "Time não encontrado ou excluído." });
+                return new ValidationFailed(new[] { "Turma não encontrado ou excluída." });
             }
 
             var startDate = request.Start ?? team.Start;
@@ -55,7 +55,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                     .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
 
                 if (!programExists)
-                    return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
+                    return new ValidationFailed(new[] { $"Projeto com ID {request.ProjectProgramId} não encontrado." });
             }
 
             if (request.CourseId.HasValue)
@@ -64,7 +64,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                     .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
 
                 if (!courseExists)
-                    return new ValidationFailed(new[] { $"Curso com ID {request.CourseId} não encontrado." });
+                    return new ValidationFailed(new[] { $"Projeto com ID {request.CourseId} não encontrado." });
             }
 
             if (request.PersonTeamsIds != null && request.PersonTeamsIds.Any())

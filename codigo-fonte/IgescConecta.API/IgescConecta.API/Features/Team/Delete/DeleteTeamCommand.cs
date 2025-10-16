@@ -21,12 +21,11 @@ namespace IgescConecta.API.Features.Teams.DeleteTeam
 
         public async Task<Result<int, ValidationFailed>> Handle(DeleteTeamCommand request, CancellationToken cancellationToken)
         {
-            var team = await _context.Teams
-                .FirstOrDefaultAsync(t => t.Id == request.TeamId, cancellationToken);
+            var team = await _context.Teams.FindAsync(request.TeamId);
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { "Time não encontrado ou já excluído." });
+                return new ValidationFailed(new[] { "Turma não encontrado ou já excluída." });
             }
 
             _context.Teams.Remove(team);

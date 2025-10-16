@@ -304,7 +304,9 @@ const BusinessCase: React.FC = () => {
                     minHeight: '100vh',
                     py: { xs: 2, sm: 3, md: 4 },
                     px: { xs: 2, sm: 3 },
-                }}
+                    maxWidth: '100%',
+                    overflowX: 'hidden',
+                    }}
             >
                 <Paper
                     elevation={0}
@@ -492,7 +494,7 @@ const BusinessCase: React.FC = () => {
                             onClose={() => setOpenDeleteModal(false)}
                             onConfirm={confirmDelete}
                             title='Confirmar exclusão'
-                            message='Deseja realmente excluir este Publico?'
+                            message='Deseja realmente excluir este Público?'
                             highlightText={businessCaseToDelete?.name}
                             confirmLabel='Excluir'
                             cancelLabel='Cancelar'
