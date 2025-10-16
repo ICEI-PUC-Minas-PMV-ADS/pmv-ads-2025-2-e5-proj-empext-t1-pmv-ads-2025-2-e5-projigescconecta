@@ -3689,3 +3689,294 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </table>
 
 </details>
+
+<details>
+  <summary><h2>Testes: 🎓 Programa</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P01<br>Criar Programa</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar o Programa e exibi-lo corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Cadastro realizado com sucesso, Programa exibido corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P02<br>Editar Programa</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar e exibir o novo nome do Programa corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição realizada com sucesso. Alterações refletidas corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P03<br>Remover Programa</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover o Programa e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão realizada com sucesso. Programa removido da listagem corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P04<br>Criar Programa sem nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Sistema bloqueou corretamente a criação sem nome, exibindo mensagem de validação.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P05<br>Listar Programas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista de Programas corretamente, incluindo resultados filtrados por Nome.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtros funcionando corretamente, exibindo os registros de forma consistente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+</details>
+
+<details>
+  <summary><h2>Testes: 👥 Turma</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-T01<br>Criar Turma</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar a Turma e exibi-la corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Cadastro realizado com sucesso. Turma exibida corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-T02<br>Criar Turma sem Programa associado</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Programa é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Sistema bloqueou corretamente a criação sem Programa associado, exibindo mensagem de validação.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-T03<br>Editar Turma</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar e exibir as informações da Turma corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição realizada com sucesso. Alterações refletidas corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-T04<br>Excluir Turma</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover a Turma e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão realizada com sucesso. Turma removida da listagem corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-T05<br>Listar Turmas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista de Turmas corretamente, incluindo resultados filtrados conforme o parâmetro informado.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Lucas Xavier</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Felipe van Oorschot</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>16/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtros funcionando corretamente, exibindo os registros de forma consistente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><img alt="image" src="" /></td>
+    </tr>
+  </table>
+
+</details>
+
