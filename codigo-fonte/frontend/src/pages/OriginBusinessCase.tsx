@@ -45,8 +45,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 dayjs.locale('pt-br');
 
@@ -80,7 +79,9 @@ const OriginBusinessCase: React.FC = () => {
 
     const originBusinessCasesApi = new OriginsBusinessCasesApi(apiConfig);
     const navigate = useNavigate();
+    const locationName = useLocation();
 
+    const { name } = locationName.state || {};
 
     const dialogTitle = () => {
         return isVisualizing ? 'Visualizar Causa' : updateOriginBusinessCase ? 'Editar Causa' : 'Adicionar Causa';
@@ -101,7 +102,7 @@ const OriginBusinessCase: React.FC = () => {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
-                businessCaseId: businessCaseId!
+                businessCaseId: Number(businessCaseId!)
             };
 
             const { data } = await originBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId(listOriginBusinessCaseRequest);
@@ -341,8 +342,12 @@ const OriginBusinessCase: React.FC = () => {
                             Voltar
                         </Button>
 
+                        <div style={{ marginBottom: '1rem' }}>
+                        <span style={{ color: '#555' }}>Grupo de Causas</span> ›
+                        <span style={{ color: '#555' }}> Grupo: {name} </span>
+                        </div>
 
-                        <TitleAndButtons title="Lista de Causa" onAdd={handleAdd} addLabel="Novo Causa" />
+                        <TitleAndButtons title="Lista de Causas" onAdd={handleAdd} addLabel="Nova Causa" />
 
                         {/* Filtro por nome de Causa */}
                         <Paper

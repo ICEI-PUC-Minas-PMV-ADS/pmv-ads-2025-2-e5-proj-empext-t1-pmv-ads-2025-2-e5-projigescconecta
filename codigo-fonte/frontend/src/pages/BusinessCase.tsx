@@ -84,9 +84,13 @@ const BusinessCase: React.FC = () => {
     const navigate = useNavigate();
 
     const handleDirect = (businessCase: BusinessCase) => {
-    if (!businessCase.businessCaseId) return;
-    navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`);
-};
+        if (!businessCase.businessCaseId) 
+            return;
+
+        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`,{
+            state: {name: businessCase.name}
+        });
+    };
 
     const dialogTitle = () => {
         return isVisualizing ? 'Visualizar Grupo de Causas' : selectedBusinessCase ? 'Editar Grupo de Causas' : 'Adicionar Grupo de Causas';
