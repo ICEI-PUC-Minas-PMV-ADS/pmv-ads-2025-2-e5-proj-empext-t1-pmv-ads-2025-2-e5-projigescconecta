@@ -80,6 +80,7 @@ export type Column<T> = {
   label: string;
   field: keyof T;
   align?: 'left' | 'right' | 'center';
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 };
 
 type TableProps<T> = {
@@ -234,7 +235,7 @@ function Table<T extends { [key: string]: any }>({
                         color: '#374151',
                       }}
                     >
-                      {row[col.field]}
+                      {col.render ? col.render(row[col.field], row) : row[col.field]}
                     </TableCell>
                   ))}
 

@@ -409,16 +409,12 @@ const Osc: React.FC = () => {
     const requiredFields = [
       'name',
       'corporateName',
-      'oscPrimaryDocumment',
       'objective',
       'address',
       'neighborhood',
       'city',
       'state',
       'phoneNumber',
-      'email',
-      'webUrl',
-      'socialMedia',
       'zipCode'
     ];
 
@@ -455,9 +451,23 @@ const Osc: React.FC = () => {
     { label: 'ID', field: 'oscId' },
     { label: 'Nome', field: 'name' },
     { label: 'Razão Social', field: 'corporateName' },
-    { label: 'CNPJ', field: 'oscPrimaryDocumment' },
+    {
+      label: 'CNPJ',
+      field: 'oscPrimaryDocumment',
+      render: (value) =>
+        typeof value === 'string'
+          ? value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5')
+          : '',
+    },
     { label: 'Endereço', field: 'address' },
-    { label: 'CEP', field: 'zipCode' },
+    {
+      label: 'CEP',
+      field: 'zipCode',
+      render: (value) =>
+        typeof value === 'string'
+          ? value.replace(/^(\d{5})(\d{3})$/, '$1-$2')
+          : '',
+    },
     { label: 'Objetivo', field: 'objective' },
     { label: 'Público Atendido', field: 'beneficiariesCount' },
   ];
@@ -664,7 +674,7 @@ const Osc: React.FC = () => {
               confirmLabel='Excluir'
               cancelLabel='Cancelar'
               danger
-              />
+            />
 
             {/* Modal */}
             <Dialog
@@ -701,19 +711,34 @@ const Osc: React.FC = () => {
                       <Typography variant="h6" gutterBottom>Detalhes da OSC</Typography>
                       <Divider sx={{ mb: 2 }} />
                       <Typography><strong>ID:</strong> {selectedOsc.oscId}</Typography>
-                      <Typography><strong>Nome:</strong> {selectedOsc.name}</Typography>
+                      <Typography><strong>Nome:</strong> <PatternFormat
+                        displayType="text"
+                        format="(##) #####-####"
+                        value={selectedOsc.phoneNumber || ''}
+                        mask="_"
+                      /></Typography>
+                      <Typography><strong>Razão Social:</strong> {selectedOsc.corporateName}</Typography>
+                      <Typography><strong>CNPJ:</strong> <PatternFormat
+                        displayType="text"
+                        format="##.###.###/####-##"
+                        value={selectedOsc.oscPrimaryDocumment || ''}
+                        mask="_"
+                      /></Typography>
                       <Typography><strong>Telefone:</strong> {selectedOsc.phoneNumber}</Typography>
                       <Typography><strong>Email:</strong> {selectedOsc.email}</Typography>
                       <Typography><strong>Website:</strong> {selectedOsc.webUrl}</Typography>
                       <Typography><strong>Mídia Social:</strong> {selectedOsc.socialMedia}</Typography>
-                      <Typography><strong>Razão Social:</strong> {selectedOsc.corporateName}</Typography>
                       <Typography><strong>Objetivo:</strong> {selectedOsc.objective}</Typography>
-                      <Typography><strong>CEP:</strong> {selectedOsc.zipCode}</Typography>
-                      <Typography><strong>Endereço:</strong> {selectedOsc.address}</Typography>
-                      <Typography><strong>Bairro:</strong> {selectedOsc.neighborhood}</Typography>
-                      <Typography><strong>Cidade:</strong> {selectedOsc.city}</Typography>
+                      <Typography><strong>CEP:</strong> <PatternFormat
+                        displayType="text"
+                        format="#####-###"
+                        value={selectedOsc.zipCode || ''}
+                        mask="_"
+                      /></Typography>
                       <Typography><strong>Estado:</strong> {selectedOsc.state}</Typography>
-                      <Typography><strong>CNPJ:</strong> {selectedOsc.oscPrimaryDocumment}</Typography>
+                      <Typography><strong>Cidade:</strong> {selectedOsc.city}</Typography>
+                      <Typography><strong>Bairro:</strong> {selectedOsc.neighborhood}</Typography>
+                      <Typography><strong>Endereço:</strong> {selectedOsc.address}</Typography>
                     </Box>
 
                     {/* Público */}
@@ -764,48 +789,56 @@ const Osc: React.FC = () => {
                   </Box>
                 ) : updateOsc ? (
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                    {/* Campos de texto editáveis */}
-                    <TextField
-                      label="Nome"
-                      value={updateOsc.name || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, name: e.target.value })}
-                      fullWidth
-                    />
-                    <PatternFormat
-                      customInput={TextField}
-                      label="Telefone"
-                      fullWidth
-                      value={updateOsc.phoneNumber || ''}
-                      onValueChange={(values) =>
-                        setUpdateOsc({ ...updateOsc, phoneNumber: values.value })
-                      }
-                      format="(##) #####-####"
-                      mask="_"
-                    />
-                    <TextField
-                      label="Email"
-                      value={updateOsc.email || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, email: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Website"
-                      value={updateOsc.webUrl || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, webUrl: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Mídia Social"
-                      value={updateOsc.socialMedia || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, socialMedia: e.target.value })}
-                      fullWidth
-                    />
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      {/* Campos de texto editáveis */}
+                      <TextField
+                        label="Nome"
+                        value={updateOsc.name || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, name: e.target.value })}
+                        fullWidth
+                      />
+                      <PatternFormat
+                        customInput={TextField}
+                        label="Telefone"
+                        fullWidth
+                        value={updateOsc.phoneNumber || ''}
+                        onValueChange={(values) =>
+                          setUpdateOsc({ ...updateOsc, phoneNumber: values.value })
+                        }
+                        format="(##) #####-####"
+                        mask="_"
+                      />
+                    </Box>
+
                     <TextField
                       label="Razão Social"
                       value={updateOsc.corporateName || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, corporateName: e.target.value })}
                       fullWidth
                     />
+
+                    <TextField
+                      label="Email"
+                      value={updateOsc.email || ''}
+                      onChange={(e) => setUpdateOsc({ ...updateOsc, email: e.target.value })}
+                      fullWidth
+                    />
+
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        label="Website"
+                        value={updateOsc.webUrl || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, webUrl: e.target.value })}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Mídia Social"
+                        value={updateOsc.socialMedia || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, socialMedia: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
+
                     <PatternFormat
                       customInput={TextField}
                       label="CNPJ"
@@ -817,45 +850,53 @@ const Osc: React.FC = () => {
                       format="##.###.###/####-##"
                       mask="_"
                     />
+
                     <TextField
                       label="Objetivo"
                       value={updateOsc.objective || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, objective: e.target.value })}
                       fullWidth
                     />
-                    <PatternFormat
-                      customInput={TextField}
-                      label="CEP"
-                      fullWidth
-                      value={updateOsc.zipCode || ''}
-                      onValueChange={(values) =>
-                        setUpdateOsc({ ...updateOsc, zipCode: values.value })
-                      }
-                      format="#####-###"
-                      mask="_"
-                    />
+
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <PatternFormat
+                        customInput={TextField}
+                        label="CEP"
+                        fullWidth
+                        value={updateOsc.zipCode || ''}
+                        onValueChange={(values) =>
+                          setUpdateOsc({ ...updateOsc, zipCode: values.value })
+                        }
+                        format="#####-###"
+                        mask="_"
+                      />
+                      <TextField
+                        label="Estado"
+                        value={updateOsc.state || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
+
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        label="Cidade"
+                        value={updateOsc.city || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, city: e.target.value })}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Bairro"
+                        value={updateOsc.neighborhood || ''}
+                        onChange={(e) => setUpdateOsc({ ...updateOsc, neighborhood: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
+
                     <TextField
                       label="Endereço"
                       value={updateOsc.address || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, address: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Bairro"
-                      value={updateOsc.neighborhood || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, neighborhood: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Cidade"
-                      value={updateOsc.city || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, city: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Estado"
-                      value={updateOsc.state || ''}
-                      onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
                       fullWidth
                     />
 
@@ -888,7 +929,6 @@ const Osc: React.FC = () => {
                             fetchBeneficiaries('');
                           }
                         }}
-
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -900,7 +940,7 @@ const Osc: React.FC = () => {
                         fullWidth
                       />
 
-                      {/* Chips de beneficiaries */}
+                      {/* Chips de Público */}
                       {updateOsc.beneficiaries && updateOsc.beneficiaries.length > 0 ? (
                         <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                           {updateOsc.beneficiaries.map((b) => (
@@ -927,7 +967,7 @@ const Osc: React.FC = () => {
 
                     {/* Causa editáveis */}
                     <Box mt={3}>
-                      <Typography variant="subtitle1"><strong>Causas</strong></Typography>
+                      <Typography variant="subtitle1"><strong>Causa</strong></Typography>
                       <Divider sx={{ mb: 2 }} />
 
                       <Autocomplete
@@ -992,23 +1032,31 @@ const Osc: React.FC = () => {
                   </Box>
                 ) : createOsc ? (
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                    {/* Campos de texto editáveis */}
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      {/* Campos de texto editáveis */}
+                      <TextField
+                        label="Nome"
+                        value={createOsc.name || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, name: e.target.value })}
+                        fullWidth
+                      />
+                      <PatternFormat
+                        customInput={TextField}
+                        label="Telefone"
+                        fullWidth
+                        value={createOsc.phoneNumber || ''}
+                        onValueChange={(values) =>
+                          setCreateOsc({ ...createOsc, phoneNumber: values.value })
+                        }
+                        format="(##) #####-####"
+                        mask="_"
+                      />
+                    </Box>
                     <TextField
-                      label="Nome"
-                      value={createOsc.name || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, name: e.target.value })}
+                      label="Razão Social"
+                      value={createOsc.corporateName || ''}
+                      onChange={(e) => setCreateOsc({ ...createOsc, corporateName: e.target.value })}
                       fullWidth
-                    />
-                    <PatternFormat
-                      customInput={TextField}
-                      label="Telefone"
-                      fullWidth
-                      value={createOsc.phoneNumber || ''}
-                      onValueChange={(values) =>
-                        setCreateOsc({ ...createOsc, phoneNumber: values.value })
-                      }
-                      format="(##) #####-####"
-                      mask="_"
                     />
                     <TextField
                       label="Email"
@@ -1016,24 +1064,20 @@ const Osc: React.FC = () => {
                       onChange={(e) => setCreateOsc({ ...createOsc, email: e.target.value })}
                       fullWidth
                     />
-                    <TextField
-                      label="Website"
-                      value={createOsc.webUrl || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, webUrl: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Mídia Social"
-                      value={createOsc.socialMedia || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, socialMedia: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Razão Social"
-                      value={createOsc.corporateName || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, corporateName: e.target.value })}
-                      fullWidth
-                    />
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        label="Website"
+                        value={createOsc.webUrl || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, webUrl: e.target.value })}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Mídia Social"
+                        value={createOsc.socialMedia || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, socialMedia: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
                     <PatternFormat
                       customInput={TextField}
                       label="CNPJ"
@@ -1051,39 +1095,43 @@ const Osc: React.FC = () => {
                       onChange={(e) => setCreateOsc({ ...createOsc, objective: e.target.value })}
                       fullWidth
                     />
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <PatternFormat
+                        customInput={TextField}
+                        label="CEP"
+                        fullWidth
+                        value={createOsc.zipCode || ''}
+                        onValueChange={(values) =>
+                          setCreateOsc({ ...createOsc, zipCode: values.value })
+                        }
+                        format="#####-###"
+                        mask="_"
+                      />
+                      <TextField
+                        label="Estado"
+                        value={createOsc.state || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        label="Cidade"
+                        value={createOsc.city || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, city: e.target.value })}
+                        fullWidth
+                      />
+                      <TextField
+                        label="Bairro"
+                        value={createOsc.neighborhood || ''}
+                        onChange={(e) => setCreateOsc({ ...createOsc, neighborhood: e.target.value })}
+                        fullWidth
+                      />
+                    </Box>
                     <TextField
                       label="Endereço"
                       value={createOsc.address || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, address: e.target.value })}
-                      fullWidth
-                    />
-                    <PatternFormat
-                      customInput={TextField}
-                      label="CEP"
-                      fullWidth
-                      value={createOsc.zipCode || ''}
-                      onValueChange={(values) =>
-                        setCreateOsc({ ...createOsc, zipCode: values.value })
-                      }
-                      format="#####-###"
-                      mask="_"
-                    />
-                    <TextField
-                      label="Bairro"
-                      value={createOsc.neighborhood || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, neighborhood: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Cidade"
-                      value={createOsc.city || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, city: e.target.value })}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Estado"
-                      value={createOsc.state || ''}
-                      onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
                       fullWidth
                     />
 

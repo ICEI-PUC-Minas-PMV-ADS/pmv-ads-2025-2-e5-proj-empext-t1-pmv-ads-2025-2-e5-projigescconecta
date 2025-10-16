@@ -27,6 +27,13 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
                 CorporateName = request.CorporateName,
                 Objective = request.Objective,
                 Address = request.Address,
+                Neighborhood = request.Neighborhood,
+                City = request.City,
+                State = request.State,
+                PhoneNumber = request.PhoneNumber,
+                Email = request.Email,
+                WebUrl = request.WebUrl,
+                SocialMedia = request.SocialMedia,
                 ZipCode = request.ZipCode,
                 OscPrimaryDocumment = request.OscPrimaryDocumment,
                 BeneficiaryIds = request.BeneficiaryIds,
@@ -40,6 +47,13 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
                 CorporateName = result.Value.CorporateName,
                 Objective = result.Value.Objective,
                 Address = result.Value.Address,
+                Neighborhood = result.Value.Neighborhood,
+                City = result.Value.City,
+                State = result.Value.State,
+                PhoneNumber = result.Value.PhoneNumber,
+                Email = result.Value.Email,
+                WebUrl = result.Value.WebUrl,
+                SocialMedia = result.Value.SocialMedia,
                 ZipCode = result.Value.ZipCode,
                 OscPrimaryDocumment = result.Value.OscPrimaryDocumment,
                 Beneficiaries = result.Value.Beneficiaries?.Select(b => new UpdateBeneficiaryInOscResponse
@@ -64,6 +78,13 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
         public string? CorporateName { get; set; }
         public string? Objective { get; set; }
         public string? Address { get; set; }
+        public string? Neighborhood { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public string? WebUrl { get; set; }
+        public string? SocialMedia { get; set; }
         public string? ZipCode { get; set; }
         public string? OscPrimaryDocumment { get; set; }
         public List<int>? BeneficiaryIds { get; set; }
@@ -77,6 +98,13 @@ namespace IgescConecta.API.Features.Oscs.UpdateOsc
         public string CorporateName { get; set; }
         public string Objective { get; set; }
         public string Address { get; set; }
+        public string? Neighborhood { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public string? WebUrl { get; set; }
+        public string? SocialMedia { get; set; }
         public string ZipCode { get; set; }
         public string? OscPrimaryDocumment { get; set; }
         public List<UpdateBeneficiaryInOscResponse>? Beneficiaries { get; set; }
