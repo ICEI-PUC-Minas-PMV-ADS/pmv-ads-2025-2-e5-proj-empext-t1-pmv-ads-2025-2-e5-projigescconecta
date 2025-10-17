@@ -3267,6 +3267,39 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 </details>
 
+<summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
+
+<table>
+<tr>
+    <th colspan="6" width="1000">CT-O01<br>Cadastar pessoa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir o cadastro de uma pessoa, exibindo-a corretamente na listagem após a criação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">Kênia Caires</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">08/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O cadastro da Pessoa foi realizado com sucesso. A pessoa foi listada corretamente e os campos obrigatórios foram validados.
+    </td>
+     <td colspan="6" align="center"><strong>Evidência</strong></td>
+    <img width="1022" height="556" alt="image" src="https://github.com/user-attachments/assets/6b3eacb6-eff9-4b65-abd3-df100b4fccd6" />
+    <img width="1137" height="586" alt="image" src="https://github.com/user-attachments/assets/c531d386-a115-4d03-826b-1f735e73795e" />
+  </tr>
+  
+  ---
+  
+</td>
+  </tr>
+
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
