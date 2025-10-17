@@ -1187,6 +1187,64 @@ ________________________________________________________________________________
   </tr>
 </table>
 
+<details>
+<summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-P01-S<br>Criar Pessoas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite que a pessoa consiga se cadastrar com sucesso, preenchendo todos os campos obrigatórios.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Kênia Caires</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-001</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Nova Pessoa".<br>
+      3. Preencher todos os campos:<br>
+      &nbsp;&nbsp;- Nome<br>
+      &nbsp;&nbsp;- CPF<br>
+      &nbsp;&nbsp;- Email<br>
+      &nbsp;&nbsp;- Segundo email (opcional)<br>
+      &nbsp;&nbsp;- Telefone principal<br>
+      &nbsp;&nbsp;- Segundo telefone (opcional)<br>
+      &nbsp;&nbsp;- Formação (opcional)<br>
+      &nbsp;&nbsp;- Formação 2 (opcional)<br>
+      &nbsp;&nbsp;- Atuação profissional (opcional)<br>
+      4. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome:</strong>Ricardo Teixeira<br>
+      - <strong>CPF:</strong>03735628702<br>
+      - <strong>Email:</strong>rjtsjr@gmail.com<br>
+      - <strong>Telefone</strong>21999982464<br>
+      - <strong>Formação</strong>ADS<br>
+      - <strong>Atuação</strong>Analista e Desenvolvedor de Sistemas<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve cadastrar a pessoa e exibi-la corretamente na listagem.</td>
+  </tr>
+</table>
+
 </details>
 
 <details>
