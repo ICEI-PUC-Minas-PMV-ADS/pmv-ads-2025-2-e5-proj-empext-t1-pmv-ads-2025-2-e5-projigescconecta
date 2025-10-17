@@ -1243,6 +1243,156 @@ ________________________________________________________________________________
     <td><strong>Critérios de êxito</strong></td>
     <td>O sistema deve cadastrar a pessoa e exibi-la corretamente na listagem.</td>
   </tr>
+  
+</table>
+
+---
+
+<table>
+
+  <tr>
+    <th colspan="2" width="1000">CT-O02 - S<br>Editar Pessoas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite editar as informações de uma pessoa cadastrada, modificando qualquer campo obrigatório e salvando com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Kênia Caires</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar uma Pessoa cadastrada.<br>
+      2. Alterar um ou mais campos obrigatórios (ex: Nome, CPF ou email).<br>
+      3. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve atualizar as informações e exibi-las corretamente na listagem.</td>
+  </tr>
+</table>
+ 
+ ---
+ 
+ <table>
+  <tr>
+    <th colspan="2" width="1000">CT-O03 - S<br>Remover Pessoa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir uma pessoa cadastrada, exibindo modal de confirmação antes da exclusão.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Kênia Caires</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Selecionar uma pessoa cadastrada.<br>
+      2. Clicar em "Remover".<br>
+      3. Confirmar a exclusão no modal exibido.<br>
+      4. Verificar a listagem atualizada.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover a pessoa e atualizar a lista sem o item excluído.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O04 - I01<br>Cadastrar PESSOA sem prencher dados obrigatorios</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede o cadastro de uma pessoa sem o preenchimento dos campos obrigatorios.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Kênia Caires</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Nova Pessoa".<br>
+      3. Deixar algum campo obrigatorio vazio.<br>
+      4. Preencher os demais campos obrigatórios.<br>
+      5. Clicar em "Salvar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema não permite salvar sem todos os campos obrigatorios preenchidos.</td>
+  </tr>
+</table>
+
+---
+
+table>
+  <tr>
+    <th colspan="2" width="1000">CT-O05 - S<br>Listar Pessoas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema exibe corretamente todas as pessoas cadastradas e permite a filtragem por Nome, CPF, Telefone, ou Email.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Kênia Caires</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-002</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Visualizar a listagem de Pessoas cadastradas<br>
+      3. Aplicar filtros por Nome, CPF, Telefone, ou Email<br>
+      4. Verificar o resultado da pesquisa.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a lista de Pessoas corretamente, incluindo os resultados filtrados conforme os critérios informados.</td>
+  </tr>
 </table>
 
 </details>
