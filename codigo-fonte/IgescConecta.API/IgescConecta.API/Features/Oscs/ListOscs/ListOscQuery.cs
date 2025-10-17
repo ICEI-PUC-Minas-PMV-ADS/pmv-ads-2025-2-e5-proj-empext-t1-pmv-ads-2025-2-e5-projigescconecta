@@ -83,7 +83,7 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
                 BeneficiariesCount = _context.Beneficiaries
                     .Count(b => b.Oscs.Any(o => o.Id == osc.Id))
             })
-                .OrderBy(x => x.OscId)
+                .OrderByDescending(x => x.OscId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);

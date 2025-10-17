@@ -65,7 +65,7 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                     PersonTeamsCount = team.PersonTeams.Count,
                     IsDeleted = team.IsDeleted
                 })
-                .OrderBy(x => x.CourseId)
+                .OrderByDescending(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
