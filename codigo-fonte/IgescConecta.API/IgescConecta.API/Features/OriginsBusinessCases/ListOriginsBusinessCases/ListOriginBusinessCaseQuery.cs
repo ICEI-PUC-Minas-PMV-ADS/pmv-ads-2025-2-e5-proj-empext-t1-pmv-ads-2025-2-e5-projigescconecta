@@ -47,7 +47,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
                 Notes = Osc.Notes,
                 OriginBusinessCaseId = Osc.Id,
             })
-                .OrderBy(x => x.OriginBusinessCaseId)
+                .OrderByDescending(x => x.OriginBusinessCaseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
