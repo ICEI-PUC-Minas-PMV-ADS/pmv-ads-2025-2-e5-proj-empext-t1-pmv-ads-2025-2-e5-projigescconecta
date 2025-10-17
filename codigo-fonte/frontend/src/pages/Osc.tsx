@@ -47,6 +47,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
+import { fetchZipCode, SimplifyResponse } from '@/services/cep';
 
 dayjs.locale('pt-br');
 
@@ -108,6 +109,9 @@ const Osc: React.FC = () => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
+
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
+  const [cepError, setCepError] = useState<string | null>(null);
 
   const oscApi = new OscsApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
@@ -270,6 +274,7 @@ const Osc: React.FC = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    setCepError(null);
     setTimeout(() => {
       resetForm();
       setIsVisualizing(false);
@@ -437,7 +442,7 @@ const Osc: React.FC = () => {
       address: 'Endereço',
       neighborhood: 'Bairro',
       city: 'Cidade',
-      state: 'Estado',
+      state: 'UF',
       phoneNumber: 'Telefone',
       email: 'Email',
       webUrl: 'Website',
@@ -446,6 +451,67 @@ const Osc: React.FC = () => {
     };
     return mapping[field] || field;
   };
+
+  const handleZipCodeLookup = async (zipCodeValue: string | undefined) => {
+    if (!zipCodeValue) {
+      const setter = createOsc ? setCreateOsc : setUpdateOsc;
+      setter(prev => ({
+        ...prev,
+        neighborhood: '', city: '', state: '', address: ''
+      }));
+      return setter
+    }
+
+    setIsLoadingCep(true);
+    setCepError(null);
+
+    try {
+      const dataResponse: SimplifyResponse = await fetchZipCode(zipCodeValue);
+
+      if (createOsc) {
+        setCreateOsc(prev => ({
+          ...prev,
+          neighborhood: dataResponse.neighborhood,
+          city: dataResponse.city,
+          state: dataResponse.state,
+          address: dataResponse.address
+        }));
+      }
+      else {
+        setUpdateOsc(prev => {
+          const newState = {
+            ...prev,
+            neighborhood: dataResponse.neighborhood,
+            city: dataResponse.city,
+            state: dataResponse.state,
+            address: dataResponse.address
+          }
+          return newState
+        });
+      }
+
+    } catch (error) {
+      let errorMessage = error instanceof Error ? error.message : 'Falha ao buscar CEP.';
+
+      if (errorMessage.includes('CEP não encontrado na base de dados')) {
+        errorMessage = 'CEP não encontrado.';
+      }
+      else if (errorMessage.includes('Failed to fetch') || errorMessage.includes('request failed')) {
+        errorMessage = 'CEP inválido';
+      }
+
+      setCepError(errorMessage)
+
+      const setter = createOsc ? setCreateOsc : setUpdateOsc;
+      setter(prev => ({
+        ...prev,
+        neighborhood: '', city: '', state: '', address: ''
+      }));
+    } finally {
+      setIsLoadingCep(false);
+    }
+  };
+
 
   const columns: Column<Osc>[] = [
     { label: 'ID', field: 'oscId' },
@@ -735,7 +801,7 @@ const Osc: React.FC = () => {
                         value={selectedOsc.zipCode || ''}
                         mask="_"
                       /></Typography>
-                      <Typography><strong>Estado:</strong> {selectedOsc.state}</Typography>
+                      <Typography><strong>UF:</strong> {selectedOsc.state}</Typography>
                       <Typography><strong>Cidade:</strong> {selectedOsc.city}</Typography>
                       <Typography><strong>Bairro:</strong> {selectedOsc.neighborhood}</Typography>
                       <Typography><strong>Endereço:</strong> {selectedOsc.address}</Typography>
@@ -867,11 +933,15 @@ const Osc: React.FC = () => {
                         onValueChange={(values) =>
                           setUpdateOsc({ ...updateOsc, zipCode: values.value })
                         }
+                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode)}
                         format="#####-###"
                         mask="_"
+                        error={!!cepError}
+                        helperText={cepError || ''}
+                        disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Estado"
+                        label="UF"
                         value={updateOsc.state || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
                         fullWidth
@@ -1104,11 +1174,15 @@ const Osc: React.FC = () => {
                         onValueChange={(values) =>
                           setCreateOsc({ ...createOsc, zipCode: values.value })
                         }
+                        onBlur={() => handleZipCodeLookup(createOsc.zipCode)}
                         format="#####-###"
                         mask="_"
+                        error={!!cepError}
+                        helperText={cepError || ''}
+                        disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Estado"
+                        label="UF"
                         value={createOsc.state || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
                         fullWidth
