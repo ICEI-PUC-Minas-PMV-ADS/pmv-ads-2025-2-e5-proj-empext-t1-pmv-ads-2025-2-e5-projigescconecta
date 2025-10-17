@@ -47,6 +47,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
+import { fetchZipCode, SimplifyResponse } from '@/services/cep';
 
 dayjs.locale('pt-br');
 
@@ -108,6 +109,9 @@ const Osc: React.FC = () => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
+
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
+  const [cepError, setCepError] = useState<string | null>(null);
 
   const oscApi = new OscsApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
@@ -446,6 +450,57 @@ const Osc: React.FC = () => {
     };
     return mapping[field] || field;
   };
+
+  const handleZipCodeLookup = async (zipCodeValue: string | undefined) => {
+    if (!zipCodeValue){
+        const setter = createOsc ? setCreateOsc : setUpdateOsc;
+        setter(prev => ({
+            ...prev,
+            neighborhood: '', city: '', state: '', address: ''
+        }));
+        return setter
+    }
+
+    setIsLoadingCep(true);
+    setCepError(null);
+
+    try {
+      const dataResponse: SimplifyResponse = await fetchZipCode(zipCodeValue);
+
+      if (createOsc) {
+        setCreateOsc(prev => ({
+          ...prev,
+          neighborhood: dataResponse.neighborhood,
+          city: dataResponse.city,
+          state: dataResponse.state,
+          address: dataResponse.address
+        }));
+      }
+      else {
+        setUpdateOsc(prev => {
+          const newState ={
+            ...prev,
+            neighborhood: dataResponse.neighborhood,
+            city: dataResponse.city,
+            state: dataResponse.state,
+            address: dataResponse.address
+          }
+          return newState
+        });
+      }
+
+    } catch (error) {
+      setCepError(error instanceof Error ? error.message : 'Falha ao buscar CEP.');
+      const setter = createOsc ? setCreateOsc : setUpdateOsc;
+        setter(prev => ({
+            ...prev,
+            neighborhood: '', city: '', state: '', address: ''
+        }));
+    } finally {
+      setIsLoadingCep(false);
+    }
+  };
+
 
   const columns: Column<Osc>[] = [
     { label: 'ID', field: 'oscId' },
@@ -867,8 +922,12 @@ const Osc: React.FC = () => {
                         onValueChange={(values) =>
                           setUpdateOsc({ ...updateOsc, zipCode: values.value })
                         }
+                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode)}
                         format="#####-###"
                         mask="_"
+                        error={!!cepError}
+                        helperText={cepError || ''}
+                        disabled={isLoadingCep}
                       />
                       <TextField
                         label="Estado"
@@ -1104,8 +1163,12 @@ const Osc: React.FC = () => {
                         onValueChange={(values) =>
                           setCreateOsc({ ...createOsc, zipCode: values.value })
                         }
+                        onBlur={() => handleZipCodeLookup(createOsc.zipCode)}
                         format="#####-###"
                         mask="_"
+                        error={!!cepError}
+                        helperText={cepError || ''}
+                        disabled={isLoadingCep}
                       />
                       <TextField
                         label="Estado"
