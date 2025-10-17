@@ -55,7 +55,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Frontend", p =>
         p.WithOrigins(
             "http://localhost:3000",
-            "http://localhost:5173"
+            "http://localhost:5173",
+            "https://igesc-conecta.web.app",
+            "https://igesc-conecta.firebaseapp.com"
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
