@@ -274,6 +274,7 @@ const Osc: React.FC = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    setCepError(null);
     setTimeout(() => {
       resetForm();
       setIsVisualizing(false);
@@ -452,13 +453,13 @@ const Osc: React.FC = () => {
   };
 
   const handleZipCodeLookup = async (zipCodeValue: string | undefined) => {
-    if (!zipCodeValue){
-        const setter = createOsc ? setCreateOsc : setUpdateOsc;
-        setter(prev => ({
-            ...prev,
-            neighborhood: '', city: '', state: '', address: ''
-        }));
-        return setter
+    if (!zipCodeValue) {
+      const setter = createOsc ? setCreateOsc : setUpdateOsc;
+      setter(prev => ({
+        ...prev,
+        neighborhood: '', city: '', state: '', address: ''
+      }));
+      return setter
     }
 
     setIsLoadingCep(true);
@@ -478,7 +479,7 @@ const Osc: React.FC = () => {
       }
       else {
         setUpdateOsc(prev => {
-          const newState ={
+          const newState = {
             ...prev,
             neighborhood: dataResponse.neighborhood,
             city: dataResponse.city,
@@ -490,12 +491,22 @@ const Osc: React.FC = () => {
       }
 
     } catch (error) {
-      setCepError(error instanceof Error ? error.message : 'Falha ao buscar CEP.');
+      let errorMessage = error instanceof Error ? error.message : 'Falha ao buscar CEP.';
+
+      if (errorMessage.includes('CEP não encontrado na base de dados')) {
+        errorMessage = 'CEP não encontrado.';
+      }
+      else if (errorMessage.includes('Failed to fetch') || errorMessage.includes('request failed')) {
+        errorMessage = 'CEP inválido';
+      }
+
+      setCepError(errorMessage)
+
       const setter = createOsc ? setCreateOsc : setUpdateOsc;
-        setter(prev => ({
-            ...prev,
-            neighborhood: '', city: '', state: '', address: ''
-        }));
+      setter(prev => ({
+        ...prev,
+        neighborhood: '', city: '', state: '', address: ''
+      }));
     } finally {
       setIsLoadingCep(false);
     }

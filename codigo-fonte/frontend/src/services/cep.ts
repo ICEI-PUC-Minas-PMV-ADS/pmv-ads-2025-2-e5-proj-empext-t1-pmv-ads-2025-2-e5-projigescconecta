@@ -9,7 +9,7 @@ interface ViaCepResponse {
     gia: string;
     ddd: string;
     siafi: string;
-    erro?: boolean;
+    erro?: boolean | string;
 }
 
 export interface SimplifyResponse {
@@ -33,7 +33,7 @@ export async function fetchZipCode(zipCode: string): Promise<SimplifyResponse> {
 
         const data: ViaCepResponse = await response.json();
 
-        if (data.erro === true) {
+        if (data.erro === 'true') {
             throw new Error('CEP não encontrado na base de dados')
         }
 
@@ -48,6 +48,6 @@ export async function fetchZipCode(zipCode: string): Promise<SimplifyResponse> {
     }
     catch (error) {
         console.error("Erro ao buscar CEP:", error)
-        throw new Error(error instanceof Error ? error.message : 'Falha ao buscar CEP')
+        throw error
     }
 }
