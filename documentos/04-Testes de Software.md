@@ -3293,17 +3293,16 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <td colspan="5">
       O cadastro da Pessoa foi realizado com sucesso. A pessoa foi listada corretamente e os campos obrigatórios foram validados.
     </td>
+     </tr>
+     <tr>
      <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
     <td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/3e664c9c-cd3f-4acc-943e-2b82269a92bb" />
-
 </td>
   </tr>
   <table>
  
-    ---
-  
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
