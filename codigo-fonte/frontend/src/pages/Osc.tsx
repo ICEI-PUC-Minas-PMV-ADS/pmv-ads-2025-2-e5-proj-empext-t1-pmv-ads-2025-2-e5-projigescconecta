@@ -441,7 +441,7 @@ const Osc: React.FC = () => {
       address: 'Endereço',
       neighborhood: 'Bairro',
       city: 'Cidade',
-      state: 'Estado',
+      state: 'UF',
       phoneNumber: 'Telefone',
       email: 'Email',
       webUrl: 'Website',
@@ -790,7 +790,7 @@ const Osc: React.FC = () => {
                         value={selectedOsc.zipCode || ''}
                         mask="_"
                       /></Typography>
-                      <Typography><strong>Estado:</strong> {selectedOsc.state}</Typography>
+                      <Typography><strong>UF:</strong> {selectedOsc.state}</Typography>
                       <Typography><strong>Cidade:</strong> {selectedOsc.city}</Typography>
                       <Typography><strong>Bairro:</strong> {selectedOsc.neighborhood}</Typography>
                       <Typography><strong>Endereço:</strong> {selectedOsc.address}</Typography>
@@ -930,7 +930,7 @@ const Osc: React.FC = () => {
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Estado"
+                        label="UF"
                         value={updateOsc.state || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
                         fullWidth
@@ -1171,7 +1171,7 @@ const Osc: React.FC = () => {
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Estado"
+                        label="UF"
                         value={createOsc.state || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
                         fullWidth
