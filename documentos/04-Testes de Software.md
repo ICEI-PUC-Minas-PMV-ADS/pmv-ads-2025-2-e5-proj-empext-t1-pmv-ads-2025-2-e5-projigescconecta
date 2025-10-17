@@ -3302,6 +3302,37 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </td>
   </tr>
   <table>
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-O02<br>Editar   Pessoas</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve permitir editar as informações da Pessoa cadastrada e refletir as alterações corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Kênia Caires</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>08/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Edição concluída com sucesso. As alterações foram salvas e exibidas corretamente na listagem.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1808" height="495" alt="image" src="https://github.com/user-attachments/assets/ccf2eacb-9647-4a49-a118-60c13b921cc6" />
+/>
+</td>
+  </tr>
+</table>
  
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
