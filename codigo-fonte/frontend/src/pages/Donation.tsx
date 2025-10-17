@@ -33,6 +33,7 @@ import {
     type TeamViewModel,
     type Filter,
 } from '@/api';
+import DialogPadronized from '@/components/DialogPadronized';
 
 interface DonationFullDetails {
     id?: number;
@@ -283,10 +284,13 @@ const DonationPage: React.FC = () => {
                         {loading ? <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}><CircularProgress /></Box> : <Table columns={columns} data={donations} page={page} rowsPerPage={rowsPerPage} totalCount={totalCount} onPageChange={setPage} onRowsPerPageChange={setRowsPerPage} onEdit={handleEdit} onDelete={handleDelete} noDataMessage={donations.length > 0 ? '' : "Nenhuma doação encontrada."} />}
                     </Box>
                     <ConfirmDialog open={openDeleteModal} onClose={() => setOpenDeleteModal(false)} onConfirm={confirmDelete} title='Confirmar Exclusão' message='Deseja realmente excluir esta Doação?' highlightText={`ID: ${donationToDelete?.id}`} confirmLabel='Excluir' cancelLabel='Cancelar' danger/>
-                    <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-                        <DialogTitle>{dialogTitle}</DialogTitle>
-                        <DialogContent>
-                            {editingData && (
+                    <DialogPadronized
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        maxWidth="sm"
+                        title={dialogTitle}
+                        content={
+                            editingData && (
                                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                                     <TextField label="Valor" type="number" name="value" value={editingData.value ?? ''} onChange={handleFormChange} fullWidth size="small" />
                                     <TextField label="Data" type="date" name="donationDate" value={editingData.donationDate ?? ''} onChange={handleFormChange} fullWidth size="small" InputLabelProps={{ shrink: true }} />
@@ -313,13 +317,15 @@ const DonationPage: React.FC = () => {
                                         <FormControl fullWidth size="small"><InputLabel>Turma</InputLabel><Select name="teamId" value={editingData.teamId ?? ''} label="Turma" onChange={handleFormChange}>{teams.map(t => <MenuItem key={t.teamId} value={t.teamId}>{t.name}</MenuItem>)}</Select></FormControl>
                                     </>)}
                                 </Box>
-                            )}
-                        </DialogContent>
-                        <DialogActions>
+                            )
+                        }
+                        actions={
+                            <>
                             <Button onClick={handleCloseModal} disabled={modalLoading}>Cancelar</Button>
                             <Button onClick={handleSave} variant="contained" disabled={modalLoading}>{modalLoading ? <CircularProgress size={24} /> : (isCreating ? 'Criar' : 'Atualizar')}</Button>
-                        </DialogActions>
-                    </Dialog>
+                            </>
+                        }
+                    />    
                 </Box>
             </Paper>
         </Container>

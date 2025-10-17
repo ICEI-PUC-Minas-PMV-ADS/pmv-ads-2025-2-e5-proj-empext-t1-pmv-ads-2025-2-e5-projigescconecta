@@ -37,6 +37,7 @@ import {
 import { apiConfig } from '../services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import DialogPadronized from '@/components/DialogPadronized';
 
 interface Course {
   courseId?: number;
@@ -425,32 +426,12 @@ const Course: React.FC = () => {
       {/* --------------------------------- Modais --------------------------------- */}
 
       {/* ------------------------- Criação/Edição ------------------------ */}
-      <Dialog
+      <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
         maxWidth="sm"
-        fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-          },
-        }}
-      >
-        <DialogTitle
-          sx={{
-            bgcolor: alpha('#1E4EC4', 0.03),
-            borderBottom: '1px solid',
-            borderColor: alpha('#1E4EC4', 0.1),
-            py: 2.5,
-            px: 3,
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-            {dialogTitle()}
-          </Typography>
-        </DialogTitle>
-        <DialogContent sx={{ p: 3, mt: 1 }}>
+        title={dialogTitle()}
+        content={
           <TextField
             autoFocus={!isVisualizing}
             margin="dense"
@@ -472,9 +453,9 @@ const Course: React.FC = () => {
             }}
             sx={isVisualizing ? { pointerEvents: 'none' } : {}}
           />
-        </DialogContent>
-        <DialogActions>
-          {isVisualizing ? (
+        }
+        actions={
+          isVisualizing ? (
             <Button
               variant="contained"
               startIcon={<ArrowBackIcon />}
@@ -536,9 +517,9 @@ const Course: React.FC = () => {
                 Salvar
               </Button>
             </>
-          )}
-        </DialogActions>
-      </Dialog>
+          )
+        }
+      />
 
       {/* -------------------- Confirmação de Exclusão -------------------- */}
       <ConfirmDialog

@@ -37,6 +37,7 @@ import {
 import { apiConfig } from '@/services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import DialogPadronized from '@/components/DialogPadronized';
 
 interface UserRow {
   userId?: number;
@@ -97,10 +98,16 @@ const UserPage: React.FC = () => {
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formPhone, setFormPhone] = useState('');
-  const [formRoleLabel, setFormRoleLabel] = useState<'Administrador' | 'Editor' | 'Leitor'>('Leitor');
+  const [formRoleLabel, setFormRoleLabel] = useState<'Administrador' | 'Editor' | 'Leitor'>(
+    'Leitor'
+  );
   const [modalLoading, setModalLoading] = useState(false);
 
-  const [confirmDelete, setConfirmDelete] = useState<{ open: boolean; user: UserRow | null; loading: boolean }>({
+  const [confirmDelete, setConfirmDelete] = useState<{
+    open: boolean;
+    user: UserRow | null;
+    loading: boolean;
+  }>({
     open: false,
     user: null,
     loading: false,
@@ -196,7 +203,10 @@ const UserPage: React.FC = () => {
       setFormEmail(data.email ?? '');
       setFormPhone(data.phoneNumber ?? '');
       setFormRoleLabel(
-        roleApiToLabel[(data.role as 'Admin' | 'Editor' | 'Viewer') ?? 'Viewer'] as 'Administrador' | 'Editor' | 'Leitor',
+        roleApiToLabel[(data.role as 'Admin' | 'Editor' | 'Viewer') ?? 'Viewer'] as
+          | 'Administrador'
+          | 'Editor'
+          | 'Leitor'
       );
 
       setOpenModal(true);
@@ -220,7 +230,10 @@ const UserPage: React.FC = () => {
       setFormEmail(data.email ?? '');
       setFormPhone(data.phoneNumber ?? '');
       setFormRoleLabel(
-        roleApiToLabel[(data.role as 'Admin' | 'Editor' | 'Viewer') ?? 'Viewer'] as 'Administrador' | 'Editor' | 'Leitor',
+        roleApiToLabel[(data.role as 'Admin' | 'Editor' | 'Viewer') ?? 'Viewer'] as
+          | 'Administrador'
+          | 'Editor'
+          | 'Leitor'
       );
 
       setOpenModal(true);
@@ -330,7 +343,8 @@ const UserPage: React.FC = () => {
     }
   };
 
-  const dialogTitle = () => (isViewing ? 'Visualizar Usuário' : editingUser ? 'Editar Usuário' : 'Adicionar Usuário');
+  const dialogTitle = () =>
+    isViewing ? 'Visualizar Usuário' : editingUser ? 'Editar Usuário' : 'Adicionar Usuário';
 
   useEffect(() => {
     fetchUsers();
@@ -372,7 +386,10 @@ const UserPage: React.FC = () => {
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
                 <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-                <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
+                >
                   Filtro de Busca
                 </Typography>
                 {search && (
@@ -440,7 +457,14 @@ const UserPage: React.FC = () => {
 
             <Box sx={{ flexGrow: 1 }}>
               {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 200,
+                  }}
+                >
                   <CircularProgress sx={{ color: '#1E4EC4' }} />
                 </Box>
               ) : (
@@ -463,34 +487,13 @@ const UserPage: React.FC = () => {
               )}
             </Box>
 
-            <Dialog
+            <DialogPadronized
               open={openModal}
               onClose={closeModal}
               maxWidth="sm"
-              fullWidth
-              PaperProps={{
-                sx: {
-                  borderRadius: 3,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                },
-              }}
-            >
-              <DialogTitle
-                sx={{
-                  bgcolor: alpha('#1E4EC4', 0.03),
-                  borderBottom: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  py: 2.5,
-                  px: 3,
-                }}
-              >
-                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                  {dialogTitle()}
-                </Typography>
-              </DialogTitle>
-
-              <DialogContent sx={{ p: 3 }}>
-                {modalLoading ? (
+              title={dialogTitle()}
+              content={
+                modalLoading ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
                     <CircularProgress sx={{ color: '#1E4EC4' }} />
                   </Box>
@@ -536,7 +539,11 @@ const UserPage: React.FC = () => {
                           labelId="role-label"
                           label="Tipo"
                           value={formRoleLabel}
-                          onChange={(e) => setFormRoleLabel(e.target.value as 'Administrador' | 'Editor' | 'Leitor')}
+                          onChange={(e) =>
+                            setFormRoleLabel(
+                              e.target.value as 'Administrador' | 'Editor' | 'Leitor'
+                            )
+                          }
                           disabled={isViewing}
                         >
                           <MenuItem value="Administrador">Administrador</MenuItem>
@@ -546,20 +553,10 @@ const UserPage: React.FC = () => {
                       </FormControl>
                     </Grid>
                   </Grid>
-                )}
-              </DialogContent>
-
-              <DialogActions
-                sx={{
-                  px: 3,
-                  py: 2.5,
-                  bgcolor: alpha('#1E4EC4', 0.02),
-                  borderTop: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  gap: 1.5,
-                }}
-              >
-                {isViewing ? (
+                )
+              }
+              actions={
+                isViewing ? (
                   <Button
                     variant="contained"
                     startIcon={<ArrowBackIcon />}
@@ -621,9 +618,9 @@ const UserPage: React.FC = () => {
                       Salvar
                     </Button>
                   </>
-                )}
-              </DialogActions>
-            </Dialog>
+                )
+              }
+            />
 
             <ConfirmDialog
               open={confirmDelete.open}

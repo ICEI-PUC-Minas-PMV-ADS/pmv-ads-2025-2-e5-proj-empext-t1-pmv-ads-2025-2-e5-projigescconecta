@@ -31,6 +31,7 @@ import {
   IgescConectaAPIFeaturesPersonsUpdatePersonUpdatePersonRequest as UpdatePersonRequest,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
+import DialogPadronized from '@/components/DialogPadronized';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const digits = (s: string) => (s || '').replace(/\D/g, '');
@@ -61,7 +62,12 @@ function extractApiErrors(err: any): string[] {
     data.errors.forEach((m: any) => messages.push(String(m)));
   }
 
-  if (!messages.length && data.errors && typeof data.errors === 'object' && !Array.isArray(data.errors)) {
+  if (
+    !messages.length &&
+    data.errors &&
+    typeof data.errors === 'object' &&
+    !Array.isArray(data.errors)
+  ) {
     Object.values<any>(data.errors).forEach((arr) => {
       if (Array.isArray(arr)) arr.forEach((m) => messages.push(String(m)));
       else messages.push(String(arr));
@@ -119,8 +125,12 @@ const PersonPage: React.FC = () => {
   const emailError = !!email && !emailRegex.test(email.trim());
   const secEmailError = !!secondaryEmail && !emailRegex.test(secondaryEmail.trim());
   const phoneError = !!primaryPhone && digits(primaryPhone).length < 10; // aceita 10/11
-  const secPhoneError = !!secondaryPhone && digits(secondaryPhone).length > 0 && digits(secondaryPhone).length < 10;
+  const secPhoneError =
+    !!secondaryPhone && digits(secondaryPhone).length > 0 && digits(secondaryPhone).length < 10;
 
+  const dialogTitle = () => {
+    return isVisualizing ? 'Visualizar Pessoa' : editingId ? 'Editar Pessoa' : 'Adicionar Pessoa';
+  };
   const formValid =
     name.trim().length > 0 &&
     !nameError &&
@@ -165,13 +175,15 @@ const PersonPage: React.FC = () => {
           ? [
               {
                 propertyName: 'name',
-                operation: 7, 
+                operation: 7,
                 value: search.trim(),
               } as any,
             ]
           : [],
       };
-      const { data } = await api.listPerson({ igescConectaAPIFeaturesPersonsListPersonListPersonRequest: req });
+      const { data } = await api.listPerson({
+        igescConectaAPIFeaturesPersonsListPersonListPersonRequest: req,
+      });
       const items = (data as any)?.items || [];
       setRows(
         items.map((it: any) => ({
@@ -181,7 +193,7 @@ const PersonPage: React.FC = () => {
           personalDocumment: it.personalDocumment,
           primaryPhone: it.primaryPhone,
           isActive: it.isActive,
-        })),
+        }))
       );
       setTotalCount((data as any)?.totalItems ?? items.length);
       setNoDataMessage(items.length ? '' : 'Nenhuma pessoa encontrada');
@@ -259,7 +271,8 @@ const PersonPage: React.FC = () => {
     loading: false,
   });
 
-  const handleDelete = (p: PersonRow) => setConfirmDialog({ open: true, person: p, loading: false });
+  const handleDelete = (p: PersonRow) =>
+    setConfirmDialog({ open: true, person: p, loading: false });
 
   const handleConfirmDelete = async () => {
     if (!confirmDialog.person?.personId) return;
@@ -275,7 +288,8 @@ const PersonPage: React.FC = () => {
     }
   };
 
-  const handleCloseConfirmDialog = () => setConfirmDialog({ open: false, person: null, loading: false });
+  const handleCloseConfirmDialog = () =>
+    setConfirmDialog({ open: false, person: null, loading: false });
 
   const handleSave = async () => {
     if (!formValid) {
@@ -342,7 +356,10 @@ const PersonPage: React.FC = () => {
   }, [page, rowsPerPage]);
 
   return (
-    <Container maxWidth="xl" sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}>
+    <Container
+      maxWidth="xl"
+      sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}
+    >
       <Paper
         elevation={0}
         sx={{
@@ -369,14 +386,23 @@ const PersonPage: React.FC = () => {
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
               <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-              <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
+              <Typography
+                variant="h6"
+                sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
+              >
                 Filtro de Busca
               </Typography>
               {search && (
                 <Chip
                   label="Filtros ativos"
                   size="small"
-                  sx={{ ml: 1, bgcolor: alpha('#1E4EC4', 0.1), color: '#1E4EC4', fontWeight: 600, fontSize: '0.75rem' }}
+                  sx={{
+                    ml: 1,
+                    bgcolor: alpha('#1E4EC4', 0.1),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    fontSize: '0.75rem',
+                  }}
                 />
               )}
             </Box>
@@ -428,7 +454,14 @@ const PersonPage: React.FC = () => {
 
           <Box sx={{ flexGrow: 1 }}>
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
                 <CircularProgress />
               </Box>
             ) : (
@@ -449,30 +482,16 @@ const PersonPage: React.FC = () => {
           </Box>
 
           {/* Modal */}
-          <Dialog
+
+          <DialogPadronized
             open={openModal}
             onClose={handleCloseModal}
             maxWidth="md"
-            fullWidth
-            PaperProps={{ sx: { borderRadius: 3, boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)' } }}
-          >
-            <DialogTitle
-              sx={{
-                bgcolor: alpha('#1E4EC4', 0.03),
-                borderBottom: '1px solid',
-                borderColor: alpha('#1E4EC4', 0.1),
-                py: 2.5,
-                px: 3,
-              }}
-            >
-              <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                {isVisualizing ? 'Visualizar Pessoa' : editingId ? 'Editar Pessoa' : 'Adicionar Pessoa'}
-              </Typography>
-            </DialogTitle>
-
-            <DialogContent sx={{ p: 3, pt: 4, mt: 1, overflow: 'visible' }}>
+            title={dialogTitle()}
+            content={
               <Box
                 sx={{
+                  mt: 2,
                   display: 'grid',
                   gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' },
                   gap: 1,
@@ -532,7 +551,9 @@ const PersonPage: React.FC = () => {
                   value={secondaryPhone}
                   onChange={(e) => setSecondaryPhone(digits(e.target.value))}
                   error={secPhoneError}
-                  helperText={secPhoneError ? 'Informe DDD + número (10 ou 11 dígitos) ou deixe vazio.' : ' '}
+                  helperText={
+                    secPhoneError ? 'Informe DDD + número (10 ou 11 dígitos) ou deixe vazio.' : ' '
+                  }
                   inputProps={{ inputMode: 'numeric' }}
                   slotProps={{ input: { readOnly: isVisualizing } }}
                 />
@@ -559,10 +580,9 @@ const PersonPage: React.FC = () => {
                   slotProps={{ input: { readOnly: isVisualizing } }}
                 />
               </Box>
-            </DialogContent>
-
-            <DialogActions sx={{ px: 3, pb: 2.5 }}>
-              {isVisualizing ? (
+            }
+            actions={
+              isVisualizing ? (
                 <Button
                   variant="contained"
                   startIcon={<ArrowBackIcon />}
@@ -573,7 +593,11 @@ const PersonPage: React.FC = () => {
                 </Button>
               ) : (
                 <>
-                  <Button onClick={handleCloseModal} disabled={modalLoading} sx={{ color: '#6b7280' }}>
+                  <Button
+                    onClick={handleCloseModal}
+                    disabled={modalLoading}
+                    sx={{ color: '#6b7280' }}
+                  >
                     Cancelar
                   </Button>
                   <Button
@@ -586,9 +610,9 @@ const PersonPage: React.FC = () => {
                     Salvar
                   </Button>
                 </>
-              )}
-            </DialogActions>
-          </Dialog>
+              )
+            }
+          />
 
           <ConfirmDialog
             open={confirmDialog.open}

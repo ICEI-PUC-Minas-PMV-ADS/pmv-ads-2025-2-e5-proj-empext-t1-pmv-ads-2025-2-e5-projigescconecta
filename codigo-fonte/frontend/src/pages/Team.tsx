@@ -47,6 +47,7 @@ import {
   CoursesApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
+import DialogPadronized from '@/components/DialogPadronized';
 
 dayjs.locale('pt-br');
 
@@ -290,6 +291,7 @@ const Team: React.FC = () => {
   };
 
   const columns: Column<Team>[] = [
+    /* { label: 'ID', field: 'teamId' }, */
     { label: 'Nome', field: 'name' },
     { label: 'Data Início', field: 'start' },
     { label: 'Data Fim', field: 'finish' },
@@ -729,34 +731,11 @@ const Team: React.FC = () => {
         </Paper>
       </Container>
       {/* --------------------------------- Modais --------------------------------- */}
-
-      {/* ------------------------- Criação/Edição ------------------------ */}
-      <Dialog
+      <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
-        maxWidth="sm"
-        fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-          },
-        }}
-      >
-        <DialogTitle
-          sx={{
-            bgcolor: alpha('#1E4EC4', 0.03),
-            borderBottom: '1px solid',
-            borderColor: alpha('#1E4EC4', 0.1),
-            py: 2.5,
-            px: 3,
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-            {dialogTitle()}
-          </Typography>
-        </DialogTitle>
-        <DialogContent sx={{ p: 3, mt: 1 }}>
+        title={dialogTitle()}
+        content={
           <Grid container spacing={2}>
             <Grid size={{ xs: 12 }}>
               <TextField
@@ -942,7 +921,7 @@ const Team: React.FC = () => {
               </Box>
             </Grid>
             */}
-            
+
             {isVisualizing && (
               <Grid size={{ xs: 12 }}>
                 <Box mt={3}>
@@ -950,10 +929,7 @@ const Team: React.FC = () => {
                     Participantes
                   </Typography>
                   <Divider sx={{ mb: 2 }} />
-                  <Paper
-                    variant="outlined"
-                    sx={{ p: 2, bgcolor: alpha('#1E4EC4', 0.02) }}
-                  >
+                  <Paper variant="outlined" sx={{ p: 2, bgcolor: alpha('#1E4EC4', 0.02) }}>
                     <Typography
                       sx={{
                         color: 'text.secondary',
@@ -967,9 +943,9 @@ const Team: React.FC = () => {
               </Grid>
             )}
           </Grid>
-        </DialogContent>
-        <DialogActions>
-          {isVisualizing ? (
+        }
+        actions={
+          isVisualizing ? (
             <Button
               variant="contained"
               startIcon={<ArrowBackIcon />}
@@ -1031,9 +1007,9 @@ const Team: React.FC = () => {
                 Salvar
               </Button>
             </>
-          )}
-        </DialogActions>
-      </Dialog>
+          )
+        }
+      />
 
       {/* -------------------- Confirmação de Exclusão -------------------- */}
       <ConfirmDialog
