@@ -295,7 +295,7 @@ const Team: React.FC = () => {
     { label: 'Data Fim', field: 'finish' },
     { label: 'Projeto', field: 'projectProgramName' },
     { label: 'Programa', field: 'courseName' },
-    { label: 'Nº Alunos', field: 'personTeamsCount', align: 'center' },
+    { label: 'Total de Participantes', field: 'personTeamsCount', align: 'center' },
   ];
 
   const handleSearch = () => {
@@ -885,11 +885,12 @@ const Team: React.FC = () => {
               </FormControl>
             </Grid>
 
+            {/* Cadastro de Participantes comentado */}
+            {/* 
             <Grid size={{ xs: 12 }}>
-              {/* Alunos editáveis */}
               <Box mt={3}>
                 <Typography variant="subtitle1">
-                  <strong>Alunos</strong>
+                  <strong>Participantes</strong>
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
 
@@ -910,14 +911,13 @@ const Team: React.FC = () => {
                   )}
                   renderTags={() => null}
                   renderInput={(params) => (
-                    <TextField {...params} placeholder="Selecionar alunos..." size="small" />
+                    <TextField {...params} placeholder="Selecionar participantes..." size="small" />
                   )}
                   isOptionEqualToValue={(option, value) => option.id === value.id}
                   fullWidth
                   disabled={personsLoading || isVisualizing}
                 />
 
-                {/* Chips de Alunos */}
                 {selectedPersonIds.length > 0 ? (
                   <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                     {persons
@@ -941,6 +941,31 @@ const Team: React.FC = () => {
                 )}
               </Box>
             </Grid>
+            */}
+            
+            {isVisualizing && (
+              <Grid size={{ xs: 12 }}>
+                <Box mt={3}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1a1a2e', mb: 1 }}>
+                    Participantes
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <Paper
+                    variant="outlined"
+                    sx={{ p: 2, bgcolor: alpha('#1E4EC4', 0.02) }}
+                  >
+                    <Typography
+                      sx={{
+                        color: 'text.secondary',
+                        textAlign: 'center',
+                      }}
+                    >
+                      Nenhum participante cadastrado nesta turma.
+                    </Typography>
+                  </Paper>
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </DialogContent>
         <DialogActions>
