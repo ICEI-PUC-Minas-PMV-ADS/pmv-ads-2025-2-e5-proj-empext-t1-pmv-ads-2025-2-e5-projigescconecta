@@ -3267,9 +3267,12 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 </details>
 
+<details>
+
 <summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
 
 <table>
+  
 <tr>
     <th colspan="6" width="1000">CT-O01<br>Cadastar pessoa</th>
   </tr>
@@ -3294,12 +3297,10 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
     <img width="1022" height="556" alt="image" src="https://github.com/user-attachments/assets/6b3eacb6-eff9-4b65-abd3-df100b4fccd6" />
     <img width="1137" height="586" alt="image" src="https://github.com/user-attachments/assets/c531d386-a115-4d03-826b-1f735e73795e" />
   </tr>
+  <table>
+ 
+    ---
   
-  ---
-  
-</td>
-  </tr>
-
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
