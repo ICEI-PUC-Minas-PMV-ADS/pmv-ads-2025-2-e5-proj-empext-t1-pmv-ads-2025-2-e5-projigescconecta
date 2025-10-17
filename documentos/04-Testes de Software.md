@@ -1192,7 +1192,7 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-P01-S<br>Criar Pessoas</th>
+    <th colspan="2" width="1000">CT-P01-S<br>Cadastrar Pessoas</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -1208,7 +1208,7 @@ ________________________________________________________________________________
   </tr>
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-001</td>
+    <td>RF-002</td>
   </tr>
   <tr>
     <td><strong>Passos</strong></td>
