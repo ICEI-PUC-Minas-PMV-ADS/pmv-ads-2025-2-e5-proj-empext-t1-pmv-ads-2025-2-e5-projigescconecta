@@ -303,6 +303,8 @@ ________________________________________________________________________________
 </table>
 </details>
 
+
+
 ## ETAPA 3  
 
 
@@ -1586,6 +1588,602 @@ ________________________________________________________________________________
 
 </details>
 
+<details>
+<summary><h2>🏢 Empresa</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-EMP-01 - S
+
+
+Criar Empresa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite criar uma nova Empresa com sucesso, preenchendo os campos obrigatórios.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Empresas".
+
+
+
+      2. Clicar no botão "Nova Empresa".
+
+
+
+      3. Preencher todos os campos obrigatórios: CNPJ, Razão Social e Nome Fantasia.
+
+
+
+      4. Clicar no botão "Criar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>CNPJ:</strong> 98.765.432/0001-10
+
+
+
+      - <strong>Razão Social:</strong> Empresa de Teste Sucesso LTDA
+
+
+
+      - <strong>Nome Fantasia:</strong> Teste Sucesso
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a mensagem "Empresa criada com sucesso!", fechar o modal e a nova empresa deve aparecer na listagem.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-EMP-02 - S
+
+
+Editar Empresa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite editar as informações de uma Empresa existente.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Na listagem de empresas, localizar uma empresa ativa.
+
+
+
+      2. Clicar no botão "Editar".
+
+
+
+      3. Alterar um ou mais campos (ex: Telefone, E-mail).
+
+
+
+      4. Clicar em "Atualizar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a mensagem "Empresa atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-EMP-03 - S
+
+
+Inativar e Reativar Empresa</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite inativar uma empresa ativa e, em seguida, reativá-la, alterando seu status.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Na lista de empresas "Ativas", clicar no botão "Remover" de uma empresa.
+
+
+
+      2. No modal de confirmação, clicar em "Inativar".
+
+
+
+      3. Verificar se a empresa sumiu da lista de ativas.
+
+
+
+      4. Mudar o filtro para "Inativas" e localizar a empresa recém-inativada.
+
+
+
+      5. Clicar no botão "Remover" (que agora deve funcionar como Reativar).
+
+
+
+      6. Confirmar a reativação no modal.
+
+
+
+      7. Mudar o filtro para "Ativas" e verificar se a empresa retornou à lista.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir mensagens de sucesso para ambas as ações e o status da empresa deve ser alterado corretamente.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-EMP-04 - S
+
+
+Listar e Filtrar Empresas</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se a listagem de empresas é exibida corretamente e se os filtros por Nome e Status (Ativas/Inativas) funcionam.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Empresas".
+
+
+
+      2. Verificar se a tabela é preenchida com as empresas (por padrão, as ativas).
+
+
+
+      3. Digitar um nome de empresa existente no campo "Nome da Empresa" e clicar em "Buscar".
+
+
+
+      4. Selecionar o filtro "Inativas".
+
+
+      5. Verificar se a tabela é preenchida com as empresas Inativas.
+
+
+      6. Digitar um nome de empresa existente no campo "Nome da Empresa" e clicar em "Buscar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Nome da Empresa:</strong> "Empresa Teste"
+
+
+
+      - <strong>Status:</strong> "Ativas" e "Inativas"
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>A tabela deve ser atualizada a cada busca, mostrando apenas os resultados que correspondem aos filtros aplicados.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-EMP-05 - I01
+
+
+Tentar Criar Empresa com Campos Obrigatórios Vazios</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema impede a criação de uma empresa sem CNPJ, Razão Social ou Nome Fantasia.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-009</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Empresas".
+
+
+
+      2. Clicar em "Nova Empresa".
+
+
+
+      3. Deixar um dos campos obrigatórios (ex: CNPJ) em branco.
+
+
+
+      4. Clicar em "Criar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que os campos são obrigatórios e não deve criar a empresa.</td>
+  </tr>
+</table>
+</details>
+
+<details>
+<summary><h2>💝 Doações</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-01 - S
+
+
+Criar Doação</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite criar uma nova Doação com sucesso, selecionando um doador e um destino.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-011</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de "Lista de Doações".
+
+
+
+      2. Clicar no botão "Nova Doação".
+
+
+
+      3. Preencher um Valor maior que zero e a Data.
+
+
+
+      4. Selecionar um "Tipo de Doador" e escolher uma Pessoa ou Empresa no dropdown.
+
+
+
+      5. Selecionar um "Tipo de Destino" e escolher uma OSC, ou um Programa e Turma.
+
+
+
+      6. Clicar no botão "Criar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>Valor:</strong> 250.00
+
+
+
+      - <strong>Doador:</strong> (Selecionar uma pessoa da lista)
+
+
+
+      - <strong>Destino:</strong> (Selecionar uma OSC da lista)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a mensagem "Doação criada com sucesso!", fechar o modal e a nova doação deve aparecer na listagem com os nomes corretos de Doador e Destino.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-02 - S
+
+
+Editar Doação</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite editar as informações de uma doação existente (valor, data, destino).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-011</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Na listagem, clicar no botão "Editar" de uma doação existente.
+
+
+
+      2. No modal, alterar o valor da doação.
+
+
+
+      3. Alterar o destino da doação (ex: de OSC para Turma).
+
+
+
+      4. Clicar em "Atualizar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a mensagem "Doação atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-03 - S
+
+
+Excluir Doação</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema permite excluir uma doação existente.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-011</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Na lista de doações, clicar no botão "Remover" de uma doação.
+
+
+
+      2. No modal de confirmação, clicar em "Excluir".
+
+
+
+      3. Verificar se a doação desapareceu da lista.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir a mensagem "Doação excluída com sucesso!" e a doação não deve mais aparecer na listagem.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-04 - S
+
+
+Listar e Filtrar Doações por ID</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se a listagem de doações é exibida corretamente e se o filtro por ID funciona.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro Roberto</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-011</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Doações".
+
+
+
+      2. Verificar se a tabela é preenchida com as doações.
+
+
+
+      3. Digitar o ID de uma doação existente no campo "Filtrar por ID" e clicar em "Buscar".
+
+
+
+      4. Clicar em "Limpar" para ver a lista completa novamente.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    <td>
+      - <strong>ID:</strong> (ID de uma doação existente)
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>A tabela deve ser atualizada a cada busca, mostrando apenas a doação com o ID especificado, e deve retornar à lista completa ao limpar o filtro.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-05 - I01
+
+
+Tentar Criar Doação com Valor Zero</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o sistema impede a criação de uma doação com valor igual a zero.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-005</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Doações".
+
+
+
+      2. Clicar em "Nova Doação".
+
+
+
+      3. Manter o campo "Valor" como 0 ou inserir um valor negativo.
+
+
+
+      4. Preencher os outros campos e clicar em "Criar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando que "O valor da doação deve ser positivo." e não deve criar a doação.</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-DOA-06 - I02
+
+
+Tentar Criar Doação sem Doador</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verifica se o backend impede a criação de uma doação quando nenhum doador (Pessoa ou Empresa) é selecionado.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Pedro</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-005</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela "Lista de Doações".
+
+
+
+      2. Clicar em "Nova Doação".
+
+
+
+      3. Preencher o Valor e a Data.
+
+
+
+      4. Deixar a seleção de "Pessoa (Doador)" ou "Empresa (Doador)" vazia.
+
+
+
+      5. Clicar em "Criar".
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro vinda do backend, como "A doação deve ter exatamente um doador...", e não deve criar a doação.</td>
+  </tr>
+</table>
+
+</details>
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
@@ -2778,6 +3376,11 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
 </table>
 </details>
+
+
+
+
+
 
 ## Parte 2 - Testes por pares
 A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade deve ser testada por um colega e os testes devem ser evidenciados. O colega "Tester" deve utilizar o caso de teste criado pelo desenvolvedor responsável pela funcionalidade (desenvolveu a funcionalidade e criou o caso de testes descrito no plano de testes) e caso perceba a necessidade de outros casos de teste, deve acrescentá-los na sessão "Plano de Testes".
