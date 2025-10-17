@@ -3294,8 +3294,11 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
       O cadastro da Pessoa foi realizado com sucesso. A pessoa foi listada corretamente e os campos obrigatórios foram validados.
     </td>
      <td colspan="6" align="center"><strong>Evidência</strong></td>
-    <img width="1022" height="556" alt="image" src="https://github.com/user-attachments/assets/6b3eacb6-eff9-4b65-abd3-df100b4fccd6" />
-    <img width="1137" height="586" alt="image" src="https://github.com/user-attachments/assets/c531d386-a115-4d03-826b-1f735e73795e" />
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/dbbd9abd-0aa9-4b60-a7d1-5a8fdb0ca69c" />
+<td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/e01986de-7dd0-4766-81f9-0290e5ff45b0" />
+</td>
   </tr>
   <table>
  
