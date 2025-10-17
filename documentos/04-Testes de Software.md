@@ -3329,7 +3329,6 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   </tr>
   <tr>
     <td colspan="6" align="center"><img width="1808" height="495" alt="image" src="https://github.com/user-attachments/assets/ccf2eacb-9647-4a49-a118-60c13b921cc6" />
-/>
 </td>
   </tr>
 </table>
