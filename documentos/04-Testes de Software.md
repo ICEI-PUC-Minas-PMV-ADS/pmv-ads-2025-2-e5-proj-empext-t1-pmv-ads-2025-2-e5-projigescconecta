@@ -3298,7 +3298,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
      <td colspan="6" align="center"><strong>Evidência</strong></td>
   </tr>
   <tr>
-    <td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/85b219c2-0beb-4ddc-8121-cb0e6f978f89" />
+    <td colspan="6" align="center"><img width="1855" height="476" alt="image" src="https://github.com/user-attachments/assets/693da952-fa47-4980-9dc8-088039cac169" />
 </td>
   </tr>
   <table>
