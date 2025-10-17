@@ -774,15 +774,8 @@ const Osc: React.FC = () => {
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {/* Dados principais */}
                     <Box>
-                      <Typography variant="h6" gutterBottom>Detalhes da OSC</Typography>
-                      <Divider sx={{ mb: 2 }} />
                       <Typography><strong>ID:</strong> {selectedOsc.oscId}</Typography>
-                      <Typography><strong>Nome:</strong> <PatternFormat
-                        displayType="text"
-                        format="(##) #####-####"
-                        value={selectedOsc.phoneNumber || ''}
-                        mask="_"
-                      /></Typography>
+                      <Typography><strong>Nome:</strong> {selectedOsc.name}</Typography>
                       <Typography><strong>Razão Social:</strong> {selectedOsc.corporateName}</Typography>
                       <Typography><strong>CNPJ:</strong> <PatternFormat
                         displayType="text"
@@ -790,7 +783,12 @@ const Osc: React.FC = () => {
                         value={selectedOsc.oscPrimaryDocumment || ''}
                         mask="_"
                       /></Typography>
-                      <Typography><strong>Telefone:</strong> {selectedOsc.phoneNumber}</Typography>
+                      <Typography><strong>Telefone:</strong> <PatternFormat
+                        displayType="text"
+                        format="(##) #####-####"
+                        value={selectedOsc.phoneNumber || ''}
+                        mask="_"
+                      /></Typography>
                       <Typography><strong>Email:</strong> {selectedOsc.email}</Typography>
                       <Typography><strong>Website:</strong> {selectedOsc.webUrl}</Typography>
                       <Typography><strong>Mídia Social:</strong> {selectedOsc.socialMedia}</Typography>
