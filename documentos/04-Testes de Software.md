@@ -3332,7 +3332,37 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </td>
   </tr>
 </table>
- 
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O03<br>Remover Pessoa</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve excluir a Pessoa selecionada e atualizar a listagem, removendo-a completamente após confirmação.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Kênia Caires</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>08/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Exclusão realizada corretamente. A Pessoa foi removida da listagem e não aparece após atualização.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1835" height="488" alt="image" src="https://github.com/user-attachments/assets/f5256123-6d12-49d9-897c-0a0b2adeddb8" />
+</td>
+  </tr>
+</table>
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
