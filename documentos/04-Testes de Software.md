@@ -3757,7 +3757,10 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 Criar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa criada com sucesso!", fechar o modal e a nova empresa deve aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1913" height="944" alt="image" src="https://github.com/user-attachments/assets/c51e41cc-870a-4e1e-9932-2ff577771e68" />  <img width="1917" height="947" alt="image" src="https://github.com/user-attachments/assets/4398f67a-ac08-42d2-aef3-39df3f2b50c3" />
+Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center">
+<img width="1913" height="944" alt="image" src="https://github.com/user-attachments/assets/c51e41cc-870a-4e1e-9932-2ff577771e68" />  
+<img width="1902" height="929" alt="image" src="https://github.com/user-attachments/assets/849160f0-2ab7-453a-b91c-433547d295df" />
+
 </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-02
