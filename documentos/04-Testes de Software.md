@@ -1251,7 +1251,7 @@ ________________________________________________________________________________
 <table>
 
   <tr>
-    <th colspan="2" width="1000">CT-O02 - S<br>Editar Pessoas</th>
+    <th colspan="2" width="1000">CT-PO02 - S<br>Editar Pessoas</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -1287,7 +1287,7 @@ ________________________________________________________________________________
  
  <table>
   <tr>
-    <th colspan="2" width="1000">CT-O03 - S<br>Remover Pessoa</th>
+    <th colspan="2" width="1000">CT-PO03 - S <br>Remover Pessoa</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -1324,7 +1324,7 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-O04 - I01<br>Cadastrar PESSOA sem prencher dados obrigatorios</th>
+    <th colspan="2" width="1000">CT-PO04 - S <br>Cadastrar Pessoa sem prencher dados obrigatorios</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
@@ -1362,11 +1362,11 @@ ________________________________________________________________________________
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-O05 - S<br>Listar Pessoas</th>
+    <th colspan="2" width="1000">CT-PO05 - S<br>Listar Pessoas</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica se o sistema exibe corretamente todas as pessoas cadastradas e permite a filtragem por Nome, CPF, Telefone, ou Email.</td>
+    <td>Este caso de teste verifica se o sistema exibe corretamente todas as pessoas cadastradas e permite a filtragem por Nome.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste</strong></td>
@@ -1385,13 +1385,13 @@ ________________________________________________________________________________
     <td>
       1. Acessar a tela de Pessoas.<br>
       2. Visualizar a listagem de Pessoas cadastradas<br>
-      3. Aplicar filtros por Nome, CPF, Telefone, ou Email<br>
+      3. Aplicar filtros por Nome <br>
       4. Verificar o resultado da pesquisa.
     </td>
   </tr>
   <tr>
     <td><strong>Critérios de êxito</strong></td>
-    <td>O sistema deve exibir a lista de Pessoas corretamente, incluindo os resultados filtrados conforme os critérios informados.</td>
+    <td>O sistema deve exibir a lista de Pessoas corretamente, incluindo os resultados filtrados conforme o critério informado.</td>
   </tr>
 </table>
 
@@ -3274,7 +3274,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 <table>
   
 <tr>
-    <th colspan="6" width="1000">CT-O01<br>Cadastar pessoa</th>
+    <th colspan="6" width="1000">CT-O01<br>Cadastrar Pessoa</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -3304,7 +3304,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   <table>
   <table>
   <tr>
-    <th colspan="6" width="1000">CT-O02<br>Editar   Pessoas</th>
+    <th colspan="6" width="1000">CT-O02<br>Editar   Pessoa</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -3352,7 +3352,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   <tr>
     <td><strong>Comentário</strong></td>
     <td colspan="5">
-      Exclusão realizada corretamente. A Pessoa foi removida da listagem não aparece após atualização.
+      Exclusão realizada corretamente. A Pessoa foi removida da listagem, não aparece após atualização.
     </td>
   </tr>
   <tr>
@@ -3366,7 +3366,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <table>
   <tr>
-    <th colspan="6" width="1000">CT-O04<br>Cadastrar PESSOA sem prencher dados obrigatórios</th>
+    <th colspan="6" width="1000">CT-O04<br>Adicionar Pessoa sem prencher dados obrigatórios</th>
   </tr>
   <tr>
     <td width="170"><strong>Critérios de êxito</strong></td>
@@ -5117,7 +5117,7 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Excluir Doação</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Doação excluída com sucesso!" e a doação não deve mais aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A exclusão de doações está funcionando. Após a confirmação, o item é removido da tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"><img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/51c381f7-85aa-4ef4-966f-420957e03d1d" />
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A exclusão de doações está funcionando. Após a confirmação, o item é removido da tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"><img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/51c381f7-85aa-4ef4-966f-420957e03d1d" />
 </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-04
@@ -5126,7 +5126,7 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Listar e Filtrar Doações por ID</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">A tabela deve ser atualizada a cada busca, mostrando apenas a doação com o ID especificado.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O filtro por ID está funcionando corretamente. Ao buscar por um ID, apenas o registro correspondente é exibido.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image"[VOU COLOCAR IMAGEM DA TELA DE DOAÇÕES COM UM ID DIGITADO NO FILTRO E A TABELA MOSTRANDO APENAS UM RESULTADO] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O filtro por ID está funcionando corretamente. Ao buscar por um ID, apenas o registro correspondente é exibido.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image"[VOU COLOCAR IMAGEM DA TELA DE DOAÇÕES COM UM ID DIGITADO NO FILTRO E A TABELA MOSTRANDO APENAS UM RESULTADO] </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-05
 
@@ -5143,7 +5143,7 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Doação sem Doador</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro, como "Error ao salvar doação...", e não deve criar a doação.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"><img width="1306" height="700" alt="image" [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO SEM DOADOR SELECIONADO E A MENSAGEM DE ERRO (TOAST) VINDA DO BACKEND] </td>   </tr> </table> </details>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"><img width="1306" height="700" alt="image" [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO SEM DOADOR SELECIONADO E A MENSAGEM DE ERRO (TOAST) VINDA DO BACKEND] </td>   </tr> </table> </details>
 
 
 
