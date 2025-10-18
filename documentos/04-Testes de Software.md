@@ -762,6 +762,7 @@ ________________________________________________________________________________
 
 </details>
 
+
 <details>
 <summary><h2>💠 Grupo de Causas</h2></summary>
 
@@ -1186,6 +1187,8 @@ ________________________________________________________________________________
     <td>O sistema deve exibir todas as Causas associadas ao Grupo corretamente, incluindo o filtro funcional.</td>
   </tr>
 </table>
+</details>
+
 
 <details>
 <summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
@@ -3424,6 +3427,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </td>
   </tr>
 </table>
+</details>
+
 
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
