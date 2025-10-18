@@ -5065,7 +5065,7 @@ Teste: Kênia Caires</td>     <td width="100"><strong>Data do Teste</strong></td
 Editar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA LISTA COM DADOS ANTIGOS, O MODAL DE EDIÇÃO COM DADOS NOVOS E, POR FIM, A LISTA ATUALIZADA] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA LISTA COM DADOS ANTIGOS, O MODAL DE EDIÇÃO COM DADOS NOVOS E, POR FIM, A LISTA ATUALIZADA] </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-03
 
@@ -5073,7 +5073,7 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Inativar e Reativar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir mensagens de sucesso para ambas as ações e o status da empresa deve ser alterado corretamente.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM 1: MODAL DE CONFIRMAÇÃO DE INATIVAÇÃO. IMAGEM 2: LISTA DE "INATIVAS" MOSTRANDO A EMPRESA. IMAGEM 3: MODAL DE CONFIRMAÇÃO DE REATIVAÇÃO] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM 1: MODAL DE CONFIRMAÇÃO DE INATIVAÇÃO. IMAGEM 2: LISTA DE "INATIVAS" MOSTRANDO A EMPRESA. IMAGEM 3: MODAL DE CONFIRMAÇÃO DE REATIVAÇÃO] </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-04
 
@@ -5081,7 +5081,8 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Listar e Filtrar Empresas</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">A tabela deve ser atualizada a cada busca, mostrando apenas os resultados que correspondem aos filtros aplicados.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Filtros por nome e por status (Ativas/Inativas) estão funcionando, atualizando a listagem corretamente a cada busca.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM MOSTRANDO A LISTA FILTRADA POR NOME E OUTRA IMAGEM MOSTRANDO A LISTA FILTRADA PELO STATUS "INATIVAS"] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Filtros por nome e por status (Ativas/Inativas) estão funcionando, atualizando a listagem corretamente a cada busca.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/6116a556-8a56-486b-98b9-88a8fb6041ba" />
+</td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-05
 
@@ -5089,7 +5090,8 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Empresa com Campos Obrigatórios Vazios</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro informando que os campos são obrigatórios e não deve criar a empresa.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO COM O CAMPO CNPJ VAZIO E A MENSAGEM DE ERRO (TOAST) APARECENDO NA TELA] </td>   </tr> </table> </details>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>  <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/d03668b3-7168-49ae-9db9-43261cc0c81e" />
+ </td>   </tr> </table> </details>
 
 <details> <summary><h2>Testes: 💝 Doações</h2></summary>
 
