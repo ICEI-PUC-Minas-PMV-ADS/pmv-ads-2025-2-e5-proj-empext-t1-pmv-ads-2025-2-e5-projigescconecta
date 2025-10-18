@@ -5056,8 +5056,9 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 Criar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa criada com sucesso!", fechar o modal e a nova empresa deve aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td> 
-</tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA TELA DE EMPRESAS COM O MODAL DE CRIAÇÃO PREENCHIDO E, EM SEGUIDA, A LISTA ATUALIZADA COM A NOVA EMPRESA E A MENSAGEM DE SUCESSO] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td> 
+</tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/5bdd0d11-c046-43e4-b8a6-5ea8dcd1be9f" />
+</td>   </tr> </table>
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-02
 
 
