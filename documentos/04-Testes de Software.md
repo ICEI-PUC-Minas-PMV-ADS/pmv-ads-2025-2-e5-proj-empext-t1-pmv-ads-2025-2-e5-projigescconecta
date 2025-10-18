@@ -3352,7 +3352,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
   <tr>
     <td><strong>Comentário</strong></td>
     <td colspan="5">
-      Exclusão realizada corretamente. A Pessoa foi removida da listagem e não aparece após atualização.
+      Exclusão realizada corretamente. A Pessoa foi removida da listagem não aparece após atualização.
     </td>
   </tr>
   <tr>
@@ -3363,6 +3363,38 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </td>
   </tr>
 </table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-O04<br>Cadastrar PESSOA sem prencher dados obrigatórios</th>
+  </tr>
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+     O sistema não permite salvar sem todos os campos obrigatórios estarem preenchidos.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td>Kênia Caires</td>
+    <td><strong>Data do Teste</strong></td>
+    <td>08/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      O sistema impede corretamente o cadastro se os campos obrigatorios não estiverem todos preenchidos, não é possível salvar.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><img width="1462" height="827" alt="image" src="https://github.com/user-attachments/assets/090262ba-e7de-4963-9af6-f5fdb44fa8bb" />
+</td>
+  </tr>
+</table>
+
 <details>
 <summary><h2>Testes: 🎓 Programa</h2></summary>
 
