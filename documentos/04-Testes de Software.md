@@ -3752,7 +3752,8 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 Criar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa criada com sucesso!", fechar o modal e a nova empresa deve aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA TELA DE EMPRESAS COM O MODAL DE CRIAÇÃO PREENCHIDO E, EM SEGUIDA, A LISTA ATUALIZADA COM A NOVA EMPRESA E A MENSAGEM DE SUCESSO] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1913" height="944" alt="image" src="https://github.com/user-attachments/assets/c51e41cc-870a-4e1e-9932-2ff577771e68" />  <img width="1917" height="947" alt="image" src="https://github.com/user-attachments/assets/4398f67a-ac08-42d2-aef3-39df3f2b50c3" />
+</td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-02
 
@@ -3760,7 +3761,12 @@ Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td
 Editar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA LISTA COM DADOS ANTIGOS, O MODAL DE EDIÇÃO COM DADOS NOVOS E, POR FIM, A LISTA ATUALIZADA] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="804" height="414" alt="image" src="https://github.com/user-attachments/assets/1db32b96-60e3-430b-8a05-e0567686d1e0" />
+
+<img width="1902" height="756" alt="image" src="https://github.com/user-attachments/assets/638efd87-b32b-4bf1-9693-6a5908c14ebd" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-03
 
@@ -3768,7 +3774,18 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Inativar e Reativar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir mensagens de sucesso para ambas as ações e o status da empresa deve ser alterado corretamente.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM 1: MODAL DE CONFIRMAÇÃO DE INATIVAÇÃO. IMAGEM 2: LISTA DE "INATIVAS" MOSTRANDO A EMPRESA. IMAGEM 3: MODAL DE CONFIRMAÇÃO DE REATIVAÇÃO] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="392" height="199" alt="image" src="https://github.com/user-attachments/assets/3d132ebe-6fec-46b1-8ecb-b323040c8f8e" />
+
+<img width="431" height="116" alt="image" src="https://github.com/user-attachments/assets/1183187c-81c3-4402-bec5-fb8b68b7ecb1" />
+
+<img width="1385" height="850" alt="image" src="https://github.com/user-attachments/assets/df3a747f-be72-417c-88e6-ce7e50751497" />
+
+<img width="398" height="200" alt="image" src="https://github.com/user-attachments/assets/09e5c548-cb6b-4d3c-88d1-8d9d8017153d" />
+<img width="1364" height="926" alt="image" src="https://github.com/user-attachments/assets/1a1026bc-0adb-4bea-8637-decafccaaea6" />
+
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-04
 
@@ -3776,7 +3793,11 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Listar e Filtrar Empresas</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">A tabela deve ser atualizada a cada busca, mostrando apenas os resultados que correspondem aos filtros aplicados.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Filtros por nome e por status (Ativas/Inativas) estão funcionando, atualizando a listagem corretamente a cada busca.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM MOSTRANDO A LISTA FILTRADA POR NOME E OUTRA IMAGEM MOSTRANDO A LISTA FILTRADA PELO STATUS "INATIVAS"] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Filtros por nome e por status (Ativas/Inativas) estão funcionando, atualizando a listagem corretamente a cada busca.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="1415" height="543" alt="image" src="https://github.com/user-attachments/assets/23b836f3-4c33-47a3-ba30-7ff2a54d62a1" />
+<img width="1371" height="538" alt="image" src="https://github.com/user-attachments/assets/009f97d5-5b37-44c1-a3af-0eafb9054f1b" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-05
 
@@ -3784,7 +3805,10 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Empresa com Campos Obrigatórios Vazios</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro informando que os campos são obrigatórios e não deve criar a empresa.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO COM O CAMPO CNPJ VAZIO E A MENSAGEM DE ERRO (TOAST) APARECENDO NA TELA] </td>   </tr> </table> </details>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="1418" height="838" alt="image" src="https://github.com/user-attachments/assets/a7bf0947-2f62-4c33-8ea3-0befd720c101" />
+
+</td>   </tr> </table> </details>
 
 <details> <summary><h2>Testes: 💝 Doações</h2></summary>
 
@@ -3794,7 +3818,11 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Criar Doação</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Doação criada com sucesso!", fechar o modal e a nova doação deve aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Criação de doação funcionando perfeitamente. Dados carregados nos dropdowns e salvamento ocorrendo como esperado.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA TELA DE DOAÇÕES COM O MODAL DE CRIAÇÃO PREENCHIDO E DEPOIS A LISTA ATUALIZADA COM A NOVA DOAÇÃO] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Criação de doação funcionando perfeitamente. Dados carregados nos dropdowns e salvamento ocorrendo como esperado.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center">
+<img width="532" height="510" alt="image" src="https://github.com/user-attachments/assets/90b66cd5-2142-4051-8dc0-892dbc9870c4" />
+<img width="1403" height="780" alt="image" src="https://github.com/user-attachments/assets/de54766d-5488-4148-8916-8d2fb4196425" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-02
 
@@ -3802,7 +3830,11 @@ Teste: Pedro Roberto</td>     <td width="100"><strong>Data do Teste</strong></td
 Editar Doação</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Doação atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição de doação funcionando. Alteração de valor e destino foi salva e refletida corretamente na tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE EDIÇÃO COM DADOS ALTERADOS E DEPOIS A LISTA ATUALIZADA COM A DOAÇÃO MODIFICADA] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição de doação funcionando. Alteração de valor e destino foi salva e refletida corretamente na tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="539" height="511" alt="image" src="https://github.com/user-attachments/assets/253f25d3-648e-4131-a1e8-7421ae37f566" />
+<img width="1360" height="422" alt="image" src="https://github.com/user-attachments/assets/f96d9d34-6eb3-45b6-a933-399ffda8de54" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-03
 
@@ -3810,7 +3842,11 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Excluir Doação</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Doação excluída com sucesso!" e a doação não deve mais aparecer na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A exclusão de doações está funcionando. Após a confirmação, o item é removido da tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE CONFIRMAÇÃO DE EXCLUSÃO E DEPOIS A LISTA DE DOAÇÕES ATUALIZADA SEM O ITEM EXCLUÍDO] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A exclusão de doações está funcionando. Após a confirmação, o item é removido da tabela.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="389" height="189" alt="image" src="https://github.com/user-attachments/assets/0845ab25-1379-420d-ae07-dcf80deead1a" />
+<img width="1390" height="800" alt="image" src="https://github.com/user-attachments/assets/827cb596-5d2f-4b31-8bdf-68baa7ac0fa2" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-04
 
@@ -3818,7 +3854,9 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Listar e Filtrar Doações por ID</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">A tabela deve ser atualizada a cada busca, mostrando apenas a doação com o ID especificado.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O filtro por ID está funcionando corretamente. Ao buscar por um ID, apenas o registro correspondente é exibido.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA TELA DE DOAÇÕES COM UM ID DIGITADO NO FILTRO E A TABELA MOSTRANDO APENAS UM RESULTADO] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O filtro por ID está funcionando corretamente. Ao buscar por um ID, apenas o registro correspondente é exibido.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="1400" height="563" alt="image" src="https://github.com/user-attachments/assets/aac0c1e2-34b6-424c-a2ea-06eb4a26acf1" />
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-05
 
@@ -3826,7 +3864,10 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Doação com Valor Zero</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro informando que "O valor da doação deve ser positivo." e não deve criar a doação.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação do campo "Valor" está funcionando. O sistema exibiu a mensagem de erro correta ao tentar salvar com valor 0.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO DE DOAÇÃO COM O CAMPO VALOR EM 0 E A MENSAGEM DE ERRO (TOAST) APARECENDO NA TELA] </td>   </tr> </table>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação do campo "Valor" está funcionando. O sistema exibiu a mensagem de erro correta ao tentar salvar com valor 0.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="953" height="835" alt="image" src="https://github.com/user-attachments/assets/67a98bd3-279a-4625-bb7e-11cb307eb63e" />
+
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-DOA-06
 
@@ -3834,7 +3875,10 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Doação sem Doador</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro, como "Error ao salvar doação...", e não deve criar a doação.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DO MODAL DE CRIAÇÃO SEM DOADOR SELECIONADO E A MENSAGEM DE ERRO (TOAST) VINDA DO BACKEND] </td>   </tr> </table> </details>
+Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td width="150">17/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> 
+<img width="791" height="803" alt="image" src="https://github.com/user-attachments/assets/20204582-e86f-4733-a7fe-7be9f995de70" />
+
+</td>   </tr> </table> </details>
 
 
 
