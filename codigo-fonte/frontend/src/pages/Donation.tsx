@@ -48,7 +48,7 @@ interface DonationFullDetails {
 
 const columns: Column<DonationViewModel>[] = [
     { label: 'ID', field: 'id' },
-    { label: 'Valor', field: 'value', render: (data) => `R$ ${data.value?.toFixed(2).replace('.', ',')}` },
+    { label: 'Valor', field: 'value', render: (data) => `R$ ${Number(data).toFixed(2).replace('.', ',')}` },
     { label: 'Data', field: 'donationDate' }, 
     { label: 'Doador', field: 'doadorNome' },
     { label: 'Destino', field: 'destinoNome' },
