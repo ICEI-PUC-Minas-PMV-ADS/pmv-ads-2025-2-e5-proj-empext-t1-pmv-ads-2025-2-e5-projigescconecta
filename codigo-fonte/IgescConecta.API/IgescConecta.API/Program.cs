@@ -2,6 +2,7 @@ using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Options;
 using IgescConecta.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -52,17 +53,18 @@ builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Fr
 // ---------- CORS ----------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Frontend", p =>
-        p.WithOrigins(
+    options.AddPolicy("Frontend", builder =>
+    {
+        builder.WithOrigins(
             "http://localhost:3000",
             "http://localhost:5173",
             "https://igesc-conecta.web.app",
             "https://igesc-conecta.firebaseapp.com"
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-    // .AllowCredentials() // sÃ³ se usar cookies
-    );
+            );
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+        builder.AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -71,6 +73,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
 }
+
+app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
+{
+    var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
+    if (!StringValues.IsNullOrEmpty(reqHeaders))
+        ctx.Response.Headers.Append("Access-Control-Allow-Headers", reqHeaders);
+
+    var reqMethod = ctx.Request.Headers["Access-Control-Request-Method"];
+    if (!StringValues.IsNullOrEmpty(reqMethod))
+        ctx.Response.Headers.Append("Access-Control-Allow-Methods", reqMethod);
+
+    return Results.Ok();
+})
+.RequireCors("Frontend");
+
+
 
 // ---------- Swagger com feature flag ----------
 var enableSwagger = app.Configuration.GetValue("Swagger:Enabled", true);
