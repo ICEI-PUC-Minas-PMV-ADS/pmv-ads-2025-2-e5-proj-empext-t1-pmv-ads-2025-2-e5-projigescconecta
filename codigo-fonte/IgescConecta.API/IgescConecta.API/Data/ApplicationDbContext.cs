@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http; 
-using System.Collections.Generic; 
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Threading;
@@ -19,6 +19,7 @@ namespace IgescConecta.API.Data
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
         private readonly IHttpContextAccessor _contextAccessor;
+        public bool DisableAuditing { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
@@ -30,7 +31,6 @@ namespace IgescConecta.API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
-
         public DbSet<Company> Companies { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Donation> Donations { get; set; }
@@ -47,12 +47,9 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
 
-
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
 
             builder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
@@ -83,8 +80,6 @@ namespace IgescConecta.API.Data
             builder.Entity<ProjectTheme>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<ProjectType>().HasQueryFilter(e => !e.IsDeleted);
 
-
-
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -111,6 +106,8 @@ namespace IgescConecta.API.Data
 
         private void OnBeforeSaving()
         {
+            if (DisableAuditing) return;
+
             var entries = ChangeTracker.Entries()
                 .Where(x => x.Entity is BaseEntity || x.Entity is User)
                 .ToList();
@@ -145,22 +142,22 @@ namespace IgescConecta.API.Data
                     if (entry.State == EntityState.Added)
                     {
                         user.CreatedAt = DateTime.UtcNow;
-                        user.CreatedBy = currentUserId;
+                        if (currentUserId > 0) user.CreatedBy = currentUserId;
                     }
 
                     user.UpdatedAt = DateTime.UtcNow;
-                    user.UpdatedBy = currentUserId;
+                    if (currentUserId > 0) user.UpdatedBy = currentUserId;
                 }
                 else if (entry.Entity is BaseEntity entity)
                 {
                     if (entry.State == EntityState.Added)
                     {
                         entity.CreatedAt = DateTime.UtcNow;
-                        entity.CreatedBy = currentUserId;
+                        if (currentUserId > 0) entity.CreatedBy = currentUserId;
                     }
 
                     entity.UpdatedAt = DateTime.UtcNow;
-                    entity.UpdatedBy = currentUserId;
+                    if (currentUserId > 0) entity.UpdatedBy = currentUserId;
                 }
             }
         }
