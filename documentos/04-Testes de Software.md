@@ -3625,7 +3625,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <details>
 
-<summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
+<summary><h2>Testes: 🧍‍♂️🧍‍♂️Pessoas</h2></summary>
 
 <table>
   
@@ -5418,6 +5418,166 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 
 </details>
 
+<details>
+  <summary><h2>Testes: 🧍‍♂️🧍‍♂️ Pessoas</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P01<br>Cadastrar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar a pessoa e exibi-la corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Cadastro realizado com sucesso. Pessoa listada corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1326" height="626" alt="image" src="https://github.com/user-attachments/assets/26230262-c217-4f72-82c1-83d47a9303d0" />
+          <img width="1319" height="618" alt="image" src="https://github.com/user-attachments/assets/44d4aef3-ebe0-4256-86f5-c70a2bdb25d2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO02<br>Editar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar as informações e exibi-las corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição concluída com sucesso. Alterações refletidas na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+         <img width="1316" height="636" alt="image" src="https://github.com/user-attachments/assets/58c7eec5-8896-46e1-9ed7-0bb524250f01" />
+         <img width="1335" height="634" alt="image" src="https://github.com/user-attachments/assets/8de77065-dd69-4b41-ad16-a735bcd111c3" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO03<br>Remover Pessoa</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover a pessoa e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão confirmada e refletida corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1328" height="634" alt="image" src="https://github.com/user-attachments/assets/cbbbda11-04c6-40d8-bf9a-f993e09959a8" />
+          <img width="1329" height="631" alt="image" src="https://github.com/user-attachments/assets/00ba132d-46b0-4865-8529-4eb1bfde2515" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO04<br>Cadastrar Pessoa sem preencher dados obrigatórios</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de obrigatoriedade.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação OK: sistema não permitiu salvar sem os campos obrigatórios.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1334" height="637" alt="image" src="https://github.com/user-attachments/assets/0b806136-78e8-4e96-b1a1-0eac28d804f9" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO05<br>Listar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista de Pessoas corretamente, incluindo resultados filtrados conforme o critério informado.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtro por Nome funcionando conforme o esperado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1107" height="609" alt="image" src="https://github.com/user-attachments/assets/7c02de14-8d7a-4684-870b-ceedd9ac0669" />
+        <img width="1112" height="596" alt="image" src="https://github.com/user-attachments/assets/cbfcbe03-28bb-4268-9dfe-59956841f57d" />
+      </td>
+    </tr>
+  </table>
+
+</details>
+
+      
 <details>
   <summary><h2>Testes: 🎓 Programa</h2></summary>
 
