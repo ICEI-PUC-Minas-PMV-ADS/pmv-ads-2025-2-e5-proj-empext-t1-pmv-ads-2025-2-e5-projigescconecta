@@ -2,31 +2,34 @@ using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Options;
 using IgescConecta.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContextIgesc();
-builder.Services.AddIdentity();
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddServices();
+
+// DbContext (Azure SQL via DefaultConnection)
+builder.Services.AddDbContextIgesc(builder.Configuration);
+
+builder.Services.AddIdentity();
+builder.Services.AddServices(builder.Configuration);
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
-// --- Auth: ler config Jwt e registrar JwtBearer (sem nullables) ---
+
+
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");
 var jwtAudience = jwtSection.GetValue<string>("JwtAudience")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtAudience");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtAudience");
 var jwtKeyString = jwtSection.GetValue<string>("JwtSecurityKey")
-                   ?? throw new InvalidOperationException("Missing config: Jwt:JwtSecurityKey");
+                    ?? throw new InvalidOperationException("Missing config: Jwt:JwtSecurityKey");
 var jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKeyString));
 
 builder.Services
@@ -43,34 +46,59 @@ builder.Services
             IssuerSigningKey = jwtKey,
             ClockSkew = TimeSpan.Zero
         };
-
     });
 
 builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
-builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 
+// ---------- CORS ----------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Frontend", p =>
-        p.WithOrigins(
+    options.AddPolicy("Frontend", builder =>
+    {
+        builder.WithOrigins(
             "http://localhost:3000",
-            "http://localhost:5173"
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-     // .AllowCredentials() // só se usarmos cookies/autenticação baseada em cookie
-    );
+            "http://localhost:5173",
+            "https://igesc-conecta.web.app",
+            "https://igesc-conecta.firebaseapp.com"
+            );
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+        builder.AllowCredentials();
+    });
 });
-
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+}
+
+app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
+{
+    var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
+    if (!StringValues.IsNullOrEmpty(reqHeaders))
+        ctx.Response.Headers.Append("Access-Control-Allow-Headers", reqHeaders);
+
+    var reqMethod = ctx.Request.Headers["Access-Control-Request-Method"];
+    if (!StringValues.IsNullOrEmpty(reqMethod))
+        ctx.Response.Headers.Append("Access-Control-Allow-Methods", reqMethod);
+
+    return Results.Ok();
+})
+.RequireCors("Frontend");
+
+
+
+// ---------- Swagger com feature flag ----------
+var enableSwagger = app.Configuration.GetValue("Swagger:Enabled", true);
+if (enableSwagger)
+{
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGESC API v1");
+    });
 }
 
 app.UseHttpsRedirection();

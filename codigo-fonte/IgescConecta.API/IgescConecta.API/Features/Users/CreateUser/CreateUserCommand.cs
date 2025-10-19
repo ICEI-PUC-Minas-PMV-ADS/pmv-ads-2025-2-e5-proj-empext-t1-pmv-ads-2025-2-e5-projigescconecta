@@ -6,18 +6,19 @@ using Microsoft.VisualBasic;
 
 namespace IgescConecta.API.Features.Users.CreateUser
 {
+
+
+
     public class CreateUserCommand : IRequest<Result<int, ValidationFailed>>
     {
         public string Name { get; set; }
-
         public string Password { get; set; }
-
         public string Email { get; set; }
-
         public string PhoneNumber { get; set; }
-
         public string Role { get; set; }
     }
+
+
 
     internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<int, ValidationFailed>>
     {
@@ -28,8 +29,10 @@ namespace IgescConecta.API.Features.Users.CreateUser
             _userManager = userManager;
         }
 
+
         public async Task<Result<int, ValidationFailed>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+
             var user = new User
             {
                 UserName = request.Email,
@@ -39,12 +42,18 @@ namespace IgescConecta.API.Features.Users.CreateUser
                 IsActive = true
             };
 
+
             var result = await _userManager.CreateAsync(user, request.Password);
+
             if (result.Succeeded)
             {
+
                 await _userManager.AddToRoleAsync(user, request.Role.ToUpper());
+
+
                 return user.Id;
             }
+
 
             return new ValidationFailed(result.Errors.Select(e => e.Description).ToArray());
         }
