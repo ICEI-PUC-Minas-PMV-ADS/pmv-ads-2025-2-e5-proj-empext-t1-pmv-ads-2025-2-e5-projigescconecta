@@ -17,7 +17,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica se um usuário pode fazer login com sucesso.</td>
+    <td>Este caso de teste verifica se um  pode fazer login com sucesso.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
@@ -2395,6 +2395,393 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
+
+<details>
+  <summary><h2>👤 Usuários (RF-010)</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US01 - S<br>Criar Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a criação de usuário com Nome, E-mail, Telefone e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Usuários.<br>
+        2. Clicar em "Novo Usuário".<br>
+        3. Preencher Nome, E-mail, Telefone e Tipo (Administrador / Editor / Leitor).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Dados de teste</strong></td>
+      <td>
+        - <strong>Nome:</strong> Ana Paula Sousa<br>
+        - <strong>E-mail:</strong> ana.sousa@exemplo.org<br>
+        - <strong>Telefone:</strong> (11) 98888-7777<br>
+        - <strong>Tipo (Role):</strong> Editor
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US02 - S<br>Editar Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a edição de um usuário existente (alterar Nome, Telefone e/ou Tipo).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar um Usuário existente na listagem.<br>
+        2. Clicar em "Editar".<br>
+        3. Alterar um ou mais campos (por exemplo, Telefone e Tipo).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve atualizar as informações e exibí-las corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US03 - S<br>Remover Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a exclusão de um usuário existente com confirmação em modal.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar um Usuário existente na listagem.<br>
+        2. Clicar em "Remover".<br>
+        3. Confirmar a exclusão no modal exibido.<br>
+        4. Verificar a listagem atualizada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US04 - S<br>Listar Usuários</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a listagem de usuários com filtros por Nome, E-mail e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Usuários.<br>
+        2. Visualizar a listagem de usuários cadastrados.<br>
+        3. Aplicar filtros por Nome, E-mail e/ou Tipo (Role).<br>
+        4. Verificar o resultado exibido.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir a lista corretamente, incluindo resultados filtrados conforme os critérios informados.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US05 - I01<br>Criar Usuário sem Nome</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório Nome.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo Nome vazio.<br>
+        3. Preencher E-mail, Telefone e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US06 - I02<br>Criar Usuário sem E-mail</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo E-mail vazio.<br>
+        3. Preencher Nome, Telefone e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US07 - I03<br>Criar Usuário com E-mail inválido</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a validação de formato de E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Preencher Nome e Telefone.<br>
+        3. Informar E-mail com formato inválido (ex.: "ana.sousa@").<br>
+        4. Selecionar Tipo (Role) válido.<br>
+        5. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US08 - I04<br>Criar Usuário sem Telefone</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório Telefone (se Telefone for obrigatório no seu front; mantenha se aplicável).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo Telefone vazio.<br>
+        3. Preencher Nome, E-mail e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US09 - I05<br>Criar Usuário com Tipo (Role) inválido ou vazio</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se apenas os tipos válidos (Administrador, Editor, Leitor) são aceitos.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Preencher Nome, E-mail e Telefone.<br>
+        3. Deixar Tipo (Role) vazio <em>ou</em> informar um valor não listado.<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve impedir o cadastro e informar que o Tipo (Role) é obrigatório e/ou inválido.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US10 - I06<br>Criar Usuário com E-mail já existente</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica o bloqueio de duplicidade por E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Garantir que exista um usuário cadastrado com E-mail "ana.sousa@exemplo.org".<br>
+        2. Tentar criar outro usuário com o mesmo E-mail.<br>
+        3. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve impedir o cadastro e exibir mensagem de que o E-mail já está em uso.</td>
+    </tr>
+  </table>
+
+</details>
+
+
+
+
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
@@ -2403,6 +2790,8 @@ Apresente imagens e/ou vídeos que comprovam que um determinado teste foi execut
 Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, utilizando casos de teste, tanto de sucesso quanto de insucesso, elaborados por ele. Todos os testes devem ser evidenciados.
 
 ## ETAPA 2
+<details>
+<summary><h2>💻 Fluxo de Acesso</h2></summary>
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
@@ -2596,6 +2985,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </table>
 
 <img width="1560" height="580" alt="Captura de tela 2025-09-21 192326" src="https://github.com/user-attachments/assets/bd2896aa-2e1a-4113-bf76-cc9efd8b02e1" />
+</details>
 
 ## Etapa 3
 
@@ -3888,15 +4278,12 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 
 </td>   </tr> </table> </details>
 
-
-
-
-
 ## Parte 2 - Testes por pares
 A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade deve ser testada por um colega e os testes devem ser evidenciados. O colega "Tester" deve utilizar o caso de teste criado pelo desenvolvedor responsável pela funcionalidade (desenvolveu a funcionalidade e criou o caso de testes descrito no plano de testes) e caso perceba a necessidade de outros casos de teste, deve acrescentá-los na sessão "Plano de Testes".
 
-### ETAPA 2
-
+## ETAPA 2
+<details>
+<summary><h2>💻 Fluxo de Acesso</h2></summary>
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
@@ -4093,6 +4480,9 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </td>
   </tr>
 </table>
+</details>
+
+## ETAPA 3
 
 <details>
   <summary><h2>Testes: 🏛️ OSC</h2></summary>
@@ -5100,8 +5490,9 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </td>
     </tr>
   </table>
+</details>
 
-  <details> <summary><h2>Testes: 🏢 Empresa</h2></summary>
+<details> <summary><h2>Testes: 🏢 Empresa</h2></summary>
     
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-01
   
@@ -5148,6 +5539,11 @@ Tentar Criar Empresa com Campos Obrigatórios Vazios</th>   </tr>   <tr>     <td
 Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>  <td colspan="6" align="center"> <img width="940" height="682" alt="image" src="https://github.com/user-attachments/assets/26dbf4fb-2e0c-4f42-a69b-9ac2f9a9e590" />
 
  </td>   </tr> </table> </details>
+
+ </td>
+    </tr>
+  </table>
+</details>
 
 <details> <summary><h2>Testes: 💝 Doações</h2></summary>
 
