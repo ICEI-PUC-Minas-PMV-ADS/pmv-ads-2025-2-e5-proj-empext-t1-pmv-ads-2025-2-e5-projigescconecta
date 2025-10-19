@@ -5985,10 +5985,93 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Doação sem Doador</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro, como "Error ao salvar doação...", e não deve criar a doação.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1215" height="671" alt="image" src="https://github.com/user-attachments/assets/7f01ecaa-d77e-4006-8b4d-4038d9a8aa79" />
-
-
-
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1215" height="671" alt="image" src="https://github.com/user-attachments/assets/7f01ecaa-d77e-4006-8b4d-4038d9a8aa79" /></table>
 
 </details>
 
+
+<details> <summary><h2>Testes: 👤 Usuários</h2></summary>
+<table>     
+  <tr>       
+    <th colspan="6" width="1000">CT-US01<br>Criar Usuário</th>     
+</tr>
+  <tr>       
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.
+    </td>     
+  </tr>     
+  <tr>       
+    <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+    <td width="430">Ricardo Teixeira</td>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="150">Pedro Roberto</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">19/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">Teste de par: Criação de usuário confirmada. O novo registro apareceu na lista com todos os dados corretos.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1593" height="817" alt="image" src="https://github.com/user-attachments/assets/5127a8b4-f102-4de3-93a5-def6599dc9b9" />
+      <img width="1893" height="900" alt="image" src="https://github.com/user-attachments/assets/080ae323-aa7b-4e58-b010-d65796181129" />
+    </td>
+  </tr>
+</table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US02
+
+
+Editar Usuário</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve atualizar e exibir as informações editadas corretamente na listagem.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Edição de usuário (telefone e tipo) funcionou. A lista foi atualizada com os novos dados.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center">         
+<img width="1902" height="919" alt="image" src="https://github.com/user-attachments/assets/a4774c0b-3d52-4d70-9a9f-91b4af1cbbde" /> <img width="1910" height="924" alt="image" src="https://github.com/user-attachments/assets/021d6865-2097-4717-9cbf-dc807f9fe0b7" />
+
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US03
+
+
+Remover Usuário</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Exclusão após confirmação no modal foi bem-sucedida. O usuário foi removido da listagem.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1899" height="918" alt="image" src="https://github.com/user-attachments/assets/5e326b33-87bd-4c5c-8d4c-a16f0c2cfe6e" /> <img width="1905" height="939" alt="image" src="https://github.com/user-attachments/assets/0bf4fd4a-a80e-461f-acaa-c9ebb60dcc38" />
+
+      </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US04
+
+
+Listar Usuários</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir a lista corretamente e respeitar filtros por Nome, E-mail e Tipo (Role).</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A listagem de usuários e os filtros por nome, e-mail e tipo estão funcionando como esperado.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1881" height="791" alt="image" src="https://github.com/user-attachments/assets/af31e1b2-19e7-49a0-8fd1-363e726bd7e3" />
+               </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US05 - I01
+
+
+Criar Usuário sem Nome</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Confirmo que a validação de nome obrigatório está funcionando. O sistema impediu o salvamento.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1858" height="788" alt="image" src="https://github.com/user-attachments/assets/d65969b6-15fe-4089-97aa-3877e4ee1a5b" />
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US06 - I02
+
+
+Criar Usuário sem E-mail</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Validação de e-mail obrigatório funcionando. O erro foi exibido.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"><img width="1887" height="947" alt="image" src="https://github.com/user-attachments/assets/3f4b1fb9-0bb8-4b1a-acd0-102e9c2a9902" />       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US07 - I03
+
+
+Criar Usuário com E-mail inválido</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>     </tr>   T <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A validação de formato de e-mail foi verificada e está funcionando.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1884" height="886" alt="image" src="https://github.com/user-attachments/assets/7dc43581-cdb7-4600-916a-3cc762994839" />
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US08 - I04
+
+
+Criar Usuário sem Telefone</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A validação de telefone obrigatório está funcionando.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1877" height="909" alt="image" src="https://github.com/user-attachments/assets/ef958bcb-4f0f-47a1-8ddf-983501aea2f6" />       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US09 - I05
+
+
+Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de E-mail já utilizado.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A regra de unicidade de e-mail foi validada e está funcionando. O sistema exibiu o erro de duplicidade.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center">         
+<img width="1891" height="915" alt="image" src="https://github.com/user-attachments/assets/2664e7d6-3835-4777-b230-ef6ca91fc182" />
+       </td>     </tr>   </table>
+
+</details>
