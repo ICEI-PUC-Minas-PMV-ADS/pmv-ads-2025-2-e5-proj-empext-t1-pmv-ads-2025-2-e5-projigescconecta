@@ -5109,7 +5109,8 @@ Criar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxi
 
 
 Teste: Kênia Caires</td>     <td width="100"><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Cadastro de empresa funcionando corretamente. A nova entrada apareceu na lista após a criação e a mensagem de sucesso foi exibida.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td> 
-</tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/5bdd0d11-c046-43e4-b8a6-5ea8dcd1be9f" />
+</tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/1712b272-9ff1-4544-947b-af37ba3cdbda" /> 
+
 </td>   </tr> </table>
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-02
 
@@ -5117,15 +5118,15 @@ Teste: Kênia Caires</td>     <td width="100"><strong>Data do Teste</strong></td
 Editar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir a mensagem "Empresa atualizada com sucesso!" e as novas informações devem ser refletidas na listagem.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM DA LISTA COM DADOS ANTIGOS, O MODAL DE EDIÇÃO COM DADOS NOVOS E, POR FIM, A LISTA ATUALIZADA] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">Edição concluída com sucesso. As alterações no nome e telefone foram salvas e exibidas corretamente na listagem.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1306" height="700" alt="image" src="https://github.com/user-attachments/assets/3de56bff-537e-498e-a024-33eb113dbef2" />
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-03
-
 
 Inativar e Reativar Empresa</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir mensagens de sucesso para ambas as ações e o status da empresa deve ser alterado corretamente.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> [VOU COLOCAR IMAGEM 1: MODAL DE CONFIRMAÇÃO DE INATIVAÇÃO. IMAGEM 2: LISTA DE "INATIVAS" MOSTRANDO A EMPRESA. IMAGEM 3: MODAL DE CONFIRMAÇÃO DE REATIVAÇÃO] </td>   </tr> </table>
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">O fluxo de inativar uma empresa (removendo-a da lista de ativas) e depois reativá-la (fazendo-a retornar) funcionou perfeitamente.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1407" height="832" alt="image" src="https://github.com/user-attachments/assets/4ccfc013-430a-4066-928b-73a7044e0906" />
+ </td>   </tr> </table>
 
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-04
 
