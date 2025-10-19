@@ -2707,44 +2707,7 @@ Tentar Criar Doação sem Doador</th>
 
   <table>
     <tr>
-      <th colspan="2" width="1000">CT-US09 - I05<br>Criar Usuário com Tipo (Role) inválido ou vazio</th>
-    </tr>
-    <tr>
-      <td width="150"><strong>Descrição</strong></td>
-      <td>Verifica se apenas os tipos válidos (Administrador, Editor, Leitor) são aceitos.</td>
-    </tr>
-    <tr>
-      <td><strong>Responsável Caso de Teste</strong></td>
-      <td>Ricardo Teixeira</td>
-    </tr>
-    <tr>
-      <td><strong>Tipo do Teste</strong></td>
-      <td>Insucesso</td>
-    </tr>
-    <tr>
-      <td><strong>Requisitos associados</strong></td>
-      <td>RF-010</td>
-    </tr>
-    <tr>
-      <td><strong>Passos</strong></td>
-      <td>
-        1. Acessar "Novo Usuário".<br>
-        2. Preencher Nome, E-mail e Telefone.<br>
-        3. Deixar Tipo (Role) vazio <em>ou</em> informar um valor não listado.<br>
-        4. Clicar em "Salvar".
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Critérios de êxito</strong></td>
-      <td>O sistema deve impedir o cadastro e informar que o Tipo (Role) é obrigatório e/ou inválido.</td>
-    </tr>
-  </table>
-
-  <hr>
-
-  <table>
-    <tr>
-      <th colspan="2" width="1000">CT-US10 - I06<br>Criar Usuário com E-mail já existente</th>
+      <th colspan="2" width="1000">CT-US09 - I05<br>Criar Usuário com E-mail já existente</th>
     </tr>
     <tr>
       <td width="150"><strong>Descrição</strong></td>
@@ -4277,6 +4240,268 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 <img width="791" height="803" alt="image" src="https://github.com/user-attachments/assets/20204582-e86f-4733-a7fe-7be9f995de70" />
 
 </td>   </tr> </table> </details>
+
+<details>
+  <summary><h2>Testes: 👤 Usuários</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US01<br>Criar Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Criação realizada com sucesso. Registro visível na listagem com Nome, E-mail, Telefone e Role corretos.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1320" height="631" alt="image" src="https://github.com/user-attachments/assets/76fa891f-95bd-4a8d-a932-9e3f32060328" />
+        <img width="1331" height="629" alt="image" src="https://github.com/user-attachments/assets/ffb4ae04-55d7-4ca3-9f3f-dba4cc6f23e2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US02<br>Editar Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar e exibir as informações editadas corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição concluída (ex.: Telefone e Role). Listagem refletiu os novos valores.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1334" height="629" alt="image" src="https://github.com/user-attachments/assets/d359c4a0-03bc-49c7-9590-4c330e50f940" />
+        <img width="1338" height="632" alt="image" src="https://github.com/user-attachments/assets/c0c60723-e2f6-41ac-a7bf-2c4c4bd40460" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US03<br>Remover Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão confirmada no modal. Item não aparece mais na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="635" alt="image" src="https://github.com/user-attachments/assets/f2c28013-fd8a-4869-a343-25c89f651e35" />
+        <img width="1321" height="625" alt="image" src="https://github.com/user-attachments/assets/83cf4473-dc32-4388-bf45-15d52e2c05a6" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US04<br>Listar Usuários</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista corretamente e respeitar filtros por Nome, E-mail e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtros funcionando como esperado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="627" alt="image" src="https://github.com/user-attachments/assets/fe967cde-e979-4538-9210-286e88f08284" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US05 - I01<br>Criar Usuário sem Nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação impedindo salvar sem Nome.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1336" height="637" alt="image" src="https://github.com/user-attachments/assets/0bc89c2a-cf36-4f36-9c44-b9a64a8ae207" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US06 - I02<br>Criar Usuário sem E-mail</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação exibida corretamente para E-mail vazio.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="636" alt="image" src="https://github.com/user-attachments/assets/33446665-951b-4c39-9573-394571a86167" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US07 - I03<br>Criar Usuário com E-mail inválido</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação de formato de E-mail funcionando.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="637" alt="image" src="https://github.com/user-attachments/assets/bc853d24-bb74-4a76-93fa-bb95cc886f42" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US08 - I04<br>Criar Usuário sem Telefone</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório (se aplicável).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Sistema bloqueia salvar sem Telefone (conforme regra do front).</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="632" alt="image" src="https://github.com/user-attachments/assets/ff89db5a-5113-42ff-8209-da1ee99b28e2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US09 - I05<br>Criar Usuário com E-mail já existente</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de E-mail já utilizado.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Regra de unicidade de E-mail funcionando corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="637" alt="image" src="https://github.com/user-attachments/assets/451c2da7-0a67-4f9b-a866-417465ae393d" />
+      </td>
+    </tr>
+  </table>
+
+</details>
+
+
 
 ## Parte 2 - Testes por pares
 A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade deve ser testada por um colega e os testes devem ser evidenciados. O colega "Tester" deve utilizar o caso de teste criado pelo desenvolvedor responsável pela funcionalidade (desenvolveu a funcionalidade e criou o caso de testes descrito no plano de testes) e caso perceba a necessidade de outros casos de teste, deve acrescentá-los na sessão "Plano de Testes".
