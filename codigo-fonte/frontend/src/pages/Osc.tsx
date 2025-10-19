@@ -48,6 +48,7 @@ import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
 import { fetchZipCode, SimplifyResponse } from '@/services/cep';
+import DialogPadronized from '@/components/DialogPadronized';
 
 dayjs.locale('pt-br');
 
@@ -743,34 +744,13 @@ const Osc: React.FC = () => {
             />
 
             {/* Modal */}
-            <Dialog
+            <DialogPadronized
               open={openModal}
               onClose={handleCloseModal}
               maxWidth="md"
-              fullWidth
-              PaperProps={{
-                sx: {
-                  borderRadius: 3,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                },
-              }}
-            >
-              <DialogTitle
-                sx={{
-                  bgcolor: alpha('#1E4EC4', 0.03),
-                  borderBottom: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  py: 2.5,
-                  px: 3,
-                }}
-              >
-                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                  {dialogTitle()}
-                </Typography>
-              </DialogTitle>
-
-              <DialogContent sx={{ p: 3, mt: 1 }}>
-                {isVisualizing && selectedOsc ? (
+              title={dialogTitle()}
+              content={
+                isVisualizing && selectedOsc ? (
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {/* Dados principais */}
                     <Box>
@@ -1339,20 +1319,10 @@ const Osc: React.FC = () => {
                   </Box>) :
                   (
                     <Typography>Nenhum dado encontrado.</Typography>
-                  )}
-              </DialogContent>
-
-              <DialogActions
-                sx={{
-                  px: 3,
-                  py: 2.5,
-                  bgcolor: alpha('#1E4EC4', 0.02),
-                  borderTop: '1px solid',
-                  borderColor: alpha('#1E4EC4', 0.1),
-                  gap: 1.5,
-                }}
-              >
-                {isVisualizing ? (
+                  )
+              }
+              actions={
+                isVisualizing ? (
                   <Button
                     variant="contained"
                     startIcon={<ArrowBackIcon />}
@@ -1414,9 +1384,9 @@ const Osc: React.FC = () => {
                       Salvar
                     </Button>
                   </>
-                )}
-              </DialogActions>
-            </Dialog>
+                )
+              }
+            /> 
           </Box>
         </Paper>
       </Container>
