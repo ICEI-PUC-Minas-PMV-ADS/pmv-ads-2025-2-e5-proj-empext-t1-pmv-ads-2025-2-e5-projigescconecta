@@ -567,7 +567,7 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateBeneficiary.name || ''}
                                             onChange={(e) =>
                                                 setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })
@@ -575,7 +575,7 @@ const Beneficiary: React.FC = () => {
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateBeneficiary.notes || ''}
                                             onChange={(e) =>
                                                 setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })
@@ -611,7 +611,7 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createBeneficiary.name || ''}
                                             onChange={(e) =>
                                                 setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })
@@ -619,7 +619,7 @@ const Beneficiary: React.FC = () => {
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createBeneficiary.notes || ''}
                                             onChange={(e) =>
                                                 setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })

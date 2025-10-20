@@ -578,13 +578,13 @@ const OriginBusinessCase: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateOriginBusinessCase.name || ''}
                                             onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateOriginBusinessCase.notes || ''}
                                             onChange={(e) =>
                                                 setUpdateOriginBusinessCase({
@@ -603,13 +603,13 @@ const OriginBusinessCase: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createOriginBusinessCase.name || ''}
                                             onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createOriginBusinessCase.notes || ''}
                                             onChange={(e) =>
                                                 setCreateOriginBusinessCase({
