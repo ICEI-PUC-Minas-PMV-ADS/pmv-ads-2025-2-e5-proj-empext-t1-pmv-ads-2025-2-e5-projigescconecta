@@ -74,19 +74,19 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
 }
 
-/* app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
+app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
 {
-    var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
-    if (!StringValues.IsNullOrEmpty(reqHeaders))
-        ctx.Response.Headers.Append("Access-Control-Allow-Headers", reqHeaders);
+   var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
+   if (!StringValues.IsNullOrEmpty(reqHeaders))
+       ctx.Response.Headers.Append("Access-Control-Allow-Headers", reqHeaders);
 
-    var reqMethod = ctx.Request.Headers["Access-Control-Request-Method"];
-    if (!StringValues.IsNullOrEmpty(reqMethod))
-        ctx.Response.Headers.Append("Access-Control-Allow-Methods", reqMethod);
+   var reqMethod = ctx.Request.Headers["Access-Control-Request-Method"];
+   if (!StringValues.IsNullOrEmpty(reqMethod))
+       ctx.Response.Headers.Append("Access-Control-Allow-Methods", reqMethod);
 
-    return Results.Ok();
+   return Results.Ok();
 })
-.RequireCors("Frontend"); */
+.RequireCors("Frontend");
 
 
 
