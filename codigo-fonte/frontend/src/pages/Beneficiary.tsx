@@ -509,174 +509,195 @@ const Beneficiary: React.FC = () => {
                             title={dialogTitle()}
                             content={
                                 isVisualizing && selectedBeneficiary ? (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                    {/* Dados principais */}
-                                    <Box>
-                                    <Typography variant="h6" gutterBottom>
-                                        Detalhes da Público
-                                    </Typography>
-                                    <Divider sx={{ mb: 2 }} />
-                                    <Typography>
-                                        <strong>ID:</strong> {selectedBeneficiary.beneficiaryId}
-                                    </Typography>
-                                    <Typography>
-                                        <strong>Nome:</strong> {selectedBeneficiary.name}
-                                    </Typography>
-                                    <Typography>
-                                        <strong>Observações:</strong> {selectedBeneficiary.notes}
-                                    </Typography>
-                                    </Box>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        <TextField
+                                            label="Nome"
+                                            value={selectedBeneficiary.name || ''}
+                                            fullWidth
+                                            slotProps={{
+                                                input: { readOnly: true },
+                                            }}
+                                            sx={{ pointerEvents: 'none' }}
+                                        />
+                                        <Box>
+                                            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                                                <strong>Observações</strong>
+                                            </Typography>
+                                            <Paper
+                                                variant="outlined"
+                                                sx={{
+                                                    p: 2,
+                                                    bgcolor: '#f9fafb',
+                                                    borderRadius: 1.5,
+                                                    minHeight: 80,
+                                                    maxHeight: 300,
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
+                                                <Typography
+                                                    color="text.primary"
+                                                    sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                                                >
+                                                    {selectedBeneficiary.notes || 'Nenhuma observação registrada.'}
+                                                </Typography>
+                                            </Paper>
+                                        </Box>
 
-                                    {/* OSC */}
-                                    <Box>
-                                    <Typography variant="h6" gutterBottom>
-                                        <strong>OSC</strong>
-                                    </Typography>
-                                    <Divider sx={{ mb: 2 }} />
-                                    {selectedBeneficiary.oscs && selectedBeneficiary.oscs.length > 0 ? (
-                                        <Stack direction="row" flexWrap="wrap" gap={1}>
-                                        {selectedBeneficiary.oscs.map((b) => (
-                                            <Chip
-                                            key={b.oscId}
-                                            label={b.name}
-                                            color="primary"
-                                            variant="outlined"
-                                            sx={{ fontWeight: 500 }}
-                                            />
-                                        ))}
-                                        </Stack>
-                                    ) : (
-                                        <Typography color="text.secondary">Nenhum OSC associado.</Typography>
-                                    )}
+                                        {/* Chips de OSC */}
+                                        <Box>
+                                            <Typography variant="subtitle1">
+                                                <strong>OSC</strong>
+                                            </Typography>
+                                            <Divider sx={{ mb: 2 }} />
+
+                                            {selectedBeneficiary.oscs && selectedBeneficiary.oscs.length > 0 ? (
+                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                    {selectedBeneficiary.oscs.map((b) => (
+                                                        <Chip key={b.oscId} label={b.name} color="primary" variant="outlined" />
+                                                    ))}
+                                                </Stack>
+                                            ) : (
+                                                <Typography color="text.secondary" mt={1}>
+                                                    Nenhum OSC.
+                                                </Typography>
+                                            )}
+                                        </Box>
                                     </Box>
-                                </Box>
                                 ) : updateBeneficiary ? (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                    {/* Campos de texto editáveis */}
-                                    <TextField
-                                    label="Nome"
-                                    value={updateBeneficiary.name || ''}
-                                    onChange={(e) =>
-                                        setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })
-                                    }
-                                    fullWidth
-                                    />
-                                    <TextField
-                                    label="Observações"
-                                    value={updateBeneficiary.notes || ''}
-                                    onChange={(e) =>
-                                        setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })
-                                    }
-                                    fullWidth
-                                    />
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        {/* Campos de texto editáveis */}
+                                        <TextField
+                                            label="Nome"
+                                            value={updateBeneficiary.name || ''}
+                                            onChange={(e) =>
+                                                setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })
+                                            }
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Observações"
+                                            value={updateBeneficiary.notes || ''}
+                                            onChange={(e) =>
+                                                setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })
+                                            }
+                                            fullWidth
+                                            variant= 'outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
+                                        />
 
-                                    {/* Chips de OSC */}
-                                    <Box>
-                                    <Typography variant="subtitle1">
-                                        <strong>OSC</strong>
-                                    </Typography>
-                                    <Divider sx={{ mb: 2 }} />
+                                        {/* Chips de OSC */}
+                                        <Box>
+                                            <Typography variant="subtitle1">
+                                                <strong>OSC</strong>
+                                            </Typography>
+                                            <Divider sx={{ mb: 2 }} />
 
-                                    {updateBeneficiary.oscs && updateBeneficiary.oscs.length > 0 ? (
-                                        <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                        {updateBeneficiary.oscs.map((b) => (
-                                            <Chip key={b.oscId} label={b.name} color="primary" variant="outlined" />
-                                        ))}
-                                        </Stack>
-                                    ) : (
-                                        <Typography color="text.secondary" mt={1}>
-                                        Nenhum OSC.
-                                        </Typography>
-                                    )}
+                                            {updateBeneficiary.oscs && updateBeneficiary.oscs.length > 0 ? (
+                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                    {updateBeneficiary.oscs.map((b) => (
+                                                        <Chip key={b.oscId} label={b.name} color="primary" variant="outlined" />
+                                                    ))}
+                                                </Stack>
+                                            ) : (
+                                                <Typography color="text.secondary" mt={1}>
+                                                    Nenhum OSC.
+                                                </Typography>
+                                            )}
+                                        </Box>
                                     </Box>
-                                </Box>
                                 ) : createBeneficiary ? (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                    {/* Campos de texto editáveis */}
-                                    <TextField
-                                    label="Nome"
-                                    value={createBeneficiary.name || ''}
-                                    onChange={(e) =>
-                                        setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })
-                                    }
-                                    fullWidth
-                                    />
-                                    <TextField
-                                    label="Observações"
-                                    value={createBeneficiary.notes || ''}
-                                    onChange={(e) =>
-                                        setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })
-                                    }
-                                    fullWidth
-                                    />
-                                </Box>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        {/* Campos de texto editáveis */}
+                                        <TextField
+                                            label="Nome"
+                                            value={createBeneficiary.name || ''}
+                                            onChange={(e) =>
+                                                setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })
+                                            }
+                                            fullWidth
+                                        />
+                                        <TextField
+                                            label="Observações"
+                                            value={createBeneficiary.notes || ''}
+                                            onChange={(e) =>
+                                                setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })
+                                            }
+                                            fullWidth
+                                            variant= 'outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
+                                        />
+                                    </Box>
                                 ) : (
-                                <Typography>Nenhum dado encontrado.</Typography>
+                                    <Typography>Nenhum dado encontrado.</Typography>
                                 )
                             }
                             actions={
                                 isVisualizing ? (
-                                <Button
-                                    variant="contained"
-                                    startIcon={<ArrowBackIcon />}
-                                    onClick={handleCloseModal}
-                                    sx={{
-                                    bgcolor: '#6b7280',
-                                    color: 'white',
-                                    fontWeight: 600,
-                                    px: 3,
-                                    py: 1,
-                                    borderRadius: 1.5,
-                                    textTransform: 'none',
-                                    '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
-                                    transition: 'all 0.2s ease',
-                                    }}
-                                >
-                                    Voltar
-                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<ArrowBackIcon />}
+                                        onClick={handleCloseModal}
+                                        sx={{
+                                            bgcolor: '#6b7280',
+                                            color: 'white',
+                                            fontWeight: 600,
+                                            px: 3,
+                                            py: 1,
+                                            borderRadius: 1.5,
+                                            textTransform: 'none',
+                                            '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                                            transition: 'all 0.2s ease',
+                                        }}
+                                    >
+                                        Voltar
+                                    </Button>
                                 ) : (
-                                <>
-                                    <Button
-                                    onClick={handleCloseModal}
-                                    disabled={modalLoading}
-                                    sx={{
-                                        color: '#6b7280',
-                                        fontWeight: 600,
-                                        px: 3,
-                                        py: 1,
-                                        borderRadius: 1.5,
-                                        textTransform: 'none',
-                                        '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
-                                    }}
-                                    >
-                                    Cancelar
-                                    </Button>
-                                    <Button
-                                    onClick={handleSave}
-                                    variant="contained"
-                                    disabled={modalLoading}
-                                    startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                                    sx={{
-                                        bgcolor: '#1E4EC4',
-                                        color: 'white',
-                                        fontWeight: 600,
-                                        px: 3,
-                                        py: 1,
-                                        borderRadius: 1.5,
-                                        textTransform: 'none',
-                                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                        '&:hover': {
-                                        bgcolor: '#1640a8',
-                                        boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                        transform: 'translateY(-1px)',
-                                        },
-                                        '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
-                                        transition: 'all 0.2s ease',
-                                    }}
-                                    >
-                                    Salvar
-                                    </Button>
-                                </>
+                                    <>
+                                        <Button
+                                            onClick={handleCloseModal}
+                                            disabled={modalLoading}
+                                            sx={{
+                                                color: '#6b7280',
+                                                fontWeight: 600,
+                                                px: 3,
+                                                py: 1,
+                                                borderRadius: 1.5,
+                                                textTransform: 'none',
+                                                '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                                            }}
+                                        >
+                                            Cancelar
+                                        </Button>
+                                        <Button
+                                            onClick={handleSave}
+                                            variant="contained"
+                                            disabled={modalLoading}
+                                            startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                                            sx={{
+                                                bgcolor: '#1E4EC4',
+                                                color: 'white',
+                                                fontWeight: 600,
+                                                px: 3,
+                                                py: 1,
+                                                borderRadius: 1.5,
+                                                textTransform: 'none',
+                                                boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                                '&:hover': {
+                                                    bgcolor: '#1640a8',
+                                                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                                    transform: 'translateY(-1px)',
+                                                },
+                                                '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                                                transition: 'all 0.2s ease',
+                                            }}
+                                        >
+                                            Salvar
+                                        </Button>
+                                    </>
                                 )
                             }
                         />

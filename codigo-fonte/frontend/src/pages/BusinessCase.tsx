@@ -85,16 +85,16 @@ const BusinessCase: React.FC = () => {
     const navigate = useNavigate();
 
     const handleDirect = (businessCase: BusinessCase) => {
-        if (!businessCase.businessCaseId) 
+        if (!businessCase.businessCaseId)
             return;
 
-        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`,{
-            state: {name: businessCase.name}
+        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`, {
+            state: { name: businessCase.name }
         });
     };
 
     const dialogTitle = () => {
-        return isVisualizing ? 'Visualizar Grupo de Causas' : selectedBusinessCase ? 'Editar Grupo de Causas' : 'Adicionar Grupo de Causas';
+        return isVisualizing ? `Visualizar Grupo de Causas` : updateBusinessCase ? `Editar Grupo de Causas` : 'Adicionar Grupo de Causas';
     }
 
     useEffect(() => {
@@ -311,7 +311,7 @@ const BusinessCase: React.FC = () => {
                     px: { xs: 2, sm: 3 },
                     maxWidth: '100%',
                     overflowX: 'hidden',
-                    }}
+                }}
             >
                 <Paper
                     elevation={0}
@@ -513,147 +513,153 @@ const BusinessCase: React.FC = () => {
                             maxWidth="sm"
                             title={dialogTitle()}
                             content={isVisualizing && selectedBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes de Grupo de Causas</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedBusinessCase.businessCaseId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedBusinessCase.name}</Typography>
-                                        </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    <TextField
+                                        label="Nome"
+                                        value={selectedBusinessCase.name || ''}
+                                        fullWidth
+                                        variant="outlined"
+                                        slotProps={{
+                                            input: { readOnly: true },
+                                        }}
+                                        sx={{ pointerEvents: 'none' }}
+                                    />
 
-                                        {/* OriginBusinessCase */}
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                <strong>Causas</strong>
+                                    {/* Chips de Causas */}
+                                    <Box>
+                                        <Typography variant="subtitle1">
+                                            <strong>Causas</strong>
+                                        </Typography>
+                                        <Divider sx={{ mb: 2 }} />
+
+                                        {selectedBusinessCase.origins && selectedBusinessCase.origins.length > 0 ? (
+                                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                {selectedBusinessCase.origins.map((b) => (
+                                                    <Chip
+                                                        key={b.originBusinessCaseId}
+                                                        label={b.name}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        sx={{ fontWeight: 500 }}
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        ) : (
+                                            <Typography color="text.secondary" mt={1}>
+                                                Nenhuma Causa.
                                             </Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            {selectedBusinessCase.origins && selectedBusinessCase.origins.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1}>
-                                                    {selectedBusinessCase.origins.map((b) => (
-                                                        <Chip
-                                                            key={b.originBusinessCaseId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                            sx={{ fontWeight: 500 }}
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary">Nenhuma causa associada.</Typography>
-                                            )}
-                                        </Box>
+                                        )}
                                     </Box>
-                                ) : updateBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                        {/* Campos de texto editáveis */}
-                                        <TextField
-                                            label="Nome"
-                                            value={updateBusinessCase.name || ''}
-                                            onChange={(e) => setUpdateBusinessCase({ ...updateBusinessCase, name: e.target.value })}
-                                            fullWidth
-                                        />
+                                </Box>
+                            ) : updateBusinessCase ? (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    {/* Campos de texto editáveis */}
+                                    <TextField
+                                        label="Nome"
+                                        value={updateBusinessCase.name || ''}
+                                        onChange={(e) => setUpdateBusinessCase({ ...updateBusinessCase, name: e.target.value })}
+                                        fullWidth
+                                    />
 
-                                        {/* Chips de OriginBusinessCase */}
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                <strong>Causas</strong>
-                                            </Typography>
-                                            <Divider sx={{ mb: 2 }} />
+                                    {/* Chips de OriginBusinessCase */}
+                                    <Box>
+                                        <Typography variant="subtitle1">
+                                            <strong>Causas</strong>
+                                        </Typography>
+                                        <Divider sx={{ mb: 2 }} />
 
-                                            {updateBusinessCase.origins && updateBusinessCase.origins.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                                    {updateBusinessCase.origins.map((b) => (
-                                                        <Chip
-                                                            key={b.originBusinessCaseId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary" mt={1}>Nenhuma Causa.</Typography>
-                                            )}
-                                        </Box>
+                                        {updateBusinessCase.origins && updateBusinessCase.origins.length > 0 ? (
+                                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                {updateBusinessCase.origins.map((b) => (
+                                                    <Chip
+                                                        key={b.originBusinessCaseId}
+                                                        label={b.name}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        ) : (
+                                            <Typography color="text.secondary" mt={1}>Nenhuma Causa.</Typography>
+                                        )}
                                     </Box>
-                                ) : createBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                        {/* Campos de texto editáveis */}
-                                        <TextField
-                                            label="Nome"
-                                            value={createBusinessCase.name || ''}
-                                            onChange={(e) => setCreateBusinessCase({ ...createBusinessCase, name: e.target.value })}
-                                            fullWidth
-                                        />
-                                    </Box>) :
-                                    (
-                                        <Typography>Nenhum dado encontrado.</Typography>
-                                    )}
+                                </Box>
+                            ) : createBusinessCase ? (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    {/* Campos de texto editáveis */}
+                                    <TextField
+                                        label="Nome"
+                                        value={createBusinessCase.name || ''}
+                                        onChange={(e) => setCreateBusinessCase({ ...createBusinessCase, name: e.target.value })}
+                                        fullWidth
+                                    />
+                                </Box>) :
+                                (
+                                    <Typography>Nenhum dado encontrado.</Typography>
+                                )}
                             actions={isVisualizing ? (
+                                <Button
+                                    variant="contained"
+                                    startIcon={<ArrowBackIcon />}
+                                    onClick={handleCloseModal}
+                                    sx={{
+                                        bgcolor: '#6b7280',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        px: 3,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    Voltar
+                                </Button>
+                            ) : (
+                                <>
                                     <Button
-                                        variant="contained"
-                                        startIcon={<ArrowBackIcon />}
                                         onClick={handleCloseModal}
+                                        disabled={modalLoading}
                                         sx={{
-                                            bgcolor: '#6b7280',
+                                            color: '#6b7280',
+                                            fontWeight: 600,
+                                            px: 3,
+                                            py: 1,
+                                            borderRadius: 1.5,
+                                            textTransform: 'none',
+                                            '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                                        }}
+                                    >
+                                        Cancelar
+                                    </Button>
+                                    <Button
+                                        onClick={handleSave}
+                                        variant="contained"
+                                        disabled={modalLoading}
+                                        startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                                        sx={{
+                                            bgcolor: '#1E4EC4',
                                             color: 'white',
                                             fontWeight: 600,
                                             px: 3,
                                             py: 1,
                                             borderRadius: 1.5,
                                             textTransform: 'none',
-                                            '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                                            boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                            '&:hover': {
+                                                bgcolor: '#1640a8',
+                                                boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                                transform: 'translateY(-1px)',
+                                            },
+                                            '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
                                             transition: 'all 0.2s ease',
                                         }}
                                     >
-                                        Voltar
+                                        Salvar
                                     </Button>
-                                ) : (
-                                    <>
-                                        <Button
-                                            onClick={handleCloseModal}
-                                            disabled={modalLoading}
-                                            sx={{
-                                                color: '#6b7280',
-                                                fontWeight: 600,
-                                                px: 3,
-                                                py: 1,
-                                                borderRadius: 1.5,
-                                                textTransform: 'none',
-                                                '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
-                                            }}
-                                        >
-                                            Cancelar
-                                        </Button>
-                                        <Button
-                                            onClick={handleSave}
-                                            variant="contained"
-                                            disabled={modalLoading}
-                                            startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                                            sx={{
-                                                bgcolor: '#1E4EC4',
-                                                color: 'white',
-                                                fontWeight: 600,
-                                                px: 3,
-                                                py: 1,
-                                                borderRadius: 1.5,
-                                                textTransform: 'none',
-                                                boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                                '&:hover': {
-                                                    bgcolor: '#1640a8',
-                                                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                                    transform: 'translateY(-1px)',
-                                                },
-                                                '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
-                                                transition: 'all 0.2s ease',
-                                            }}
-                                        >
-                                            Salvar
-                                        </Button>
-                                    </>
-                                )}
+                                </>
+                            )}
                         />
                     </Box>
                 </Paper>
