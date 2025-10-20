@@ -344,8 +344,8 @@ const OriginBusinessCase: React.FC = () => {
                         </Button>
 
                         <div style={{ marginBottom: '1rem' }}>
-                        <span style={{ color: '#555' }}>Grupo de Causas</span> ›
-                        <span style={{ color: '#555' }}> Grupo: {name} </span>
+                            <span style={{ color: '#555' }}>Grupo de Causas</span> ›
+                            <span style={{ color: '#555' }}> Grupo: {name} </span>
                         </div>
 
                         <TitleAndButtons title="Lista de Causas" onAdd={handleAdd} addLabel="Nova Causa" />
@@ -538,14 +538,40 @@ const OriginBusinessCase: React.FC = () => {
                             title={dialogTitle()}
                             content={
                                 isVisualizing && selectedOriginBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        {/* Campos de texto editáveis */}
+                                        <TextField
+                                            label="Nome"
+                                            value={selectedOriginBusinessCase.name || ''}
+                                            fullWidth
+                                            variant='outlined'
+                                            slotProps={{
+                                                input: { readOnly: true }
+                                            }}
+                                            sx={{ pointerEvents: 'none' }}
+                                        />
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes da Causa</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedOriginBusinessCase.originBusinessCaseId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedOriginBusinessCase.name}</Typography>
-                                            <Typography><strong>Observações:</strong> {selectedOriginBusinessCase.notes}</Typography>
+                                            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                                                <strong>Observações</strong>
+                                            </Typography>
+                                            <Paper
+                                                variant="outlined"
+                                                sx={{
+                                                    p: 2,
+                                                    bgcolor: '#f9fafb',
+                                                    borderRadius: 1.5,
+                                                    minHeight: 80,
+                                                    maxHeight: 300,
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
+                                                <Typography
+                                                    color="text.primary"
+                                                    sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                                                >
+                                                    {selectedOriginBusinessCase.notes || 'Nenhuma observação registrada.'}
+                                                </Typography>
+                                            </Paper>
                                         </Box>
                                     </Box>
                                 ) : updateOriginBusinessCase ? (
@@ -560,8 +586,17 @@ const OriginBusinessCase: React.FC = () => {
                                         <TextField
                                             label="Observações"
                                             value={updateOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setUpdateOriginBusinessCase({
+                                                    ...updateOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant= 'outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>
                                 ) : createOriginBusinessCase ? (
@@ -576,8 +611,17 @@ const OriginBusinessCase: React.FC = () => {
                                         <TextField
                                             label="Observações"
                                             value={createOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setCreateOriginBusinessCase({
+                                                    ...createOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant="outlined"
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>) :
                                     (
@@ -649,7 +693,7 @@ const OriginBusinessCase: React.FC = () => {
                                     </>
                                 )
                             }
-                        /> 
+                        />
                     </Box>
                 </Paper>
             </Container>

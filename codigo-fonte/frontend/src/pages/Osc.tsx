@@ -900,6 +900,10 @@ const Osc: React.FC = () => {
                       value={updateOsc.objective || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, objective: e.target.value })}
                       fullWidth
+                      variant= 'outlined'
+                      multiline
+                      minRows={3}
+                      maxRows={8}
                     />
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
@@ -1142,6 +1146,11 @@ const Osc: React.FC = () => {
                       value={createOsc.objective || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, objective: e.target.value })}
                       fullWidth
+                      variant= 'outlined'
+                      multiline
+                      minRows={3}
+                      maxRows={8}
+
                     />
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <PatternFormat
