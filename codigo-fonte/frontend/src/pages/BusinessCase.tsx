@@ -46,6 +46,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { useNavigate } from 'react-router-dom';
+import DialogPadronized from '@/components/DialogPadronized';
 
 dayjs.locale('pt-br');
 
@@ -506,34 +507,12 @@ const BusinessCase: React.FC = () => {
                         />
 
                         {/* Modal */}
-                        <Dialog
+                        <DialogPadronized
                             open={openModal}
                             onClose={handleCloseModal}
-                            maxWidth="md"
-                            fullWidth
-                            PaperProps={{
-                                sx: {
-                                    borderRadius: 3,
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                                },
-                            }}
-                        >
-                            <DialogTitle
-                                sx={{
-                                    bgcolor: alpha('#1E4EC4', 0.03),
-                                    borderBottom: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    py: 2.5,
-                                    px: 3,
-                                }}
-                            >
-                                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                                    {dialogTitle()}
-                                </Typography>
-                            </DialogTitle>
-
-                            <DialogContent sx={{ p: 3, mt: 1 }}>
-                                {isVisualizing && selectedBusinessCase ? (
+                            maxWidth="sm"
+                            title={dialogTitle()}
+                            content={isVisualizing && selectedBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                         {/* Dados principais */}
                                         <Box>
@@ -612,19 +591,7 @@ const BusinessCase: React.FC = () => {
                                     (
                                         <Typography>Nenhum dado encontrado.</Typography>
                                     )}
-                            </DialogContent>
-
-                            <DialogActions
-                                sx={{
-                                    px: 3,
-                                    py: 2.5,
-                                    bgcolor: alpha('#1E4EC4', 0.02),
-                                    borderTop: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    gap: 1.5,
-                                }}
-                            >
-                                {isVisualizing ? (
+                            actions={isVisualizing ? (
                                     <Button
                                         variant="contained"
                                         startIcon={<ArrowBackIcon />}
@@ -687,8 +654,7 @@ const BusinessCase: React.FC = () => {
                                         </Button>
                                     </>
                                 )}
-                            </DialogActions>
-                        </Dialog>
+                        />
                     </Box>
                 </Paper>
             </Container>

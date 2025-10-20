@@ -1,6 +1,9 @@
 # Etapa 1 - Apresentação da proposta da Solução
-Arquivo de apresentação (em slides) da proposta de solução  
-Deve conter a descrição do cliente, o Project Model Canvas e o Diagrama de Caso de Uso.
+
+[Apresentacao  IGESC Conecta.pptx](https://github.com/user-attachments/files/22453990/Apresentacao.IGESC.Conecta.pptx)
+
+[Apresentação IGESC Conecta.pdf](https://github.com/user-attachments/files/22454005/Apresentacao.IGESC.Conecta.pdf)
+
 
 # Etapa 5 - Apresentação da Solução
 - Apresentação para Mostra de Extensão Eixo 5 ADS:

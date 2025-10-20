@@ -24,6 +24,7 @@ import {
   type CompanyViewModel,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
+import DialogPadronized from '@/components/DialogPadronized';
 
 interface CompanyFullDetails {
   id?: number;
@@ -429,14 +430,13 @@ const CompanyPage: React.FC = () => {
             cancelLabel="Cancelar"
           />
 
-          <Dialog open={openModal} onClose={handleCloseModal} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
-            <DialogTitle sx={{ bgcolor: alpha('#1E4EC4', 0.03), borderBottom: '1px solid', borderColor: alpha('#1E4EC4', 0.1), py: 2.5, px: 3 }}>
-              <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                {dialogTitle}
-              </Typography>
-            </DialogTitle>
-            <DialogContent sx={{ p: 3, mt: 1 }}>
-              {editingData && (
+          <DialogPadronized
+            open={openModal}
+            onClose={handleCloseModal}
+            maxWidth="md"
+            title={dialogTitle}
+            content={
+              editingData && (
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -590,10 +590,10 @@ const CompanyPage: React.FC = () => {
                     </Grid>
                   </Grid>
                 </Box>
-              )}
-            </DialogContent>
-            <DialogActions sx={{ px: 3, py: 2.5, bgcolor: alpha('#1E4EC4', 0.02), borderTop: '1px solid', borderColor: alpha('#1E4EC4', 0.1) }}>
-              {isReadOnlyMode ? (
+              )
+            }
+            actions= {
+              isReadOnlyMode ? (
                 <Button onClick={handleCloseModal}>Voltar</Button>
               ) : (
                 <>
@@ -602,9 +602,10 @@ const CompanyPage: React.FC = () => {
                     {modalLoading ? <CircularProgress size={24} /> : (isCreating ? 'Criar' : 'Atualizar')}
                   </Button>
                 </>
-              )}
-            </DialogActions>
-          </Dialog>
+              )
+            }
+          /> 
+
         </Box>
       </Paper>
     </Container>
