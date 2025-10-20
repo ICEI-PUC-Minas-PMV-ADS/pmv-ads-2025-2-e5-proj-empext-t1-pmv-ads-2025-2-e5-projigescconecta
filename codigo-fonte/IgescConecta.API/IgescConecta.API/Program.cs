@@ -74,7 +74,7 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
 }
 
-app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
+/* app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
 {
     var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
     if (!StringValues.IsNullOrEmpty(reqHeaders))
@@ -86,7 +86,7 @@ app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
 
     return Results.Ok();
 })
-.RequireCors("Frontend");
+.RequireCors("Frontend"); */
 
 
 
