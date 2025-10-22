@@ -8,7 +8,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 {
     public class CreateTeamCommand : IRequest<Result<int, ValidationFailed>>
     {
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         public string? LessonTime { get; set; }
 
@@ -17,7 +17,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
         public DateTime? Finish { get; set; }
 
         public List<int> PersonTeamsIds { get; set; } = [];
-        public int? ProjectProgramId { get; set; }
+        public List<int> ProjectProgramsIds { get; set; } = [];
         public int CourseId { get; set; }
     }
 
@@ -32,6 +32,9 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public async Task<Result<int, ValidationFailed>> Handle(CreateTeamCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(request.Name))
+                return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
+                
             var courseExists = await _context.Courses
             .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
 
@@ -43,13 +46,19 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            if (request.ProjectProgramId.HasValue)
+            if (request.ProjectProgramsIds.Any())
             {
-                var programExists = await _context.ProjectPrograms
-                    .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
+                var programsExist = await _context.ProjectPrograms
+                    .Where(p => request.ProjectProgramsIds.Contains(p.Id))
+                    .Select(p => p.Id)
+                    .ToListAsync(cancellationToken);
 
-                if (!programExists)
-                    return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
+                var invalidIds = request.ProjectProgramsIds.Except(programsExist).ToList();
+
+                if (invalidIds.Any())
+                {
+                    return new ValidationFailed(new[] { $"Projetos com IDs {string.Join(", ", invalidIds)} não encontrados." });
+                }
             }
 
             if (request.PersonTeamsIds.Any())
@@ -73,9 +82,14 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
-                ProjectProgramId = request.ProjectProgramId,
                 CourseId = request.CourseId
             };
+
+            if (request.ProjectProgramsIds.Any())
+            {
+                var programs = await _context.ProjectPrograms.Where(p => request.ProjectProgramsIds.Contains(p.Id)).ToListAsync(cancellationToken);
+                team.ProjectPrograms = programs;
+            }
 
             try
             {

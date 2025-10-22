@@ -29,7 +29,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 Start = request.Start,
                 Finish = request.Finish,
                 PersonTeamsIds = request.PersonTeamsIds,
-                ProjectProgramId = request.ProjectProgramId,
+                ProjectProgramsIds = request.ProjectProgramsIds,
                 CourseId = request.CourseId
             });
 
@@ -41,7 +41,8 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
     public class CreateTeamRequest
     {
-        public string? Name { get; set; }
+        [Required(ErrorMessage = "O nome da turma é obrigatório.")]
+        public required string Name { get; set; }
 
         public string? LessonTime { get; set; }
 
@@ -50,7 +51,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
         public DateTime? Finish { get; set; }
 
         public List<int> PersonTeamsIds { get; set; } = [];
-        public int? ProjectProgramId { get; set; }
+        public List<int> ProjectProgramsIds { get; set; } = [];
         public int CourseId { get; set; }
     }
 
