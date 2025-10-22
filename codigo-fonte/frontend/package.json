@@ -25,6 +25,7 @@
     "bootstrap": "^5.3.8",
     "dayjs": "^1.11.18",
     "jwt-decode": "^4.0.0",
+    "papaparse": "^5.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-number-format": "^5.4.4",

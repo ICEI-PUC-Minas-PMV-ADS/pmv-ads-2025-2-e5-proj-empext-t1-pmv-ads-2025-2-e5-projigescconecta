@@ -234,7 +234,7 @@ const BusinessCase: React.FC = () => {
     const handleSave = async () => {
         const businessCaseForm = updateBusinessCase || createBusinessCase;
 
-        if (!validateBusinessCaseForm(businessCaseForm))
+        if (validateBusinessCaseForm(businessCaseForm) !== null)
             return;
 
         if (updateBusinessCase) {
@@ -275,17 +275,18 @@ const BusinessCase: React.FC = () => {
         }
     }
 
-    const validateBusinessCaseForm = (businessCase: any): boolean => {
+    const validateBusinessCaseForm = (businessCase: any): string | null => {
         const requiredFields = ['name'];
 
         for (const field of requiredFields) {
             if (!businessCase[field] || businessCase[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
