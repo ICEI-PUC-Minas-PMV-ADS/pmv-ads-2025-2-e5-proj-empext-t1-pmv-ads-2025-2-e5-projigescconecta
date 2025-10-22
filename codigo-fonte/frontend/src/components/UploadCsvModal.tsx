@@ -22,6 +22,8 @@ interface UploadCsvModalProps<T> {
     onClose: () => void;
     apiCreate: (item: T) => Promise<any>;
     expectedHeaders: (keyof T)[];
+    validateFields?: (item: T) => string | null;
+    onFinish?: () => void;
 }
 
 interface UploadResult {
@@ -31,7 +33,7 @@ interface UploadResult {
     message: string;
 }
 
-export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, apiCreate, expectedHeaders }: UploadCsvModalProps<T>) {
+export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, apiCreate, expectedHeaders, validateFields, onFinish }: UploadCsvModalProps<T>) {
     const [file, setFile] = useState<File | null>(null);
     const [parsedData, setParsedData] = useState<T[]>([]);
     const [loading, setLoading] = useState(false);
@@ -51,8 +53,8 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
         setLoading(true);
         try {
             const data = await CsvService.parseCsvFile<T>(file);
-            setParsedData(data);
             console.log(data)
+            setParsedData(data);
             setShowPreview(true);
         } catch (error) {
             console.error("Erro ao processar CSV:", error);
@@ -74,10 +76,24 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
         }
 
         const resultsList: UploadResult[] = [];
-        let rowNumber = 1
+        let rowNumber = 2
 
         for (const item of parsedData) {
             try {
+                if(validateFields){
+                    const validationMessage = validateFields(item)
+                    if(validationMessage){
+                        resultsList.push({
+                            row: rowNumber,
+                            id: (item as any).id ?? "-",
+                            name: (item as any).name ?? "-",
+                            message: validationMessage,
+                        });
+                        rowNumber++
+                        continue
+                    }
+                }
+
                 const response = await apiCreate(item);
                 console.log(response)
                 resultsList.push({
@@ -87,9 +103,6 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
                     message: "Criado com sucesso",
                 });
             } catch (error: any) {
-                console.error("Erro na criação:", error.response ?? error);
-                console.log("apiCreate:", apiCreate);
-                console.log("parsedData:", parsedData);
                 resultsList.push({
                     row: rowNumber,
                     id: (item as any).id ?? "-",
@@ -112,6 +125,7 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
         setShowPreview(false);
         setShowResults(false);
         onClose();
+        if(onFinish) onFinish();
     };
 
     function validateCsvHeaders<T extends Record<string, any>>(
@@ -168,6 +182,7 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
                             <TableHead>
                                 <TableRow>
                                     <TableCell>ID</TableCell>
+                                    <TableCell>Linha</TableCell>
                                     <TableCell>Nome</TableCell>
                                     <TableCell>Mensagem</TableCell>
                                 </TableRow>
@@ -176,6 +191,7 @@ export function UploadCsvModal<T extends Record<string, any>>({ title, onClose, 
                                 {results.map((r, i) => (
                                     <TableRow key={i}>
                                         <TableCell>{r.id}</TableCell>
+                                        <TableCell>{r.row}</TableCell>
                                         <TableCell>{r.name}</TableCell>
                                         <TableCell
                                             sx={{ color: r.message.includes('sucesso') ? 'green' : 'red' }}
