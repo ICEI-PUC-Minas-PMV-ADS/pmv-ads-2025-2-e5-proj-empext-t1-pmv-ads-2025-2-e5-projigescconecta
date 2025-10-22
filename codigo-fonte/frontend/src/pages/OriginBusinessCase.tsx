@@ -230,7 +230,7 @@ const OriginBusinessCase: React.FC = () => {
     const handleSave = async () => {
         const originBusinessCaseForm = updateOriginBusinessCase || createOriginBusinessCase;
 
-        if (!validateBeneficiaryForm(originBusinessCaseForm))
+        if (validateBeneficiaryForm(originBusinessCaseForm) !== null)
             return;
 
         if (updateOriginBusinessCase) {
@@ -273,17 +273,18 @@ const OriginBusinessCase: React.FC = () => {
         }
     }
 
-    const validateBeneficiaryForm = (originBusinessCase: any): boolean => {
+    const validateBeneficiaryForm = (originBusinessCase: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!originBusinessCase[field] || originBusinessCase[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {

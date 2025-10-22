@@ -341,7 +341,7 @@ const Osc: React.FC = () => {
   const handleSave = async () => {
     const ocsForm = updateOsc || createOsc;
 
-    if (!validateOscForm(ocsForm))
+    if (validateOscForm(ocsForm) !== null)
       return
 
     if (updateOsc) {
@@ -411,7 +411,7 @@ const Osc: React.FC = () => {
     }
   }
 
-  const validateOscForm = (osc: any): boolean => {
+  const validateOscForm = (osc: any): string | null => {
     const requiredFields = [
       'name',
       'phoneNumber',
@@ -426,12 +426,13 @@ const Osc: React.FC = () => {
 
     for (const field of requiredFields) {
       if (!osc[field] || osc[field].toString().trim() === '') {
-        toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-        return false;
+        const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+        toast.error(message);
+        return message;
       }
     }
 
-    return true;
+    return null;
   };
 
   const formatFieldName = (field: string): string => {

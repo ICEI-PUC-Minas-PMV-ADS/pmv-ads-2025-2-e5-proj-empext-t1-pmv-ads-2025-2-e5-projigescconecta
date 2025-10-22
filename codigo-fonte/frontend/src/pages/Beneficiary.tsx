@@ -245,7 +245,7 @@ const Beneficiary: React.FC = () => {
     const handleSave = async () => {
         const beneficiaryForm = updateBeneficiary || createBeneficiary;
 
-        if (!validateBeneficiaryForm(beneficiaryForm))
+        if (validateBeneficiaryForm(beneficiaryForm) !== null)
             return;
 
         if (updateBeneficiary) {
@@ -288,17 +288,18 @@ const Beneficiary: React.FC = () => {
         }
     }
 
-    const validateBeneficiaryForm = (beneficiary: any): boolean => {
+    const validateBeneficiaryForm = (beneficiary: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!beneficiary[field] || beneficiary[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -336,7 +337,7 @@ const Beneficiary: React.FC = () => {
                     }}
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Importar Público' />
+                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Exportar Público' />
 
                         {/* Filtro por nome de Público */}
                         <Paper
@@ -524,6 +525,8 @@ const Beneficiary: React.FC = () => {
                                 onClose={() => setUploadOpen(false)}
                                 apiCreate={apiCreate}
                                 expectedHeaders={['name', 'notes']}
+                                validateFields={validateBeneficiaryForm}
+                                onFinish={() => fetchBeneficiaries()}
                             />
                         )}
 
