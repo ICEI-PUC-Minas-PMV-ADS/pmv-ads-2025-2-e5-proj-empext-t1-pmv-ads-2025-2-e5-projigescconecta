@@ -662,6 +662,58 @@ export interface CreatePersonResponse {
 /**
  * 
  * @export
+ * @interface CreateProjectThemeRequest
+ */
+export interface CreateProjectThemeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectThemeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectThemeResponse
+ */
+export interface CreateProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectTypeRequest
+ */
+export interface CreateProjectTypeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectTypeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectTypeResponse
+ */
+export interface CreateProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CreateTeamRequest
  */
 export interface CreateTeamRequest {
@@ -670,7 +722,7 @@ export interface CreateTeamRequest {
      * @type {string}
      * @memberof CreateTeamRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * 
      * @type {string}
@@ -697,10 +749,10 @@ export interface CreateTeamRequest {
     'personTeamsIds'?: Array<number>;
     /**
      * 
-     * @type {number}
+     * @type {Array<number>}
      * @memberof CreateTeamRequest
      */
-    'projectProgramId'?: number | null;
+    'projectProgramsIds'?: Array<number>;
     /**
      * 
      * @type {number}
@@ -787,15 +839,28 @@ export interface DeleteCourseResponse {
 /**
  * 
  * @export
- * @interface DeleteTeamResponse
+ * @interface DeleteProjectThemeResponse
  */
-export interface DeleteTeamResponse {
+export interface DeleteProjectThemeResponse {
     /**
      * 
      * @type {number}
-     * @memberof DeleteTeamResponse
+     * @memberof DeleteProjectThemeResponse
      */
-    'teamId'?: number;
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteProjectTypeResponse
+ */
+export interface DeleteProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteProjectTypeResponse
+     */
+    'projectTypeId'?: number;
 }
 /**
  * 
@@ -863,6 +928,58 @@ export interface EditCourseResponse {
 /**
  * 
  * @export
+ * @interface EditProjectThemeRequest
+ */
+export interface EditProjectThemeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectThemeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectThemeResponse
+ */
+export interface EditProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectTypeRequest
+ */
+export interface EditProjectTypeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectTypeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectTypeResponse
+ */
+export interface EditProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
  * @interface EditTeamRequest
  */
 export interface EditTeamRequest {
@@ -871,7 +988,7 @@ export interface EditTeamRequest {
      * @type {string}
      * @memberof EditTeamRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * 
      * @type {string}
@@ -898,35 +1015,16 @@ export interface EditTeamRequest {
     'personTeamsIds'?: Array<number> | null;
     /**
      * 
-     * @type {number}
+     * @type {Array<number>}
      * @memberof EditTeamRequest
      */
-    'projectProgramId'?: number | null;
+    'projectProgramIds'?: Array<number> | null;
     /**
      * 
      * @type {number}
      * @memberof EditTeamRequest
      */
     'courseId'?: number | null;
-}
-/**
- * 
- * @export
- * @interface EditTeamResponse
- */
-export interface EditTeamResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof EditTeamResponse
-     */
-    'teamId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditTeamResponse
-     */
-    'name'?: string | null;
 }
 /**
  * 
@@ -1342,6 +1440,104 @@ export interface GetOscResponse {
 /**
  * 
  * @export
+ * @interface GetProjectThemeByIdViewModel
+ */
+export interface GetProjectThemeByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'updatedAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetProjectTypeByIdViewModel
+ */
+export interface GetProjectTypeByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'updatedAt'?: string;
+}
+/**
+ * 
+ * @export
  * @interface GetTeamByIdResponse
  */
 export interface GetTeamByIdResponse {
@@ -1380,7 +1576,7 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
-    'courseId'?: number | null;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
@@ -1392,13 +1588,7 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
-    'projectProgramId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetTeamByIdResponse
-     */
-    'projectProgramName'?: string | null;
+    'projectProgramsCount'?: number;
     /**
      * 
      * @type {number}
@@ -1823,6 +2013,94 @@ export interface ListPersonViewModel {
 /**
  * 
  * @export
+ * @interface ListProjectThemeRequest
+ */
+export interface ListProjectThemeRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectThemeRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectThemeViewModel
+ */
+export interface ListProjectThemeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectThemeViewModel>}
+     * @memberof ListProjectThemeViewModel
+     */
+    'items'?: Array<ProjectThemeViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectTypeRequest
+ */
+export interface ListProjectTypeRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectTypeRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectTypeViewModel
+ */
+export interface ListProjectTypeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectTypeViewModel>}
+     * @memberof ListProjectTypeViewModel
+     */
+    'items'?: Array<ProjectTypeViewModel>;
+}
+/**
+ * 
+ * @export
  * @interface ListTeamItemViewModel
  */
 export interface ListTeamItemViewModel {
@@ -1861,19 +2139,13 @@ export interface ListTeamItemViewModel {
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
-    'projectProgramId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ListTeamItemViewModel
-     */
-    'projectProgramName'?: string | null;
+    'projectPrograms'?: number;
     /**
      * 
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
-    'courseId'?: number | null;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
@@ -2341,6 +2613,44 @@ export interface ProblemDetails {
      * @memberof ProblemDetails
      */
     'instance'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectThemeViewModel
+ */
+export interface ProjectThemeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectThemeViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectThemeViewModel
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectTypeViewModel
+ */
+export interface ProjectTypeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectTypeViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectTypeViewModel
+     */
+    'name'?: string | null;
 }
 /**
  * 
@@ -6812,6 +7122,788 @@ export class PersonsApi extends BaseAPI {
 
 
 /**
+ * ProjectThemesApi - axios parameter creator
+ * @export
+ */
+export const ProjectThemesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectTheme: async (createProjectThemeRequest?: CreateProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectthemes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectTheme: async (projectThemeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectThemeId' is not null or undefined
+            assertParamExists('deleteProjectTheme', 'projectThemeId', projectThemeId)
+            const localVarPath = `/api/projectthemes/{projectThemeId}`
+                .replace(`{${"projectThemeId"}}`, encodeURIComponent(String(projectThemeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectTheme: async (projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectThemeId' is not null or undefined
+            assertParamExists('editProjectTheme', 'projectThemeId', projectThemeId)
+            const localVarPath = `/api/projectthemes/{projectThemeId}`
+                .replace(`{${"projectThemeId"}}`, encodeURIComponent(String(projectThemeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectThemeById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectThemeById', 'id', id)
+            const localVarPath = `/api/projectthemes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectTheme: async (listProjectThemeRequest?: ListProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectthemes/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectThemesApi - functional programming interface
+ * @export
+ */
+export const ProjectThemesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectThemesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectTheme(createProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.createProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectTheme(projectThemeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.deleteProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectTheme(projectThemeId, editProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.editProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectThemeById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectThemeByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectThemeById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.getProjectThemeById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectThemeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectTheme(listProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.listProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectThemesApi - factory interface
+ * @export
+ */
+export const ProjectThemesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectThemesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: any): AxiosPromise<CreateProjectThemeResponse> {
+            return localVarFp.createProjectTheme(createProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectTheme(projectThemeId: number, options?: any): AxiosPromise<DeleteProjectThemeResponse> {
+            return localVarFp.deleteProjectTheme(projectThemeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: any): AxiosPromise<EditProjectThemeResponse> {
+            return localVarFp.editProjectTheme(projectThemeId, editProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectThemeById(id: number, options?: any): AxiosPromise<GetProjectThemeByIdViewModel> {
+            return localVarFp.getProjectThemeById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: any): AxiosPromise<ListProjectThemeViewModel> {
+            return localVarFp.listProjectTheme(listProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectThemesApi - object-oriented interface
+ * @export
+ * @class ProjectThemesApi
+ * @extends {BaseAPI}
+ */
+export class ProjectThemesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).createProjectTheme(createProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectThemeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public deleteProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).deleteProjectTheme(projectThemeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectThemeId 
+     * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).editProjectTheme(projectThemeId, editProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public getProjectThemeById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).getProjectThemeById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).listProjectTheme(listProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectTypesApi - axios parameter creator
+ * @export
+ */
+export const ProjectTypesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectType: async (createProjectTypeRequest?: CreateProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projecttypes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectType: async (projectTypeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectTypeId' is not null or undefined
+            assertParamExists('deleteProjectType', 'projectTypeId', projectTypeId)
+            const localVarPath = `/api/projecttypes/{projectTypeId}`
+                .replace(`{${"projectTypeId"}}`, encodeURIComponent(String(projectTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectType: async (projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectTypeId' is not null or undefined
+            assertParamExists('editProjectType', 'projectTypeId', projectTypeId)
+            const localVarPath = `/api/projecttypes/{projectTypeId}`
+                .replace(`{${"projectTypeId"}}`, encodeURIComponent(String(projectTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectTypeById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectTypeById', 'id', id)
+            const localVarPath = `/api/projecttypes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectType: async (listProjectTypeRequest?: ListProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projecttypes/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectTypesApi - functional programming interface
+ * @export
+ */
+export const ProjectTypesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectTypesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectType(createProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.createProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectType(projectTypeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectType(projectTypeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.deleteProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectType(projectTypeId, editProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.editProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectTypeById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectTypeByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectTypeById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.getProjectTypeById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectTypeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectType(listProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.listProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectTypesApi - factory interface
+ * @export
+ */
+export const ProjectTypesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectTypesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: any): AxiosPromise<CreateProjectTypeResponse> {
+            return localVarFp.createProjectType(createProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectType(projectTypeId: number, options?: any): AxiosPromise<DeleteProjectTypeResponse> {
+            return localVarFp.deleteProjectType(projectTypeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: any): AxiosPromise<EditProjectTypeResponse> {
+            return localVarFp.editProjectType(projectTypeId, editProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectTypeById(id: number, options?: any): AxiosPromise<GetProjectTypeByIdViewModel> {
+            return localVarFp.getProjectTypeById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: any): AxiosPromise<ListProjectTypeViewModel> {
+            return localVarFp.listProjectType(listProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectTypesApi - object-oriented interface
+ * @export
+ * @class ProjectTypesApi
+ * @extends {BaseAPI}
+ */
+export class ProjectTypesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).createProjectType(createProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectTypeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public deleteProjectType(projectTypeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).deleteProjectType(projectTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectTypeId 
+     * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).editProjectType(projectTypeId, editProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public getProjectTypeById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).getProjectTypeById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).listProjectType(listProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ReactivateCompanyEndpointApi - axios parameter creator
  * @export
  */
@@ -7084,7 +8176,7 @@ export const TeamsApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         listTeam: async (listTeamRequest?: ListTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/teams/search`;
+            const localVarPath = `/api/teams/ListTeam`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7142,7 +8234,7 @@ export const TeamsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteTeamResponse>> {
+        async deleteTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTeam(teamId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TeamsApi.deleteTeam']?.[localVarOperationServerIndex]?.url;
@@ -7155,7 +8247,7 @@ export const TeamsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditTeamResponse>> {
+        async editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.editTeam(teamId, editTeamRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TeamsApi.editTeam']?.[localVarOperationServerIndex]?.url;
@@ -7210,7 +8302,7 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteTeam(teamId: number, options?: any): AxiosPromise<DeleteTeamResponse> {
+        deleteTeam(teamId: number, options?: any): AxiosPromise<void> {
             return localVarFp.deleteTeam(teamId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -7220,7 +8312,7 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: any): AxiosPromise<EditTeamResponse> {
+        editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editTeam(teamId, editTeamRequest, options).then((request) => request(axios, basePath));
         },
         /**

@@ -54,11 +54,11 @@ dayjs.locale('pt-br');
 // Interfaces
 interface Team {
   teamId?: number;
-  name?: string | null;
+  name: string;
   lessonTime?: string | null;
   start?: string | null;
   finish?: string | null;
-  projectProgramId?: number | null;
+  projectProgramsIds?: number[] | null;
   courseId?: number | null;
   projectProgramName?: string | null;
   courseName?: string | null;
@@ -105,7 +105,7 @@ const Team: React.FC = () => {
   const [lessonTime, setLessonTime] = useState('');
   const [startDate, setStartDate] = useState<Dayjs | undefined>(undefined);
   const [endDate, setEndDate] = useState<Dayjs | undefined>(undefined);
-  const [selectedProgramId, setSelectedProgramId] = useState<number | ''>('');
+  const [selectedProgramIds, setSelectedProgramIds] = useState<number[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<number | ''>('');
   const [selectedPersonIds, setSelectedPersonIds] = useState<number[]>([]);
   const [personsResults, setPersonsResults] = useState<Person[]>([]);
@@ -210,13 +210,13 @@ const Team: React.FC = () => {
         return;
       }
 
-      setTeams(
-        (data.items ?? []).map((item) => ({
-          ...item,
-          start: item.start ? dayjs(item.start).format('DD/MM/YYYY') : '',
-          finish: item.finish ? dayjs(item.finish).format('DD/MM/YYYY') : '',
-        }))
-      );
+      const teams = (data.items ?? []).map((item) => ({
+        ...item,
+        start: item.start ? dayjs(item.start).format('DD/MM/YYYY') : '',
+        finish: item.finish ? dayjs(item.finish).format('DD/MM/YYYY') : '',
+      }));
+
+      setTeams(teams as Team[]);
 
       setTotalCount(data.totalItems || 0);
       setNoDataMessage('');
@@ -322,11 +322,11 @@ const Team: React.FC = () => {
 
   const handleEdit = (team: Team) => {
     setEditingTeam(team);
-    setTeamName(team.name || '');
+    setTeamName(team.name);
     setLessonTime(team.lessonTime || '');
     setStartDate(team.start ? dayjs(team.start, 'DD/MM/YYYY') : undefined);
     setEndDate(team.finish ? dayjs(team.finish, 'DD/MM/YYYY') : undefined);
-    setSelectedProgramId(team.projectProgramId || '');
+    setSelectedProgramIds(team.projectProgramsIds || []);
     setSelectedCourseId(team.courseId || '');
     setSelectedPersonIds([]); // Será carregado no getTeamById
     setOpenModal(true);
@@ -341,12 +341,15 @@ const Team: React.FC = () => {
       setLessonTime(data.lessonTime || '');
       setStartDate(data.start ? dayjs(data.start) : undefined);
       setEndDate(data.finish ? dayjs(data.finish) : undefined);
-      setSelectedProgramId(data.projectProgramId || '');
       setSelectedCourseId(data.courseId || '');
 
       // TODO: Quando a API retornar personTeamsIds, usar:
       // setSelectedPersonIds(data.personTeamsIds || []);
       setSelectedPersonIds([]); // Por enquanto vazio
+
+      // TODO: Quando a API retornar projectProgramsIds, usar:
+      // setSelectedProgramIds(data.projectProgramsIds || []);
+      setSelectedProgramIds([]);
 
       setOpenModal(true);
     } catch (error) {
@@ -389,6 +392,10 @@ const Team: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
+    if (!teamName.trim()) {
+      toast.error('O nome da turma é obrigatório!');
+      return false;
+    }
     if (!selectedCourseId) {
       toast.error('Deve ser informado um programa!');
       return false;
@@ -408,15 +415,14 @@ const Team: React.FC = () => {
 
       if (editingTeam) {
         const editTeamRequest: EditTeamRequest = {
-          name: teamName || undefined,
+          name: teamName,
           lessonTime: lessonTime || undefined,
           start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
           finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           courseId: selectedCourseId as number,
-          // TODO: alterar pós adição de CRUD
-          /* Crud ainda n implementado */
-          // projectProgramId: selectedProgramId ? (selectedProgramId as number) : undefined,
-          // personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : undefined,
+          // Implementação do CRUD para ProjectProgram como lista
+          projectProgramIds: selectedProgramIds.length > 0 ? selectedProgramIds : null,
+          personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : null,
         };
 
         const id: number = editingTeam.teamId!;
@@ -424,15 +430,14 @@ const Team: React.FC = () => {
         toast.success('Turma atualizada com sucesso!');
       } else {
         const createTeamRequest: CreateTeamRequest = {
-          name: teamName || undefined,
+          name: teamName,
           lessonTime: lessonTime || undefined,
           start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
           finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           courseId: selectedCourseId as number,
-          // TODO: alterar pós adição de CRUD
-          /* Crud ainda n implementado */
-          // projectProgramId: selectedProgramId ? (selectedProgramId as number) : undefined,
-          // personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : [],
+          // Implementação do CRUD para ProjectProgram como lista
+          projectProgramsIds: selectedProgramIds.length > 0 ? selectedProgramIds : undefined,
+          personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : undefined,
         };
 
         await teamsApi.createTeam(createTeamRequest);
@@ -455,7 +460,7 @@ const Team: React.FC = () => {
     setLessonTime('');
     setStartDate(undefined);
     setEndDate(undefined);
-    setSelectedProgramId('');
+    setSelectedProgramIds([]);
     setSelectedCourseId('');
     setSelectedPersonIds([]);
   };
@@ -468,8 +473,9 @@ const Team: React.FC = () => {
     }, 300);
   };
 
-  const handleProgramChange = (event: SelectChangeEvent<number | ''>) => {
-    setSelectedProgramId(event.target.value as number | '');
+  const handleProgramChange = (event: SelectChangeEvent<number[]>) => {
+    const value = event.target.value;
+    setSelectedProgramIds(typeof value === 'string' ? [] : value);
   };
 
   const handleCourseChange = (event: SelectChangeEvent<number | ''>) => {
@@ -638,7 +644,6 @@ const Team: React.FC = () => {
                 </FormControl>
               </Box>
 
-              {/* Testan  */}
               <Box
                 sx={{
                   mt: 2.5,
@@ -741,7 +746,7 @@ const Team: React.FC = () => {
               <TextField
                 autoFocus={!isVisualizing}
                 margin="dense"
-                label="Nome da Turma"
+                label="Nome da Turma*"
                 type="text"
                 fullWidth
                 variant="outlined"
@@ -811,7 +816,7 @@ const Team: React.FC = () => {
               />
             </Grid>
 
-            <Grid size={{ xs: 12, md: 6 }}>
+            {/* <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth variant="outlined" margin="dense">
                 <InputLabel>Projeto</InputLabel>
                 <Select
@@ -836,7 +841,7 @@ const Team: React.FC = () => {
                   )}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth variant="outlined" margin="dense">

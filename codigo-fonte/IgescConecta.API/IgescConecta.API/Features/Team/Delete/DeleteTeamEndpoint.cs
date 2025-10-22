@@ -1,9 +1,13 @@
+using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IgescConecta.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace IgescConecta.API.Features.Teams.DeleteTeam
 {
+    [ApiAuthorize]
     [ApiController]
     [Route("api/teams")]
     [ApiExplorerSettings(GroupName = "Teams")]
@@ -16,7 +20,7 @@ namespace IgescConecta.API.Features.Teams.DeleteTeam
             _mediator = mediator;
         }
 
-        [HttpDelete("{teamId}")]
+        [HttpDelete("{teamId}", Name="DeleteTeam")]
         public async Task<IActionResult> DeleteTeam(int teamId)
         {
             var command = new DeleteTeamCommand

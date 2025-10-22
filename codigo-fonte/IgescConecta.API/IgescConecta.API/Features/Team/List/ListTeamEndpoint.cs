@@ -17,7 +17,7 @@ namespace IgescConecta.API.Features.Teams.ListTeams
             _mediator = mediator;
         }
 
-        [HttpPost("search", Name = "ListTeam")]
+        [HttpPost("ListTeam", Name = "ListTeam")]
         public async Task<ActionResult<ListTeamViewModel>> ListTeams([FromBody] ListTeamRequest request)
         {
             var result = await _mediator.Send(new ListTeamQuery(request.PageNumber, request.PageSize, request.Filters));

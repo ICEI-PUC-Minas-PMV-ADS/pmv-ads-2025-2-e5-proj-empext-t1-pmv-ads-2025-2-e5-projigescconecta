@@ -1,12 +1,12 @@
-using IgescConecta.API.Common.Validation;
-using IgescConecta.Domain.Entities;
+using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using IgescConecta.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
+    [ApiAuthorize]
     [ApiController]
     [Route("api/teams")]
     [ApiExplorerSettings(GroupName = "Teams")]
@@ -19,7 +19,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             _mediator = mediator;
         }
 
-        [HttpPut("{teamId}")]
+        [HttpPut("{teamId}", Name="EditTeam")]
         public async Task<IActionResult> EditTeam(int teamId, EditTeamRequest request)
         {
             var command = new EditTeamCommand

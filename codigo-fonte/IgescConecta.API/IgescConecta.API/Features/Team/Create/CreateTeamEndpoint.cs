@@ -19,7 +19,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
             _mediator = mediator;
         }
 
-        [HttpPost("CreateTeam", Name = "CreateTeam")]
+        [HttpPost("CreateTeam", Name="CreateTeam")]
         public async Task<ActionResult<CreateTeamResponse>> CreateTeam([FromBody] CreateTeamRequest request)
         {
             var result = await _mediator.Send(new CreateTeamCommand
