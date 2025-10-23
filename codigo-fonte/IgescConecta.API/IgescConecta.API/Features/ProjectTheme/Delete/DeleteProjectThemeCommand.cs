@@ -24,15 +24,15 @@ namespace IgescConecta.API.Features.ProjectThemes.DeleteProjectTheme
             CancellationToken cancellationToken)
         {
             var entity = await _context.ProjectThemes.FindAsync(request.ProjectThemeId);
-            if (entity == null)
+
+            if (entity == null || entity.IsDeleted)
                 return new ValidationFailed(new[] { "Tema de Projeto não encontrado ou já está excluído." });
 
-            // Se houver regras de vínculo (ex.: ProjectProgram), validar aqui.
-            _context.ProjectThemes.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
+            entity.IsDeleted = true;
+            entity.UpdatedAt = DateTime.UtcNow;
 
+            await _context.SaveChangesAsync(cancellationToken);
             return entity.Id;
         }
     }
 }
-

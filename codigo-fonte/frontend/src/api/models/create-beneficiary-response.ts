@@ -25,6 +25,12 @@ export interface CreateBeneficiaryResponse {
      * @type {number}
      * @memberof CreateBeneficiaryResponse
      */
-    'beneficiaryId'?: number;
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBeneficiaryResponse
+     */
+    'name'?: string;
 }
 

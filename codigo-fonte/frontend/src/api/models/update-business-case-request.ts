@@ -26,11 +26,5 @@ export interface UpdateBusinessCaseRequest {
      * @memberof UpdateBusinessCaseRequest
      */
     'name'?: string | null;
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof UpdateBusinessCaseRequest
-     */
-    'originsBusinessCasesIds'?: Array<number>;
 }
 

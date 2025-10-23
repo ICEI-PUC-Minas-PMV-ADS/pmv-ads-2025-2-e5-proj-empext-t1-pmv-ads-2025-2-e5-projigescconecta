@@ -17,19 +17,13 @@
 /**
  * 
  * @export
- * @interface UpdateBusinessCaseResponse
+ * @interface EditProjectTypeRequest
  */
-export interface UpdateBusinessCaseResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateBusinessCaseResponse
-     */
-    'businessCaseId'?: number;
+export interface EditProjectTypeRequest {
     /**
      * 
      * @type {string}
-     * @memberof UpdateBusinessCaseResponse
+     * @memberof EditProjectTypeRequest
      */
     'name'?: string;
 }

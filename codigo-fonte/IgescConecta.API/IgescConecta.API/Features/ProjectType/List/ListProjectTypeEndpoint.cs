@@ -11,16 +11,14 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
     public class ListProjectTypeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public ListProjectTypeEndpoint(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public ListProjectTypeEndpoint(IMediator mediator) => _mediator = mediator;
 
         [HttpPost("search", Name = "ListProjectType")]
         public async Task<ActionResult<ListProjectTypeViewModel>> List([FromBody] ListProjectTypeRequest request)
         {
-            var result = await _mediator.Send(new ListProjectTypeQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(
+                new ListProjectTypeQuery(request.PageNumber, request.PageSize, request.Filters, request.IncludeDeleted, request.OnlyDeleted)
+            );
             return Ok(result);
         }
 
@@ -28,12 +26,7 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
         public async Task<ActionResult<GetProjectTypeByIdViewModel>> GetById([FromRoute] int id)
         {
             var result = await _mediator.Send(new GetProjectTypeByIdQuery(id));
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
+            if (result == null) return NotFound();
             return Ok(result);
         }
     }
@@ -43,6 +36,7 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
+        public bool IncludeDeleted { get; set; } = false;
+        public bool OnlyDeleted { get; set; } = false;
     }
 }
-

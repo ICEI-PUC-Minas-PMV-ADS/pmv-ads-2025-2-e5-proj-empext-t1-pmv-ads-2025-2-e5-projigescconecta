@@ -13,24 +13,27 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { ProjectThemeViewModel } from './project-theme-view-model';
 
 /**
  * 
  * @export
- * @interface UpdateBusinessCaseResponse
+ * @interface ListProjectThemeViewModel
  */
-export interface UpdateBusinessCaseResponse {
+export interface ListProjectThemeViewModel {
     /**
      * 
      * @type {number}
-     * @memberof UpdateBusinessCaseResponse
+     * @memberof ListProjectThemeViewModel
      */
-    'businessCaseId'?: number;
+    'totalItems'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateBusinessCaseResponse
+     * @type {Array<ProjectThemeViewModel>}
+     * @memberof ListProjectThemeViewModel
      */
-    'name'?: string;
+    'items'?: Array<ProjectThemeViewModel>;
 }
 

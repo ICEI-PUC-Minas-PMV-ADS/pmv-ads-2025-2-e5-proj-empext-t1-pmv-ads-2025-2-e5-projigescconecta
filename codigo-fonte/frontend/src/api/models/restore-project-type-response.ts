@@ -17,20 +17,14 @@
 /**
  * 
  * @export
- * @interface UpdateBusinessCaseResponse
+ * @interface RestoreProjectTypeResponse
  */
-export interface UpdateBusinessCaseResponse {
+export interface RestoreProjectTypeResponse {
     /**
      * 
      * @type {number}
-     * @memberof UpdateBusinessCaseResponse
+     * @memberof RestoreProjectTypeResponse
      */
-    'businessCaseId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateBusinessCaseResponse
-     */
-    'name'?: string;
+    'projectTypeId'?: number;
 }
 

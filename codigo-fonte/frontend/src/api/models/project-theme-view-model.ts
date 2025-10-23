@@ -17,20 +17,26 @@
 /**
  * 
  * @export
- * @interface UpdateBusinessCaseResponse
+ * @interface ProjectThemeViewModel
  */
-export interface UpdateBusinessCaseResponse {
+export interface ProjectThemeViewModel {
     /**
      * 
      * @type {number}
-     * @memberof UpdateBusinessCaseResponse
+     * @memberof ProjectThemeViewModel
      */
-    'businessCaseId'?: number;
+    'projectThemeId'?: number;
     /**
      * 
      * @type {string}
-     * @memberof UpdateBusinessCaseResponse
+     * @memberof ProjectThemeViewModel
      */
-    'name'?: string;
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectThemeViewModel
+     */
+    'isDeleted'?: boolean;
 }
 

@@ -25,6 +25,12 @@ export interface CreateBusinessCaseResponse {
      * @type {number}
      * @memberof CreateBusinessCaseResponse
      */
-    'businessCaseId'?: number;
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCaseResponse
+     */
+    'name'?: string;
 }
 

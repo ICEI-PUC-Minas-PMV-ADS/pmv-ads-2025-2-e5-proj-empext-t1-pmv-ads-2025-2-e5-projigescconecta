@@ -61,6 +61,48 @@ export interface UpdateOscResponse {
      * @type {string}
      * @memberof UpdateOscResponse
      */
+    'neighborhood'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'state'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'webUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'socialMedia'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
     'zipCode'?: string;
     /**
      * 
