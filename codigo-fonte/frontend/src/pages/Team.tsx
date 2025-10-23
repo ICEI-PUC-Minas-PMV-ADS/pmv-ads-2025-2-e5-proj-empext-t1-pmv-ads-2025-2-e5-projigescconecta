@@ -37,6 +37,7 @@ import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import {
   TeamsApi,
   CreateTeamRequest,
@@ -100,6 +101,8 @@ const Team: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
+
+  const navigate = useNavigate()
 
   const [teamName, setTeamName] = useState('');
   const [lessonTime, setLessonTime] = useState('');
@@ -495,6 +498,14 @@ const Team: React.FC = () => {
     setSelectedPersonIds(typeof value === 'string' ? [] : value);
   };
 
+  function handlePersonTeam(row: Team): void {
+    if (row.teamId) {
+      navigate(`/team/${row.teamId}/persons-team`);
+    } else {
+      toast.error('ID da turma não encontrado');
+    }
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
@@ -730,6 +741,7 @@ const Team: React.FC = () => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 noDataMessage={noDataMessage}
+                onTeam={handlePersonTeam}
               />
             )}
           </Box>
