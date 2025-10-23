@@ -21,7 +21,6 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
-import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -38,11 +37,8 @@ import {
   CreatePersonTeamRequest,
   EditPersonTeamRequest,
   MemberType,
-  Filter,
-  Op,
 } from './../api';
 
-// Interfaces
 interface PersonTeam {
   id?: number;
   personId?: number;
@@ -66,9 +62,6 @@ interface Team {
   name?: string | null;
 }
 
-type PersonTeamProps = Record<string, never>;
-
-// Enum para tipos de membro (baseado no backend)
 const MemberTypeLabels: Record<MemberType, string> = {
   [MemberType.NUMBER_0]: 'Estudante',
   [MemberType.NUMBER_1]: 'Professor',
@@ -80,8 +73,7 @@ const MemberTypeLabels: Record<MemberType, string> = {
   [MemberType.NUMBER_7]: 'Observador',
 };
 
-const PersonTeam: React.FC<PersonTeamProps> = () => {
-  /* ------------------------------ Variáveis ------------------------------ */
+const PersonTeam: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const navigate = useNavigate();
 
@@ -105,6 +97,7 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     loading: false,
   });
   const [filterPersonName, setFilterPersonName] = useState('');
+  const [filterMemberType, setFilterMemberType] = useState<MemberType | ''>('');
 
   const memberTypeOptions = useMemo(
     () =>
@@ -114,11 +107,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
       })),
     []
   );
-  const [selectedMemberTypeOption, setSelectedMemberTypeOption] = useState<{
-    id: MemberType;
-    label: string;
-  } | null>(null);
-  const [inputMemberTypeValue, setInputMemberTypeValue] = useState('');
 
   const personOptions = useMemo(
     () =>
@@ -168,55 +156,38 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     },
   ];
 
-  /* --------------------------------- Funções -------------------------------- */
+  const fetchPersonTeams = useCallback(async () => {
+    if (!teamId) return;
 
-  const fetchPersonTeams = useCallback(
-    async (customFilters?: Filter[]) => {
-      if (!teamId) return;
+    try {
+      const response = await apiInstance.listPersonTeamsByTeam(parseInt(teamId), {
+        params: {
+          pageNumber: 1,
+          pageSize: 1000,
+          filters: undefined,
+        },
+      });
 
-      try {
-        const filters: Filter[] = customFilters ?? [];
-
-        if (!customFilters) {
-          if (filterPersonName) {
-            filters.push({
-              propertyName: 'personName',
-              operation: Op.NUMBER_7,
-              value: filterPersonName,
-            });
-          }
-        }
-
-        const response = await apiInstance.listPersonTeamsByTeam(parseInt(teamId), {
-          params: {
-            pageNumber: page + 1,
-            pageSize: rowsPerPage,
-            filters: filters.length > 0 ? filters : undefined,
-          },
-        });
-
-        if (response.data && Array.isArray(response.data)) {
-          if (response.data.length === 0) {
-            setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
-            setPersonTeams([]);
-            return;
-          }
-
-          setNoDataMessage('');
-          setPersonTeams(response.data);
-        } else {
-          setPersonTeams([]);
+      if (response.data && Array.isArray(response.data)) {
+        if (response.data.length === 0) {
           setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
+          setPersonTeams([]);
+          return;
         }
-      } catch (error) {
-        console.error('Erro ao buscar vínculos:', error);
-        toast.error('Erro ao carregar vínculos da turma');
+
+        setNoDataMessage('');
+        setPersonTeams(response.data);
+      } else {
         setPersonTeams([]);
-        setNoDataMessage('Erro ao carregar dados.');
+        setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
       }
-    },
-    [teamId, page, rowsPerPage, filterPersonName, apiInstance]
-  );
+    } catch (error) {
+      console.error('Erro ao buscar vínculos:', error);
+      toast.error('Erro ao carregar vínculos da turma');
+      setPersonTeams([]);
+      setNoDataMessage('Erro ao carregar dados.');
+    }
+  }, [teamId, apiInstance]);
 
   const fetchPersons = useCallback(async () => {
     try {
@@ -224,7 +195,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
       const response = await personsApiInstance.listPerson({
         pageNumber: 1,
         pageSize: 100,
-        filters: [],
       });
 
       const items = response.data?.items ?? [];
@@ -251,15 +221,13 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     }
   }, [teamId, teamsApiInstance]);
 
-  const handleOpenModal = () => {
+  const handleAdd = () => {
     setOpenModal(true);
     setEditingPersonTeam(null);
     setSelectedPersonId('');
     setSelectedMemberTypes([]);
     setSelectedPersonOption(null);
     setInputPersonValue('');
-    setSelectedMemberTypeOption(null);
-    setInputMemberTypeValue('');
     setIsVisualizing(false);
   };
 
@@ -270,8 +238,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     setSelectedMemberTypes([]);
     setSelectedPersonOption(null);
     setInputPersonValue('');
-    setSelectedMemberTypeOption(null);
-    setInputMemberTypeValue('');
     setIsVisualizing(false);
   };
 
@@ -279,19 +245,16 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     setEditingPersonTeam(personTeam);
     setSelectedPersonId(personTeam.personId || '');
     setSelectedMemberTypes(personTeam.memberTypes || []);
-    
-    // Encontrar e definir a pessoa selecionada para o Autocomplete
-    const selectedPerson = persons.find(p => p.id === personTeam.personId);
+
+    const selectedPerson = persons.find((p) => p.id === personTeam.personId);
     if (selectedPerson) {
       setSelectedPersonOption({
         id: selectedPerson.id!,
         label: selectedPerson.name!,
       });
     }
-    
+
     setInputPersonValue('');
-    setSelectedMemberTypeOption(null);
-    setInputMemberTypeValue('');
     setIsVisualizing(false);
     setOpenModal(true);
   };
@@ -300,19 +263,16 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     setEditingPersonTeam(personTeam);
     setSelectedPersonId(personTeam.personId || '');
     setSelectedMemberTypes(personTeam.memberTypes || []);
-    
-    // Encontrar e definir a pessoa selecionada para o Autocomplete
-    const selectedPerson = persons.find(p => p.id === personTeam.personId);
+
+    const selectedPerson = persons.find((p) => p.id === personTeam.personId);
     if (selectedPerson) {
       setSelectedPersonOption({
         id: selectedPerson.id!,
         label: selectedPerson.name!,
       });
     }
-    
+
     setInputPersonValue('');
-    setSelectedMemberTypeOption(null);
-    setInputMemberTypeValue('');
     setIsVisualizing(true);
     setOpenModal(true);
   };
@@ -384,7 +344,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
 
     try {
       if (editingPersonTeam) {
-        // Editar vínculo existente
         const editRequest: EditPersonTeamRequest = {
           memberTypes: selectedMemberTypes,
         };
@@ -392,7 +351,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
         await apiInstance.editPersonTeam(editingPersonTeam.id!, editRequest);
         toast.success('Vínculo atualizado com sucesso!');
       } else {
-        // Criar novo vínculo
         const createRequest: CreatePersonTeamRequest = {
           personId: selectedPersonOption!.id,
           memberTypes: selectedMemberTypes,
@@ -417,32 +375,44 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
     setSelectedMemberTypes(typeof value === 'string' ? [] : value);
   };
 
-  const handleSearch = () => {
-    setPage(0);
-    fetchPersonTeams();
-  };
-
   const handleClearFilters = () => {
     setFilterPersonName('');
+    setFilterMemberType('');
     setSearch('');
     setPage(0);
-    fetchPersonTeams([]);
   };
 
   const handleBack = () => {
     navigate('/team');
   };
 
-  const filteredPersonTeams = personTeams.filter((pt) =>
-    pt.personName?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredPersonTeams = useMemo(() => {
+    let filtered = personTeams;
 
-  const paginatedPersonTeams = filteredPersonTeams.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+    if (filterPersonName.trim()) {
+      filtered = filtered.filter((pt) =>
+        pt.personName?.toLowerCase().includes(filterPersonName.toLowerCase())
+      );
+    }
 
-  /* --------------------------------- Effects -------------------------------- */
+    if (filterMemberType !== '') {
+      filtered = filtered.filter((pt) =>
+        pt.memberTypes?.includes(filterMemberType as MemberType)
+      );
+    }
+
+    if (search.trim()) {
+      filtered = filtered.filter((pt) =>
+        pt.personName?.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [personTeams, filterPersonName, filterMemberType, search]);
+
+  const paginatedPersonTeams = useMemo(() => {
+    return filteredPersonTeams.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [filteredPersonTeams, page, rowsPerPage]);
 
   useEffect(() => {
     if (teamId) {
@@ -454,8 +424,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
   useEffect(() => {
     fetchPersons();
   }, [fetchPersons]);
-
-  /* --------------------------------- Render --------------------------------- */
 
   return (
     <Container
@@ -476,30 +444,148 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
           overflow: 'hidden',
           border: '1px solid',
           borderColor: alpha('#1E4EC4', 0.1),
+          p: { xs: 2, sm: 3, md: 4 },
         }}
       >
-        <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
-          {/* Header */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1.5,
+            alignItems: 'start',
+            width: '100%',
+          }}
+        >
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={handleBack}
+            sx={{
+              color: '#1E4EC4',
+              borderColor: alpha('#1E4EC4', 0.3),
+              fontWeight: 600,
+              px: 3,
+              py: 1,
+              mb: 2,
+              borderRadius: 1.5,
+              textTransform: 'none',
+              fontSize: '0.95rem',
+              '&:hover': {
+                borderColor: '#1E4EC4',
+                bgcolor: alpha('#1E4EC4', 0.05),
+                borderWidth: 1.5,
+              },
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Voltar para Turmas
+          </Button>
+
+          {currentTeam && (
+            <Typography variant="body2" sx={{ color: '#555' }}>
+              Turmas › Turma: {currentTeam.name}
+            </Typography>
+          )}
+          <Box sx={{ width: '100%' }}>
+            <TitleAndButtons
+              title="Integrantes da Turma"
+              onAdd={handleAdd}
+              addLabel="Adicionar Integrante"
+            />
+          </Box>
+        </Box>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: { xs: 2, sm: 2.5, md: 3 },
+            mb: 3,
+            backgroundColor: alpha('#1E4EC4', 0.02),
+            border: '1px solid',
+            borderColor: alpha('#1E4EC4', 0.1),
+            borderRadius: 2,
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column',
-              gap: 1.5,
-              alignItems: 'start',
-              width: '100%',
+              alignItems: 'center',
+              gap: 1,
+              mb: 2.5,
             }}
           >
+            <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#1a1a2e',
+                fontWeight: 600,
+                fontSize: '1.1rem',
+              }}
+            >
+              Filtro de Busca
+            </Typography>
+            {(filterPersonName || filterMemberType || search) && (
+              <Chip
+                label="Filtros ativos"
+                size="small"
+                sx={{
+                  ml: 1,
+                  bgcolor: alpha('#1E4EC4', 0.1),
+                  color: '#1E4EC4',
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                }}
+              />
+            )}
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 6,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+              <TextField
+                label="Nome da Pessoa"
+                variant="outlined"
+                value={filterPersonName}
+                size="small"
+                onChange={(e) => setFilterPersonName(e.target.value)}
+              />
+
+              <FormControl size="small" sx={{ minWidth: 200 }}>
+                <InputLabel>Função</InputLabel>
+                <Select
+                  value={filterMemberType}
+                  onChange={(e) => setFilterMemberType(e.target.value)}
+                  label="Função"
+                >
+                  <MenuItem value="">
+                    <em>Todas as funções</em>
+                  </MenuItem>
+                  {memberTypeOptions.map((memberType) => (
+                    <MenuItem key={memberType.id} value={memberType.id}>
+                      {memberType.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+
             <Button
               variant="outlined"
-              startIcon={<ArrowBackIcon />}
-              onClick={handleBack}
+              startIcon={<ClearIcon />}
+              onClick={handleClearFilters}
               sx={{
-                color: '#1E4EC4',
                 borderColor: alpha('#1E4EC4', 0.3),
+                color: '#1E4EC4',
                 fontWeight: 600,
-                px: 3,
+                px: 4,
                 py: 1,
-                mb: 2,
                 borderRadius: 1.5,
                 textTransform: 'none',
                 fontSize: '0.95rem',
@@ -511,139 +597,12 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                 transition: 'all 0.2s ease',
               }}
             >
-              Voltar para Turmas
+              Limpar Filtros
             </Button>
-
-            {currentTeam && (
-              <Typography variant="body2" sx={{ color: '#555' }}>
-                Turmas › Turma: {currentTeam.name}
-              </Typography>
-            )}
-            <Box sx={{ width: '100%' }}>
-              <TitleAndButtons
-                title="Integrantes da Turma"
-                onAdd={handleOpenModal}
-                addLabel="Adicionar Pessoa"
-              />
-            </Box>
           </Box>
+        </Paper>
 
-          {/* Filtros */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: { xs: 2, sm: 2.5, md: 3 },
-              mb: 3,
-              backgroundColor: alpha('#1E4EC4', 0.02),
-              border: '1px solid',
-              borderColor: alpha('#1E4EC4', 0.1),
-              borderRadius: 2,
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                mb: 2.5,
-              }}
-            >
-              <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-              <Typography
-                variant="h6"
-                sx={{
-                  color: '#1a1a2e',
-                  fontWeight: 600,
-                  fontSize: '1.1rem',
-                }}
-              >
-                Filtro de Busca
-              </Typography>
-              {(filterPersonName || search) && (
-                <Chip
-                  label="Filtros ativos"
-                  size="small"
-                  sx={{
-                    ml: 1,
-                    bgcolor: alpha('#1E4EC4', 0.1),
-                    color: '#1E4EC4',
-                    fontWeight: 600,
-                    fontSize: '0.75rem',
-                  }}
-                />
-              )}
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-              <TextField
-                label="Nome da Pessoa"
-                variant="outlined"
-                value={filterPersonName}
-                size="small"
-                onChange={(e) => setFilterPersonName(e.target.value)}
-              />
-              <Box
-                sx={{
-                  gap: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'start',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  startIcon={<SearchIcon />}
-                  onClick={handleSearch}
-                  sx={{
-                    bgcolor: '#1E4EC4',
-                    color: 'white',
-                    fontWeight: 600,
-                    px: 3,
-                    py: 1,
-                    borderRadius: 1.5,
-                    textTransform: 'none',
-                    fontSize: '0.95rem',
-                    boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                    '&:hover': {
-                      bgcolor: '#1640a8',
-                      boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                      transform: 'translateY(-1px)',
-                    },
-                    transition: 'all 0.2s ease',
-                    flex: { xs: 1, sm: 'initial' },
-                  }}
-                >
-                  Buscar
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<ClearIcon />}
-                  onClick={handleClearFilters}
-                  sx={{
-                    borderColor: alpha('#1E4EC4', 0.3),
-                    color: '#1E4EC4',
-                    fontWeight: 600,
-                    px: 4,
-                    py: 1,
-                    borderRadius: 1.5,
-                    textTransform: 'none',
-                    fontSize: '0.95rem',
-                    '&:hover': {
-                      borderColor: '#1E4EC4',
-                      bgcolor: alpha('#1E4EC4', 0.05),
-                      borderWidth: 1.5,
-                    },
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  Limpar Filtros
-                </Button>
-              </Box>
-            </Box>
-          </Paper>
-
-          {/* Tabela de Integrantes */}
+        <Box sx={{ flexGrow: 1 }}>
           <Table
             columns={columns}
             data={paginatedPersonTeams}
@@ -660,7 +619,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
         </Box>
       </Paper>
 
-      {/* -------------------- Modal de Criação/Edição -------------------- */}
       <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
@@ -673,7 +631,7 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                 {!isVisualizing && !editingPersonTeam ? (
                   <Box>
                     <Typography id="person-label" variant="subtitle1">
-                      <strong>Nome da Pessoa</strong>
+                      <strong>Nome</strong>
                     </Typography>
                     <Divider sx={{ mb: 2 }} />
 
@@ -689,122 +647,94 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                           setSelectedPersonId('');
                           setSelectedPersonOption(null);
                         }
-                        setInputPersonValue('');
                       }}
                       inputValue={inputPersonValue}
-                      onInputChange={(_, value) => {
-                        setInputPersonValue(value);
+                      onInputChange={(_, newInputValue) => {
+                        setInputPersonValue(newInputValue);
                       }}
+                      loading={personsLoading}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          placeholder="Buscar pessoa..."
-                          size="small"
-                          inputProps={{
-                            ...params.inputProps,
-                            'aria-label': 'Selecionar pessoa',
-                            'aria-labelledby': 'person-label',
+                          label="Selecione uma pessoa"
+                          variant="outlined"
+                          fullWidth
+                          slotProps={{
+                            input: {
+                              ...params.InputProps,
+                              endAdornment: (
+                                <>
+                                  {personsLoading ? (
+                                    <CircularProgress color="inherit" size={20} />
+                                  ) : null}
+                                  {params.InputProps.endAdornment}
+                                </>
+                              ),
+                            },
                           }}
                         />
                       )}
-                      isOptionEqualToValue={(option, value) => option.id === value?.id}
-                      fullWidth
-                      disabled={personsLoading}
+                      noOptionsText="Nenhuma pessoa encontrada"
+                      loadingText="Carregando pessoas..."
                     />
-
-                    {selectedPersonOption && (
-                      <Box mt={1}>
-                        <Chip
-                          label={selectedPersonOption.label}
-                          color="primary"
-                          variant="outlined"
-                          onDelete={() => {
-                            setSelectedPersonId('');
-                            setSelectedPersonOption(null);
-                            setInputPersonValue('');
-                          }}
-                        />
-                      </Box>
-                    )}
                   </Box>
                 ) : (
                   <Box>
                     <Typography id="person-label" variant="subtitle1">
-                      <strong>Nome da Pessoa</strong>
+                      <strong>Nome</strong>
                     </Typography>
                     <Divider sx={{ mb: 2 }} />
-                    <Typography variant="body1">
-                      {persons.find((p) => p.id === selectedPersonId)?.name}
-                    </Typography>
+
+                    <TextField
+                      label="Pessoa selecionada"
+                      variant="outlined"
+                      fullWidth
+                      value={selectedPersonOption?.label || ''}
+                      slotProps={{
+                        input: {
+                          readOnly: true,
+                        },
+                      }}
+                      sx={{ pointerEvents: 'none' }}
+                    />
                   </Box>
                 )}
               </Grid>
 
               <Grid size={{ xs: 12 }}>
-                <Box>
-                  <Typography id="member-types-label" variant="subtitle1">
-                    <strong>Funções</strong>
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
+                <Typography id="member-types-label" variant="subtitle1">
+                  <strong>Funções</strong>
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
 
-                  {!isVisualizing && (
-                    <Autocomplete
-                      options={memberTypeOptions}
-                      getOptionLabel={(option) => option.label}
-                      value={selectedMemberTypeOption}
-                      onChange={(_, value) => {
-                        if (value && !selectedMemberTypes.includes(value.id)) {
-                          setSelectedMemberTypes([...selectedMemberTypes, value.id]);
-                        }
-                        setSelectedMemberTypeOption(null);
-                        setInputMemberTypeValue('');
-                      }}
-                      inputValue={inputMemberTypeValue}
-                      onInputChange={(_, value) => {
-                        setInputMemberTypeValue(value);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Buscar função..."
-                          size="small"
-                          inputProps={{
-                            ...params.inputProps,
-                            'aria-label': 'Selecionar função',
-                            'aria-labelledby': 'member-types-label',
-                          }}
-                        />
-                      )}
-                      isOptionEqualToValue={(option, value) => option.id === value?.id}
-                      fullWidth
-                    />
-                  )}
-
-                  {selectedMemberTypes.length > 0 ? (
-                    <Stack direction="row" flexWrap="wrap" gap={1} mt={2}>
-                      {selectedMemberTypes.map((type) => (
-                        <Chip
-                          key={type}
-                          label={MemberTypeLabels[type]}
-                          color="primary"
-                          variant="outlined"
-                          onDelete={
-                            isVisualizing
-                              ? undefined
-                              : () =>
-                                  setSelectedMemberTypes(
-                                    selectedMemberTypes.filter((t) => t !== type)
-                                  )
-                          }
-                        />
-                      ))}
-                    </Stack>
-                  ) : (
-                    <Typography color="text.secondary" mt={1}>
-                      Nenhuma função selecionada.
-                    </Typography>
-                  )}
-                </Box>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>Selecione as funções</InputLabel>
+                  <Select
+                    multiple
+                    value={selectedMemberTypes}
+                    onChange={handleMemberTypesChange}
+                    label="Selecione as funções"
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={MemberTypeLabels[value]} size="small" />
+                        ))}
+                      </Box>
+                    )}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  >
+                    {memberTypeOptions.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
           </Box>
@@ -823,13 +753,7 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                 py: 1,
                 borderRadius: 1.5,
                 textTransform: 'none',
-                fontSize: '0.95rem',
-                boxShadow: '0 2px 8px rgba(107, 114, 128, 0.25)',
-                '&:hover': {
-                  bgcolor: '#4b5563',
-                  transform: 'translateY(-1px)',
-                  boxShadow: '0 4px 12px rgba(107, 114, 128, 0.35)',
-                },
+                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
                 transition: 'all 0.2s ease',
               }}
             >
@@ -847,12 +771,7 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                   py: 1,
                   borderRadius: 1.5,
                   textTransform: 'none',
-                  fontSize: '0.95rem',
-                  '&:hover': {
-                    bgcolor: alpha('#6b7280', 0.1),
-                    transform: 'translateY(-1px)',
-                  },
-                  transition: 'all 0.2s ease',
+                  '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
                 }}
               >
                 Cancelar
@@ -870,7 +789,6 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
                   py: 1,
                   borderRadius: 1.5,
                   textTransform: 'none',
-                  fontSize: '0.95rem',
                   boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
                   '&:hover': {
                     bgcolor: '#1640a8',
@@ -888,16 +806,15 @@ const PersonTeam: React.FC<PersonTeamProps> = () => {
         }
       />
 
-      {/* -------------------- Confirmação de Exclusão -------------------- */}
       <ConfirmDialog
         open={confirmDialog.open}
-        title="Remover Pessoa da Turma"
-        message="Tem certeza que deseja remover"
-        highlightText={confirmDialog.personTeam?.personName || ''}
-        confirmLabel="Excluir"
+        title="Remover Vínculo"
+        message="Tem certeza que deseja remover o vínculo da pessoa"
+        highlightText={confirmDialog.personTeam?.personName}
+        confirmLabel="Remover"
         cancelLabel="Cancelar"
-        onConfirm={handleConfirmDelete}
         onClose={handleCloseConfirmDialog}
+        onConfirm={handleConfirmDelete}
         loading={confirmDialog.loading}
         danger={true}
       />
