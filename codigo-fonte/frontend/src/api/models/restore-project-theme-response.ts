@@ -17,20 +17,14 @@
 /**
  * 
  * @export
- * @interface UpdateOriginBusinessCaseInBusinessCaseResponse
+ * @interface RestoreProjectThemeResponse
  */
-export interface UpdateOriginBusinessCaseInBusinessCaseResponse {
+export interface RestoreProjectThemeResponse {
     /**
      * 
      * @type {number}
-     * @memberof UpdateOriginBusinessCaseInBusinessCaseResponse
+     * @memberof RestoreProjectThemeResponse
      */
-    'originBusinessCaseId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateOriginBusinessCaseInBusinessCaseResponse
-     */
-    'name'?: string;
+    'projectThemeId'?: number;
 }
 

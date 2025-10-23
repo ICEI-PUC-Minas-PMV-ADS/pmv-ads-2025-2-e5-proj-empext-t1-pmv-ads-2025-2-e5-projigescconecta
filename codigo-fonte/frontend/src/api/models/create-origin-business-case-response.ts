@@ -25,6 +25,12 @@ export interface CreateOriginBusinessCaseResponse {
      * @type {number}
      * @memberof CreateOriginBusinessCaseResponse
      */
-    'originBusinessCaseId'?: number;
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOriginBusinessCaseResponse
+     */
+    'name'?: string;
 }
 

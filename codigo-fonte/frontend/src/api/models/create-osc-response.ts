@@ -25,6 +25,12 @@ export interface CreateOscResponse {
      * @type {number}
      * @memberof CreateOscResponse
      */
-    'oscId'?: number;
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscResponse
+     */
+    'name'?: string;
 }
 
