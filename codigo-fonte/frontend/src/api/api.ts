@@ -686,6 +686,44 @@ export interface CreatePersonResponse {
 /**
  * 
  * @export
+ * @interface CreatePersonTeamRequest
+ */
+export interface CreatePersonTeamRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonTeamRequest
+     */
+    'personId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonTeamRequest
+     */
+    'oscId'?: number | null;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof CreatePersonTeamRequest
+     */
+    'memberTypes': Array<MemberType>;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonTeamResponse
+ */
+export interface CreatePersonTeamResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonTeamResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CreateProjectThemeRequest
  */
 export interface CreateProjectThemeRequest {
@@ -746,7 +784,7 @@ export interface CreateTeamRequest {
      * @type {string}
      * @memberof CreateTeamRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * 
      * @type {string}
@@ -773,10 +811,10 @@ export interface CreateTeamRequest {
     'personTeamsIds'?: Array<number>;
     /**
      * 
-     * @type {number}
+     * @type {Array<number>}
      * @memberof CreateTeamRequest
      */
-    'projectProgramId'?: number | null;
+    'projectProgramsIds'?: Array<number>;
     /**
      * 
      * @type {number}
@@ -863,6 +901,19 @@ export interface DeleteCourseResponse {
 /**
  * 
  * @export
+ * @interface DeletePersonTeamResponse
+ */
+export interface DeletePersonTeamResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeletePersonTeamResponse
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface DeleteProjectThemeResponse
  */
 export interface DeleteProjectThemeResponse {
@@ -885,19 +936,6 @@ export interface DeleteProjectTypeResponse {
      * @memberof DeleteProjectTypeResponse
      */
     'projectTypeId'?: number;
-}
-/**
- * 
- * @export
- * @interface DeleteTeamResponse
- */
-export interface DeleteTeamResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof DeleteTeamResponse
-     */
-    'teamId'?: number;
 }
 /**
  * 
@@ -965,6 +1003,32 @@ export interface EditCourseResponse {
 /**
  * 
  * @export
+ * @interface EditPersonTeamRequest
+ */
+export interface EditPersonTeamRequest {
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof EditPersonTeamRequest
+     */
+    'memberTypes': Array<MemberType>;
+}
+/**
+ * 
+ * @export
+ * @interface EditPersonTeamResponse
+ */
+export interface EditPersonTeamResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPersonTeamResponse
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface EditProjectThemeRequest
  */
 export interface EditProjectThemeRequest {
@@ -1025,7 +1089,7 @@ export interface EditTeamRequest {
      * @type {string}
      * @memberof EditTeamRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * 
      * @type {string}
@@ -1052,35 +1116,16 @@ export interface EditTeamRequest {
     'personTeamsIds'?: Array<number> | null;
     /**
      * 
-     * @type {number}
+     * @type {Array<number>}
      * @memberof EditTeamRequest
      */
-    'projectProgramId'?: number | null;
+    'projectProgramIds'?: Array<number> | null;
     /**
      * 
      * @type {number}
      * @memberof EditTeamRequest
      */
     'courseId'?: number | null;
-}
-/**
- * 
- * @export
- * @interface EditTeamResponse
- */
-export interface EditTeamResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof EditTeamResponse
-     */
-    'teamId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditTeamResponse
-     */
-    'name'?: string | null;
 }
 /**
  * 
@@ -1632,7 +1677,7 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
-    'courseId'?: number | null;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
@@ -1644,13 +1689,7 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
-    'projectProgramId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetTeamByIdResponse
-     */
-    'projectProgramName'?: string | null;
+    'projectProgramsCount'?: number;
     /**
      * 
      * @type {number}
@@ -2225,19 +2264,13 @@ export interface ListTeamItemViewModel {
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
-    'projectProgramId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ListTeamItemViewModel
-     */
-    'projectProgramName'?: string | null;
+    'projectPrograms'?: number;
     /**
      * 
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
-    'courseId'?: number | null;
+    'courseId'?: number;
     /**
      * 
      * @type {string}
@@ -2370,6 +2403,26 @@ export interface LoginResponse {
      */
     'expiresIn'?: string;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const MemberType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7
+} as const;
+
+export type MemberType = typeof MemberType[keyof typeof MemberType];
+
+
 /**
  * 
  * @export
@@ -2593,6 +2646,128 @@ export interface PersonListItemViewModel {
      * @memberof PersonListItemViewModel
      */
     'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PersonTeamDetailDto
+ */
+export interface PersonTeamDetailDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'personName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'oscId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'oscName'?: string;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof PersonTeamDetailDto
+     */
+    'memberTypes'?: Array<MemberType>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'updatedAt'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface PersonTeamDto
+ */
+export interface PersonTeamDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDto
+     */
+    'personName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDto
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'oscId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDto
+     */
+    'oscName'?: string;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof PersonTeamDto
+     */
+    'memberTypes'?: Array<MemberType>;
 }
 /**
  * 
@@ -6861,6 +7036,466 @@ export class OscsApi extends BaseAPI {
 
 
 /**
+ * PersonTeamsApi - axios parameter creator
+ * @export
+ */
+export const PersonTeamsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonTeam: async (teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('createPersonTeam', 'teamId', teamId)
+            const localVarPath = `/api/teams/{teamId}/personteams`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonTeam: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePersonTeam', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editPersonTeam: async (id: number, editPersonTeamRequest?: EditPersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('editPersonTeam', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonTeamById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getPersonTeamById', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeams: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/personteams`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeamsByTeam: async (teamId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('listPersonTeamsByTeam', 'teamId', teamId)
+            const localVarPath = `/api/personteams/byteam/{teamId}`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonTeamsApi - functional programming interface
+ * @export
+ */
+export const PersonTeamsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonTeamsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonTeam(teamId, createPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.createPersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonTeam(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeletePersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonTeam(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.deletePersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditPersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editPersonTeam(id, editPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.editPersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPersonTeamById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonTeamDetailDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPersonTeamById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.getPersonTeamById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonTeams(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PersonTeamDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonTeams(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.listPersonTeams']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonTeamsByTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PersonTeamDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonTeamsByTeam(teamId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.listPersonTeamsByTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonTeamsApi - factory interface
+ * @export
+ */
+export const PersonTeamsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonTeamsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: any): AxiosPromise<CreatePersonTeamResponse> {
+            return localVarFp.createPersonTeam(teamId, createPersonTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonTeam(id: number, options?: any): AxiosPromise<DeletePersonTeamResponse> {
+            return localVarFp.deletePersonTeam(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: any): AxiosPromise<EditPersonTeamResponse> {
+            return localVarFp.editPersonTeam(id, editPersonTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonTeamById(id: number, options?: any): AxiosPromise<PersonTeamDetailDto> {
+            return localVarFp.getPersonTeamById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeams(options?: any): AxiosPromise<Array<PersonTeamDto>> {
+            return localVarFp.listPersonTeams(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeamsByTeam(teamId: number, options?: any): AxiosPromise<Array<PersonTeamDto>> {
+            return localVarFp.listPersonTeamsByTeam(teamId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonTeamsApi - object-oriented interface
+ * @export
+ * @class PersonTeamsApi
+ * @extends {BaseAPI}
+ */
+export class PersonTeamsApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).createPersonTeam(teamId, createPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public deletePersonTeam(id: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).deletePersonTeam(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).editPersonTeam(id, editPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public getPersonTeamById(id: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).getPersonTeamById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public listPersonTeams(options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).listPersonTeams(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public listPersonTeamsByTeam(teamId: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).listPersonTeamsByTeam(teamId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * PersonsApi - axios parameter creator
  * @export
  */
@@ -8444,7 +9079,7 @@ export const TeamsApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         listTeam: async (listTeamRequest?: ListTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/teams/search`;
+            const localVarPath = `/api/teams/ListTeam`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -8502,7 +9137,7 @@ export const TeamsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteTeamResponse>> {
+        async deleteTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTeam(teamId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TeamsApi.deleteTeam']?.[localVarOperationServerIndex]?.url;
@@ -8515,7 +9150,7 @@ export const TeamsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditTeamResponse>> {
+        async editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.editTeam(teamId, editTeamRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TeamsApi.editTeam']?.[localVarOperationServerIndex]?.url;
@@ -8570,7 +9205,7 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteTeam(teamId: number, options?: any): AxiosPromise<DeleteTeamResponse> {
+        deleteTeam(teamId: number, options?: any): AxiosPromise<void> {
             return localVarFp.deleteTeam(teamId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -8580,7 +9215,7 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: any): AxiosPromise<EditTeamResponse> {
+        editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editTeam(teamId, editTeamRequest, options).then((request) => request(axios, basePath));
         },
         /**

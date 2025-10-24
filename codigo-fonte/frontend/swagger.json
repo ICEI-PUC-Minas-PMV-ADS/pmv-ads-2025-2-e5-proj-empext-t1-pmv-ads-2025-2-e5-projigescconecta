@@ -1897,6 +1897,293 @@
         }
       }
     },
+    "/api/personteams": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "ListPersonTeams",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personteams/byteam/{teamId}": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "ListPersonTeamsByTeam",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personteams/{id}": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "GetPersonTeamById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "EditPersonTeam",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "DeletePersonTeam",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/teams/{teamId}/personteams": {
+      "post": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "CreatePersonTeam",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/projectthemes/{projectThemeId}/restore": {
       "patch": {
         "tags": [
@@ -2477,7 +2764,7 @@
         }
       }
     },
-    "/api/teams/search": {
+    "/api/teams/ListTeam": {
       "post": {
         "tags": [
           "Teams"
@@ -2603,24 +2890,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -2642,24 +2912,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -3433,6 +3686,41 @@
         },
         "additionalProperties": false
       },
+      "CreatePersonTeamRequest": {
+        "required": [
+          "memberTypes",
+          "personId"
+        ],
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonTeamResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateProjectThemeRequest": {
         "type": "object",
         "properties": {
@@ -3472,11 +3760,14 @@
         "additionalProperties": false
       },
       "CreateTeamRequest": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "lessonTime": {
             "type": "string",
@@ -3499,10 +3790,12 @@
               "format": "int32"
             }
           },
-          "projectProgramId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+          "projectProgramsIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
           },
           "courseId": {
             "type": "integer",
@@ -3562,6 +3855,15 @@
         },
         "additionalProperties": false
       },
+      "DeletePersonTeamResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "DeleteProjectThemeResponse": {
         "type": "object",
         "properties": {
@@ -3576,16 +3878,6 @@
         "type": "object",
         "properties": {
           "projectTypeId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "DeleteTeamResponse": {
-        "type": "object",
-        "properties": {
-          "teamId": {
             "type": "integer",
             "format": "int32"
           }
@@ -3635,6 +3927,30 @@
         },
         "additionalProperties": false
       },
+      "EditPersonTeamRequest": {
+        "required": [
+          "memberTypes"
+        ],
+        "type": "object",
+        "properties": {
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditPersonTeamResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "EditProjectThemeRequest": {
         "type": "object",
         "properties": {
@@ -3674,11 +3990,14 @@
         "additionalProperties": false
       },
       "EditTeamRequest": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "lessonTime": {
             "type": "string",
@@ -3702,28 +4021,17 @@
             },
             "nullable": true
           },
-          "projectProgramId": {
-            "type": "integer",
-            "format": "int32",
+          "projectProgramIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           },
           "courseId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EditTeamResponse": {
-        "type": "object",
-        "properties": {
-          "teamId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
             "nullable": true
           }
         },
@@ -4094,21 +4402,15 @@
           },
           "courseId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "courseName": {
             "type": "string",
             "nullable": true
           },
-          "projectProgramId": {
+          "projectProgramsCount": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "projectProgramName": {
-            "type": "string",
-            "nullable": true
+            "format": "int32"
           },
           "personTeamsCount": {
             "type": "integer",
@@ -4561,19 +4863,13 @@
             "format": "date-time",
             "nullable": true
           },
-          "projectProgramId": {
+          "projectPrograms": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "projectProgramName": {
-            "type": "string",
-            "nullable": true
+            "format": "int32"
           },
           "courseId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "courseName": {
             "type": "string",
@@ -4676,6 +4972,20 @@
           }
         },
         "additionalProperties": false
+      },
+      "MemberType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Op": {
         "enum": [
@@ -4810,6 +5120,91 @@
           },
           "isActive": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonTeamDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "oscName": {
+            "type": "string"
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonTeamDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "oscName": {
+            "type": "string"
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
           }
         },
         "additionalProperties": false

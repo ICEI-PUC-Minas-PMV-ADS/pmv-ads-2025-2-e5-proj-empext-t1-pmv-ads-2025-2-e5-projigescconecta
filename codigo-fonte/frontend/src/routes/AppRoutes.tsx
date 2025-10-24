@@ -17,6 +17,7 @@ import Company from '@/pages/Company';
 import Donation from '@/pages/Donation';
 import User from '@/pages/User';
 import Person from '@/pages/Person';
+import PersonTeam from '@/pages/PersonTeam';
 import ProjectType from '@/pages/ProjectType';
 import ProjectTheme from '@/pages/ProjectTheme';
 
@@ -27,6 +28,7 @@ const routeConfig = [
   { path: '/home', element: <Home />, isPrivate: true },
   { path: '/course', element: <Course />, isPrivate: true },
   { path: '/team', element: <Team />, isPrivate: true },
+  { path: '/team/:teamId/persons-team', element: <PersonTeam />, isPrivate: true },
   { path: '/osc', element: <Osc />, isPrivate: true },
   { path: '/beneficiary', element: <Beneficiary />, isPrivate: true },
   { path: '/business-case', element: <BusinessCase />, isPrivate: true },
