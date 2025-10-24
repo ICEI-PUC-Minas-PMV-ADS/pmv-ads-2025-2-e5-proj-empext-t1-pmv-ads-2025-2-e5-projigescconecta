@@ -27,7 +27,8 @@ namespace IgescConecta.API.Features.ProjectThemes.CreateProjectTheme
             if (string.IsNullOrWhiteSpace(request.Name))
                 return new ValidationFailed(new[] { "O nome do Tema de Projeto é obrigatório." });
 
-            var entity = new ProjectTheme { Name = request.Name };
+            var entity = new ProjectTheme { Name = request.Name.Trim() };
+
             await _context.ProjectThemes.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 

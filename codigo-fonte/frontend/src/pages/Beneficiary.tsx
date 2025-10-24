@@ -46,6 +46,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 
@@ -54,6 +55,11 @@ interface Beneficiary {
     name?: string;
     notes?: string;
     oscs?: Osc[];
+}
+
+interface BeneficiaryCsvRow {
+    name: string;
+    notes: string;
 }
 
 interface Osc {
@@ -81,6 +87,7 @@ const Beneficiary: React.FC = () => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
+    const [isUploadOpen, setUploadOpen] = useState(false);
 
     const beneficiariesApi = new BeneficiariesApi(apiConfig);
     const oscsApi = new OscsApi(apiConfig);
@@ -92,6 +99,15 @@ const Beneficiary: React.FC = () => {
     useEffect(() => {
         fetchBeneficiaries();
     }, [page, rowsPerPage]);
+
+    const handleUploadBeneficiary = () => {
+        setUploadOpen(true);
+    };
+
+    const apiCreate = (data: BeneficiaryCsvRow) => beneficiariesApi.createBeneficiary({
+        name: data.name,
+        notes: data.notes,
+    });
 
     const fetchBeneficiaries = async (customFilters?: Filter[]) => {
         try {
@@ -229,7 +245,7 @@ const Beneficiary: React.FC = () => {
     const handleSave = async () => {
         const beneficiaryForm = updateBeneficiary || createBeneficiary;
 
-        if (!validateBeneficiaryForm(beneficiaryForm))
+        if (validateBeneficiaryForm(beneficiaryForm) !== null)
             return;
 
         if (updateBeneficiary) {
@@ -272,17 +288,18 @@ const Beneficiary: React.FC = () => {
         }
     }
 
-    const validateBeneficiaryForm = (beneficiary: any): boolean => {
+    const validateBeneficiaryForm = (beneficiary: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!beneficiary[field] || beneficiary[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -320,7 +337,7 @@ const Beneficiary: React.FC = () => {
                     }}
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" />
+                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Exportar Público' />
 
                         {/* Filtro por nome de Público */}
                         <Paper
@@ -501,6 +518,18 @@ const Beneficiary: React.FC = () => {
                             danger
                         />
 
+                        {/* Upload Excel Modal */}
+                        {isUploadOpen && (
+                            <UploadCsvModal<BeneficiaryCsvRow>
+                                title='Importar Público'
+                                onClose={() => setUploadOpen(false)}
+                                apiCreate={apiCreate}
+                                expectedHeaders={['name', 'notes']}
+                                validateFields={validateBeneficiaryForm}
+                                onFinish={() => fetchBeneficiaries()}
+                            />
+                        )}
+
                         {/* Modal */}
                         <DialogPadronized
                             open={openModal}
@@ -567,7 +596,7 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateBeneficiary.name || ''}
                                             onChange={(e) =>
                                                 setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })
@@ -575,13 +604,13 @@ const Beneficiary: React.FC = () => {
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateBeneficiary.notes || ''}
                                             onChange={(e) =>
                                                 setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })
                                             }
                                             fullWidth
-                                            variant= 'outlined'
+                                            variant='outlined'
                                             multiline
                                             minRows={3}
                                             maxRows={8}
@@ -611,7 +640,7 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createBeneficiary.name || ''}
                                             onChange={(e) =>
                                                 setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })
@@ -619,13 +648,13 @@ const Beneficiary: React.FC = () => {
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createBeneficiary.notes || ''}
                                             onChange={(e) =>
                                                 setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })
                                             }
                                             fullWidth
-                                            variant= 'outlined'
+                                            variant='outlined'
                                             multiline
                                             minRows={3}
                                             maxRows={8}

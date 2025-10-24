@@ -11,11 +11,7 @@ namespace IgescConecta.API.Features.ProjectTypes.EditProjectType
     public class EditProjectTypeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public EditProjectTypeEndpoint(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public EditProjectTypeEndpoint(IMediator mediator) => _mediator = mediator;
 
         [HttpPut("{projectTypeId:int}", Name = "EditProjectType")]
         public async Task<ActionResult<EditProjectTypeResponse>> Edit(
@@ -28,10 +24,8 @@ namespace IgescConecta.API.Features.ProjectTypes.EditProjectType
                 Name = request.Name
             });
 
-            var response = new EditProjectTypeResponse(result.Value);
-
             return result.IsSuccess
-                ? Ok(response)
+                ? Ok(new EditProjectTypeResponse(result.Value))
                 : BadRequest(result.Error);
         }
     }
@@ -44,10 +38,6 @@ namespace IgescConecta.API.Features.ProjectTypes.EditProjectType
     public class EditProjectTypeResponse
     {
         public int ProjectTypeId { get; set; }
-
-        public EditProjectTypeResponse(int id)
-        {
-            ProjectTypeId = id;
-        }
+        public EditProjectTypeResponse(int id) => ProjectTypeId = id;
     }
 }

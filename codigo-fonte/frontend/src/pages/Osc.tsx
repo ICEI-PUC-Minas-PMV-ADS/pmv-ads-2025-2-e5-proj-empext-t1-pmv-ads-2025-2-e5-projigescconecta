@@ -341,7 +341,7 @@ const Osc: React.FC = () => {
   const handleSave = async () => {
     const ocsForm = updateOsc || createOsc;
 
-    if (!validateOscForm(ocsForm))
+    if (validateOscForm(ocsForm) !== null)
       return
 
     if (updateOsc) {
@@ -411,34 +411,35 @@ const Osc: React.FC = () => {
     }
   }
 
-  const validateOscForm = (osc: any): boolean => {
+  const validateOscForm = (osc: any): string | null => {
     const requiredFields = [
       'name',
+      'phoneNumber',
       'corporateName',
       'objective',
-      'address',
-      'neighborhood',
-      'city',
+      'zipCode',
       'state',
-      'phoneNumber',
-      'zipCode'
+      'city',
+      'neighborhood',
+      'address',
     ];
 
     for (const field of requiredFields) {
       if (!osc[field] || osc[field].toString().trim() === '') {
-        toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-        return false;
+        const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+        toast.error(message);
+        return message;
       }
     }
 
-    return true;
+    return null;
   };
 
   const formatFieldName = (field: string): string => {
     const mapping: Record<string, string> = {
       name: 'Nome',
-      corporateName: 'Nome Corporativo',
-      oscPrimaryDocumment: 'Razão Social',
+      corporateName: 'Razão Social',
+      oscPrimaryDocumment: 'CNPJ',
       objective: 'Objetivo',
       address: 'Endereço',
       neighborhood: 'Bairro',
@@ -453,9 +454,10 @@ const Osc: React.FC = () => {
     return mapping[field] || field;
   };
 
-  const handleZipCodeLookup = async (zipCodeValue: string | undefined) => {
+  const handleZipCodeLookup = async (zipCodeValue: string | undefined, type: 'create' | 'update') => {
+    const setter = type === 'create' ? setCreateOsc : setUpdateOsc;
+
     if (!zipCodeValue) {
-      const setter = createOsc ? setCreateOsc : setUpdateOsc;
       setter(prev => ({
         ...prev,
         neighborhood: '', city: '', state: '', address: ''
@@ -469,27 +471,13 @@ const Osc: React.FC = () => {
     try {
       const dataResponse: SimplifyResponse = await fetchZipCode(zipCodeValue);
 
-      if (createOsc) {
-        setCreateOsc(prev => ({
-          ...prev,
-          neighborhood: dataResponse.neighborhood,
-          city: dataResponse.city,
-          state: dataResponse.state,
-          address: dataResponse.address
-        }));
-      }
-      else {
-        setUpdateOsc(prev => {
-          const newState = {
-            ...prev,
-            neighborhood: dataResponse.neighborhood,
-            city: dataResponse.city,
-            state: dataResponse.state,
-            address: dataResponse.address
-          }
-          return newState
-        });
-      }
+      setter(prev => ({
+        ...prev,
+        neighborhood: dataResponse.neighborhood || '',
+        city: dataResponse.city || '',
+        state: dataResponse.state || '',
+        address: dataResponse.address || '',
+      }));
 
     } catch (error) {
       let errorMessage = error instanceof Error ? error.message : 'Falha ao buscar CEP.';
@@ -502,11 +490,12 @@ const Osc: React.FC = () => {
       }
 
       setCepError(errorMessage)
-
-      const setter = createOsc ? setCreateOsc : setUpdateOsc;
       setter(prev => ({
         ...prev,
-        neighborhood: '', city: '', state: '', address: ''
+        neighborhood: '',
+        city: '',
+        state: '',
+        address: '',
       }));
     } finally {
       setIsLoadingCep(false);
@@ -836,14 +825,14 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       {/* Campos de texto editáveis */}
                       <TextField
-                        label="Nome"
+                        label="Nome*"
                         value={updateOsc.name || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, name: e.target.value })}
                         fullWidth
                       />
                       <PatternFormat
                         customInput={TextField}
-                        label="Telefone"
+                        label="Telefone*"
                         fullWidth
                         value={updateOsc.phoneNumber || ''}
                         onValueChange={(values) =>
@@ -855,7 +844,7 @@ const Osc: React.FC = () => {
                     </Box>
 
                     <TextField
-                      label="Razão Social"
+                      label="Razão Social*"
                       value={updateOsc.corporateName || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, corporateName: e.target.value })}
                       fullWidth
@@ -896,11 +885,11 @@ const Osc: React.FC = () => {
                     />
 
                     <TextField
-                      label="Objetivo"
+                      label="Objetivo*"
                       value={updateOsc.objective || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, objective: e.target.value })}
                       fullWidth
-                      variant= 'outlined'
+                      variant='outlined'
                       multiline
                       minRows={3}
                       maxRows={8}
@@ -909,13 +898,13 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <PatternFormat
                         customInput={TextField}
-                        label="CEP"
+                        label="CEP*"
                         fullWidth
                         value={updateOsc.zipCode || ''}
                         onValueChange={(values) =>
                           setUpdateOsc({ ...updateOsc, zipCode: values.value })
                         }
-                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode)}
+                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode, 'update')}
                         format="#####-###"
                         mask="_"
                         error={!!cepError}
@@ -923,7 +912,7 @@ const Osc: React.FC = () => {
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="UF"
+                        label="UF*"
                         value={updateOsc.state || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
                         fullWidth
@@ -932,13 +921,13 @@ const Osc: React.FC = () => {
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <TextField
-                        label="Cidade"
+                        label="Cidade*"
                         value={updateOsc.city || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, city: e.target.value })}
                         fullWidth
                       />
                       <TextField
-                        label="Bairro"
+                        label="Bairro*"
                         value={updateOsc.neighborhood || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, neighborhood: e.target.value })}
                         fullWidth
@@ -946,7 +935,7 @@ const Osc: React.FC = () => {
                     </Box>
 
                     <TextField
-                      label="Endereço"
+                      label="Endereço*"
                       value={updateOsc.address || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, address: e.target.value })}
                       fullWidth
@@ -1087,14 +1076,14 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       {/* Campos de texto editáveis */}
                       <TextField
-                        label="Nome"
+                        label="Nome*"
                         value={createOsc.name || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, name: e.target.value })}
                         fullWidth
                       />
                       <PatternFormat
                         customInput={TextField}
-                        label="Telefone"
+                        label="Telefone*"
                         fullWidth
                         value={createOsc.phoneNumber || ''}
                         onValueChange={(values) =>
@@ -1105,7 +1094,7 @@ const Osc: React.FC = () => {
                       />
                     </Box>
                     <TextField
-                      label="Razão Social"
+                      label="Razão Social*"
                       value={createOsc.corporateName || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, corporateName: e.target.value })}
                       fullWidth
@@ -1142,11 +1131,11 @@ const Osc: React.FC = () => {
                       mask="_"
                     />
                     <TextField
-                      label="Objetivo"
+                      label="Objetivo*"
                       value={createOsc.objective || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, objective: e.target.value })}
                       fullWidth
-                      variant= 'outlined'
+                      variant='outlined'
                       multiline
                       minRows={3}
                       maxRows={8}
@@ -1155,45 +1144,62 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <PatternFormat
                         customInput={TextField}
-                        label="CEP"
+                        label="CEP*"
                         fullWidth
                         value={createOsc.zipCode || ''}
                         onValueChange={(values) =>
                           setCreateOsc({ ...createOsc, zipCode: values.value })
                         }
-                        onBlur={() => handleZipCodeLookup(createOsc.zipCode)}
+                        onBlur={() => handleZipCodeLookup(createOsc.zipCode, 'create')}
                         format="#####-###"
                         mask="_"
                         error={!!cepError}
                         helperText={cepError || ''}
+                        InputProps={{
+                          endAdornment: (
+                            <>
+                              {isLoadingCep && (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: 'text.secondary', mr: 1 }}
+                                  aria-label="Carregando CEP"
+                                />
+                              )}
+                            </>
+                          ),
+                        }}
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="UF"
+                        label="UF*"
                         value={createOsc.state || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                     </Box>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <TextField
-                        label="Cidade"
+                        label="Cidade*"
                         value={createOsc.city || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, city: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Bairro"
+                        label="Bairro*"
                         value={createOsc.neighborhood || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, neighborhood: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                     </Box>
                     <TextField
-                      label="Endereço"
+                      label="Endereço*"
                       value={createOsc.address || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, address: e.target.value })}
                       fullWidth
+                      disabled={isLoadingCep}
                     />
 
                     {/* Público editáveis */}
@@ -1370,7 +1376,7 @@ const Osc: React.FC = () => {
                     <Button
                       onClick={handleSave}
                       variant="contained"
-                      disabled={modalLoading}
+                      disabled={modalLoading || isLoadingCep}
                       startIcon={modalLoading ? <CircularProgress size={20} /> : null}
                       sx={{
                         bgcolor: '#1E4EC4',
@@ -1395,7 +1401,7 @@ const Osc: React.FC = () => {
                   </>
                 )
               }
-            /> 
+            />
           </Box>
         </Paper>
       </Container>

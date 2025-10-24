@@ -11,11 +11,7 @@ namespace IgescConecta.API.Features.ProjectThemes.EditProjectTheme
     public class EditProjectThemeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public EditProjectThemeEndpoint(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public EditProjectThemeEndpoint(IMediator mediator) => _mediator = mediator;
 
         [HttpPut("{projectThemeId:int}", Name = "EditProjectTheme")]
         public async Task<ActionResult<EditProjectThemeResponse>> Edit(
@@ -42,10 +38,6 @@ namespace IgescConecta.API.Features.ProjectThemes.EditProjectTheme
     public class EditProjectThemeResponse
     {
         public int ProjectThemeId { get; set; }
-
-        public EditProjectThemeResponse(int id)
-        {
-            ProjectThemeId = id;
-        }
+        public EditProjectThemeResponse(int id) => ProjectThemeId = id;
     }
 }

@@ -11,20 +11,12 @@ namespace IgescConecta.API.Features.ProjectThemes.CreateProjectTheme
     public class CreateProjectThemeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public CreateProjectThemeEndpoint(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public CreateProjectThemeEndpoint(IMediator mediator) => _mediator = mediator;
 
         [HttpPost(Name = "CreateProjectTheme")]
         public async Task<ActionResult<CreateProjectThemeResponse>> Create([FromBody] CreateProjectThemeRequest request)
         {
-            var result = await _mediator.Send(new CreateProjectThemeCommand
-            {
-                Name = request.Name
-            });
-
+            var result = await _mediator.Send(new CreateProjectThemeCommand { Name = request.Name });
             return result.IsSuccess
                 ? Ok(new CreateProjectThemeResponse(result.Value))
                 : BadRequest(result.Error);
@@ -39,10 +31,6 @@ namespace IgescConecta.API.Features.ProjectThemes.CreateProjectTheme
     public class CreateProjectThemeResponse
     {
         public int ProjectThemeId { get; set; }
-
-        public CreateProjectThemeResponse(int id)
-        {
-            ProjectThemeId = id;
-        }
+        public CreateProjectThemeResponse(int id) => ProjectThemeId = id;
     }
 }

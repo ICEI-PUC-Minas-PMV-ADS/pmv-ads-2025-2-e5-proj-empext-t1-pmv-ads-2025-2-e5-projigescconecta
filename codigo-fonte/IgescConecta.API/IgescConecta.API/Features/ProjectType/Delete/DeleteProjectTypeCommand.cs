@@ -25,16 +25,13 @@ namespace IgescConecta.API.Features.ProjectTypes.DeleteProjectType
         {
             var entity = await _context.ProjectTypes.FindAsync(request.ProjectTypeId);
 
-            if (entity == null)
-            {
+            if (entity == null || entity.IsDeleted)
                 return new ValidationFailed(new[] { "Tipo de Projeto não encontrado ou já está excluído." });
-            }
 
-            // Se houver regras de vínculo (ex.: ProjectProgram), validar aqui (similar ao Teams em Course)
+            entity.IsDeleted = true;
+            entity.UpdatedAt = DateTime.UtcNow;
 
-            _context.ProjectTypes.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             return entity.Id;
         }
     }

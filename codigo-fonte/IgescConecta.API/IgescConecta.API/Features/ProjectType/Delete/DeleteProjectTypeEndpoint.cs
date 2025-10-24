@@ -11,19 +11,12 @@ namespace IgescConecta.API.Features.ProjectTypes.DeleteProjectType
     public class DeleteProjectTypeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public DeleteProjectTypeEndpoint(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public DeleteProjectTypeEndpoint(IMediator mediator) => _mediator = mediator;
 
         [HttpDelete("{projectTypeId:int}", Name = "DeleteProjectType")]
-        public async Task<ActionResult<DeleteProjectTypeResponse>> Delete(int projectTypeId)
+        public async Task<ActionResult<DeleteProjectTypeResponse>> Delete([FromRoute] int projectTypeId)
         {
-            var result = await _mediator.Send(new DeleteProjectTypeCommand
-            {
-                ProjectTypeId = projectTypeId
-            });
+            var result = await _mediator.Send(new DeleteProjectTypeCommand { ProjectTypeId = projectTypeId });
 
             return result.IsSuccess
                 ? Ok(new DeleteProjectTypeResponse(result.Value))
@@ -34,10 +27,6 @@ namespace IgescConecta.API.Features.ProjectTypes.DeleteProjectType
     public class DeleteProjectTypeResponse
     {
         public int ProjectTypeId { get; set; }
-
-        public DeleteProjectTypeResponse(int id)
-        {
-            ProjectTypeId = id;
-        }
+        public DeleteProjectTypeResponse(int id) => ProjectTypeId = id;
     }
 }

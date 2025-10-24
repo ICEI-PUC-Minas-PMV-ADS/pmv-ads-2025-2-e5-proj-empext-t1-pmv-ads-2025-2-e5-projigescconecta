@@ -29,15 +29,16 @@ namespace IgescConecta.API.Features.ProjectThemes.EditProjectTheme
                 return new ValidationFailed(new[] { "O nome do Tema de Projeto é obrigatório." });
 
             var entity = await _context.ProjectThemes
-                .Where(x => x.Id == request.ProjectThemeId)
+                .Where(x => x.Id == request.ProjectThemeId && !x.IsDeleted)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (entity == null)
                 return new ValidationFailed(new[] { "Tema de Projeto não encontrado." });
 
-            entity.Name = request.Name;
-            await _context.SaveChangesAsync(cancellationToken);
+            entity.Name = request.Name.Trim();
+            entity.UpdatedAt = DateTime.UtcNow;
 
+            await _context.SaveChangesAsync(cancellationToken);
             return entity.Id;
         }
     }

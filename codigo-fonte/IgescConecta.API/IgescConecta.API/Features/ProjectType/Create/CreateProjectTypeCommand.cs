@@ -25,13 +25,11 @@ namespace IgescConecta.API.Features.ProjectTypes.CreateProjectType
             CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
-            {
                 return new ValidationFailed(new[] { "O nome do Tipo de Projeto é obrigatório." });
-            }
 
             var entity = new ProjectType
             {
-                Name = request.Name
+                Name = request.Name.Trim()
             };
 
             await _context.ProjectTypes.AddAsync(entity, cancellationToken);
