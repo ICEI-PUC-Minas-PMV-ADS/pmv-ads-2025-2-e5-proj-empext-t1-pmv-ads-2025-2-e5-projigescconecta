@@ -25,7 +25,7 @@ namespace IgescConecta.Domain.Entities
 
         public int OscId { get; set; }
 
-        public int ProjectDocumentId { get; set; }
+        public int? ProjectDocumentId { get; set; }
 
         [ForeignKey("ProjectTypeId")]
         public ProjectTheme ProjectTheme { get; set; }
@@ -40,7 +40,7 @@ namespace IgescConecta.Domain.Entities
         public Osc Osc { get; set; }
 
         [ForeignKey("ProjectDocumentId")]
-        public ProjectDocument ProjectDocument { get; set; }
+        public ProjectDocument? ProjectDocument { get; set; }
 
     }
 }

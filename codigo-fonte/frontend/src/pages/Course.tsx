@@ -38,6 +38,7 @@ import { apiConfig } from '../services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 interface Course {
   courseId?: number;
@@ -67,7 +68,7 @@ const Course: React.FC = () => {
     loading: false,
   });
 
-  const apiInstance = new CoursesApi(apiConfig);
+  const courseApi = new CoursesApi(apiConfig);
 
   const dialogTitle = () => {
     return isVisualizing
@@ -109,7 +110,7 @@ const Course: React.FC = () => {
         filters: filters,
       };
 
-      const { data } = await apiInstance.listCourse(listCourseRequest);
+      const { data } = await courseApi.listCourse(listCourseRequest);
 
       if (data.items?.length === 0) {
         setNoDataMessage('Nenhum programa encontrado');
@@ -156,7 +157,7 @@ const Course: React.FC = () => {
   const handleView = async (course: Course) => {
     try {
       const id: number = course.courseId!;
-      const { data } = await apiInstance.getCourseById(id);
+      const { data } = await courseApi.getCourseById(id);
       setIsVisualizing(true);
       setCourseName(data.name || '');
       setOpenModal(true);
@@ -188,7 +189,7 @@ const Course: React.FC = () => {
     try {
       setConfirmDialog((prev) => ({ ...prev, loading: true }));
       const id: number = confirmDialog.course.courseId!;
-      await apiInstance.deleteCourse(id);
+      await courseApi.deleteCourse(id);
       toast.success(`Programa "${confirmDialog.course.name}" excluído com sucesso!`);
       handleCloseConfirmDialog();
       fetchCourses([]);
@@ -204,12 +205,29 @@ const Course: React.FC = () => {
       setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
   };
+    const formatFieldName = (field: string): string => {
+        const mapping: Record<string, string> = {
+            name: 'Nome'
+        };
+        return mapping[field] || field;
+    }
+
+    const validateCourseForm = (course: any): string | null => {
+        const requiredFields = ['name'];
+
+        for (const field of requiredFields) {
+            if (!course[field] || course[field].toString().trim() === '') {
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
+            }
+        }
+
+        return null;
+    }
 
   const handleSave = async () => {
-    if (!courseName.trim()) {
-      toast.error('O nome do programa é obrigatório!');
-      return;
-    }
+    if (!validateCourseForm({ name: courseName })) return;
 
     try {
       setModalLoading(true);
@@ -221,14 +239,14 @@ const Course: React.FC = () => {
 
         const id: number = editingCourse.courseId!;
 
-        await apiInstance.editCourse(id, editCourseRequest);
+        await courseApi.editCourse(id, editCourseRequest);
         toast.success('Programa atualizado com sucesso!');
       } else {
         const createCourseRequest: CreateCourseRequest = {
           name: courseName,
         };
 
-        await apiInstance.createCourse(createCourseRequest);
+        await courseApi.createCourse(createCourseRequest);
         toast.success('Programa criado com sucesso!');
       }
 
@@ -255,6 +273,21 @@ const Course: React.FC = () => {
     fetchCourses();
   }, [page, rowsPerPage]);
 
+  /* CSV imports */
+  interface CourseCsvRow {
+    name: string;
+  }
+
+  const [isUploadOpen, setUploadOpen] = useState(false);
+
+  const handleUploadCourse = () => {
+    setUploadOpen(true);
+  };
+
+  const apiCreate = (data: CourseCsvRow) => courseApi.createCourse({
+        name: data.name,
+    });
+
   return (
     /* -------------------------------- Template -------------------------------- */
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -279,7 +312,13 @@ const Course: React.FC = () => {
             p: { xs: 2, sm: 3, md: 4 },
           }}
         >
-          <TitleAndButtons title="Listar Programas" onAdd={handleAdd} addLabel="Novo Programa" />
+          <TitleAndButtons
+            title="Listar Programas"
+            onAdd={handleAdd}
+            addLabel="Novo Programa"
+            onImportCsv={handleUploadCourse}
+            importLabel="Importar Programa"
+          />
 
           {/* Campo de pesquisa + botão */}
           <Paper
@@ -534,6 +573,18 @@ const Course: React.FC = () => {
         loading={confirmDialog.loading}
         danger={true}
       />
+
+      {/* Upload Excel Modal */}
+      {isUploadOpen && (
+        <UploadCsvModal<CourseCsvRow>
+          title="Importar Programa"
+          onClose={() => setUploadOpen(false)}
+          apiCreate={apiCreate}
+          expectedHeaders={['name']}
+          validateFields={validateCourseForm}
+          onFinish={() => fetchCourses([])}
+        />
+      )}
     </LocalizationProvider>
   );
 };

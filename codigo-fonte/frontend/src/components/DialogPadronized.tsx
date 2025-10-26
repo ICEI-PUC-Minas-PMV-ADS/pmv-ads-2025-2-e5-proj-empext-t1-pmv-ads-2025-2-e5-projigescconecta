@@ -37,8 +37,6 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
         sx: {
           borderRadius: 3,
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-          px: 2,
-          py: 1.5,
         },
       }}
     >
@@ -47,6 +45,7 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
           bgcolor: alpha('#1E4EC4', 0.03),
           borderBottom: '1px solid',
           borderColor: alpha('#1E4EC4', 0.1),
+          py: 3,
         }}
       >
         <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
@@ -54,11 +53,11 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
         </Typography>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 3, mt: 1 }}>{content}</DialogContent>
+      <DialogContent sx={{ p: 3, mt: 2}}>{content}</DialogContent>
 
       <DialogActions
         sx={{
-          pt: 2,
+          py: 2,
           borderTop: '1px solid',
           bgcolor: alpha('#1E4EC4', 0.03),
           borderColor: alpha('#1E4EC4', 0.1),

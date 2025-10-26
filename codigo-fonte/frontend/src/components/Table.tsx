@@ -18,6 +18,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 /**
  * Exemplo de uso da Tabela com ações e paginação backend:
@@ -96,6 +98,7 @@ type TableProps<T> = {
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
   onOriginBusinessCase?: (row: T) => void;
+  onTeam?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -112,6 +115,7 @@ function Table<T extends { [key: string]: any }>({
   onEdit,
   onDelete,
   onOriginBusinessCase,
+  onTeam,
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -127,7 +131,7 @@ function Table<T extends { [key: string]: any }>({
     onPageChange(0);
   };
 
-  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase;
+  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam;
 
   return (
     <Box>
@@ -348,6 +352,33 @@ function Table<T extends { [key: string]: any }>({
                             }}
                           >
                             Causas
+                          </Button>
+                        )}
+                        {onTeam && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<PersonAddAltIcon sx={{ fontSize: '1rem', alignSelf: 'center' }} />}
+                            onClick={() => onTeam?.(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#7244efff',
+                              borderColor: alpha('#7244efff', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#7244efff',
+                                bgcolor: alpha('#7244efff', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            Integrantes
                           </Button>
                         )}
                       </Stack>

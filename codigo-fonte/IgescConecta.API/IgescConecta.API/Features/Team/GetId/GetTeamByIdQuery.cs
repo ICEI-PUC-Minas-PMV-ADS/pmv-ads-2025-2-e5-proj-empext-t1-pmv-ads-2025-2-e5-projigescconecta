@@ -30,7 +30,7 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
             var team = await _context.Teams
                 .Where(team => team.Id == request.TeamId)
                 .Include(team => team.PersonTeams)
-                .Include(team => team.ProjectProgram)
+                .Include(team => team.ProjectPrograms)
                 .Include(team => team.Course)
                 .FirstOrDefaultAsync(cancellationToken);
 

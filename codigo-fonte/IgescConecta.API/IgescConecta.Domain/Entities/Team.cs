@@ -12,8 +12,12 @@ namespace IgescConecta.Domain.Entities
 {
     public class Team : BaseEntity
     {
-        public string? Name { get; set; }
+
+        [Required]
+        public required string Name { get; set; }
+        
         public string? LessonTime { get; set; }
+
         public DateTime? Start { get; set; }
 
         public DateTime? Finish { get; set; }
@@ -21,10 +25,7 @@ namespace IgescConecta.Domain.Entities
         public ICollection<PersonTeam> PersonTeams { get; set; } = new List<PersonTeam>();
         public ICollection<PersonOsc> PersonOscs { get; set; } = new List<PersonOsc>();
 
-        public int? ProjectProgramId { get; set; }
-
-        [ForeignKey("ProjectProgramId")]
-        public ProjectProgram? ProjectProgram { get; set; }
+        public ICollection<ProjectProgram> ProjectPrograms { get; set; } = new List<ProjectProgram>();
 
         [Required]
         public int CourseId { get; set; }

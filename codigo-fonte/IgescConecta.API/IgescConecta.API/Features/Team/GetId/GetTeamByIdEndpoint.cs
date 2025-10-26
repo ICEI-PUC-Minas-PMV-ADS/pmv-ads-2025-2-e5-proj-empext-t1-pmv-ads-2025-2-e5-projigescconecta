@@ -1,6 +1,8 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace IgescConecta.API.Features.Teams.GetTeamById
 {
@@ -22,6 +24,9 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
         {
             var result = await _mediator.Send(new GetTeamQuery(teamId));
 
+            if (!result.IsSuccess)
+                return NotFound(result.Error);
+
             var teamInfo = new GetTeamByIdResponse
             {
                 TeamId = teamId,
@@ -31,16 +36,13 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
                 Finish = result.Value.Finish,
                 CourseId = result.Value.CourseId,
                 CourseName = result.Value.Course?.Name,
-                ProjectProgramId = result.Value.ProjectProgramId,
-                ProjectProgramName = result.Value.ProjectProgram?.Name,
+                ProjectProgramsCount = result.Value.ProjectPrograms.Count,
                 PersonTeamsCount = result.Value.PersonTeams.Count,
                 IsDeleted = result.Value.IsDeleted,
                 CreatedAt = result.Value.CreatedAt
             };
 
-            return result.IsSuccess
-                ? Ok(teamInfo)
-                : NotFound(result.Error);
+            return Ok(teamInfo);
         }
     }
 
@@ -51,10 +53,9 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
         public string? CourseName { get; set; }
-        public int? ProjectProgramId { get; set; }
-        public string? ProjectProgramName { get; set; }
+        public int ProjectProgramsCount { get; set; }
         public int PersonTeamsCount { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
