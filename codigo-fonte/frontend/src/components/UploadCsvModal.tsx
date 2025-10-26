@@ -85,6 +85,28 @@ export function UploadCsvModal<T extends Record<string, any>>({
     }
   };
 
+  const extractErrorMessage = (error: any): string => {
+  if (!error.response?.data) {
+    return 'Erro ao criar';
+  }
+
+  const data = error.response.data;
+
+  if (data.errors && Array.isArray(data.errors)) {
+    return data.errors.join(', ');
+  }
+
+  if (typeof data.message === 'string') {
+    return data.message;
+  }
+
+  if (typeof data === 'string') {
+    return data;
+  }
+
+  return JSON.stringify(data);
+};
+
   const handleUpload = async () => {
     setProcessing(true);
 
@@ -128,7 +150,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
           row: rowNumber,
           id: (item as any).id ?? '-',
           name: (item as any).name ?? '-',
-          message: error.response?.data || 'Erro ao criar',
+          message: extractErrorMessage(error) || 'Erro ao criar',
         });
       }
 
