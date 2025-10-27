@@ -17,7 +17,7 @@ namespace IgescConecta.API.Features.PersonOscs.DeletePersonOsc
             _mediator = mediator;
         }
 
-        [HttpDelete("{PersonOscId}", Name = "DeletePersonOsc")]
+        [HttpDelete("{personOscId}", Name = "DeletePersonOsc")]
         public async Task<ActionResult> DeletePersonOsc(int personOscId)
         {
             var result = await _mediator.Send(new DeletePersonOscCommand(personOscId));
