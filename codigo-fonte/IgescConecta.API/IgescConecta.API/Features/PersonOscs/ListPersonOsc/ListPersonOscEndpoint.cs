@@ -31,6 +31,6 @@ namespace IgescConecta.API.Features.PersonOscs.ListPersonOsc
 
         public int PageSize { get; set; }
 
-        public List<Filter> Filters { get; set; }
+        public List<Filter> Filters { get; set; } = [];
     }
 }

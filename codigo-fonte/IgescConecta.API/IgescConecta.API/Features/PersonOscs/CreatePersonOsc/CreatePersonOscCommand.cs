@@ -37,9 +37,9 @@ namespace IgescConecta.API.Features.PersonOscs.CreatePersonOsc
                 return new ValidationFailed(new[] { $"Osc com ID {request.OscId} não econtrado" });
 
             var existsPersonOsc = await _context.PersonOscs
-                .AnyAsync(pc => pc.PersonId == request.OscId && pc.OscId == request.OscId, cancellationToken);
+                .AnyAsync(pc => pc.PersonId == request.PersonId && pc.OscId == request.OscId, cancellationToken);
 
-            if (!existsPersonOsc)
+            if (existsPersonOsc)
                 return new ValidationFailed(new[] { "Já existe um vínculo entre esta pessoa e esta OSC" });
 
             var personOsc = new PersonOsc
