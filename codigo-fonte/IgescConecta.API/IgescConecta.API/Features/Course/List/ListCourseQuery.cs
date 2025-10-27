@@ -80,9 +80,9 @@ namespace IgescConecta.API.Features.Courses.ListCourse
                 {
                     CourseId = c.Id,
                     Name = c.Name,
-                    TeamsCount = c.Teams.Count // Corrigido: Teams (plural)
+                    TeamsCount = c.Teams.Count
                 })
-                .OrderBy(x => x.CourseId)
+                .OrderByDescending(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);

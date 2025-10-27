@@ -45,6 +45,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
+import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 
@@ -53,6 +55,11 @@ interface Beneficiary {
     name?: string;
     notes?: string;
     oscs?: Osc[];
+}
+
+interface BeneficiaryCsvRow {
+    name: string;
+    notes: string;
 }
 
 interface Osc {
@@ -80,17 +87,27 @@ const Beneficiary: React.FC = () => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
+    const [isUploadOpen, setUploadOpen] = useState(false);
 
     const beneficiariesApi = new BeneficiariesApi(apiConfig);
     const oscsApi = new OscsApi(apiConfig);
 
     const dialogTitle = () => {
-        return isVisualizing ? 'Visualizar Publico' : updateBeneficiary ? 'Atualizar Publico' : 'Criar Publico';
+        return isVisualizing ? 'Visualizar Público' : updateBeneficiary ? 'Atualizar Público' : 'Criar Público';
     }
 
     useEffect(() => {
         fetchBeneficiaries();
     }, [page, rowsPerPage]);
+
+    const handleUploadBeneficiary = () => {
+        setUploadOpen(true);
+    };
+
+    const apiCreate = (data: BeneficiaryCsvRow) => beneficiariesApi.createBeneficiary({
+        name: data.name,
+        notes: data.notes,
+    });
 
     const fetchBeneficiaries = async (customFilters?: Filter[]) => {
         try {
@@ -122,8 +139,8 @@ const Beneficiary: React.FC = () => {
             setTotalCount(data.totalItems || 0);
             setNoDataMessage('');
         } catch (error) {
-            console.error('Erro ao carregar publico:', error);
-            toast.error('Erro ao carregar publico.');
+            console.error('Erro ao carregar público:', error);
+            toast.error('Erro ao carregar público.');
             setBeneficiaries([]);
             setTotalCount(0);
         } finally {
@@ -184,8 +201,8 @@ const Beneficiary: React.FC = () => {
             setIsVisualizing(false);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar dados do publico:', error);
-            toast.error('Erro ao carregar dados do publico.');
+            console.error('Erro ao carregar dados do público:', error);
+            toast.error('Erro ao carregar dados do público.');
         } finally {
             setModalLoading(false);
         }
@@ -198,8 +215,8 @@ const Beneficiary: React.FC = () => {
             setIsVisualizing(true);
             setOpenModal(true);
         } catch (error) {
-            console.error('Erro ao carregar dados do publico:', error);
-            toast.error('Erro ao carregar dados do publico.');
+            console.error('Erro ao carregar dados do público:', error);
+            toast.error('Erro ao carregar dados do público.');
         }
     }
 
@@ -214,11 +231,11 @@ const Beneficiary: React.FC = () => {
 
         try {
             await beneficiariesApi.deleteBeneficiary(beneficiaryToDelete.beneficiaryId!);
-            toast.success('Publico deletado com sucesso.');
+            toast.success('Público deletado com sucesso.');
             fetchBeneficiaries();
         } catch (error) {
-            console.error('Erro ao deletar publico:', error);
-            toast.error('Erro ao deletar publico.');
+            console.error('Erro ao deletar público:', error);
+            toast.error('Erro ao deletar público.');
         } finally {
             setOpenDeleteModal(false);
             setBeneficiaryToDelete(null);
@@ -228,7 +245,7 @@ const Beneficiary: React.FC = () => {
     const handleSave = async () => {
         const beneficiaryForm = updateBeneficiary || createBeneficiary;
 
-        if (!validateBeneficiaryForm(beneficiaryForm))
+        if (validateBeneficiaryForm(beneficiaryForm) !== null)
             return;
 
         if (updateBeneficiary) {
@@ -240,12 +257,12 @@ const Beneficiary: React.FC = () => {
 
                 await beneficiariesApi.updateBeneficiary(updateBeneficiary.beneficiaryId!, updateBeneficiaryRequest);
 
-                toast.success('Publico atualizado com sucesso.');
+                toast.success('Público atualizado com sucesso.');
                 handleCloseModal();
                 fetchBeneficiaries();
             } catch (error) {
-                console.error('Erro ao atualizar publico:', error);
-                toast.error('Erro ao atualizar publico.');
+                console.error('Erro ao atualizar público:', error);
+                toast.error('Erro ao atualizar público.');
             } finally {
                 setModalLoading(false);
             }
@@ -259,29 +276,30 @@ const Beneficiary: React.FC = () => {
 
                 await beneficiariesApi.createBeneficiary(createBeneficiaryRequest);
 
-                toast.success('Publico criado com sucesso.');
+                toast.success('Público criado com sucesso.');
                 handleCloseModal();
                 fetchBeneficiaries();
             } catch (error) {
-                console.error('Erro ao criar publico:', error);
-                toast.error('Erro ao criar publico.');
+                console.error('Erro ao criar público:', error);
+                toast.error('Erro ao criar público.');
             } finally {
                 setModalLoading(false);
             }
         }
     }
 
-    const validateBeneficiaryForm = (beneficiary: any): boolean => {
+    const validateBeneficiaryForm = (beneficiary: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!beneficiary[field] || beneficiary[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -319,9 +337,9 @@ const Beneficiary: React.FC = () => {
                     }}
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-                        <TitleAndButtons title="Lista de Publico" onAdd={handleAdd} addLabel="Novo Publico" />
+                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Exportar Público' />
 
-                        {/* Filtro por nome de Publico */}
+                        {/* Filtro por nome de Público */}
                         <Paper
                             elevation={0}
                             sx={{
@@ -350,7 +368,7 @@ const Beneficiary: React.FC = () => {
                                         fontSize: '1.1rem',
                                     }}
                                 >
-                                    Busca de Publico
+                                    Busca de Público
                                 </Typography>
 
                                 {filterBeneficiaryName && (
@@ -371,7 +389,7 @@ const Beneficiary: React.FC = () => {
                             <Grid container spacing={{ xs: 2, md: 2.5 }}>
                                 <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                                     <TextField
-                                        label="Nome do Publico"
+                                        label="Nome do Público"
                                         value={filterBeneficiaryName}
                                         onChange={(e) => setFilterBeneficiaryName(e.target.value)}
                                         placeholder="Digite o nome..."
@@ -493,72 +511,84 @@ const Beneficiary: React.FC = () => {
                             onClose={() => setOpenDeleteModal(false)}
                             onConfirm={confirmDelete}
                             title='Confirmar exclusão'
-                            message='Deseja realmente excluir este Publico?'
+                            message='Deseja realmente excluir este Público?'
                             highlightText={beneficiaryToDelete?.name}
                             confirmLabel='Excluir'
                             cancelLabel='Cancelar'
                             danger
                         />
 
+                        {/* Upload Excel Modal */}
+                        {isUploadOpen && (
+                            <UploadCsvModal<BeneficiaryCsvRow>
+                                title='Importar Público'
+                                onClose={() => setUploadOpen(false)}
+                                apiCreate={apiCreate}
+                                expectedHeaders={['name', 'notes']}
+                                validateFields={validateBeneficiaryForm}
+                                onFinish={() => fetchBeneficiaries()}
+                            />
+                        )}
+
                         {/* Modal */}
-                        <Dialog
+                        <DialogPadronized
                             open={openModal}
                             onClose={handleCloseModal}
                             maxWidth="md"
-                            fullWidth
-                            PaperProps={{
-                                sx: {
-                                    borderRadius: 3,
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                                },
-                            }}
-                        >
-                            <DialogTitle
-                                sx={{
-                                    bgcolor: alpha('#1E4EC4', 0.03),
-                                    borderBottom: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    py: 2.5,
-                                    px: 3,
-                                }}
-                            >
-                                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                                    {dialogTitle()}
-                                </Typography>
-                            </DialogTitle>
-
-                            <DialogContent sx={{ p: 3, mt: 1 }}>
-                                {isVisualizing && selectedBeneficiary ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
+                            title={dialogTitle()}
+                            content={
+                                isVisualizing && selectedBeneficiary ? (
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        <TextField
+                                            label="Nome"
+                                            value={selectedBeneficiary.name || ''}
+                                            fullWidth
+                                            slotProps={{
+                                                input: { readOnly: true },
+                                            }}
+                                            sx={{ pointerEvents: 'none' }}
+                                        />
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes da Publico</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedBeneficiary.beneficiaryId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedBeneficiary.name}</Typography>
-                                            <Typography><strong>Observações:</strong> {selectedBeneficiary.notes}</Typography>
+                                            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                                                <strong>Observações</strong>
+                                            </Typography>
+                                            <Paper
+                                                variant="outlined"
+                                                sx={{
+                                                    p: 2,
+                                                    bgcolor: '#f9fafb',
+                                                    borderRadius: 1.5,
+                                                    minHeight: 80,
+                                                    maxHeight: 300,
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
+                                                <Typography
+                                                    color="text.primary"
+                                                    sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                                                >
+                                                    {selectedBeneficiary.notes || 'Nenhuma observação registrada.'}
+                                                </Typography>
+                                            </Paper>
                                         </Box>
 
-                                        {/* OSC */}
+                                        {/* Chips de OSC */}
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>
+                                            <Typography variant="subtitle1">
                                                 <strong>OSC</strong>
                                             </Typography>
                                             <Divider sx={{ mb: 2 }} />
+
                                             {selectedBeneficiary.oscs && selectedBeneficiary.oscs.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1}>
+                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                                                     {selectedBeneficiary.oscs.map((b) => (
-                                                        <Chip
-                                                            key={b.oscId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                            sx={{ fontWeight: 500 }}
-                                                        />
+                                                        <Chip key={b.oscId} label={b.name} color="primary" variant="outlined" />
                                                     ))}
                                                 </Stack>
                                             ) : (
-                                                <Typography color="text.secondary">Nenhum OSC associado.</Typography>
+                                                <Typography color="text.secondary" mt={1}>
+                                                    Nenhum OSC.
+                                                </Typography>
                                             )}
                                         </Box>
                                     </Box>
@@ -566,16 +596,24 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateBeneficiary.name || ''}
-                                            onChange={(e) => setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })}
+                                            onChange={(e) =>
+                                                setUpdateBeneficiary({ ...updateBeneficiary, name: e.target.value })
+                                            }
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateBeneficiary.notes || ''}
-                                            onChange={(e) => setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setUpdateBeneficiary({ ...updateBeneficiary, notes: e.target.value })
+                                            }
                                             fullWidth
+                                            variant='outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
 
                                         {/* Chips de OSC */}
@@ -588,16 +626,13 @@ const Beneficiary: React.FC = () => {
                                             {updateBeneficiary.oscs && updateBeneficiary.oscs.length > 0 ? (
                                                 <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
                                                     {updateBeneficiary.oscs.map((b) => (
-                                                        <Chip
-                                                            key={b.oscId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                        />
+                                                        <Chip key={b.oscId} label={b.name} color="primary" variant="outlined" />
                                                     ))}
                                                 </Stack>
                                             ) : (
-                                                <Typography color="text.secondary" mt={1}>Nenhum OSC.</Typography>
+                                                <Typography color="text.secondary" mt={1}>
+                                                    Nenhum OSC.
+                                                </Typography>
                                             )}
                                         </Box>
                                     </Box>
@@ -605,34 +640,32 @@ const Beneficiary: React.FC = () => {
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createBeneficiary.name || ''}
-                                            onChange={(e) => setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })}
+                                            onChange={(e) =>
+                                                setCreateBeneficiary({ ...createBeneficiary, name: e.target.value })
+                                            }
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createBeneficiary.notes || ''}
-                                            onChange={(e) => setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setCreateBeneficiary({ ...createBeneficiary, notes: e.target.value })
+                                            }
                                             fullWidth
+                                            variant='outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
-                                    </Box>) :
-                                    (
-                                        <Typography>Nenhum dado encontrado.</Typography>
-                                    )}
-                            </DialogContent>
-
-                            <DialogActions
-                                sx={{
-                                    px: 3,
-                                    py: 2.5,
-                                    bgcolor: alpha('#1E4EC4', 0.02),
-                                    borderTop: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    gap: 1.5,
-                                }}
-                            >
-                                {isVisualizing ? (
+                                    </Box>
+                                ) : (
+                                    <Typography>Nenhum dado encontrado.</Typography>
+                                )
+                            }
+                            actions={
+                                isVisualizing ? (
                                     <Button
                                         variant="contained"
                                         startIcon={<ArrowBackIcon />}
@@ -694,9 +727,9 @@ const Beneficiary: React.FC = () => {
                                             Salvar
                                         </Button>
                                     </>
-                                )}
-                            </DialogActions>
-                        </Dialog>
+                                )
+                            }
+                        />
                     </Box>
                 </Paper>
             </Container>

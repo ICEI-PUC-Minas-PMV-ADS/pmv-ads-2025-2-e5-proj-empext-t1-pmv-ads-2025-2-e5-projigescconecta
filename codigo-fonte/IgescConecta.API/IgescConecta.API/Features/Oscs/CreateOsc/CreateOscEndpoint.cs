@@ -38,7 +38,17 @@ namespace IgescConecta.API.Features.Oscs.CreateOsc
                 OriginsBusinessCasesIds = request.OriginsBusinessCasesIds,
                 BeneficiariesIds = request.BeneficiariesIds
             });
-            return result.IsSuccess ? Ok(new CreateOscResponse(result.Value)) : BadRequest(result.Error);
+
+            if(!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            var createResponse = new CreateOscResponse
+            {
+                Id = result.Value,
+                Name = request.Name,
+            };
+
+            return Ok(createResponse); 
         }
     }
 
@@ -77,11 +87,8 @@ namespace IgescConecta.API.Features.Oscs.CreateOsc
 
     public class CreateOscResponse
     {
-        public int OscId { get; set; }
+        public int Id { get; set; }
 
-        public CreateOscResponse(int oscId)
-        {
-            OscId = oscId;
-        }
+        public string Name { get; set; }
     }
 }

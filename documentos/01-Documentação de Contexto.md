@@ -1,6 +1,6 @@
 # Introdução
 
-A proposta deste projeto parte da compreensão de extensão universitária como prática acadêmica que articula ensino, pesquisa e compromisso social por meio de intervenções cocriadas com a comunidade. No microfundamento de nivelamento, discutimos a extensão como um processo dialógico e formativo, no qual estudantes e parceiros constroem conhecimento aplicável a problemas reais, fortalecendo capacidades institucionais e cidadãs.
+A proposta deste projeto parte da compreensão de extensão universitária como prática acadêmica que articula ensino, pesquisa, extensão e compromisso social por meio de intervenções cocriadas com a comunidade. No microfundamento de nivelamento, discutimos a extensão como um processo dialógico e formativo, no qual estudantes e parceiros constroem conhecimento aplicável a problemas reais, fortalecendo capacidades institucionais e cidadãs.
 
 Nesse espírito, o projeto IGESC Conecta será concebido como um sistema sociotécnico: não é apenas software, mas a integração de tecnologia, pessoas, papéis, dados e processos. A solução busca modernizar a gestão interna do Instituto GESC, substituindo o uso intensivo de planilhas por uma plataforma integrada que centralize informações e organize fluxos de trabalho, ampliando controle, rastreabilidade e acessibilidade aos dados, com foco na sustentabilidade do uso no dia a dia da equipe.
 
@@ -42,7 +42,7 @@ A construção do IGESC Conecta se justifica por:
 
 ## Relação com a Extensão Universitária
 
-O projeto promove aprendizagem significativa aos estudantes (levantamento e modelagem de requisitos, desenho sociotécnico, implementação fullstack, documentação, implantação) e fortalecimento institucional ao parceiro (processos claros, dados confiáveis, capacidade analítica). A interação continuada escuta, prototipação, validação e ajustes materializa a extensão como via de mão dupla, transformando a prática acadêmica e a realidade do parceiro.
+O projeto promove aprendizagem significativa aos estudantes (levantamento e modelagem de requisitos, desenho da solução, implementação, documentação, implantação) e fortalecimento institucional ao parceiro (processos claros, dados confiáveis, capacidade analítica). A interação continuada, documentação, prototipação, validação e ajustes materializam a extensão como via de mão dupla, transformando a prática acadêmica e a realidade do parceiro.
 
 O impacto social esperado decorre de uma gestão mais eficiente e transparente: com informações estruturadas, o IGESC tende a qualificar o apoio às OSCs, ampliar a capacidade de monitorar resultados das turmas e projetos e facilitar parcerias com empresas, fortalecendo a rede de colaboração que sustenta ações de interesse público.
 

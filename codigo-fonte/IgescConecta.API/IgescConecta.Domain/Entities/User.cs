@@ -25,9 +25,9 @@ namespace IgescConecta.Domain.Entities
         public DateTime UpdatedAt { get; set; }
 
         [ForeignKey(nameof(CreatedBy))]
-        public User CreatedByUser { get; set; }
+        public User? CreatedByUser { get; set; }
 
         [ForeignKey(nameof(UpdatedBy))]
-        public User UpdatedByUser { get; set; } 
+        public User? UpdatedByUser { get; set; } 
     }
 }

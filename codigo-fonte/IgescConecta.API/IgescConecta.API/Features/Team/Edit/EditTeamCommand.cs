@@ -3,6 +3,7 @@ using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
@@ -14,7 +15,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
         public List<int>? PersonTeamsIds { get; set; }
-        public int? ProjectProgramId { get; set; }
+        public List<int>? ProjectProgramIds { get; set; }
         public int? CourseId { get; set; }
     }
 
@@ -31,31 +32,35 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         {
             var team = await _context.Teams
                 .Where(t => t.Id == request.TeamId)
-                .Include(p => p.ProjectProgram)  
+                .Include(p => p.ProjectPrograms)  
                 .Include(c => c.Course)
                 .Include(pt => pt.PersonTeams)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { "Time não encontrado ou excluído." });
+                return new ValidationFailed(new[] { "Turma não encontrada ou excluída." });
             }
 
             var startDate = request.Start ?? team.Start;
             var finishDate = request.Finish ?? team.Finish;
 
-            if (startDate >= finishDate)
+            if (startDate.HasValue && finishDate.HasValue && startDate >= finishDate)
             {
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            if (request.ProjectProgramId.HasValue)
+            if (request.ProjectProgramIds != null && request.ProjectProgramIds.Any())
             {
-                var programExists = await _context.ProjectPrograms
-                    .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
+                var programsExist = await _context.ProjectPrograms
+                    .Where(p => request.ProjectProgramIds.Contains(p.Id))
+                    .Select(p => p.Id)
+                    .ToListAsync(cancellationToken);
 
-                if (!programExists)
-                    return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
+                var invalidIds = request.ProjectProgramIds.Except(programsExist).ToList();
+
+                if (invalidIds.Any())
+                    return new ValidationFailed(new[] { $"Projetos com IDs {string.Join(", ", invalidIds)} não encontrados." });
             }
 
             if (request.CourseId.HasValue)
@@ -64,7 +69,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                     .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
 
                 if (!courseExists)
-                    return new ValidationFailed(new[] { $"Curso com ID {request.CourseId} não encontrado." });
+                    return new ValidationFailed(new[] { $"Projeto com ID {request.CourseId} não encontrado." });
             }
 
             if (request.PersonTeamsIds != null && request.PersonTeamsIds.Any())
@@ -82,13 +87,36 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                 }
             }
 
+            if (request.Name != null && string.IsNullOrWhiteSpace(request.Name))
+            {
+                return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
+            }
+            
             team.Name = request.Name ?? team.Name;
             team.LessonTime = request.LessonTime ?? team.LessonTime;
             team.Start = request.Start ?? team.Start;
             team.Finish = request.Finish ?? team.Finish;
-            team.ProjectProgramId = request.ProjectProgramId ?? team.ProjectProgramId;
             team.CourseId = request.CourseId ?? team.CourseId;
 
+            // Atualizar ProjectPrograms
+            if (request.ProjectProgramIds != null)
+            {
+                team.ProjectPrograms.Clear();
+
+                if (request.ProjectProgramIds.Any())
+                {
+                    var projectPrograms = await _context.ProjectPrograms
+                        .Where(pp => request.ProjectProgramIds.Contains(pp.Id))
+                        .ToListAsync(cancellationToken);
+
+                    foreach (var projectProgram in projectPrograms)
+                    {
+                        team.ProjectPrograms.Add(projectProgram);
+                    }
+                }
+            }
+
+            // Atualizar PersonTeams
             if (request.PersonTeamsIds != null &&
                 !request.PersonTeamsIds.OrderBy(x => x)
                     .SequenceEqual(team.PersonTeams.Select(pt => pt.PersonId).OrderBy(x => x)))
@@ -99,8 +127,8 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                 {
                     team.PersonTeams.Add(new PersonTeam
                     {
-                        TeamId = team.Id,
-                        PersonId = personId
+                        PersonId = personId,
+                        TeamId = team.Id
                     });
                 }
             }

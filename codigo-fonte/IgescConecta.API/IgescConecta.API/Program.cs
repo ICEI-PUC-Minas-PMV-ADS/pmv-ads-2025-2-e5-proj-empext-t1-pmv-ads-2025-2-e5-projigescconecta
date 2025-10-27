@@ -2,6 +2,7 @@ using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Options;
 using IgescConecta.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -11,7 +12,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocumentation();
 
-// DbContext (Azure SQL via DefaultConnection)
 builder.Services.AddDbContextIgesc(builder.Configuration);
 
 builder.Services.AddIdentity();
@@ -49,18 +49,20 @@ builder.Services
 
 builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
 
-// ---------- CORS ----------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Frontend", p =>
-        p.WithOrigins(
+    options.AddPolicy("Frontend", builder =>
+    {
+        builder.WithOrigins(
             "http://localhost:3000",
-            "http://localhost:5173"
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-    // .AllowCredentials() // só se usar cookies
-    );
+            "http://localhost:5173",
+            "https://igesc-conecta.web.app",
+            "https://igesc-conecta.firebaseapp.com"
+            );
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+        builder.AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -70,7 +72,6 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
 }
 
-// ---------- Swagger com feature flag ----------
 var enableSwagger = app.Configuration.GetValue("Swagger:Enabled", true);
 if (enableSwagger)
 {

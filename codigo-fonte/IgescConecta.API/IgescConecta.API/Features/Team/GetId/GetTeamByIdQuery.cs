@@ -30,13 +30,13 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
             var team = await _context.Teams
                 .Where(team => team.Id == request.TeamId)
                 .Include(team => team.PersonTeams)
-                .Include(team => team.ProjectProgram)
+                .Include(team => team.ProjectPrograms)
                 .Include(team => team.Course)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { $"Time com ID {request.TeamId} não encontrado ou está inativo." });
+                return new ValidationFailed(new[] { $"Turma com ID {request.TeamId} não encontrado ou está inativo." });
             }
 
             return team;

@@ -45,8 +45,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import DialogPadronized from '@/components/DialogPadronized';
 
 dayjs.locale('pt-br');
 
@@ -80,7 +80,9 @@ const OriginBusinessCase: React.FC = () => {
 
     const originBusinessCasesApi = new OriginsBusinessCasesApi(apiConfig);
     const navigate = useNavigate();
+    const locationName = useLocation();
 
+    const { name } = locationName.state || {};
 
     const dialogTitle = () => {
         return isVisualizing ? 'Visualizar Causa' : updateOriginBusinessCase ? 'Editar Causa' : 'Adicionar Causa';
@@ -101,7 +103,7 @@ const OriginBusinessCase: React.FC = () => {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
-                businessCaseId: businessCaseId!
+                businessCaseId: Number(businessCaseId!)
             };
 
             const { data } = await originBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId(listOriginBusinessCaseRequest);
@@ -228,7 +230,7 @@ const OriginBusinessCase: React.FC = () => {
     const handleSave = async () => {
         const originBusinessCaseForm = updateOriginBusinessCase || createOriginBusinessCase;
 
-        if (!validateBeneficiaryForm(originBusinessCaseForm))
+        if (validateBeneficiaryForm(originBusinessCaseForm) !== null)
             return;
 
         if (updateOriginBusinessCase) {
@@ -271,17 +273,18 @@ const OriginBusinessCase: React.FC = () => {
         }
     }
 
-    const validateBeneficiaryForm = (originBusinessCase: any): boolean => {
+    const validateBeneficiaryForm = (originBusinessCase: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!originBusinessCase[field] || originBusinessCase[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -341,8 +344,12 @@ const OriginBusinessCase: React.FC = () => {
                             Voltar
                         </Button>
 
+                        <div style={{ marginBottom: '1rem' }}>
+                            <span style={{ color: '#555' }}>Grupo de Causas</span> ›
+                            <span style={{ color: '#555' }}> Grupo: {name} </span>
+                        </div>
 
-                        <TitleAndButtons title="Lista de Causa" onAdd={handleAdd} addLabel="Novo Causa" />
+                        <TitleAndButtons title="Lista de Causas" onAdd={handleAdd} addLabel="Nova Causa" />
 
                         {/* Filtro por nome de Causa */}
                         <Paper
@@ -523,93 +530,107 @@ const OriginBusinessCase: React.FC = () => {
                             danger
                         />
 
+
                         {/* Modal */}
-                        <Dialog
+                        <DialogPadronized
                             open={openModal}
                             onClose={handleCloseModal}
-                            maxWidth="md"
-                            fullWidth
-                            PaperProps={{
-                                sx: {
-                                    borderRadius: 3,
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-                                },
-                            }}
-                        >
-                            <DialogTitle
-                                sx={{
-                                    bgcolor: alpha('#1E4EC4', 0.03),
-                                    borderBottom: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    py: 2.5,
-                                    px: 3,
-                                }}
-                            >
-                                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
-                                    {dialogTitle()}
-                                </Typography>
-                            </DialogTitle>
-
-                            <DialogContent sx={{ p: 3, mt: 1 }}>
-                                {isVisualizing && selectedOriginBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
+                            maxWidth="sm"
+                            title={dialogTitle()}
+                            content={
+                                isVisualizing && selectedOriginBusinessCase ? (
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        {/* Campos de texto editáveis */}
+                                        <TextField
+                                            label="Nome"
+                                            value={selectedOriginBusinessCase.name || ''}
+                                            fullWidth
+                                            variant='outlined'
+                                            slotProps={{
+                                                input: { readOnly: true }
+                                            }}
+                                            sx={{ pointerEvents: 'none' }}
+                                        />
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes da Causa</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedOriginBusinessCase.originBusinessCaseId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedOriginBusinessCase.name}</Typography>
-                                            <Typography><strong>Observações:</strong> {selectedOriginBusinessCase.notes}</Typography>
+                                            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                                                <strong>Observações</strong>
+                                            </Typography>
+                                            <Paper
+                                                variant="outlined"
+                                                sx={{
+                                                    p: 2,
+                                                    bgcolor: '#f9fafb',
+                                                    borderRadius: 1.5,
+                                                    minHeight: 80,
+                                                    maxHeight: 300,
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
+                                                <Typography
+                                                    color="text.primary"
+                                                    sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                                                >
+                                                    {selectedOriginBusinessCase.notes || 'Nenhuma observação registrada.'}
+                                                </Typography>
+                                            </Paper>
                                         </Box>
                                     </Box>
                                 ) : updateOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateOriginBusinessCase.name || ''}
                                             onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setUpdateOriginBusinessCase({
+                                                    ...updateOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant= 'outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>
                                 ) : createOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createOriginBusinessCase.name || ''}
                                             onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setCreateOriginBusinessCase({
+                                                    ...createOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant="outlined"
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>) :
                                     (
                                         <Typography>Nenhum dado encontrado.</Typography>
-                                    )}
-                            </DialogContent>
-
-                            <DialogActions
-                                sx={{
-                                    px: 3,
-                                    py: 2.5,
-                                    bgcolor: alpha('#1E4EC4', 0.02),
-                                    borderTop: '1px solid',
-                                    borderColor: alpha('#1E4EC4', 0.1),
-                                    gap: 1.5,
-                                }}
-                            >
-                                {isVisualizing ? (
+                                    )
+                            }
+                            actions={
+                                isVisualizing ? (
                                     <Button
                                         variant="contained"
                                         startIcon={<ArrowBackIcon />}
@@ -671,9 +692,9 @@ const OriginBusinessCase: React.FC = () => {
                                             Salvar
                                         </Button>
                                     </>
-                                )}
-                            </DialogActions>
-                        </Dialog>
+                                )
+                            }
+                        />
                     </Box>
                 </Paper>
             </Container>

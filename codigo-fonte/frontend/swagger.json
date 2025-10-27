@@ -952,6 +952,7 @@
         "tags": [
           "ListDonationEndpoint"
         ],
+        "operationId": "GetDonationById",
         "parameters": [
           {
             "name": "id",
@@ -1035,6 +1036,7 @@
         "tags": [
           "ListCompanyEndpoint"
         ],
+        "operationId": "GetCompanyByCnpj",
         "parameters": [
           {
             "name": "cnpj",
@@ -1087,6 +1089,102 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/companies/search": {
+      "post": {
+        "tags": [
+          "ListCompaniesEndpoint"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCompaniesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCompaniesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCompaniesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCompaniesViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCompaniesViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListCompaniesViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/donations/search": {
+      "post": {
+        "tags": [
+          "ListDonationsEndpoint"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListDonationsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListDonationsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListDonationsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListDonationsViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListDonationsViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListDonationsViewModel"
+                }
+              }
+            }
           }
         }
       }
@@ -1580,7 +1678,1093 @@
         }
       }
     },
-    "/api/teams/search": {
+    "/api/persons/{personId}": {
+      "put": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "UpdatePerson",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePersonResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePersonResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePersonResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "GetPerson",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonViewModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "DeletePerson",
+        "parameters": [
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/persons/ListPerson": {
+      "post": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "ListPerson",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListPersonRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListPersonRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListPersonRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPersonViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPersonViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPersonViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons": {
+      "post": {
+        "tags": [
+          "Persons"
+        ],
+        "operationId": "CreatePerson",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personteams": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "ListPersonTeams",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personteams/byteam/{teamId}": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "ListPersonTeamsByTeam",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonTeamDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personteams/{id}": {
+      "get": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "GetPersonTeamById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonTeamDetailDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "EditPersonTeam",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditPersonTeamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditPersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "DeletePersonTeam",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/teams/{teamId}/personteams": {
+      "post": {
+        "tags": [
+          "PersonTeams"
+        ],
+        "operationId": "CreatePersonTeam",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonTeamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePersonTeamResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectthemes/{projectThemeId}/restore": {
+      "patch": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "RestoreProjectTheme",
+        "parameters": [
+          {
+            "name": "projectThemeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectThemeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectThemeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectThemeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectthemes/search": {
+      "post": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "ListProjectTheme",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectThemeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectThemeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectThemeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectThemeViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectThemeViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectThemeViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectthemes/{id}": {
+      "get": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "GetProjectThemeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectThemeByIdViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectThemeByIdViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectThemeByIdViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectthemes/{projectThemeId}": {
+      "put": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "EditProjectTheme",
+        "parameters": [
+          {
+            "name": "projectThemeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectThemeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectThemeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectThemeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectThemeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectThemeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectThemeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "DeleteProjectTheme",
+        "parameters": [
+          {
+            "name": "projectThemeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectThemeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectThemeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectThemeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectthemes": {
+      "post": {
+        "tags": [
+          "ProjectThemes"
+        ],
+        "operationId": "CreateProjectTheme",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectThemeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectThemeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectThemeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectThemeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectThemeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectThemeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projecttypes/{projectTypeId}/restore": {
+      "patch": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "RestoreProjectType",
+        "parameters": [
+          {
+            "name": "projectTypeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectTypeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectTypeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projecttypes/search": {
+      "post": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "ListProjectType",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectTypeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectTypeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectTypeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectTypeViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectTypeViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectTypeViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projecttypes/{id}": {
+      "get": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "GetProjectTypeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectTypeByIdViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectTypeByIdViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectTypeByIdViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projecttypes/{projectTypeId}": {
+      "put": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "EditProjectType",
+        "parameters": [
+          {
+            "name": "projectTypeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectTypeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectTypeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectTypeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectTypeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectTypeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "DeleteProjectType",
+        "parameters": [
+          {
+            "name": "projectTypeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectTypeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectTypeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projecttypes": {
+      "post": {
+        "tags": [
+          "ProjectTypes"
+        ],
+        "operationId": "CreateProjectType",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTypeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTypeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectTypeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectTypeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectTypeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectTypeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/companies/{cnpj}/activate": {
+      "patch": {
+        "tags": [
+          "ReactivateCompanyEndpoint"
+        ],
+        "parameters": [
+          {
+            "name": "cnpj",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/teams/ListTeam": {
       "post": {
         "tags": [
           "Teams"
@@ -1706,24 +2890,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditTeamResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -1745,24 +2912,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteTeamResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -2135,6 +3285,32 @@
         },
         "additionalProperties": false
       },
+      "CompanyViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cnpj": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "razaoSocial": {
+            "type": "string"
+          },
+          "telefone": {
+            "type": "string",
+            "nullable": true
+          },
+          "ativa": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "CourseViewModel": {
         "type": "object",
         "properties": {
@@ -2168,9 +3344,12 @@
       "CreateBeneficiaryResponse": {
         "type": "object",
         "properties": {
-          "beneficiaryId": {
+          "id": {
             "type": "integer",
             "format": "int32"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -2194,9 +3373,12 @@
       "CreateBusinessCaseResponse": {
         "type": "object",
         "properties": {
-          "businessCaseId": {
+          "id": {
             "type": "integer",
             "format": "int32"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -2301,6 +3483,11 @@
             "format": "int32",
             "nullable": true
           },
+          "courseId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "teamId": {
             "type": "integer",
             "format": "int32",
@@ -2328,9 +3515,12 @@
       "CreateOriginBusinessCaseResponse": {
         "type": "object",
         "properties": {
-          "originBusinessCaseId": {
+          "id": {
             "type": "integer",
             "format": "int32"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -2398,7 +3588,171 @@
       "CreateOscResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "personalDocumment": {
+            "type": "string"
+          },
+          "secondaryEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "education1": {
+            "type": "string",
+            "nullable": true
+          },
+          "education2": {
+            "type": "string",
+            "nullable": true
+          },
+          "professionalActivity": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonResponse": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "personalDocumment": {
+            "type": "string"
+          },
+          "secondaryEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "education1": {
+            "type": "string",
+            "nullable": true
+          },
+          "education2": {
+            "type": "string",
+            "nullable": true
+          },
+          "professionalActivity": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonTeamRequest": {
+        "required": [
+          "memberTypes",
+          "personId"
+        ],
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonTeamResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectThemeRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectThemeResponse": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectTypeRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectTypeResponse": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
             "type": "integer",
             "format": "int32"
           }
@@ -2406,11 +3760,14 @@
         "additionalProperties": false
       },
       "CreateTeamRequest": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "lessonTime": {
             "type": "string",
@@ -2433,10 +3790,12 @@
               "format": "int32"
             }
           },
-          "projectProgramId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+          "projectProgramsIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
           },
           "courseId": {
             "type": "integer",
@@ -2496,12 +3855,55 @@
         },
         "additionalProperties": false
       },
-      "DeleteTeamResponse": {
+      "DeletePersonTeamResponse": {
         "type": "object",
         "properties": {
-          "teamId": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeleteProjectThemeResponse": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DeleteProjectTypeResponse": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DonationViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "donationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "doadorNome": {
+            "type": "string"
+          },
+          "destinoNome": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -2525,12 +3927,77 @@
         },
         "additionalProperties": false
       },
-      "EditTeamRequest": {
+      "EditPersonTeamRequest": {
+        "required": [
+          "memberTypes"
+        ],
+        "type": "object",
+        "properties": {
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditPersonTeamResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectThemeRequest": {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectThemeResponse": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectTypeRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectTypeResponse": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditTeamRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
           },
           "lessonTime": {
             "type": "string",
@@ -2554,28 +4021,17 @@
             },
             "nullable": true
           },
-          "projectProgramId": {
-            "type": "integer",
-            "format": "int32",
+          "projectProgramIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           },
           "courseId": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EditTeamResponse": {
-        "type": "object",
-        "properties": {
-          "teamId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
             "nullable": true
           }
         },
@@ -2853,6 +4309,72 @@
         },
         "additionalProperties": false
       },
+      "GetProjectThemeByIdViewModel": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProjectTypeByIdViewModel": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetTeamByIdResponse": {
         "type": "object",
         "properties": {
@@ -2880,21 +4402,15 @@
           },
           "courseId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "courseName": {
             "type": "string",
             "nullable": true
           },
-          "projectProgramId": {
+          "projectProgramsCount": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "projectProgramName": {
-            "type": "string",
-            "nullable": true
+            "format": "int32"
           },
           "personTeamsCount": {
             "type": "integer",
@@ -2982,6 +4498,42 @@
         },
         "additionalProperties": false
       },
+      "ListCompaniesRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListCompaniesViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "ListCourseRequest": {
         "type": "object",
         "properties": {
@@ -3013,6 +4565,42 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CourseViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListDonationsRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListDonationsViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DonationViewModel"
             }
           }
         },
@@ -3130,6 +4718,126 @@
         },
         "additionalProperties": false
       },
+      "ListPersonRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListPersonViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonListItemViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectThemeRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          },
+          "includeDeleted": {
+            "type": "boolean"
+          },
+          "onlyDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectThemeViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectThemeViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectTypeRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          },
+          "includeDeleted": {
+            "type": "boolean"
+          },
+          "onlyDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectTypeViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTypeViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "ListTeamItemViewModel": {
         "type": "object",
         "properties": {
@@ -3155,19 +4863,13 @@
             "format": "date-time",
             "nullable": true
           },
-          "projectProgramId": {
+          "projectPrograms": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "projectProgramName": {
-            "type": "string",
-            "nullable": true
+            "format": "int32"
           },
           "courseId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "courseName": {
             "type": "string",
@@ -3270,6 +4972,20 @@
           }
         },
         "additionalProperties": false
+      },
+      "MemberType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Op": {
         "enum": [
@@ -3382,6 +5098,163 @@
         },
         "additionalProperties": false
       },
+      "PersonListItemViewModel": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "personalDocumment": {
+            "type": "string"
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonTeamDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "oscName": {
+            "type": "string"
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonTeamDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "oscName": {
+            "type": "string"
+          },
+          "memberTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonViewModel": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "personalDocumment": {
+            "type": "string"
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "education1": {
+            "type": "string",
+            "nullable": true
+          },
+          "education2": {
+            "type": "string",
+            "nullable": true
+          },
+          "professionalActivity": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -3409,6 +5282,40 @@
         },
         "additionalProperties": { }
       },
+      "ProjectThemeViewModel": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProjectTypeViewModel": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "ResetPasswordRequest": {
         "type": "object",
         "properties": {
@@ -3430,6 +5337,26 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestoreProjectThemeResponse": {
+        "type": "object",
+        "properties": {
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestoreProjectTypeResponse": {
+        "type": "object",
+        "properties": {
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -3510,13 +5437,6 @@
           "name": {
             "type": "string",
             "nullable": true
-          },
-          "originsBusinessCasesIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
           }
         },
         "additionalProperties": false
@@ -3530,13 +5450,6 @@
           },
           "name": {
             "type": "string"
-          },
-          "originsBusinessCases": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UpdateOriginBusinessCaseInBusinessCaseResponse"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3613,23 +5526,15 @@
             "format": "int32",
             "nullable": true
           },
+          "courseId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "teamId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateOriginBusinessCaseInBusinessCaseResponse": {
-        "type": "object",
-        "properties": {
-          "originBusinessCaseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
           }
         },
         "additionalProperties": false
@@ -3695,6 +5600,34 @@
             "type": "string",
             "nullable": true
           },
+          "neighborhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "webUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialMedia": {
+            "type": "string",
+            "nullable": true
+          },
           "zipCode": {
             "type": "string",
             "nullable": true
@@ -3741,6 +5674,34 @@
           "address": {
             "type": "string"
           },
+          "neighborhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "webUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialMedia": {
+            "type": "string",
+            "nullable": true
+          },
           "zipCode": {
             "type": "string"
           },
@@ -3761,6 +5722,98 @@
               "$ref": "#/components/schemas/UpdateOriginBusinessCaseInOscResponse"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePersonRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "personalDocumment": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "education1": {
+            "type": "string",
+            "nullable": true
+          },
+          "education2": {
+            "type": "string",
+            "nullable": true
+          },
+          "professionalActivity": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePersonResponse": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "personalDocumment": {
+            "type": "string"
+          },
+          "secondaryEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "primaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "education1": {
+            "type": "string",
+            "nullable": true
+          },
+          "education2": {
+            "type": "string",
+            "nullable": true
+          },
+          "professionalActivity": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

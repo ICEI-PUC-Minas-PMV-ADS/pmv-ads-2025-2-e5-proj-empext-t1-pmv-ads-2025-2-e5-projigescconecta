@@ -4,6 +4,7 @@ using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace IgescConecta.API.Features.Teams.ListTeams
 {
@@ -18,14 +19,13 @@ namespace IgescConecta.API.Features.Teams.ListTeams
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public int? ProjectProgramId { get; set; }
-        public string? ProjectProgramName { get; set; }
-        public int? CourseId { get; set; }
+        public int ProjectPrograms { get; set; }
+        public int CourseId { get; set; }
         public string? CourseName { get; set; }
         public int PersonTeamsCount { get; set; }
         public bool IsDeleted { get; set; }
     }
-
+    
     public class ListTeamQuery : PaginationRequest, IRequest<ListTeamViewModel>
     {
         public ListTeamQuery(int pageNumber, int pageSize, List<Filter> filters)
@@ -47,7 +47,11 @@ namespace IgescConecta.API.Features.Teams.ListTeams
         {
             var expr = ExpressionBuilder.GetExpression<Team>(request.Filters);
 
-            var query = _context.Teams.AsQueryable();
+            var query = _context.Teams
+                .Include(t => t.Course)
+                .Include(t => t.ProjectPrograms)
+                .Include(t => t.PersonTeams)
+                .AsQueryable();
 
             var result = await query
                 .Where(expr)
@@ -58,14 +62,13 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                     LessonTime = team.LessonTime,
                     Start = team.Start,
                     Finish = team.Finish,
-                    ProjectProgramId = team.ProjectProgramId,
-                    ProjectProgramName = team.ProjectProgram != null ? team.ProjectProgram.Name : "",
+                    ProjectPrograms = team.ProjectPrograms.Count,
                     CourseId = team.CourseId,
                     CourseName = team.Course != null ? team.Course.Name : "",
                     PersonTeamsCount = team.PersonTeams.Count,
                     IsDeleted = team.IsDeleted
                 })
-                .OrderBy(x => x.CourseId)
+                .OrderByDescending(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);

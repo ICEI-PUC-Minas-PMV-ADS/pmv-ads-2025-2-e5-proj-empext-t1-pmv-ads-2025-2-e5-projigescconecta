@@ -84,7 +84,7 @@ namespace IgescConecta.API.Features.Companies.ListCompanies
                     Telefone = company.PhoneNumber,
                     Ativa = !company.IsDeleted
                 })
-                .OrderBy(c => c.Nome)
+                .OrderByDescending(c => c.Nome)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);

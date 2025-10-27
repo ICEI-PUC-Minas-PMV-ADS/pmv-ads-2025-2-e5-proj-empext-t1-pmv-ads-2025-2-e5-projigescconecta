@@ -645,7 +645,7 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("OscId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectDocumentId")
+                    b.Property<int?>("ProjectDocumentId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectThemeId")
@@ -799,10 +799,8 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProjectProgramId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("Start")
                         .HasColumnType("datetime2");
@@ -816,8 +814,6 @@ namespace IgescConecta.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("ProjectProgramId");
 
                     b.ToTable("Teams");
                 });
@@ -1167,9 +1163,7 @@ namespace IgescConecta.API.Migrations
 
                     b.HasOne("IgescConecta.Domain.Entities.ProjectDocument", "ProjectDocument")
                         .WithMany()
-                        .HasForeignKey("ProjectDocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectDocumentId");
 
                     b.HasOne("IgescConecta.Domain.Entities.ProjectType", "ProjectType")
                         .WithMany()
@@ -1184,7 +1178,7 @@ namespace IgescConecta.API.Migrations
                         .IsRequired();
 
                     b.HasOne("IgescConecta.Domain.Entities.Team", "Team")
-                        .WithMany()
+                        .WithMany("ProjectPrograms")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1208,13 +1202,7 @@ namespace IgescConecta.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IgescConecta.Domain.Entities.ProjectProgram", "ProjectProgram")
-                        .WithMany()
-                        .HasForeignKey("ProjectProgramId");
-
                     b.Navigation("Course");
-
-                    b.Navigation("ProjectProgram");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.User", b =>
@@ -1329,6 +1317,8 @@ namespace IgescConecta.API.Migrations
                     b.Navigation("PersonOscs");
 
                     b.Navigation("PersonTeams");
+
+                    b.Navigation("ProjectPrograms");
                 });
 #pragma warning restore 612, 618
         }

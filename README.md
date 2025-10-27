@@ -6,7 +6,7 @@
 
 `5º Semestre`
 
-Este projeto fullstack tem como objetivo modernizar a gestão interna do Instituto Igesc, substituindo o uso de planilhas por uma plataforma integrada. A solução permitirá centralizar informações e organizar os processos de forma mais eficiente, garantindo maior controle e acessibilidade aos dados.
+Este projeto tem como objetivo modernizar a gestão interna do Instituto GESC (IGESC), substituindo o uso de planilhas por uma plataforma integrada. A solução permitirá centralizar informações e organizar os processos de forma mais eficiente, garantindo maior controle e acessibilidade aos dados.
 
 ## Integrantes
 

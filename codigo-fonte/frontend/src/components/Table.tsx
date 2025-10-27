@@ -18,6 +18,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 /**
  * Exemplo de uso da Tabela com ações e paginação backend:
@@ -80,6 +82,7 @@ export type Column<T> = {
   label: string;
   field: keyof T;
   align?: 'left' | 'right' | 'center';
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 };
 
 type TableProps<T> = {
@@ -95,6 +98,7 @@ type TableProps<T> = {
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
   onOriginBusinessCase?: (row: T) => void;
+  onTeam?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -111,11 +115,14 @@ function Table<T extends { [key: string]: any }>({
   onEdit,
   onDelete,
   onOriginBusinessCase,
+  onTeam,
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     onPageChange(newPage);
   };
+
+  const pageCount = totalCount / page;
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -124,7 +131,7 @@ function Table<T extends { [key: string]: any }>({
     onPageChange(0);
   };
 
-  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase;
+  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam;
 
   return (
     <Box>
@@ -132,8 +139,8 @@ function Table<T extends { [key: string]: any }>({
         component={Paper}
         elevation={0}
         sx={{
-          borderRadius: 2,
           overflow: 'hidden',
+          borderRadius: 2,
           border: '1px solid',
           borderColor: alpha('#1E4EC4', 0.1),
         }}
@@ -163,196 +170,225 @@ function Table<T extends { [key: string]: any }>({
           </Typography>
         </Box>
 
-        <MuiTable size="medium">
-          {/* Cabeçalho */}
-          <TableHead>
-            <TableRow sx={{ height: 56 }}>
-              {columns.map((col) => (
-                <TableCell
-                  key={col.field as string}
-                  align={col.align || 'left'}
-                  sx={{
-                    bgcolor: '#1E4EC4',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    paddingY: 2,
-                    paddingX: 2,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                  }}
-                >
-                  {col.label}
-                </TableCell>
-              ))}
-              {hasActions && (
-                <TableCell
-                  align="center"
-                  sx={{
-                    bgcolor: '#1E4EC4',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    paddingY: 2,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                  }}
-                >
-                  Ações
-                </TableCell>
-              )}
-            </TableRow>
-          </TableHead>
-
-          {/* Corpo */}
-          <TableBody>
-            {data.map((row, idx) => (
-              <TableRow
-                key={idx}
-                sx={{
-                  '&:nth-of-type(even)': {
-                    backgroundColor: alpha('#1E4EC4', 0.02),
-                  },
-                  '&:hover': {
-                    backgroundColor: alpha('#1E4EC4', 0.08),
-                    transition: 'background-color 0.2s ease',
-                  },
-                  height: 52,
-                }}
-              >
+        <Box sx={{ overflowX: 'auto' }}>
+          <MuiTable size="medium">
+            {/* Cabeçalho */}
+            <TableHead>
+              <TableRow sx={{ height: 56 }}>
                 {columns.map((col) => (
                   <TableCell
                     key={col.field as string}
                     align={col.align || 'left'}
                     sx={{
-                      paddingY: 1.5,
+                      bgcolor: '#1E4EC4',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      paddingY: 2,
                       paddingX: 2,
-                      fontSize: '0.9rem',
-                      color: '#374151',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
                     }}
                   >
-                    {row[col.field]}
+                    {col.label}
                   </TableCell>
                 ))}
-
                 {hasActions && (
-                  <TableCell align="center" sx={{ paddingY: 1.5, paddingX: 2 }}>
-                    <Stack direction="row" spacing={1} justifyContent="center">
-                      {onView && (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          startIcon={<VisibilityIcon sx={{ fontSize: '1rem' }} />}
-                          onClick={() => onView(row)}
-                          sx={{
-                            minWidth: 0,
-                            color: '#1E4EC4',
-                            borderColor: alpha('#1E4EC4', 0.3),
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            fontSize: '0.85rem',
-                            px: 2,
-                            py: 0.75,
-                            borderRadius: 1.5,
-                            '&:hover': {
-                              borderColor: '#1E4EC4',
-                              bgcolor: alpha('#1E4EC4', 0.08),
-                              borderWidth: 1.5,
-                            },
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          Visualizar
-                        </Button>
-                      )}
-                      {onEdit && (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          startIcon={<EditIcon sx={{ fontSize: '1rem' }} />}
-                          onClick={() => onEdit(row)}
-                          sx={{
-                            minWidth: 0,
-                            color: '#F59E0B',
-                            borderColor: alpha('#F59E0B', 0.3),
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            fontSize: '0.85rem',
-                            px: 2,
-                            py: 0.75,
-                            borderRadius: 1.5,
-                            '&:hover': {
-                              borderColor: '#F59E0B',
-                              bgcolor: alpha('#F59E0B', 0.08),
-                              borderWidth: 1.5,
-                            },
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          Editar
-                        </Button>
-                      )}
-                      {onDelete && (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          startIcon={<DeleteIcon sx={{ fontSize: '1rem' }} />}
-                          onClick={() => onDelete(row)}
-                          sx={{
-                            minWidth: 0,
-                            color: '#EF4444',
-                            borderColor: alpha('#EF4444', 0.3),
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            fontSize: '0.85rem',
-                            px: 2,
-                            py: 0.75,
-                            borderRadius: 1.5,
-                            '&:hover': {
-                              borderColor: '#EF4444',
-                              bgcolor: alpha('#EF4444', 0.08),
-                              borderWidth: 1.5,
-                            },
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          Remover
-                        </Button>
-                      )}
-                      {onOriginBusinessCase &&(
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          startIcon={<TravelExploreIcon sx={{ fontSize: '1rem' }} />}
-                          onClick={() => onOriginBusinessCase?.(row)}
-                          sx={{
-                            minWidth: 0,
-                            color: '#7244efff',
-                            borderColor: alpha('#7244efff', 0.3),
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            fontSize: '0.85rem',
-                            px: 2,
-                            py: 0.75,
-                            borderRadius: 1.5,
-                            '&:hover': {
-                              borderColor: '#7244efff',
-                              bgcolor: alpha('#7244efff', 0.08),
-                              borderWidth: 1.5,
-                            },
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          Causas
-                        </Button>
-                      )}
-                    </Stack>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      bgcolor: '#1E4EC4',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      paddingY: 2,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                    }}
+                  >
+                    Ações
                   </TableCell>
                 )}
               </TableRow>
-            ))}
-          </TableBody>
-        </MuiTable>
+            </TableHead>
+
+            {/* Corpo */}
+            <TableBody>
+              {data.map((row, idx) => (
+                <TableRow
+                  key={idx}
+                  sx={{
+                    '&:nth-of-type(even)': {
+                      backgroundColor: alpha('#1E4EC4', 0.02),
+                    },
+                    '&:hover': {
+                      backgroundColor: alpha('#1E4EC4', 0.08),
+                      transition: 'background-color 0.2s ease',
+                    },
+                    height: 52,
+                  }}
+                >
+                  {columns.map((col) => (
+                    <TableCell
+                      key={col.field as string}
+                      align={col.align || 'left'}
+                      sx={{
+                        paddingY: 1.5,
+                        paddingX: 2,
+                        fontSize: '0.9rem',
+                        color: '#374151',
+                      }}
+                    >
+                      {col.render ? col.render(row[col.field], row) : row[col.field]}
+                    </TableCell>
+                  ))}
+
+                  {hasActions && (
+                    <TableCell align="center" sx={{ paddingY: 1.5, paddingX: 2 }}>
+                      <Stack direction="row" spacing={1} justifyContent="center">
+                        {onView && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<VisibilityIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onView(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#1E4EC4',
+                              borderColor: alpha('#1E4EC4', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#1E4EC4',
+                                bgcolor: alpha('#1E4EC4', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Visualizar
+                          </Button>
+                        )}
+                        {onEdit && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<EditIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onEdit(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#F59E0B',
+                              borderColor: alpha('#F59E0B', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#F59E0B',
+                                bgcolor: alpha('#F59E0B', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Editar
+                          </Button>
+                        )}
+                        {onDelete && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<DeleteIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onDelete(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#EF4444',
+                              borderColor: alpha('#EF4444', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#EF4444',
+                                bgcolor: alpha('#EF4444', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Remover
+                          </Button>
+                        )}
+                        {onOriginBusinessCase && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<TravelExploreIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onOriginBusinessCase?.(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#7244efff',
+                              borderColor: alpha('#7244efff', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#7244efff',
+                                bgcolor: alpha('#7244efff', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Causas
+                          </Button>
+                        )}
+                        {onTeam && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<PersonAddAltIcon sx={{ fontSize: '1rem', alignSelf: 'center' }} />}
+                            onClick={() => onTeam?.(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#7244efff',
+                              borderColor: alpha('#7244efff', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#7244efff',
+                                bgcolor: alpha('#7244efff', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            Integrantes
+                          </Button>
+                        )}
+                      </Stack>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </MuiTable>
+        </Box>
 
         {/* Mensagem de nenhum dado */}
         {noDataMessage ? (
@@ -383,6 +419,9 @@ function Table<T extends { [key: string]: any }>({
             onRowsPerPageChange={handleChangeRowsPerPage}
             rowsPerPageOptions={rowsPerPageOptions}
             labelRowsPerPage="Linhas por página"
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}–${to} de ${count !== -1 ? count : `mais de ${to}`}`
+            }
             sx={{
               '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
                 color: '#1a1a2e',
