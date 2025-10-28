@@ -49,6 +49,7 @@ import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
 import { fetchZipCode, SimplifyResponse } from '@/services/cep';
 import DialogPadronized from '@/components/DialogPadronized';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.locale('pt-br');
 
@@ -117,6 +118,16 @@ const Osc: React.FC = () => {
   const oscApi = new OscsApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
   const originBusinessCaseApi = new OriginsBusinessCasesApi(apiConfig)
+  const navigate = useNavigate();
+  
+      const handleDirect = (osc: Osc) => {
+        if (!osc.oscId)
+            return;
+
+        navigate(`/osc/${osc.oscId}/person-osc`, {
+            state: { name: osc.name }
+        });
+    };
 
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar OSC' : updateOsc ? 'Editar OSC' : 'Nova OSC';
@@ -715,6 +726,7 @@ const Osc: React.FC = () => {
                   onEdit={handleUpdateOsc}
                   onView={handleView}
                   onDelete={handleDelete}
+                  onPersonOsc={handleDirect}
                 />
               )}
             </Box>

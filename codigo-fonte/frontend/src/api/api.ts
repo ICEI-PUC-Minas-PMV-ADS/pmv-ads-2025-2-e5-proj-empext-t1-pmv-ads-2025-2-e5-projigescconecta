@@ -546,6 +546,32 @@ export interface CreateOscResponse {
 /**
  * 
  * @export
+ * @interface CreatePersonOscRequest
+ */
+export interface CreatePersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscRequest
+     */
+    'personId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonOscResponse
+ */
+export interface CreatePersonOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CreatePersonRequest
  */
 export interface CreatePersonRequest {
@@ -2070,6 +2096,50 @@ export interface ListOscViewModel {
 /**
  * 
  * @export
+ * @interface ListPersonOscRequest
+ */
+export interface ListPersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonOscRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonOscViewModel
+ */
+export interface ListPersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonOscViewModel>}
+     * @memberof ListPersonOscViewModel
+     */
+    'items'?: Array<PersonOscViewModel>;
+}
+/**
+ * 
+ * @export
  * @interface ListPersonRequest
  */
 export interface ListPersonRequest {
@@ -2646,6 +2716,49 @@ export interface PersonListItemViewModel {
      * @memberof PersonListItemViewModel
      */
     'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PersonOscViewModel
+ */
+export interface PersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personOscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'primaryPhone'?: string | null;
 }
 /**
  * 
@@ -7030,6 +7143,266 @@ export class OscsApi extends BaseAPI {
      */
     public updateOsc(oscId: number, updateOscRequest?: UpdateOscRequest, options?: RawAxiosRequestConfig) {
         return OscsApiFp(this.configuration).updateOsc(oscId, updateOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonOscApi - axios parameter creator
+ * @export
+ */
+export const PersonOscApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc: async (oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('createPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/create`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc: async (personOscId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personOscId' is not null or undefined
+            assertParamExists('deletePersonOsc', 'personOscId', personOscId)
+            const localVarPath = `/api/person-osc/{personOscId}`
+                .replace(`{${"personOscId"}}`, encodeURIComponent(String(personOscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc: async (oscId: number, listPersonOscRequest?: ListPersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('listPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/list`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonOscApi - functional programming interface
+ * @export
+ */
+export const PersonOscApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonOscApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonOsc(oscId, createPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.createPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonOsc(personOscId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.deletePersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonOscViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonOsc(oscId, listPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.listPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonOscApi - factory interface
+ * @export
+ */
+export const PersonOscApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonOscApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: any): AxiosPromise<CreatePersonOscResponse> {
+            return localVarFp.createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc(personOscId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePersonOsc(personOscId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: any): AxiosPromise<ListPersonOscViewModel> {
+            return localVarFp.listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonOscApi - object-oriented interface
+ * @export
+ * @class PersonOscApi
+ * @extends {BaseAPI}
+ */
+export class PersonOscApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personOscId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).deletePersonOsc(personOscId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {ListPersonOscRequest} [listPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
