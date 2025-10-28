@@ -99,6 +99,7 @@ type TableProps<T> = {
   onDelete?: (row: T) => void;
   onOriginBusinessCase?: (row: T) => void;
   onTeam?: (row: T) => void;
+  onPersonOsc?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -116,6 +117,7 @@ function Table<T extends { [key: string]: any }>({
   onDelete,
   onOriginBusinessCase,
   onTeam,
+  onPersonOsc,
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -131,7 +133,7 @@ function Table<T extends { [key: string]: any }>({
     onPageChange(0);
   };
 
-  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam;
+  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam || onPersonOsc;
 
   return (
     <Box>
@@ -360,6 +362,33 @@ function Table<T extends { [key: string]: any }>({
                             variant="outlined"
                             startIcon={<PersonAddAltIcon sx={{ fontSize: '1rem', alignSelf: 'center' }} />}
                             onClick={() => onTeam?.(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#7244efff',
+                              borderColor: alpha('#7244efff', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#7244efff',
+                                bgcolor: alpha('#7244efff', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            Integrantes
+                          </Button>
+                        )}
+                        {onPersonOsc && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<PersonAddAltIcon sx={{ fontSize: '1rem', alignSelf: 'center' }} />}
+                            onClick={() => onPersonOsc?.(row)}
                             sx={{
                               minWidth: 0,
                               color: '#7244efff',
