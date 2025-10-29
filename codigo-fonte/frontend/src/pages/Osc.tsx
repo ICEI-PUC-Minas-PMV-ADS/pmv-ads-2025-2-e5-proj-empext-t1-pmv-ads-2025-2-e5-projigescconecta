@@ -108,6 +108,10 @@ const Osc: React.FC = () => {
   const [inputOriginBusinessCaseValue, setInputOriginBusinessCaseValue] = useState('');
 
   const [filterOscName, setFilterOscName] = useState('');
+  const [filterOscPrimaryDocumment, setFilterOscPrimaryDocumment] = useState('');
+  const [filterCity, setFilterdCity] = useState('');
+  const [filterState, setFilterState] = useState('');
+  const [filterBeneficiaryId, setFilterBeneficiaryId] = useState<number | ''>('');
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
@@ -119,15 +123,15 @@ const Osc: React.FC = () => {
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
   const originBusinessCaseApi = new OriginsBusinessCasesApi(apiConfig)
   const navigate = useNavigate();
-  
-      const handleDirect = (osc: Osc) => {
-        if (!osc.oscId)
-            return;
 
-        navigate(`/osc/${osc.oscId}/person-osc`, {
-            state: { name: osc.name }
-        });
-    };
+  const handleDirect = (osc: Osc) => {
+    if (!osc.oscId)
+      return;
+
+    navigate(`/osc/${osc.oscId}/person-osc`, {
+      state: { name: osc.name }
+    });
+  };
 
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar OSC' : updateOsc ? 'Editar OSC' : 'Nova OSC';
@@ -246,6 +250,39 @@ const Osc: React.FC = () => {
         value: filterOscName.trim(),
       });
     }
+
+    if (filterCity && filterCity.trim() !== '') {
+      filters.push({
+        propertyName: 'city',
+        operation: 7,
+        value: filterCity.trim(),
+      });
+    }
+
+    if (filterState && filterState.trim() !== '') {
+      filters.push({
+        propertyName: 'state',
+        operation: 1,
+        value: filterState.trim(),
+      });
+    }
+
+    if (filterOscPrimaryDocumment && filterOscPrimaryDocumment.trim() !== '') {
+      filters.push({
+        propertyName: 'oscPrimaryDocumment',
+        operation: 1,
+        value: filterOscPrimaryDocumment.trim(),
+      });
+    }
+
+    if (filterBeneficiaryId) {
+      filters.push({
+        propertyName: 'beneficiaries',
+        operation: 1,
+        value: filterBeneficiaryId,
+      });
+    }
+
     setPage(0);
     fetchOscs(filters);
   };
@@ -253,6 +290,10 @@ const Osc: React.FC = () => {
   const handleClearFilters = () => {
     setPage(0);
     setFilterOscName('');
+    setFilterOscPrimaryDocumment('');
+    setFilterState('');
+    setFilterdCity('');
+    setFilterBeneficiaryId('');
     fetchOscs([]);
   };
 
@@ -584,7 +625,7 @@ const Osc: React.FC = () => {
                   mb: 2.5,
                 }}
               >
-                <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
+                <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
                 <Typography
                   variant="h6"
                   sx={{
@@ -593,112 +634,159 @@ const Osc: React.FC = () => {
                     fontSize: '1.1rem',
                   }}
                 >
-                  Busca de OSC
+                  Filtro de Busca
                 </Typography>
 
-                {filterOscName && (
-                  <Chip
-                    label="Busca ativa"
-                    size="small"
-                    sx={{
-                      ml: 1,
-                      bgcolor: alpha('#1E4EC4', 0.1),
-                      color: '#1E4EC4',
-                      fontWeight: 600,
-                      fontSize: '0.75rem',
-                    }}
-                  />
-                )}
+                {(filterOscName ||
+                  filterCity ||
+                  filterState ||
+                  filterOscPrimaryDocumment ||
+                  filterBeneficiaryId
+                ) && (
+                    <Chip
+                      label="Filtros ativos"
+                      size="small"
+                      sx={{
+                        ml: 1,
+                        bgcolor: alpha('#1E4EC4', 0.1),
+                        color: '#1E4EC4',
+                        fontWeight: 600,
+                        fontSize: '0.75rem',
+                      }}
+                    />
+                  )}
               </Box>
 
-              <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                  <TextField
-                    label="Nome da OSC"
-                    value={filterOscName}
-                    onChange={(e) => setFilterOscName(e.target.value)}
-                    placeholder="Digite o nome..."
-                    fullWidth
-                    size="small"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1.5,
-                        backgroundColor: 'white',
-                        '&:hover fieldset': {
-                          borderColor: '#1E4EC4',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#1E4EC4',
-                          borderWidth: 2,
-                        },
-                      },
-                      '& .MuiInputLabel-root.Mui-focused': {
-                        color: '#1E4EC4',
-                      },
-                    }}
-                  />
-                </Grid>
-
-                <Grid
-                  size={{ xs: 12, sm: 6, md: 8 }}
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+                <TextField
+                  label="Nome da OSC"
+                  value={filterOscName}
+                  onChange={(e) => setFilterOscName(e.target.value)}
+                  placeholder="Digite o nome..."
+                  size="small"
+                />
+                <TextField
+                  label="CNPJ"
+                  value={filterOscPrimaryDocumment}
+                  onChange={(e) => setFilterOscPrimaryDocumment(e.target.value)}
+                  placeholder="Digite o CNPJ..."
+                  size="small"
+                />
+                <TextField
+                  label="Cidade"
+                  value={filterCity}
+                  onChange={(e) => setFilterdCity(e.target.value)}
+                  placeholder="Digite o nome da Cidade..."
+                  size="small"
+                />
+                <TextField
+                  label="UF"
+                  value={filterState}
+                  onChange={(e) => setFilterState(e.target.value)}
+                  placeholder="Digite o UF..."
+                  size="small"
+                />
+                <Autocomplete
+                  options={beneficiaryResults}
+                  getOptionLabel={(option) => option.name ?? ''}
+                  loading={beneficiaryLoading}
+                  value={beneficiaryResults.find(b => b.beneficiaryId === filterBeneficiaryId) || null}
+                  onChange={(event, newValue) => {
+                    setFilterBeneficiaryId(newValue?.beneficiaryId || '');
+                  }}
+                  inputValue={inputBeneficiaryValue}
+                  onInputChange={(event, newInputValue, reason) => {
+                    setInputBeneficiaryValue(newInputValue);
+                    if (reason === 'input') {
+                      fetchBeneficiaries(newInputValue);
+                    }
+                  }}
+                  onOpen={() => {fetchBeneficiaries('');}}
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                    gap: 1.5,
-                    mt: { xs: 1.5, sm: 0 },
+                    minWidth: 223,
+                    '& .MuiAutocomplete-inputRoot': {
+                      height: 40,
+                      boxSizing: 'border-box',
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Público"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {beneficiaryLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
+                      }}
+                    />
+                  )}
+                />
+              </Box>
+              <Box
+                sx={{
+                  mt: 2.5,
+                  gap: 3,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'start',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                  onClick={handleSearch}
+                  sx={{
+                    bgcolor: '#1E4EC4',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 4,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.95rem',
+                    boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                    '&:hover': {
+                      bgcolor: '#1640a8',
+                      boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                      transform: 'translateY(-1px)',
+                    },
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    startIcon={<SearchIcon />}
-                    onClick={handleSearch}
-                    sx={{
-                      bgcolor: '#1E4EC4',
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 4,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      fontSize: '0.95rem',
-                      boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                      '&:hover': {
-                        bgcolor: '#1640a8',
-                        boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                        transform: 'translateY(-1px)',
-                      },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Buscar
-                  </Button>
+                  Buscar
+                </Button>
 
-                  <Button
-                    variant="outlined"
-                    startIcon={<ClearIcon />}
-                    onClick={handleClearFilters}
-                    sx={{
-                      borderColor: alpha('#1E4EC4', 0.3),
-                      color: '#1E4EC4',
-                      fontWeight: 600,
-                      px: 4,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      fontSize: '0.95rem',
-                      '&:hover': {
-                        borderColor: '#1E4EC4',
-                        bgcolor: alpha('#1E4EC4', 0.05),
-                        borderWidth: 1.5,
-                      },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Limpar Filtros
-                  </Button>
-                </Grid>
-              </Grid>
+                <Button
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  sx={{
+                    borderColor: alpha('#1E4EC4', 0.3),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    px: 4,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontSize: '0.95rem',
+                    '&:hover': {
+                      borderColor: '#1E4EC4',
+                      bgcolor: alpha('#1E4EC4', 0.05),
+                      borderWidth: 1.5,
+                    },
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
+              </Box>
             </Paper>
 
             {/* Tabela */}

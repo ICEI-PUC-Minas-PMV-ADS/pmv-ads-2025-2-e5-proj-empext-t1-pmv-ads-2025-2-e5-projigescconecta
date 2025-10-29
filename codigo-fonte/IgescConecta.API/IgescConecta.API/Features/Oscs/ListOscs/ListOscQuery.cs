@@ -62,8 +62,22 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
 
         public async Task<ListOscViewModel> Handle(ListOscQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<Osc>(request.Filters);
-            var query = _context.Oscs.AsQueryable();
+            var expr = ExpressionBuilder.GetExpression<Osc>(
+                   request.Filters.Where(f => f.PropertyName != "beneficiaries").ToList()
+               );
+
+            var query = _context.Oscs
+                .AsQueryable()
+                .Include(o => o.Beneficiaries)
+                .Include(o => o.OriginsBusinessCases)
+                .Where(expr);
+
+            var beneficiaryFilter = request.Filters.FirstOrDefault(f => f.PropertyName == "beneficiaries");
+            if (beneficiaryFilter != null && int.TryParse(beneficiaryFilter.Value.ToString(), out int beneficiaryId))
+            {
+                query = query.Where(o => o.Beneficiaries.Any(b => b.Id == beneficiaryId));
+            }
+
             var result = await query.Where(expr).Select(osc => new OscViewModel
             {
                 OscId = osc.Id,
