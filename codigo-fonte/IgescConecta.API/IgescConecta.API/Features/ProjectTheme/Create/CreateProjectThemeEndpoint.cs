@@ -1,5 +1,6 @@
 ﻿using IgescConecta.API.Common.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.ProjectThemes.CreateProjectTheme
@@ -8,6 +9,7 @@ namespace IgescConecta.API.Features.ProjectThemes.CreateProjectTheme
     [Route("/api/projectthemes")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ProjectThemes")]
+    [Authorize(Roles = "Admin,Editor")]
     public class CreateProjectThemeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
