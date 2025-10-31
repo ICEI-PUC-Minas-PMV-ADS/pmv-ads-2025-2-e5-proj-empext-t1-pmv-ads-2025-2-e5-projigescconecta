@@ -2184,6 +2184,285 @@
         }
       }
     },
+    "/api/projectprograms/{projectProgramId}/restore": {
+      "patch": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "RestoreProjectProgram",
+        "parameters": [
+          {
+            "name": "projectProgramId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectProgramResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectProgramResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreProjectProgramResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectprograms/search": {
+      "post": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "ListProjectProgram",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectProgramRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectProgramRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListProjectProgramRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectProgramViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectProgramViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectProgramViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectprograms/{id}": {
+      "get": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "GetProjectProgramById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectProgramByIdViewModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectProgramByIdViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectProgramByIdViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectprograms/{projectProgramId}": {
+      "put": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "EditProjectProgram",
+        "parameters": [
+          {
+            "name": "projectProgramId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectProgramRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectProgramRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProjectProgramRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectProgramResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectProgramResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProjectProgramResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "DeleteProjectProgram",
+        "parameters": [
+          {
+            "name": "projectProgramId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectProgramResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectProgramResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProjectProgramResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectprograms": {
+      "post": {
+        "tags": [
+          "ProjectPrograms"
+        ],
+        "operationId": "CreateProjectProgram",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectProgramRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectProgramRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectProgramRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectProgramResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectProgramResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectProgramResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/projectthemes/{projectThemeId}/restore": {
       "patch": {
         "tags": [
@@ -3721,6 +4000,55 @@
         },
         "additionalProperties": false
       },
+      "CreateProjectProgramRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "odsTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OdsType"
+            }
+          },
+          "decision": {
+            "$ref": "#/components/schemas/ProjectDecisionType"
+          },
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectProgramResponse": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateProjectThemeRequest": {
         "type": "object",
         "properties": {
@@ -3864,6 +4192,16 @@
         },
         "additionalProperties": false
       },
+      "DeleteProjectProgramResponse": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "DeleteProjectThemeResponse": {
         "type": "object",
         "properties": {
@@ -3947,6 +4285,55 @@
         "properties": {
           "success": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectProgramRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "odsTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OdsType"
+            }
+          },
+          "decision": {
+            "$ref": "#/components/schemas/ProjectDecisionType"
+          },
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditProjectProgramResponse": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -4305,6 +4692,67 @@
             "items": {
               "$ref": "#/components/schemas/GetOscOriginBusinessCaseResponse"
             }
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProjectProgramByIdViewModel": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "odsTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OdsType"
+            }
+          },
+          "decision": {
+            "$ref": "#/components/schemas/ProjectDecisionType"
+          },
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectThemeName": {
+            "type": "string"
+          },
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectTypeName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oscName": {
+            "type": "string"
+          },
+          "oscCnpj": {
+            "type": "string"
+          },
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -4754,6 +5202,42 @@
         },
         "additionalProperties": false
       },
+      "ListProjectProgramRequest": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectProgramViewModel": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectProgramListItemViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "ListProjectThemeRequest": {
         "type": "object",
         "properties": {
@@ -4983,6 +5467,29 @@
           5,
           6,
           7
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "OdsType": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
         ],
         "type": "integer",
         "format": "int32"
@@ -5282,6 +5789,78 @@
         },
         "additionalProperties": { }
       },
+      "ProjectDecisionType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ProjectProgramListItemViewModel": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "decision": {
+            "$ref": "#/components/schemas/ProjectDecisionType"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "projectThemeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectThemeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projectTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "teamId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teamName": {
+            "type": "string",
+            "nullable": true
+          },
+          "oscId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "oscName": {
+            "type": "string",
+            "nullable": true
+          },
+          "oscCnpj": {
+            "type": "string",
+            "nullable": true
+          },
+          "odsTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OdsType"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "ProjectThemeViewModel": {
         "type": "object",
         "properties": {
@@ -5337,6 +5916,16 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestoreProjectProgramResponse": {
+        "type": "object",
+        "properties": {
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

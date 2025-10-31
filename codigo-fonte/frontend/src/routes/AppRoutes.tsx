@@ -20,6 +20,7 @@ import Person from '@/pages/Person';
 import PersonTeam from '@/pages/PersonTeam';
 import ProjectType from '@/pages/ProjectType';
 import ProjectTheme from '@/pages/ProjectTheme';
+import ProjectProgram from '@/pages/ProjectProgram';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -39,6 +40,7 @@ const routeConfig = [
   { path: '/person', element: <Person />, isPrivate: true },
   { path: '/project-type', element: <ProjectType />, isPrivate: true },
   { path: '/project-theme', element: <ProjectTheme />, isPrivate: true },
+  { path: '/project-program', element: <ProjectProgram />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
