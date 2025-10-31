@@ -25,6 +25,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useNavigate, useLocation } from 'react-router-dom';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'; 
 import PaletteRoundedIcon from '@mui/icons-material/PaletteRounded';  
+import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 
 const IGESC_COLORS = {
   AZUL_CLARO: '#1E4EC4',
@@ -44,6 +45,7 @@ const menuItems = [
   { path: '/business-case', label: 'Grupo de Causas', icon: <Diversity2Icon /> },
   { path: '/project-type', label: 'Tipos de Projeto', icon: <CategoryRoundedIcon /> },
   { path: '/project-theme', label: 'Temas de Projeto', icon: <PaletteRoundedIcon /> },
+  { path: '/project-program', label: 'Projetos', icon: <AccountTreeRoundedIcon /> },
   { path: '/person', label: 'Pessoas', icon: <PeopleAltIcon /> },
   { path: '/company', label: 'Empresas', icon: <BusinessIcon /> },
   { path: '/donation', label: 'Doações', icon: <VolunteerActivismIcon /> },
