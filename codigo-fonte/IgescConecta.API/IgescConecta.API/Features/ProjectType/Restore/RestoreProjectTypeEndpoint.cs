@@ -1,5 +1,6 @@
 ﻿using IgescConecta.API.Common.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.ProjectTypes.RestoreProjectType
@@ -8,6 +9,7 @@ namespace IgescConecta.API.Features.ProjectTypes.RestoreProjectType
     [Route("/api/projecttypes")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "ProjectTypes")]
+    [Authorize(Roles = "Admin,Editor")]
     public class RestoreProjectTypeEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

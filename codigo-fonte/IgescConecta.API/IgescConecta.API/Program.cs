@@ -21,7 +21,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
 
-
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
                     ?? throw new InvalidOperationException("Missing config: Jwt:JwtIssuer");

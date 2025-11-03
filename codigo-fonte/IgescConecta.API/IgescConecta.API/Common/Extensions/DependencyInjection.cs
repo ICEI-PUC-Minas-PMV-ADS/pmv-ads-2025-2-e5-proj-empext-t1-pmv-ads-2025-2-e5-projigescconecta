@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace IgescConecta.API.Common.Extensions
 {
@@ -22,13 +23,14 @@ namespace IgescConecta.API.Common.Extensions
                              "Connection string 'DefaultConnection' não encontrada. " +
                              "Defina em appsettings/ambiente ou nas Connection Strings do App Service.");
 
-                options.UseSqlServer(cs, sql =>
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+                options.UseNpgsql(cs, npgsql =>
                 {
-                    // resiliente para nuvem
-                    sql.EnableRetryOnFailure(maxRetryCount: 5,
-                                             maxRetryDelay: TimeSpan.FromSeconds(10),
-                                             errorNumbersToAdd: null);
-                    sql.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                    npgsql.EnableRetryOnFailure(maxRetryCount: 5,
+                                                maxRetryDelay: TimeSpan.FromSeconds(10),
+                                                errorCodesToAdd: null);
+                    npgsql.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
                 });
             });
 
@@ -78,6 +80,7 @@ namespace IgescConecta.API.Common.Extensions
 
             return services;
         }
+
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration cfg)
         {
             services.AddScoped<IAuthAuthenticatonService, AuthAuthenticatonService>();
@@ -102,6 +105,7 @@ namespace IgescConecta.API.Common.Extensions
 
             return services;
         }
+
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentityCore<User>(op =>
