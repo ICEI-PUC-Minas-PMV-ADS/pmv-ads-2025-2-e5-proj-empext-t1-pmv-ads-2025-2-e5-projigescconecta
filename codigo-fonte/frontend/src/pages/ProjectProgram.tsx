@@ -171,7 +171,7 @@ const ProjectProgram: React.FC = () => {
       filters.push({
         propertyName: 'Decision',
         operation: EQUALS,
-        value: qDecisionOpt.value,
+        value: qDecisionOpt.label,
       });
     if (qOdsOpt)
       filters.push({ propertyName: 'OdsTypes', operation: CONTAINS, value: String(qOdsOpt.value) });
