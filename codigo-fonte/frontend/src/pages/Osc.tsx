@@ -291,7 +291,7 @@ const Osc: React.FC = () => {
     setFilterOscPrimaryDocumment('');
     setFilterState('');
     setFilterdCity('');
-    setFilterBeneficiaryId('');
+    setFilterBeneficiaryId(undefined);
     fetchOscs([]);
   };
 

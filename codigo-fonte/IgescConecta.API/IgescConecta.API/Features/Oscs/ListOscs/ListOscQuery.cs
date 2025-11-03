@@ -50,9 +50,9 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
 
         public int? OriginBussinesCaseId { get; set; }
 
-        public ListOscQuery(int pageNumber, int pageSize, List<Filter> filters, int? benefiacryId, int? originBussinesCaseId) : base(pageNumber, pageSize, filters)
+        public ListOscQuery(int pageNumber, int pageSize, List<Filter> filters, int? beneficiaryId, int? originBussinesCaseId) : base(pageNumber, pageSize, filters)
         {
-            BeneficiaryId = benefiacryId;
+            BeneficiaryId = beneficiaryId;
             OriginBussinesCaseId = originBussinesCaseId;
         }
     }
