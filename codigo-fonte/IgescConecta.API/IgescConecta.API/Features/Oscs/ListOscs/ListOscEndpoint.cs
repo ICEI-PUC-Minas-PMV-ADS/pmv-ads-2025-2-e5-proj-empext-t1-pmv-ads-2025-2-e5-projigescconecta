@@ -20,7 +20,7 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
         [HttpPost("ListOsc", Name = "ListOsc")]
         public async Task<ActionResult<ListOscViewModel>> ListOscs(ListOscRequest request)
         {
-            var result = await _mediator.Send(new ListOscQuery(request.PageNumber, request.PageSize, request.Filters, request.BeneficiaryId, request.OriginBusinesCaseId));
+            var result = await _mediator.Send(new ListOscQuery(request.PageNumber, request.PageSize, request.Filters, request.BeneficiaryId, request.OriginBusinessCaseId));
             return Ok(result);
         }
     }
@@ -31,6 +31,6 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
         public int PageSize { get; set; }
         public List<Filter> Filters { get; set; } = new();
         public int? BeneficiaryId { get; set; }
-        public int? OriginBusinesCaseId { get; set; }
+        public int? OriginBusinessCaseId { get; set; }
     }
 }
