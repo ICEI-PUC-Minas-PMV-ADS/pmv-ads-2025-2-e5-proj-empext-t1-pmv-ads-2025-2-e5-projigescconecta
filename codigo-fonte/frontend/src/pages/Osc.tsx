@@ -111,7 +111,8 @@ const Osc: React.FC = () => {
   const [filterOscPrimaryDocumment, setFilterOscPrimaryDocumment] = useState('');
   const [filterCity, setFilterdCity] = useState('');
   const [filterState, setFilterState] = useState('');
-  const [filterBeneficiaryId, setFilterBeneficiaryId] = useState<number | ''>('');
+  const [filterBeneficiaryId, setFilterBeneficiaryId] = useState<number | undefined>(undefined);
+  const [filterOriginBusinesCaseId, setFilterOriginBusinesCaseId] = useState<number | undefined>(undefined);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
@@ -201,7 +202,7 @@ const Osc: React.FC = () => {
     }
   };
 
-  const fetchOscs = async (customFilters?: Filter[]) => {
+  const fetchOscs = async (customFilters?: Filter[], beneficiaryId?: number, originBusinessCaseId?: number) => {
     try {
       setLoading(true);
       setOscs([]);
@@ -212,6 +213,8 @@ const Osc: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters.length > 0 ? filters : undefined,
+        beneficiaryId: beneficiaryId,
+        originBusinessCaseId: originBusinessCaseId
       };
 
       const { data } = await oscApi.listOsc(listOscRequest);
@@ -274,17 +277,12 @@ const Osc: React.FC = () => {
         value: filterOscPrimaryDocumment.trim(),
       });
     }
-
-    if (filterBeneficiaryId) {
-      filters.push({
-        propertyName: 'beneficiaries',
-        operation: 1,
-        value: filterBeneficiaryId,
-      });
-    }
+    
+    const beneficiaryId = filterBeneficiaryId || undefined;
+    const originBusinessCaseId = filterOriginBusinesCaseId || undefined
 
     setPage(0);
-    fetchOscs(filters);
+    fetchOscs(filters, beneficiaryId, originBusinessCaseId);
   };
 
   const handleClearFilters = () => {
@@ -641,7 +639,8 @@ const Osc: React.FC = () => {
                   filterCity ||
                   filterState ||
                   filterOscPrimaryDocumment ||
-                  filterBeneficiaryId
+                  filterBeneficiaryId ||
+                  filterOriginBusinesCaseId
                 ) && (
                     <Chip
                       label="Filtros ativos"
@@ -686,7 +685,7 @@ const Osc: React.FC = () => {
                   placeholder="Digite o UF..."
                   size="small"
                 />
-                <Autocomplete
+                {/* <Autocomplete
                   options={beneficiaryResults}
                   getOptionLabel={(option) => option.name ?? ''}
                   loading={beneficiaryLoading}
@@ -726,7 +725,7 @@ const Osc: React.FC = () => {
                       }}
                     />
                   )}
-                />
+                /> */}
               </Box>
               <Box
                 sx={{
