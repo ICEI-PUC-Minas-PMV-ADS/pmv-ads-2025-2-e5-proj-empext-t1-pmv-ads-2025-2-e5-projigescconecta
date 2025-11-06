@@ -337,7 +337,7 @@ const Beneficiary: React.FC = () => {
                     }}
                 >
                     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Exportar Público' />
+                        <TitleAndButtons title="Lista de Público" onAdd={handleAdd} addLabel="Novo Público" onImportCsv={handleUploadBeneficiary} importLabel='Importar Público' />
 
                         {/* Filtro por nome de Público */}
                         <Paper
