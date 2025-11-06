@@ -29,6 +29,7 @@ interface UploadCsvModalProps<T> {
   onClose: () => void;
   apiCreate: (item: T) => Promise<any>;
   expectedHeaders: (keyof T)[];
+  headerTranslations?: Record<string, string>;
   validateFields?: (item: T) => string | null;
   onFinish?: () => void;
 }
@@ -45,6 +46,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
   onClose,
   apiCreate,
   expectedHeaders,
+  headerTranslations = {},
   validateFields,
   onFinish,
 }: UploadCsvModalProps<T>) {
@@ -56,14 +58,38 @@ export function UploadCsvModal<T extends Record<string, any>>({
   const [processing, setProcessing] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
+  const reverseTranslations = Object.entries(headerTranslations).reduce(
+    (acc, [eng, pt]) => ({ ...acc, [pt]: eng }),
+    {} as Record<string, string>
+  );
+
+  const translateToPortuguese = (header: string): string => {
+    return headerTranslations[header] || header;
+  };
+
+  const translateToEnglish = (header: string): string => {
+    return reverseTranslations[header] || header;
+  };
+
+  const convertKeysToEnglish = (obj: Record<string, any>): T => {
+    const converted: Record<string, any> = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      const englishKey = translateToEnglish(key);
+      converted[englishKey] = value;
+    });
+    return converted as T;
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
     setFile(selectedFile);
   };
 
   const handleDownloadTemplate = () => {
+    const portugueseHeaders = expectedHeaders.map((h) => translateToPortuguese(String(h)));
+
     generateXlsx({
-      headers: expectedHeaders.map((h) => String(h)),
+      headers: portugueseHeaders,
       filename: `modelo_${title.toLowerCase().replace(/\s+/g, '_')}`,
     });
   };
@@ -73,9 +99,11 @@ export function UploadCsvModal<T extends Record<string, any>>({
 
     setLoading(true);
     try {
-      const data = await CsvService.parseCsvFile<T>(file);
-      console.log(data);
-      setParsedData(data);
+      const data = await CsvService.parseCsvFile<Record<string, any>>(file);
+
+      const convertedData = data.map((row) => convertKeysToEnglish(row));
+
+      setParsedData(convertedData);
       setShowPreview(true);
     } catch (error) {
       console.error('Erro ao processar CSV:', error);
@@ -86,26 +114,26 @@ export function UploadCsvModal<T extends Record<string, any>>({
   };
 
   const extractErrorMessage = (error: any): string => {
-  if (!error.response?.data) {
-    return 'Erro ao criar';
-  }
+    if (!error.response?.data) {
+      return 'Erro ao criar';
+    }
 
-  const data = error.response.data;
+    const data = error.response.data;
 
-  if (data.errors && Array.isArray(data.errors)) {
-    return data.errors.join(', ');
-  }
+    if (data.errors && Array.isArray(data.errors)) {
+      return data.errors.join(', ');
+    }
 
-  if (typeof data.message === 'string') {
-    return data.message;
-  }
+    if (typeof data.message === 'string') {
+      return data.message;
+    }
 
-  if (typeof data === 'string') {
-    return data;
-  }
+    if (typeof data === 'string') {
+      return data;
+    }
 
-  return JSON.stringify(data);
-};
+    return JSON.stringify(data);
+  };
 
   const handleUpload = async () => {
     setProcessing(true);
@@ -181,13 +209,14 @@ export function UploadCsvModal<T extends Record<string, any>>({
 
     const csvHeaders = Object.keys(parsedData[0]);
     const expected = expectedHeaders.map(String);
+    const expectedConverted = expectedHeaders.map((h) => translateToPortuguese(String(h)));
 
     const missing = expected.filter((h) => !csvHeaders.includes(h));
     const extra = csvHeaders.filter((h) => !expected.includes(h));
 
     if (missing.length > 0 || extra.length > 0) {
       return `As colunas do CSV não estão corretas.
-            Esperado: [${expected.join(', ')}]
+            Esperado: [${expectedConverted.join(', ')}]
             Encontrado: [${csvHeaders.join(', ')}]`;
     }
 
@@ -300,12 +329,8 @@ export function UploadCsvModal<T extends Record<string, any>>({
                         },
                       }}
                     >
-                      <TableCell sx={{ fontSize: '0.875rem', color: '#374151' }}>
-                        {r.id}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: '0.875rem', color: '#374151' }}>
-                        {r.row}
-                      </TableCell>
+                      <TableCell sx={{ fontSize: '0.875rem', color: '#374151' }}>{r.id}</TableCell>
+                      <TableCell sx={{ fontSize: '0.875rem', color: '#374151' }}>{r.row}</TableCell>
                       <TableCell sx={{ fontSize: '0.875rem', color: '#374151' }}>
                         {r.name}
                       </TableCell>
@@ -348,7 +373,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Chip
-                  label={`${results.filter(r => r.message.includes('sucesso')).length} sucessos`}
+                  label={`${results.filter((r) => r.message.includes('sucesso')).length} sucessos`}
                   size="small"
                   sx={{
                     bgcolor: '#10b981',
@@ -356,9 +381,9 @@ export function UploadCsvModal<T extends Record<string, any>>({
                     fontWeight: 600,
                   }}
                 />
-                {results.filter(r => !r.message.includes('sucesso')).length > 0 && (
+                {results.filter((r) => !r.message.includes('sucesso')).length > 0 && (
                   <Chip
-                    label={`${results.filter(r => !r.message.includes('sucesso')).length} erros`}
+                    label={`${results.filter((r) => !r.message.includes('sucesso')).length} erros`}
                     size="small"
                     sx={{
                       bgcolor: '#ef4444',
@@ -536,7 +561,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
                           fontSize: '0.875rem',
                         }}
                       >
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                        {translateToPortuguese(key)}
                       </TableCell>
                     ))}
                   </TableRow>
