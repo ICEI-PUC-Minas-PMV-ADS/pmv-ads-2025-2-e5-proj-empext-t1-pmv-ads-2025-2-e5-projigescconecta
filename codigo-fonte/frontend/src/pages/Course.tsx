@@ -84,6 +84,10 @@ const Course: React.FC = () => {
     { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
   ];
 
+  const headerTranslations = {
+    name: 'Nome do Programa',
+  };
+
   /* --------------------------------- Funções -------------------------------- */
 
   const fetchCourses = async (noFilter?) => {
@@ -581,6 +585,7 @@ const Course: React.FC = () => {
           onClose={() => setUploadOpen(false)}
           apiCreate={apiCreate}
           expectedHeaders={['name']}
+          headerTranslations={headerTranslations}
           validateFields={validateCourseForm}
           onFinish={() => fetchCourses([])}
         />

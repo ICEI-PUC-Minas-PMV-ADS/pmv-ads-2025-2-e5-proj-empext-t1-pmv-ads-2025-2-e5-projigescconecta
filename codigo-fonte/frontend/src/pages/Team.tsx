@@ -3,10 +3,6 @@ import {
   Box,
   Container,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
   FormControl,
   InputLabel,
@@ -19,10 +15,7 @@ import {
   Paper,
   alpha,
   TextField,
-  Autocomplete,
   Divider,
-  Stack,
-  Checkbox,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
@@ -49,6 +42,7 @@ import {
 } from './../api';
 import { apiConfig } from '../services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 
@@ -80,6 +74,14 @@ interface Course {
 interface Person {
   id?: number;
   name?: string;
+}
+
+interface TeamCsvRow {
+  name: string;
+  lessonTime?: string;
+  start?: string;
+  finish?: string;
+  courseId?: number;
 }
 
 const Team: React.FC = () => {
@@ -126,6 +128,8 @@ const Team: React.FC = () => {
     team: null as Team | null,
     loading: false,
   });
+
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   // Instâncias da API
   const teamsApi = new TeamsApi(apiConfig);
@@ -294,7 +298,7 @@ const Team: React.FC = () => {
   };
 
   const columns: Column<Team>[] = [
-    /* { label: 'ID', field: 'teamId' }, */
+    { label: 'ID', field: 'teamId' },
     { label: 'Nome', field: 'name' },
     { label: 'Data Início', field: 'start' },
     { label: 'Data Fim', field: 'finish' },
@@ -506,6 +510,45 @@ const Team: React.FC = () => {
     }
   }
 
+  /* -------------------------------- Funções CSV -------------------------------- */
+
+  const formatFieldName = (field: string): string => {
+    const mapping: { [key: string]: string } = {
+      name: 'Nome',
+      lessonTime: 'Horário da Aula',
+      start: 'Data de Início',
+      finish: 'Data de Fim',
+      courseId: 'Programa'
+    };
+    return mapping[field] || field;
+  };
+
+  const validateTeamForm = (team: any): string | null => {
+    const requiredFields = ['name'];
+
+    for (const field of requiredFields) {
+      if (!team[field] || team[field].toString().trim() === '') {
+        const message = `O campo "${formatFieldName(field)}" é obrigatório!`;
+        toast.error(message);
+        return message;
+      }
+    }
+
+    return null;
+  };
+
+  const handleUploadTeam = () => {
+    setUploadOpen(true);
+  };
+
+  const apiCreate = (data: TeamCsvRow) => teamsApi.createTeam({
+    name: data.name,
+    lessonTime: data.lessonTime || null,
+    start: data.start || null,
+    finish: data.finish || null,
+    courseId: data.courseId || undefined,
+  });
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
@@ -529,7 +572,13 @@ const Team: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
-            <TitleAndButtons title="Listar Turmas" onAdd={handleAdd} addLabel="Nova Turma" />
+            <TitleAndButtons 
+              title="Listar Turmas" 
+              onAdd={handleAdd} 
+              addLabel="Nova Turma" 
+              onImportCsv={handleUploadTeam}
+              importLabel="Importar Turma"
+            />
 
             {/* Campo de pesquisa + botão */}
             <Paper
@@ -1041,6 +1090,18 @@ const Team: React.FC = () => {
         loading={confirmDialog.loading}
         danger={true}
       />
+
+      {/* Upload CSV Modal */}
+      {isUploadOpen && (
+        <UploadCsvModal<TeamCsvRow>
+          title="Importar Turma"
+          onClose={() => setUploadOpen(false)}
+          apiCreate={apiCreate}
+          expectedHeaders={['name', 'lessonTime', 'start', 'finish', 'courseId']}
+          validateFields={validateTeamForm}
+          onFinish={() => fetchTeams([])}
+        />
+      )}
     </LocalizationProvider>
   );
 };
