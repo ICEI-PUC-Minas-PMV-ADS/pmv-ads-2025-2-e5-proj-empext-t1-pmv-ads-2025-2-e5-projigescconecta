@@ -53,6 +53,8 @@ import { useNavigate } from 'react-router-dom';
 
 dayjs.locale('pt-br');
 
+const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
+
 interface Osc {
   oscId?: number;
   name?: string;
@@ -611,8 +613,6 @@ const Osc: React.FC = () => {
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
             <TitleAndButtons title="Lista de Osc's" onAdd={handleAdd} addLabel="Nova OSC" />
-
-            {/* Filtro por nome de OSC */}
             <Paper
               elevation={0}
               sx={{
@@ -624,24 +624,14 @@ const Osc: React.FC = () => {
                 borderRadius: 2,
               }}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  mb: 2.5,
-                }}
-              >
+              {/* Cabeçalho */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
                 <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
                 <Typography
                   variant="h6"
-                  sx={{
-                    color: '#1a1a2e',
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                  }}
+                  sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
                 >
-                  Filtro de Busca
+                  Filtros
                 </Typography>
 
                 {(filterOscName ||
@@ -649,8 +639,7 @@ const Osc: React.FC = () => {
                   filterState ||
                   filterOscPrimaryDocumment ||
                   filterBeneficiaryId ||
-                  filterOriginBusinesCaseId
-                ) && (
+                  filterOriginBusinesCaseId) && (
                     <Chip
                       label="Filtros ativos"
                       size="small"
@@ -665,191 +654,158 @@ const Osc: React.FC = () => {
                   )}
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2, mb: 2.5 }}>
-                <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
-                  <TextField
-                    label="Nome da OSC"
-                    value={filterOscName}
-                    onChange={(e) => setFilterOscName(e.target.value)}
-                    placeholder="Digite o nome..."
-                    size="small"
-                  />
-                  <TextField
-                    label="CNPJ"
-                    value={filterOscPrimaryDocumment}
-                    onChange={(e) => setFilterOscPrimaryDocumment(e.target.value)}
-                    placeholder="Digite o CNPJ..."
-                    size="small"
-                  />
-                  <TextField
-                    label="Cidade"
-                    value={filterCity}
-                    onChange={(e) => setFilterdCity(e.target.value)}
-                    placeholder="Digite o nome da Cidade..."
-                    size="small"
-                  />
-                  <TextField
-                    label="UF"
-                    value={filterState}
-                    onChange={(e) => setFilterState(e.target.value)}
-                    placeholder="Digite o UF..."
-                    size="small"
-                  />
-                </Stack>
-                <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
-                  <Autocomplete
-                    options={beneficiaryResults}
-                    getOptionLabel={(option) => option.name ?? ''}
-                    loading={beneficiaryLoading}
-                    value={selectedBeneficiaryFilter}
-                    onChange={(event, newValue) => {
-                      setSelectedBeneficiaryFilter(newValue)
-                      setFilterBeneficiaryId(newValue?.beneficiaryId ?? undefined);
-                    }}
-                    inputValue={inputBeneficiaryValueFilter}
-                    onInputChange={(event, newInputValue, reason) => {
-                      setInputBeneficiaryValueFilter(newInputValue);
-                      if (reason === 'input') {
-                        fetchBeneficiaries(newInputValue);
-                      }
-                    }}
-                    onOpen={() => { fetchBeneficiaries(''); }}
-                    isOptionEqualToValue={(option, value) =>
-                      option.beneficiaryId === value.beneficiaryId
-                    }
-                    sx={{
-                      minWidth: 223,
-                      '& .MuiAutocomplete-inputRoot': {
-                        height: 40,
-                        boxSizing: 'border-box',
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Público"
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {beneficiaryLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                              {params.InputProps.endAdornment}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
-                  />
-                  <Autocomplete
-                    options={originBusinessCaseResults}
-                    getOptionLabel={(option) => option.name ?? ''}
-                    loading={originBusinessCaseLoading}
-                    value={selectedOriginBusinessCaseFilter}
-                    onChange={(event, newValue) => {
-                      setSelectedOriginBusinessCaseFilter(newValue)
-                      setFilterOriginBusinesCaseId(newValue?.originBusinessCaseId ?? undefined);
-                    }}
-                    inputValue={inputOriginBusinessCaseValueFilter}
-                    onInputChange={(event, newInputValue, reason) => {
-                      setInputOriginBusinessCaseValueFilter(newInputValue);
-                      if (reason === 'input') {
-                        fetchOriginBusinessCase(newInputValue);
-                      }
-                    }}
-                    onOpen={() => { fetchOriginBusinessCase(''); }}
-                    isOptionEqualToValue={(option, value) =>
-                      option.originBusinessCaseId === value.originBusinessCaseId
-                    }
-                    sx={{
-                      minWidth: 223,
-                      '& .MuiAutocomplete-inputRoot': {
-                        height: 40,
-                        boxSizing: 'border-box',
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Causa"
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {originBusinessCaseLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                              {params.InputProps.endAdornment}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
-                  />
-                </Stack>
-                <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
-                  <Box
-                    sx={{
-                      mt: 2.5,
-                      gap: 3,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'start',
-                      flexWrap: 'wrap',
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      startIcon={<SearchIcon />}
-                      onClick={handleSearch}
-                      sx={{
-                        bgcolor: '#1E4EC4',
-                        color: 'white',
-                        fontWeight: 600,
-                        px: 4,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        fontSize: '0.95rem',
-                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                        '&:hover': {
-                          bgcolor: '#1640a8',
-                          boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                          transform: 'translateY(-1px)',
-                        },
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      Buscar
-                    </Button>
+              {/* Linha 1 */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                <TextField
+                  label="Nome da OSC"
+                  value={filterOscName}
+                  onChange={(e) => setFilterOscName(e.target.value)}
+                  placeholder="Digite o nome..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="CNPJ"
+                  value={filterOscPrimaryDocumment}
+                  onChange={(e) => setFilterOscPrimaryDocumment(e.target.value)}
+                  placeholder="Digite o CNPJ..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="Cidade"
+                  value={filterCity}
+                  onChange={(e) => setFilterdCity(e.target.value)}
+                  placeholder="Digite a cidade..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="UF"
+                  value={filterState}
+                  onChange={(e) => setFilterState(e.target.value)}
+                  placeholder="Digite o UF..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+              </Stack>
 
-                    <Button
-                      variant="outlined"
-                      startIcon={<ClearIcon />}
-                      onClick={handleClearFilters}
-                      sx={{
-                        borderColor: alpha('#1E4EC4', 0.3),
-                        color: '#1E4EC4',
-                        fontWeight: 600,
-                        px: 4,
-                        py: 1,
-                        borderRadius: 1.5,
-                        textTransform: 'none',
-                        fontSize: '0.95rem',
-                        '&:hover': {
-                          borderColor: '#1E4EC4',
-                          bgcolor: alpha('#1E4EC4', 0.05),
-                          borderWidth: 1.5,
-                        },
-                        transition: 'all 0.2s ease',
+              {/* Linha 2 */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                <Autocomplete
+                  options={beneficiaryResults}
+                  getOptionLabel={(option) => option.name ?? ''}
+                  loading={beneficiaryLoading}
+                  value={selectedBeneficiaryFilter}
+                  onChange={(event, newValue) => {
+                    setSelectedBeneficiaryFilter(newValue);
+                    setFilterBeneficiaryId(newValue?.beneficiaryId ?? undefined);
+                  }}
+                  inputValue={inputBeneficiaryValueFilter}
+                  onInputChange={(event, newInputValue, reason) => {
+                    setInputBeneficiaryValueFilter(newInputValue);
+                    if (reason === 'input') fetchBeneficiaries(newInputValue);
+                  }}
+                  onOpen={() => fetchBeneficiaries('')}
+                  isOptionEqualToValue={(option, value) =>
+                    option.beneficiaryId === value.beneficiaryId
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Público"
+                      size="small"
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {beneficiaryLoading ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
                       }}
-                    >
-                      Limpar Filtros
-                    </Button>
-                  </Box>
-                </Stack>
-              </Box>
+                    />
+                  )}
+                  sx={FIELD_STYLE}
+                />
+
+                <Autocomplete
+                  options={originBusinessCaseResults}
+                  getOptionLabel={(option) => option.name ?? ''}
+                  loading={originBusinessCaseLoading}
+                  value={selectedOriginBusinessCaseFilter}
+                  onChange={(event, newValue) => {
+                    setSelectedOriginBusinessCaseFilter(newValue);
+                    setFilterOriginBusinesCaseId(newValue?.originBusinessCaseId ?? undefined);
+                  }}
+                  inputValue={inputOriginBusinessCaseValueFilter}
+                  onInputChange={(event, newInputValue, reason) => {
+                    setInputOriginBusinessCaseValueFilter(newInputValue);
+                    if (reason === 'input') fetchOriginBusinessCase(newInputValue);
+                  }}
+                  onOpen={() => fetchOriginBusinessCase('')}
+                  isOptionEqualToValue={(option, value) =>
+                    option.originBusinessCaseId === value.originBusinessCaseId
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Causa"
+                      size="small"
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {originBusinessCaseLoading ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
+                      }}
+                    />
+                  )}
+                  sx={FIELD_STYLE}
+                />
+              </Stack>
+
+              {/* Botões de Busca e Limpar */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
+                <Button
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                  onClick={handleSearch}
+                  sx={{
+                    bgcolor: '#1E4EC4',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                  }}
+                >
+                  Buscar
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  sx={{
+                    borderColor: alpha('#1E4EC4', 0.3),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
+              </Stack>
             </Paper>
 
             {/* Tabela */}
