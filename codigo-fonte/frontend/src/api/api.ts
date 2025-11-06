@@ -546,6 +546,32 @@ export interface CreateOscResponse {
 /**
  * 
  * @export
+ * @interface CreatePersonOscRequest
+ */
+export interface CreatePersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscRequest
+     */
+    'personId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonOscResponse
+ */
+export interface CreatePersonOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CreatePersonRequest
  */
 export interface CreatePersonRequest {
@@ -720,6 +746,76 @@ export interface CreatePersonTeamResponse {
      * @memberof CreatePersonTeamResponse
      */
     'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectProgramRequest
+ */
+export interface CreateProjectProgramRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectProgramRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof CreateProjectProgramRequest
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof CreateProjectProgramRequest
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectDocumentId'?: number | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateProjectProgramResponse
+ */
+export interface CreateProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramResponse
+     */
+    'projectProgramId'?: number;
 }
 /**
  * 
@@ -914,6 +1010,19 @@ export interface DeletePersonTeamResponse {
 /**
  * 
  * @export
+ * @interface DeleteProjectProgramResponse
+ */
+export interface DeleteProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteProjectProgramResponse
+     */
+    'projectProgramId'?: number;
+}
+/**
+ * 
+ * @export
  * @interface DeleteProjectThemeResponse
  */
 export interface DeleteProjectThemeResponse {
@@ -1025,6 +1134,76 @@ export interface EditPersonTeamResponse {
      * @memberof EditPersonTeamResponse
      */
     'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectProgramRequest
+ */
+export interface EditProjectProgramRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectProgramRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof EditProjectProgramRequest
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof EditProjectProgramRequest
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectDocumentId'?: number | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditProjectProgramResponse
+ */
+export interface EditProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramResponse
+     */
+    'projectProgramId'?: number;
 }
 /**
  * 
@@ -1538,6 +1717,105 @@ export interface GetOscResponse {
      */
     'originsBusinessCases'?: Array<GetOscOriginBusinessCaseResponse>;
 }
+/**
+ * 
+ * @export
+ * @interface GetProjectProgramByIdViewModel
+ */
+export interface GetProjectProgramByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectThemeName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectTypeName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscCnpj'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectDocumentId'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'isDeleted'?: boolean;
+}
+
+
 /**
  * 
  * @export
@@ -2070,6 +2348,50 @@ export interface ListOscViewModel {
 /**
  * 
  * @export
+ * @interface ListPersonOscRequest
+ */
+export interface ListPersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonOscRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonOscViewModel
+ */
+export interface ListPersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonOscViewModel>}
+     * @memberof ListPersonOscViewModel
+     */
+    'items'?: Array<PersonOscViewModel>;
+}
+/**
+ * 
+ * @export
  * @interface ListPersonRequest
  */
 export interface ListPersonRequest {
@@ -2110,6 +2432,50 @@ export interface ListPersonViewModel {
      * @memberof ListPersonViewModel
      */
     'items'?: Array<PersonListItemViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectProgramRequest
+ */
+export interface ListProjectProgramRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectProgramRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectProgramViewModel
+ */
+export interface ListProjectProgramViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectProgramListItemViewModel>}
+     * @memberof ListProjectProgramViewModel
+     */
+    'items'?: Array<ProjectProgramListItemViewModel>;
 }
 /**
  * 
@@ -2429,6 +2795,35 @@ export type MemberType = typeof MemberType[keyof typeof MemberType];
  * @enum {string}
  */
 
+export const OdsType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8,
+    NUMBER_9: 9,
+    NUMBER_10: 10,
+    NUMBER_11: 11,
+    NUMBER_12: 12,
+    NUMBER_13: 13,
+    NUMBER_14: 14,
+    NUMBER_15: 15,
+    NUMBER_16: 16,
+    NUMBER_17: 17
+} as const;
+
+export type OdsType = typeof OdsType[keyof typeof OdsType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
 export const Op = {
     NUMBER_0: 0,
     NUMBER_1: 1,
@@ -2646,6 +3041,49 @@ export interface PersonListItemViewModel {
      * @memberof PersonListItemViewModel
      */
     'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PersonOscViewModel
+ */
+export interface PersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personOscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'primaryPhone'?: string | null;
 }
 /**
  * 
@@ -2884,6 +3322,115 @@ export interface ProblemDetails {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const ProjectDecisionType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ProjectDecisionType = typeof ProjectDecisionType[keyof typeof ProjectDecisionType];
+
+
+/**
+ * 
+ * @export
+ * @interface ProjectProgramListItemViewModel
+ */
+export interface ProjectProgramListItemViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectThemeName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectTypeName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'teamName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscCnpj'?: string | null;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'odsTypes'?: Array<OdsType>;
+}
+
+
+/**
+ * 
+ * @export
  * @interface ProjectThemeViewModel
  */
 export interface ProjectThemeViewModel {
@@ -2968,6 +3515,19 @@ export interface ResetPasswordResponse {
      * @memberof ResetPasswordResponse
      */
     'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RestoreProjectProgramResponse
+ */
+export interface RestoreProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof RestoreProjectProgramResponse
+     */
+    'projectProgramId'?: number;
 }
 /**
  * 
@@ -7036,6 +7596,266 @@ export class OscsApi extends BaseAPI {
 
 
 /**
+ * PersonOscApi - axios parameter creator
+ * @export
+ */
+export const PersonOscApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc: async (oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('createPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/create`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc: async (personOscId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personOscId' is not null or undefined
+            assertParamExists('deletePersonOsc', 'personOscId', personOscId)
+            const localVarPath = `/api/person-osc/{personOscId}`
+                .replace(`{${"personOscId"}}`, encodeURIComponent(String(personOscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc: async (oscId: number, listPersonOscRequest?: ListPersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('listPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/list`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonOscApi - functional programming interface
+ * @export
+ */
+export const PersonOscApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonOscApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonOsc(oscId, createPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.createPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonOsc(personOscId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.deletePersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonOscViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonOsc(oscId, listPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.listPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonOscApi - factory interface
+ * @export
+ */
+export const PersonOscApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonOscApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: any): AxiosPromise<CreatePersonOscResponse> {
+            return localVarFp.createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc(personOscId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePersonOsc(personOscId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: any): AxiosPromise<ListPersonOscViewModel> {
+            return localVarFp.listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonOscApi - object-oriented interface
+ * @export
+ * @class PersonOscApi
+ * @extends {BaseAPI}
+ */
+export class PersonOscApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personOscId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).deletePersonOsc(personOscId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {ListPersonOscRequest} [listPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * PersonTeamsApi - axios parameter creator
  * @export
  */
@@ -7881,6 +8701,466 @@ export class PersonsApi extends BaseAPI {
      */
     public updatePerson(personId: number, updatePersonRequest?: UpdatePersonRequest, options?: RawAxiosRequestConfig) {
         return PersonsApiFp(this.configuration).updatePerson(personId, updatePersonRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectProgramsApi - axios parameter creator
+ * @export
+ */
+export const ProjectProgramsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectProgram: async (createProjectProgramRequest?: CreateProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectprograms`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectProgram: async (projectProgramId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('deleteProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectProgram: async (projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('editProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectProgramById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectProgramById', 'id', id)
+            const localVarPath = `/api/projectprograms/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectProgram: async (listProjectProgramRequest?: ListProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectprograms/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectProgram: async (projectProgramId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('restoreProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}/restore`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectProgramsApi - functional programming interface
+ * @export
+ */
+export const ProjectProgramsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectProgramsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectProgram(createProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.createProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectProgram(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.deleteProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectProgram(projectProgramId, editProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.editProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectProgramById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectProgramByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectProgramById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.getProjectProgramById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectProgramViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectProgram(listProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.listProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restoreProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RestoreProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreProjectProgram(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.restoreProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectProgramsApi - factory interface
+ * @export
+ */
+export const ProjectProgramsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectProgramsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: any): AxiosPromise<CreateProjectProgramResponse> {
+            return localVarFp.createProjectProgram(createProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectProgram(projectProgramId: number, options?: any): AxiosPromise<DeleteProjectProgramResponse> {
+            return localVarFp.deleteProjectProgram(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: any): AxiosPromise<EditProjectProgramResponse> {
+            return localVarFp.editProjectProgram(projectProgramId, editProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectProgramById(id: number, options?: any): AxiosPromise<GetProjectProgramByIdViewModel> {
+            return localVarFp.getProjectProgramById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: any): AxiosPromise<ListProjectProgramViewModel> {
+            return localVarFp.listProjectProgram(listProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectProgram(projectProgramId: number, options?: any): AxiosPromise<RestoreProjectProgramResponse> {
+            return localVarFp.restoreProjectProgram(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectProgramsApi - object-oriented interface
+ * @export
+ * @class ProjectProgramsApi
+ * @extends {BaseAPI}
+ */
+export class ProjectProgramsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).createProjectProgram(createProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public deleteProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).deleteProjectProgram(projectProgramId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).editProjectProgram(projectProgramId, editProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public getProjectProgramById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).getProjectProgramById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).listProjectProgram(listProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public restoreProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).restoreProjectProgram(projectProgramId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

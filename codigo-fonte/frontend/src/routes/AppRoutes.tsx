@@ -20,6 +20,8 @@ import Person from '@/pages/Person';
 import PersonTeam from '@/pages/PersonTeam';
 import ProjectType from '@/pages/ProjectType';
 import ProjectTheme from '@/pages/ProjectTheme';
+import ProjectProgram from '@/pages/ProjectProgram';
+import PersonOsc from '@/pages/PersonOsc';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -33,12 +35,14 @@ const routeConfig = [
   { path: '/beneficiary', element: <Beneficiary />, isPrivate: true },
   { path: '/business-case', element: <BusinessCase />, isPrivate: true },
   { path: '/business-case/:businessCaseId/origin-business-case', element: <OriginBusinessCase />, isPrivate: true },
+  { path: '/osc/:oscId/person-osc', element: <PersonOsc />, isPrivate: true },
   { path: '/company', element: <Company />, isPrivate: true },
   { path: '/donation', element: <Donation />, isPrivate: true },
   { path: '/user', element: <User />, isPrivate: true },
   { path: '/person', element: <Person />, isPrivate: true },
   { path: '/project-type', element: <ProjectType />, isPrivate: true },
   { path: '/project-theme', element: <ProjectTheme />, isPrivate: true },
+  { path: '/project-program', element: <ProjectProgram />, isPrivate: true },
 ];
 
 export default function AppRoutes() {
