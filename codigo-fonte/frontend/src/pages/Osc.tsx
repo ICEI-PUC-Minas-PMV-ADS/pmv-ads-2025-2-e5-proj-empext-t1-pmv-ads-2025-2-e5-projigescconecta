@@ -355,6 +355,8 @@ const Osc: React.FC = () => {
     setBeneficiaryResults([])
     setInputBeneficiaryValue('')
     setFilterBeneficiaryId(undefined);
+    setSelectedBeneficiaryFilter(null);
+    setSelectedOriginBusinessCaseFilter(null);
     fetchOscs([]);
   };
 
