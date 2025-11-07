@@ -316,6 +316,11 @@ const Beneficiary: React.FC = () => {
         { label: 'Observações', field: 'notes' },
     ];
 
+    const headerTranslations ={
+        name: 'Nome*',
+        notes: 'Observação*'
+    }
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
             <Container
@@ -525,6 +530,7 @@ const Beneficiary: React.FC = () => {
                                 onClose={() => setUploadOpen(false)}
                                 apiCreate={apiCreate}
                                 expectedHeaders={['name', 'notes']}
+                                headerTranslations={headerTranslations}
                                 validateFields={validateBeneficiaryForm}
                                 onFinish={() => fetchBeneficiaries()}
                             />
