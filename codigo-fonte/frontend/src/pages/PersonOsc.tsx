@@ -33,6 +33,7 @@ import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 
@@ -52,6 +53,10 @@ interface Person {
     email?: string;
     personalDocumment?: string;
     primaryPhone?: string | null;
+}
+
+interface PersonOscRow {
+    personId: string | number;
 }
 
 const PersonOsc: React.FC = () => {
@@ -77,6 +82,7 @@ const PersonOsc: React.FC = () => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [personOscToDelete, setPersonOscToDelete] = useState<PersonOsc | null>(null);
+    const [isUploadOpen, setUploadOpen] = useState(false);
 
     const personOscApi = new PersonOscApi(apiConfig);
     const personApi = new PersonsApi(apiConfig)
@@ -92,6 +98,22 @@ const PersonOsc: React.FC = () => {
     useEffect(() => {
         fetchPersonOsc()
     }, [page, rowsPerPage])
+
+    const handleUploadPersonOsc = () => {
+        setUploadOpen(true);
+    }
+
+    const apiCreate = (data: PersonOscRow) => {
+        const personId = typeof data.personId === 'string'
+            ? Number(data.personId.trim())
+            : data.personId;
+
+        return personOscApi.createPersonOsc(
+            Number(oscId),
+            {
+                personId
+            })
+    }
 
     const fetchPersonOsc = async (customFilters?: Filter[]) => {
         try {
@@ -265,7 +287,7 @@ const PersonOsc: React.FC = () => {
     const handleSearch = () => {
         const filters: Filter[] = [];
 
-        if(filterPersonName && filterPersonName.trim() !== ''){
+        if (filterPersonName && filterPersonName.trim() !== '') {
             filters.push({
                 propertyName: 'person.name',
                 operation: 7,
@@ -301,6 +323,10 @@ const PersonOsc: React.FC = () => {
                     : ''
         }
     ];
+
+    const headerTranslations ={
+        personId: 'Id da Pessoa*'
+    }
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -350,7 +376,7 @@ const PersonOsc: React.FC = () => {
                             <span style={{ color: '#555' }}> Integrantes</span>
                         </div>
 
-                        <TitleAndButtons title="Lista de Integrantes" onAdd={handleAdd} addLabel="Novo Integrante" />
+                        <TitleAndButtons title="Lista de Integrantes" onAdd={handleAdd} addLabel="Novo Integrante" onImportCsv={handleUploadPersonOsc} importLabel='Importar Pessoa'/>
 
                         {/* Filtro por nome de Causa */}
                         <Paper
@@ -529,6 +555,19 @@ const PersonOsc: React.FC = () => {
                             cancelLabel='Cancelar'
                             danger
                         />
+
+                        {/* Upload Excel Modal */}
+                        {isUploadOpen &&(
+                            <UploadCsvModal
+                                title='Importar Pessoa'
+                                onClose={() => setUploadOpen(false)}
+                                apiCreate={apiCreate}
+                                expectedHeaders={['personId']}
+                                headerTranslations={headerTranslations}
+                                validateFields={validateForm}
+                                onFinish={() => fetchPersonOsc()}
+                            />
+                        )}
 
 
                         {/* Modal */}
