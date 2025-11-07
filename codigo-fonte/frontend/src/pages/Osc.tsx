@@ -50,6 +50,7 @@ import { PatternFormat } from 'react-number-format';
 import { fetchZipCode, SimplifyResponse } from '@/services/cep';
 import DialogPadronized from '@/components/DialogPadronized';
 import { useNavigate } from 'react-router-dom';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 
@@ -83,6 +84,24 @@ interface Beneficiary {
 interface OriginBusinessCase {
   originBusinessCaseId?: number;
   name?: string;
+}
+
+interface OscCsvRow {
+  name: string;
+  objective: string;
+  corporateName: string;
+  address: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  phoneNumber: string;
+  email?: string;
+  webUrl?: string;
+  socialMedia?: string;
+  zipCode: string;
+  oscPrimaryDocumment?: string;
+  beneficiariesIds?: string | number[];
+  originsBusinessCasesIds?: string | number[];
 }
 
 const Osc: React.FC = () => {
@@ -123,6 +142,7 @@ const Osc: React.FC = () => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
@@ -148,6 +168,38 @@ const Osc: React.FC = () => {
   useEffect(() => {
     fetchOscs();
   }, [page, rowsPerPage]);
+
+  const handleUploadOsc = () => {
+    setUploadOpen(true);
+  }
+
+  const apiCreate = (data: OscCsvRow) => {
+    const beneficiariesIds = typeof data.beneficiariesIds === 'string'
+      ? data.beneficiariesIds.split(',').map(id => Number(id.trim())).filter(n => !isNaN(n))
+      : data.beneficiariesIds;
+
+    const originsBusinessCasesIds = typeof data.originsBusinessCasesIds === 'string'
+      ? data.originsBusinessCasesIds.split(',').map(id => Number(id.trim())).filter(n => !isNaN(n))
+      : data.originsBusinessCasesIds;
+
+    return oscApi.createOsc({
+      name: data.name,
+      objective: data.objective,
+      corporateName: data.corporateName,
+      address: data.address,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      state: data.state,
+      phoneNumber: data.phoneNumber,
+      email: data.email, 
+      webUrl: data.webUrl,
+      socialMedia: data.socialMedia,
+      zipCode: data.zipCode,
+      oscPrimaryDocumment: data.oscPrimaryDocumment,
+      beneficiariesIds,
+      originsBusinessCasesIds
+    });
+  };
 
   const fetchBeneficiaries = async (searchValue: string) => {
     try {
@@ -303,6 +355,8 @@ const Osc: React.FC = () => {
     setBeneficiaryResults([])
     setInputBeneficiaryValue('')
     setFilterBeneficiaryId(undefined);
+    setSelectedBeneficiaryFilter(null);
+    setSelectedOriginBusinessCaseFilter(null);
     fetchOscs([]);
   };
 
@@ -589,6 +643,24 @@ const Osc: React.FC = () => {
     { label: 'Público Atendido', field: 'beneficiariesCount' },
   ];
 
+  const headerTranslations = {
+    name: 'Nome da OSC*',
+    objective: 'Objetivo*',
+    corporateName: 'Razão Social*',
+    zipCode: 'CEP*',
+    address: 'Endereço*',
+    neighborhood: 'Bairro*',
+    city: 'Cidade*',
+    state: 'Estado*',
+    phoneNumber: 'Número de Telefone*',
+    email: 'Email',
+    webUrl: 'Website',
+    socialMedia: 'Mídia Social',
+    oscPrimaryDocumment: 'CNPJ',
+    beneficiariesIds: 'Id de Público',
+    originsBusinessCasesIds: 'Id de Causa'
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
@@ -612,7 +684,7 @@ const Osc: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-            <TitleAndButtons title="Lista de Osc's" onAdd={handleAdd} addLabel="Nova OSC" />
+            <TitleAndButtons title="Lista de Osc's" onAdd={handleAdd} addLabel="Nova OSC" onImportCsv={handleUploadOsc} importLabel='Importar OSC' />
             <Paper
               elevation={0}
               sx={{
@@ -850,6 +922,19 @@ const Osc: React.FC = () => {
               cancelLabel='Cancelar'
               danger
             />
+
+            {/* Upload Excel Modal */}
+            {isUploadOpen && (
+              <UploadCsvModal<OscCsvRow>
+                title='Importar OSC'
+                onClose={() => setUploadOpen(false)}
+                apiCreate={apiCreate}
+                expectedHeaders={['name', 'objective', 'corporateName', 'address', 'neighborhood', 'city', 'state', 'phoneNumber', 'email', 'webUrl', 'socialMedia', 'zipCode', 'oscPrimaryDocumment', 'beneficiariesIds', 'originsBusinessCasesIds']}
+                headerTranslations={headerTranslations}
+                validateFields={validateOscForm}
+                onFinish={() => fetchOscs()}
+              />
+            )}
 
             {/* Modal */}
             <DialogPadronized

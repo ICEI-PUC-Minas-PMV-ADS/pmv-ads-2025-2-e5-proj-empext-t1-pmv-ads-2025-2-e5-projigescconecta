@@ -31,7 +31,8 @@ namespace IgescConecta.API.Features.PersonOscs.CreatePersonOsc
 
             var createPersonOsc = new CreatePersonOscResponse
             {
-                Id = result.Value
+                Id = result.Value.Id,
+                Name = result.Value.Name,
             };
 
             return Ok(createPersonOsc);
@@ -47,4 +48,6 @@ public class CreatePersonOscRequest
 public class CreatePersonOscResponse
 {
     public int Id { get; set; }
+
+    public string Name { get; set; }
 }
