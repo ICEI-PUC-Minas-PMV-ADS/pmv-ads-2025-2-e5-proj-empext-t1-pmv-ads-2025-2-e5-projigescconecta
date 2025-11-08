@@ -6,14 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IgescConecta.API.Features.PersonOscs.CreatePersonOsc
 {
-    public class CreatePersonOscCommand : IRequest<Result<int, ValidationFailed>>
+    public class CreatePersonOscCommand : IRequest<Result<CreatePersonOscResult, ValidationFailed>>
     {
         public int PersonId { get; set; }
 
         public int OscId { get; set; }
     }
 
-    internal sealed class CreatePersonOscCommandHandler : IRequestHandler<CreatePersonOscCommand, Result<int, ValidationFailed>>
+    public class CreatePersonOscResult
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    internal sealed class CreatePersonOscCommandHandler : IRequestHandler<CreatePersonOscCommand, Result<CreatePersonOscResult, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -22,12 +28,12 @@ namespace IgescConecta.API.Features.PersonOscs.CreatePersonOsc
             _context = context; 
         }
 
-        public async Task<Result<int, ValidationFailed>> Handle(CreatePersonOscCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreatePersonOscResult, ValidationFailed>> Handle(CreatePersonOscCommand request, CancellationToken cancellationToken)
         {
-            var personExists = await _context.Persons
-                .AnyAsync(p => p.Id == request.PersonId, cancellationToken);
+            var person = await _context.Persons
+                .FindAsync(request.PersonId, cancellationToken);
 
-            if (!personExists)
+            if (person == null)
                 return new ValidationFailed(new[] { $"Pessoa com ID {request.PersonId} não encontrada" });
 
             var oscExists = await _context.Oscs
@@ -49,8 +55,15 @@ namespace IgescConecta.API.Features.PersonOscs.CreatePersonOsc
             };
 
             await _context.PersonOscs.AddAsync(personOsc);
-            await _context.SaveChangesAsync();
-            return personOsc.Id;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var result = new CreatePersonOscResult
+            {
+                Id = person.Id,
+                Name = person.Name,
+            };
+
+            return result;
         }   
     }
 }

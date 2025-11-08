@@ -25,6 +25,7 @@ import {
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 interface CompanyFullDetails {
   id?: number;
@@ -60,6 +61,21 @@ interface CompanyFormData {
   site: string;
   redesSociais: string;
   ativa: boolean;
+}
+
+interface CompanyCsvRow{
+  cnpj: string;
+  nome: string;
+  razaoSocial: string;
+  areaAtuacao: string;
+  cep: string;
+  endereco: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
+  telefone: string;
+  site: string;
+  redesSociais: string;
 }
 
 const formatCnpjMask = (cnpj: string) => mask(cnpj ?? '', ['99.999.999/9999-99']);
@@ -107,10 +123,32 @@ const CompanyPage: React.FC = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openReactivateModal, setOpenReactivateModal] = useState(false);
   const [companyToAction, setCompanyToAction] = useState<CompanyViewModel | null>(null);
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   const isCreating = editingData ? !('id' in editingData) : false;
   const dialogTitle = isVisualizing ? 'Visualizar Empresa' : isCreating ? 'Nova Empresa' : 'Editar Empresa';
   const isReadOnlyMode = isVisualizing;
+
+  const companyApi = new CreateCompanyEndpointApi(apiConfig);
+
+  const handleUploadCompany = () =>{
+    setUploadOpen(true);
+  }
+
+  const apiCreate = (data: CompanyCsvRow) => companyApi.apiCompaniesPost({
+    cnpj: data.cnpj,
+    companyName: data.nome,
+    corporateReason: data.razaoSocial,
+    fieldOfActivity: data.areaAtuacao,
+    zipCode: data.cep,
+    address: data.endereco,
+    neighborhood: data.bairro,
+    city: data.cidade,
+    state: data.uf,
+    phoneNumber: data.telefone,
+    website: data.site,
+    socialMedia: data.redesSociais,
+  })
 
   const mapApiDataToFormData = (data: CompanyFullDetails): CompanyFormData => ({
     id: data.id,
@@ -261,9 +299,10 @@ const CompanyPage: React.FC = () => {
 
   const handleSave = async () => {
     const data = editingData;
-    if (!data?.cnpj || !data?.nome || !data?.razaoSocial) {
-      toast.error('CNPJ, Nome Fantasia e Razão Social são obrigatórios!');
-      return;
+
+    if(validateCompanyForm(data) !== null){
+      console.log(data)
+      return
     }
 
     const cnpjDigits = data.cnpj.replace(/\D/g, '');
@@ -302,6 +341,29 @@ const CompanyPage: React.FC = () => {
     }
   };
 
+  const validateCompanyForm = (company: any): string | null => {
+    const requiredFields = ['cnpj', 'razaoSocial', 'nome']
+
+    for(const field of requiredFields){
+      if(!company[field] || company[field].toString().trim() === ''){
+        const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+        toast.error(message);
+        return message;
+      }
+    }
+
+    return null;
+  }
+
+  const formatFieldName = (field: string): string => {
+    const mapping: Record<string, string> = {
+      cnpj: 'CNPJ',
+      nome: 'Nome Fantasia',
+      razaoSocial: 'Razão Social'
+    };
+    return mapping[field] || field;
+  }
+
   const handleCloseModal = () => {
     setOpenModal(false);
     setEditingData(null);
@@ -335,11 +397,26 @@ const CompanyPage: React.FC = () => {
     setEditingData((p) => (p ? { ...p, uf: value } : null));
   };
 
+  const headerTranslations ={
+    cnpj: 'CPNJ*',
+    nome: 'Nome Fantasia*' ,
+    razaoSocial: 'Razão Social*',
+    areaAtuacao: 'Área de Atuação',
+    cep: 'UF',
+    endereco: 'Endereço',
+    bairro: 'Bairro',
+    cidade: 'Cidade',
+    uf: 'Estado',
+    telefone: 'Telefone',
+    site: 'Website',
+    redesSociais: 'Mídia Social',
+  }
+
   return (
     <Container maxWidth="xl" sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}>
       <Paper elevation={0} sx={{ backgroundColor: '#ffffff', borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: alpha('#1E4EC4', 0.1) }}>
         <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-          <TitleAndButtons title="Lista de Empresas" onAdd={handleAdd} addLabel="Nova Empresa" />
+          <TitleAndButtons title="Lista de Empresas" onAdd={handleAdd} addLabel="Nova Empresa" onImportCsv={handleUploadCompany} importLabel='Importar Empresa'/>
           <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, mb: 3, backgroundColor: alpha('#1E4EC4', 0.02), border: '1px solid', borderColor: alpha('#1E4EC4', 0.1), borderRadius: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
               <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
@@ -429,6 +506,18 @@ const CompanyPage: React.FC = () => {
             confirmLabel="Reativar"
             cancelLabel="Cancelar"
           />
+
+          {isUploadOpen &&(
+            <UploadCsvModal<CompanyCsvRow>
+              title='Importar Empresa'
+              onClose={() => setUploadOpen(false)}
+              apiCreate={apiCreate}
+              expectedHeaders={['cnpj', 'nome', 'razaoSocial', 'areaAtuacao', 'cep', 'endereco', 'bairro', 'cidade', 'uf', 'telefone', 'site', 'redesSociais']}
+              headerTranslations={headerTranslations}
+              validateFields={validateCompanyForm}
+              onFinish={() => fetchCompanies()}
+            />
+          )}
 
           <DialogPadronized
             open={openModal}
