@@ -1,10 +1,13 @@
+using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Companies.UpdateCompany
 {
+    [ApiAuthorize]
+    [Route("/api/companies")]
     [ApiController]
-    [Route("api/companies")]
+    [ApiExplorerSettings(GroupName = "Company")]
     public class UpdateCompanyEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

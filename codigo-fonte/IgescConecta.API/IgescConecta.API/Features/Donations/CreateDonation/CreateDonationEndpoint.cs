@@ -1,11 +1,14 @@
+using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Features.Donations.CreateDonation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Donations.CreateDonation
 {
-    [ApiController]
+    [ApiAuthorize]
     [Route("api/donations")]
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "Donation")]
     public class CreateDonationEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
