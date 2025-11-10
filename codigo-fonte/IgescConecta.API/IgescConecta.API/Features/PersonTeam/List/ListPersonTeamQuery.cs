@@ -17,8 +17,6 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         public string PersonName { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
-        public int? OscId { get; set; }
-        public string OscName { get; set; }
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
     }
 
@@ -36,7 +34,6 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
             var query = _context.PersonTeams
                 .Include(pt => pt.Person)
                 .Include(pt => pt.Team)
-                .Include(pt => pt.Osc)
                 .AsNoTracking();
 
             // Filtrar por TeamId se fornecido
@@ -52,8 +49,6 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
                 PersonName = pt.Person.Name,
                 TeamId = pt.TeamId,
                 TeamName = pt.Team.Name,
-                OscId = pt.OscId,
-                OscName = pt.Osc != null ? pt.Osc.Name : null,
                 MemberTypes = pt.MemberTypes.ToList()
             }).ToListAsync(cancellationToken);
 

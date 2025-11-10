@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
@@ -7,15 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
 {
-    public class CreatePersonTeamCommand : IRequest<Result<int, ValidationFailed>>
+    public class CreatePersonTeamCommand : IRequest<Result<CreatePersonTeamResponse, ValidationFailed>>
     {
         public int PersonId { get; set; }
         public int TeamId { get; set; }
-        public int? OscId { get; set; }
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
     }
 
-    internal sealed class CreatePersonTeamCommandHandler : IRequestHandler<CreatePersonTeamCommand, Result<int, ValidationFailed>>
+    internal sealed class CreatePersonTeamCommandHandler : IRequestHandler<CreatePersonTeamCommand, Result<CreatePersonTeamResponse, ValidationFailed>>
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,13 +24,13 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
             _context = context;
         }
 
-        public async Task<Result<int, ValidationFailed>> Handle(CreatePersonTeamCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreatePersonTeamResponse, ValidationFailed>> Handle(CreatePersonTeamCommand request, CancellationToken cancellationToken)
         {
-            var personExists = await _context.Persons
-                .AnyAsync(p => p.Id == request.PersonId, cancellationToken);
+            var person = await _context.Persons
+                .FirstOrDefaultAsync(p => p.Id == request.PersonId, cancellationToken);
 
-            if (!personExists)
-                return new ValidationFailed(new[] { $"Pessoa com ID {request.PersonId} não encontrada." });
+            if (person == null)
+                return new ValidationFailed(new[] { $"Pessoa com ID {request.PersonId} não encontrada" });
 
             var teamExists = await _context.Teams
                 .AnyAsync(t => t.Id == request.TeamId, cancellationToken);
@@ -38,14 +38,6 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
             if (!teamExists)
                 return new ValidationFailed(new[] { $"Turma com ID {request.TeamId} não encontrada." });
 
-            if (request.OscId.HasValue)
-            {
-                var oscExists = await _context.Oscs
-                    .AnyAsync(o => o.Id == request.OscId.Value, cancellationToken);
-
-                if (!oscExists)
-                    return new ValidationFailed(new[] { $"OSC com ID {request.OscId.Value} não encontrada." });
-            }
             var existingPersonTeam = await _context.PersonTeams
                 .AnyAsync(pt => pt.PersonId == request.PersonId && pt.TeamId == request.TeamId, cancellationToken);
 
@@ -59,16 +51,38 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
             {
                 PersonId = request.PersonId,
                 TeamId = request.TeamId,
-                OscId = request.OscId,
                 MemberTypes = request.MemberTypes
             };
+
+            // Regra de negócio: se incluir Estudante, deve existir vínculo PersonOsc para a pessoa.
+            if (request.MemberTypes.Contains(MemberType.Student))
+            {
+                var personOsc = await _context.PersonOscs
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(po => po.PersonId == request.PersonId, cancellationToken);
+
+                if (personOsc == null)
+                    return new ValidationFailed(new[] { "Para membros do tipo Participante, é necessário vínculo prévio da pessoa com uma OSC." });
+
+                personTeam.PersonOscId = personOsc.Id;
+            }
+            else
+            {
+                personTeam.PersonOscId = null;
+            }
 
             try
             {
                 await _context.PersonTeams.AddAsync(personTeam, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return personTeam.Id;
+                var response = new CreatePersonTeamResponse
+                {
+                    Id = personTeam.Id,
+                    Name = person.Name,
+                };
+
+                return response;
             }
             catch (DbUpdateException ex)
             {
