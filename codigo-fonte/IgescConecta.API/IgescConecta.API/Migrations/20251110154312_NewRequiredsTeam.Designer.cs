@@ -3,6 +3,7 @@ using System;
 using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251110154312_NewRequiredsTeam")]
+    partial class NewRequiredsTeam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -788,8 +791,9 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("integer");
+                    b.Property<int[]>("EventTypes")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
 
                     b.Property<DateTime?>("Finish")
                         .HasColumnType("timestamp without time zone");
@@ -800,8 +804,9 @@ namespace IgescConecta.API.Migrations
                     b.Property<string>("LessonTime")
                         .HasColumnType("text");
 
-                    b.Property<int>("ModalityType")
-                        .HasColumnType("integer");
+                    b.Property<int[]>("ModalityTypes")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("Name")
                         .IsRequired()

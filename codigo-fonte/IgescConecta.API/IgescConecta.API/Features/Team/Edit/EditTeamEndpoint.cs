@@ -1,4 +1,5 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using IgescConecta.Domain.Entities;
@@ -29,7 +30,10 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
-                PersonTeamsIds = request.PersonTeamsIds,
+                Year = request.Year,
+                Semester = request.Semester,
+                ModalityType = request.ModalityType,
+                EventType = request.EventType,
                 ProjectProgramIds = request.ProjectProgramIds,
                 CourseId = request.CourseId
             };
@@ -48,6 +52,10 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                 result.Value.LessonTime,
                 result.Value.Start,
                 result.Value.Finish,
+                result.Value.Year,
+                result.Value.Semester,
+                ModalityType = result.Value.ModalityType,
+                EventType = result.Value.EventType,
                 PersonTeamsCount = result.Value.PersonTeams.Count,
                 ProjectPrograms = result.Value.ProjectPrograms.Select(pp => new
                 {
@@ -67,8 +75,11 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public List<int>? PersonTeamsIds { get; set; }
         public List<int>? ProjectProgramIds { get; set; }
         public int? CourseId { get; set; }
+        public int? Year { get; set; }
+        public string? Semester { get; set; }
+        public ModalityType? ModalityType { get; set; }
+        public EventType? EventType { get; set; }
     }
 }
