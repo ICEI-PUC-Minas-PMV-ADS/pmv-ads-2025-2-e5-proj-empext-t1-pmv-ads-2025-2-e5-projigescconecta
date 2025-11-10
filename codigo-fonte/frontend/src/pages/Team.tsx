@@ -45,7 +45,6 @@ import {
 } from './../api';
 import { apiConfig } from '../services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
-import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
 interface Team {
@@ -70,14 +69,6 @@ interface Team {
 interface Course {
   courseId?: number;
   name?: string | null;
-}
-
-interface TeamCsvRow {
-  name: string;
-  lessonTime?: string;
-  start?: string;
-  finish?: string;
-  courseId?: number;
 }
 
 const Team: React.FC = () => {
@@ -124,7 +115,6 @@ const Team: React.FC = () => {
     loading: false,
   });
 
-  const [isUploadOpen, setUploadOpen] = useState(false);
   const teamsApi = new TeamsApi(apiConfig);
   const coursesApi = new CoursesApi(apiConfig);
   const projectsApi = new ProjectProgramsApi(apiConfig);
@@ -353,8 +343,6 @@ const Team: React.FC = () => {
         return '';
     }
   };
-
-  
 
   const columns: Column<Team>[] = [
     { label: 'ID', field: 'teamId', align: 'center' },
@@ -650,65 +638,6 @@ const Team: React.FC = () => {
     }
   }
 
-  /* -------------------------------- Funções CSV -------------------------------- */
-
-  const formatFieldName = (field: string): string => {
-    const mapping: { [key: string]: string } = {
-      name: 'Nome',
-      lessonTime: 'Horário da Aula',
-      start: 'Data de Início',
-      finish: 'Data de Fim',
-      courseId: 'Programa',
-    };
-    return mapping[field] || field;
-  };
-
-  const validateTeamForm = (team: any): string | null => {
-    const requiredFields = ['name'];
-
-    for (const field of requiredFields) {
-      if (!team[field] || team[field].toString().trim() === '') {
-        const message = `O campo "${formatFieldName(field)}" é obrigatório!`;
-        toast.error(message);
-        return message;
-      }
-    }
-
-    return null;
-  };
-
-  const handleUploadTeam = () => {
-    setUploadOpen(true);
-  };
-
-  const apiCreate = (data: TeamCsvRow) => {
-    const startDateParsed = data.start ? dayjs(data.start) : null;
-    const derivedYear = startDateParsed?.year() ?? dayjs().year();
-    const derivedSemester = startDateParsed ? (startDateParsed.month() <= 5 ? '1' : '2') : '1';
-
-    const parsedCourseId = Number(data.courseId);
-    if (!parsedCourseId || Number.isNaN(parsedCourseId)) {
-      return Promise.reject(
-        new Error('O campo "Programa" (courseId) é obrigatório e deve ser numérico.')
-      );
-    }
-
-    const defaultModality: ModalityType = ModalityType.NUMBER_1;
-    const defaultEvent: EventType = EventType.NUMBER_1;
-
-    return teamsApi.createTeam({
-      name: data.name,
-      lessonTime: data.lessonTime ?? null,
-      start: data.start ?? null,
-      finish: data.finish ?? null,
-      year: derivedYear,
-      semester: derivedSemester,
-      modalityType: defaultModality,
-      eventType: defaultEvent,
-      courseId: parsedCourseId,
-    });
-  };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
@@ -732,13 +661,7 @@ const Team: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
-            <TitleAndButtons
-              title="Listar Turmas"
-              onAdd={handleAdd}
-              addLabel="Nova Turma"
-              onImportCsv={handleUploadTeam}
-              importLabel="Importar Turma"
-            />
+            <TitleAndButtons title="Listar Turmas" onAdd={handleAdd} addLabel="Nova Turma" />
 
             {/* Filtros e ações de busca */}
             <Paper
@@ -1348,18 +1271,6 @@ const Team: React.FC = () => {
         loading={confirmDialog.loading}
         danger={true}
       />
-
-      {/* Upload CSV Modal */}
-      {isUploadOpen && (
-        <UploadCsvModal<TeamCsvRow>
-          title="Importar Turma"
-          onClose={() => setUploadOpen(false)}
-          apiCreate={apiCreate}
-          expectedHeaders={['name', 'lessonTime', 'start', 'finish', 'courseId']}
-          validateFields={validateTeamForm}
-          onFinish={() => fetchTeams([])}
-        />
-      )}
     </LocalizationProvider>
   );
 };
