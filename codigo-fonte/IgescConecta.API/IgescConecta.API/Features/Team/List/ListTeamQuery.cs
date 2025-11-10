@@ -51,9 +51,8 @@ namespace IgescConecta.API.Features.Teams.ListTeams
 
         public async Task<ListTeamViewModel> Handle(ListTeamQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<Team>(request.Filters);
-            
             var baseQuery = _context.Teams
+                .AsNoTracking()
                 .Include(t => t.Course)
                 .Include(t => t.ProjectPrograms)
                 .Include(t => t.PersonTeams)
@@ -63,6 +62,38 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                 string.Equals(f.PropertyName, "IsDeleted", StringComparison.OrdinalIgnoreCase)) == true;
 
             var query = hasIsDeletedFilter ? baseQuery.IgnoreQueryFilters() : baseQuery;
+            var ppFilter = request.Filters?
+                .FirstOrDefault(f => string.Equals(f.PropertyName, "ProjectProgramId", StringComparison.OrdinalIgnoreCase));
+
+            if (ppFilter is not null)
+            {
+                int projectProgramId = 0;
+                try
+                {
+                    if (ppFilter.Value is System.Text.Json.JsonElement je)
+                    {
+                        if (je.ValueKind == System.Text.Json.JsonValueKind.Number)
+                            projectProgramId = je.GetInt32();
+                        else if (je.ValueKind == System.Text.Json.JsonValueKind.String && int.TryParse(je.GetString(), out var parsed))
+                            projectProgramId = parsed;
+                    }
+                    else if (ppFilter.Value is int i)
+                        projectProgramId = i;
+                    else if (ppFilter.Value is long l)
+                        projectProgramId = (int)l;
+                    else if (ppFilter.Value is string s && int.TryParse(s, out var parsed))
+                        projectProgramId = parsed;
+                }
+                catch { }
+
+                if (projectProgramId > 0)
+                {
+                    query = query.Where(t => t.ProjectPrograms.Any(pp => pp.Id == projectProgramId));
+                }
+                request.Filters.Remove(ppFilter);
+            }
+
+            var expr = ExpressionBuilder.GetExpression<Team>(request.Filters ?? new System.Collections.Generic.List<Filter>());
 
             var result = await query
                 .Where(expr)
@@ -88,7 +119,6 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            // Conta usando a mesma base de consulta (com ou sem IgnoreQueryFilters)
             var totalRecords = await query.CountAsync(expr, cancellationToken);
 
             return new ListTeamViewModel

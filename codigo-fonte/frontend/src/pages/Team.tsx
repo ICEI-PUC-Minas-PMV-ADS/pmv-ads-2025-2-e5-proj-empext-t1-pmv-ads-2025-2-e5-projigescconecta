@@ -15,7 +15,6 @@ import {
   Paper,
   alpha,
   TextField,
-  Divider,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
@@ -39,41 +38,38 @@ import {
   Filter,
   Op,
   CoursesApi,
+  EventType,
+  ModalityType,
+  ProjectProgramsApi,
+  ProjectProgramListItemViewModel,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 dayjs.locale('pt-br');
-
-// Interfaces
 interface Team {
   teamId?: number;
   name: string;
   lessonTime?: string | null;
   start?: string | null;
   finish?: string | null;
+  projectPrograms?: number;
   projectProgramsIds?: number[] | null;
   courseId?: number | null;
   projectProgramName?: string | null;
   courseName?: string | null;
   personTeamsCount?: number;
   isDeleted?: boolean;
-}
-
-interface Program {
-  id?: number;
-  name?: string;
+  year?: number | null;
+  semester?: string | null;
+  modalityType?: ModalityType | number | null;
+  eventType?: EventType | number | null;
 }
 
 interface Course {
   courseId?: number;
   name?: string | null;
-}
-
-interface Person {
-  id?: number;
-  name?: string;
 }
 
 interface TeamCsvRow {
@@ -85,18 +81,18 @@ interface TeamCsvRow {
 }
 
 const Team: React.FC = () => {
-  /* ------------------------------ Variáveis ------------------------------ */
-
-  const [filterName, setFilterName] = useState<string | ''>('');
-  const [filterProgramId, setFilterProgramId] = useState<number | ''>('');
+  const [filterProjectProgramId, setFilterProjectProgramId] = useState<number | ''>('');
   const [filterCourseId, setFilterCourseId] = useState<number | ''>('');
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
   const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
+  const [filterModalityType, setFilterModalityType] = useState<number | ''>('');
+  const [filterEventType, setFilterEventType] = useState<number | ''>('');
+  const [filterTotalParticipants, setFilterTotalParticipants] = useState<number | ''>('');
+  const [filterIsDeleted, setFilterIsDeleted] = useState<boolean | ''>(false);
 
   const [teams, setTeams] = useState<Team[]>([]);
-  const [programs, setPrograms] = useState<Program[]>([]);
+  const [programs, setPrograms] = useState<ProjectProgramListItemViewModel[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [persons, setPersons] = useState<Person[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
@@ -104,7 +100,7 @@ const Team: React.FC = () => {
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [teamName, setTeamName] = useState('');
   const [lessonTime, setLessonTime] = useState('');
@@ -112,11 +108,10 @@ const Team: React.FC = () => {
   const [endDate, setEndDate] = useState<Dayjs | undefined>(undefined);
   const [selectedProgramIds, setSelectedProgramIds] = useState<number[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<number | ''>('');
-  const [selectedPersonIds, setSelectedPersonIds] = useState<number[]>([]);
-  const [personsResults, setPersonsResults] = useState<Person[]>([]);
-  const [personsLoading, setPersonsLoading] = useState(false);
-  const [inputPersonValue, setInputPersonValue] = useState('');
-  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+  const [year, setYear] = useState<number | ''>('');
+  const [semester, setSemester] = useState<string>('');
+  const [selectedModalityType, setSelectedModalityType] = useState<number | ''>('');
+  const [selectedEventType, setSelectedEventType] = useState<number | ''>('');
 
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -130,17 +125,13 @@ const Team: React.FC = () => {
   });
 
   const [isUploadOpen, setUploadOpen] = useState(false);
-
-  // Instâncias da API
   const teamsApi = new TeamsApi(apiConfig);
   const coursesApi = new CoursesApi(apiConfig);
+  const projectsApi = new ProjectProgramsApi(apiConfig);
 
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
   };
-
-  /* --------------------------------- Funções -------------------------------- */
-
   useEffect(() => {
     fetchTeams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,7 +140,6 @@ const Team: React.FC = () => {
   useEffect(() => {
     fetchPrograms();
     fetchCourses();
-    fetchPersons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -161,19 +151,12 @@ const Team: React.FC = () => {
       const filters: Filter[] = customFilters ?? [];
 
       if (!customFilters) {
-        if (filterName) {
+        // Filtro por programa: usar propertyName 'ProjectProgramId' + Op.NUMBER_1 (Equals). O backend intercepta esse filtro.
+        if (filterProjectProgramId) {
           filters.push({
-            propertyName: 'name',
-            operation: Op.NUMBER_7,
-            value: filterName,
-          });
-        }
-
-        if (filterProgramId) {
-          filters.push({
-            propertyName: 'projectProgramId',
+            propertyName: 'ProjectProgramId',
             operation: Op.NUMBER_1,
-            value: filterProgramId,
+            value: filterProjectProgramId,
           });
         }
 
@@ -198,6 +181,40 @@ const Team: React.FC = () => {
             propertyName: 'finish',
             operation: Op.NUMBER_4,
             value: filterEndDate.format('YYYY-MM-DDTHH:mm:ss'),
+          });
+        }
+
+        if (filterModalityType) {
+          filters.push({
+            propertyName: 'modalityType',
+            operation: Op.NUMBER_1,
+            // Persistência/consulta: backend espera o nome do enum
+            value: ModalityKeyByNumber[filterModalityType as number],
+          });
+        }
+
+        if (filterEventType) {
+          filters.push({
+            propertyName: 'eventType',
+            operation: Op.NUMBER_1,
+            // Persistência/consulta: backend espera o nome do enum
+            value: EventKeyByNumber[filterEventType as number],
+          });
+        }
+
+        if (filterTotalParticipants !== '' && filterTotalParticipants != null) {
+          filters.push({
+            propertyName: 'PersonTeams.Count',
+            operation: Op.NUMBER_1,
+            value: filterTotalParticipants,
+          });
+        }
+
+        if (filterIsDeleted !== '') {
+          filters.push({
+            propertyName: 'IsDeleted',
+            operation: Op.NUMBER_1,
+            value: filterIsDeleted as boolean,
           });
         }
       }
@@ -237,46 +254,20 @@ const Team: React.FC = () => {
     }
   };
 
-  /* Em mock */
   const fetchPrograms = async () => {
     try {
       setProgramsLoading(true);
-      // TODO: Substituir por chamada real quando ProjectProgramsApi estiver disponível
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      const mockPrograms: Program[] = [
-        // { id: 101, name: 'Projeto de Inovação' },
-        // { id: 102, name: 'Projeto de Tecnologia' },
-        // { id: 103, name: 'Projeto de Liderança' },
-        // { id: 104, name: 'Projeto de Desenvolvimento Pessoal' },
-        // { id: 105, name: 'Projeto de Empreendedorismo' },
-      ];
-      setPrograms(mockPrograms);
+      const { data } = await projectsApi.listProjectProgram({
+        pageNumber: 1,
+        pageSize: 100,
+      });
+      setPrograms(data.items || []);
     } catch (error) {
       console.error('Erro ao carregar projetos:', error);
       toast.error('Erro ao carregar projetos');
       setPrograms([]);
     } finally {
       setProgramsLoading(false);
-    }
-  };
-
-  const fetchPersons = async () => {
-    try {
-      setPersonsLoading(true);
-      // TODO: Substituir por chamada real quando PersonsApi estiver disponível
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      const mockPersons: Person[] = [
-        { id: 1, name: 'João Silva' },
-        { id: 2, name: 'Maria Santos' },
-        { id: 3, name: 'Pedro Oliveira' },
-      ];
-      setPersons(mockPersons);
-    } catch (error) {
-      console.error('Erro ao carregar pessoas:', error);
-      toast.error('Erro ao carregar pessoas');
-      setPersons([]);
-    } finally {
-      setPersonsLoading(false);
     }
   };
 
@@ -297,14 +288,101 @@ const Team: React.FC = () => {
     }
   };
 
+  // Enums: filtro usa o nome (string); persistência usa número
+  const ModalityKeyByNumber: Record<number, 'InPerson' | 'Hybrid' | 'EAD'> = {
+    1: 'InPerson',
+    2: 'Hybrid',
+    3: 'EAD',
+  };
+  const EventKeyByNumber: Record<number, 'Open' | 'Sponsored'> = {
+    1: 'Open',
+    2: 'Sponsored',
+  };
+  const ModalityNumberByKey: Record<string, number> = {
+    InPerson: 1,
+    Hybrid: 2,
+    EAD: 3,
+  };
+  const EventNumberByKey: Record<string, number> = {
+    Open: 1,
+    Sponsored: 2,
+  };
+
+  const modalityLabel = (value: number | string | null | undefined): string => {
+    if (typeof value === 'string') {
+      switch (value) {
+        case 'InPerson':
+          return 'Presencial';
+        case 'Hybrid':
+          return 'Híbrido';
+        case 'EAD':
+          return 'EAD';
+        default:
+          return '';
+      }
+    }
+    switch (value) {
+      case 1:
+        return 'Presencial';
+      case 2:
+        return 'Híbrido';
+      case 3:
+        return 'EAD';
+      default:
+        return '';
+    }
+  };
+
+  const eventLabel = (value: number | string | null | undefined): string => {
+    if (typeof value === 'string') {
+      switch (value) {
+        case 'Open':
+          return 'Aberto';
+        case 'Sponsored':
+          return 'Patrocinado';
+        default:
+          return '';
+      }
+    }
+    switch (value) {
+      case 1:
+        return 'Aberto';
+      case 2:
+        return 'Patrocinado';
+      default:
+        return '';
+    }
+  };
+
+  
+
   const columns: Column<Team>[] = [
-    { label: 'ID', field: 'teamId' },
-    { label: 'Nome', field: 'name' },
-    { label: 'Data Início', field: 'start' },
-    { label: 'Data Fim', field: 'finish' },
-    { label: 'Projeto', field: 'projectProgramName' },
-    { label: 'Programa', field: 'courseName' },
-    { label: 'Total de Participantes', field: 'personTeamsCount', align: 'center' },
+    { label: 'ID', field: 'teamId', align: 'center' },
+    { label: 'Nome', field: 'name', align: 'center' },
+    { label: 'Programa', field: 'courseName', align: 'center' },
+
+    {
+      label: 'Modalidade',
+      field: 'modalityType',
+      align: 'center',
+      render: (v) => modalityLabel(v as number | string),
+    },
+    {
+      label: 'Tipo de Evento',
+      field: 'eventType',
+      align: 'center',
+      render: (v) => eventLabel(v as number | string),
+    },
+    {
+      label: 'Período',
+      field: 'start',
+      align: 'center',
+      render: (_, row) =>
+        row.start && row.finish ? `${row.start} até ${row.finish}` : row.start || row.finish || '-',
+    },
+
+    { label: 'Total de Projetos', field: 'projectPrograms', align: 'center' },
+    { label: 'Total de Integrantes', field: 'personTeamsCount', align: 'center' },
   ];
 
   const handleSearch = () => {
@@ -313,11 +391,14 @@ const Team: React.FC = () => {
   };
 
   const handleClearFilters = () => {
-    setFilterName('');
-    setFilterProgramId('');
+    setFilterProjectProgramId('');
     setFilterCourseId('');
     setFilterStartDate(null);
     setFilterEndDate(null);
+    setFilterModalityType('');
+    setFilterEventType('');
+    setFilterTotalParticipants('');
+    setFilterIsDeleted(false);
     setPage(0);
     fetchTeams([]);
   };
@@ -327,16 +408,37 @@ const Team: React.FC = () => {
     setOpenModal(true);
   };
 
-  const handleEdit = (team: Team) => {
-    setEditingTeam(team);
-    setTeamName(team.name);
-    setLessonTime(team.lessonTime || '');
-    setStartDate(team.start ? dayjs(team.start, 'DD/MM/YYYY') : undefined);
-    setEndDate(team.finish ? dayjs(team.finish, 'DD/MM/YYYY') : undefined);
-    setSelectedProgramIds(team.projectProgramsIds || []);
-    setSelectedCourseId(team.courseId || '');
-    setSelectedPersonIds([]); // Será carregado no getTeamById
-    setOpenModal(true);
+  const handleEdit = async (team: Team) => {
+    try {
+      const id: number = team.teamId!;
+      const { data } = await teamsApi.getTeamById(id);
+      setEditingTeam({ teamId: id } as Team);
+      setTeamName(data.name || '');
+      setLessonTime(data.lessonTime || '');
+      setStartDate(data.start ? dayjs(data.start) : undefined);
+      setEndDate(data.finish ? dayjs(data.finish) : undefined);
+      setSelectedCourseId(data.courseId || '');
+      setYear(typeof data.year === 'number' ? data.year : '');
+      setSemester(data.semester || '');
+      // Modalidade/Event podem vir como número ou nome; normalizar para número no estado
+      if (typeof data.modalityType === 'string') {
+        setSelectedModalityType(ModalityNumberByKey[data.modalityType] ?? '');
+      } else {
+        setSelectedModalityType((data.modalityType as number) ?? '');
+      }
+      if (typeof data.eventType === 'string') {
+        setSelectedEventType(EventNumberByKey[data.eventType] ?? '');
+      } else {
+        setSelectedEventType((data.eventType as number) ?? '');
+      }
+      // Backward compatibility: API may return 'projectProgramsIds' or 'projectProgramIds'
+      const projectIds = (data as any).projectProgramsIds ?? (data as any).projectProgramIds ?? [];
+      setSelectedProgramIds(projectIds || []);
+      setOpenModal(true);
+    } catch (error) {
+      console.error('Erro ao carregar turma para edição:', error);
+      toast.error('Erro ao carregar detalhes da turma para edição');
+    }
   };
 
   const handleView = async (team: Team) => {
@@ -349,14 +451,23 @@ const Team: React.FC = () => {
       setStartDate(data.start ? dayjs(data.start) : undefined);
       setEndDate(data.finish ? dayjs(data.finish) : undefined);
       setSelectedCourseId(data.courseId || '');
+      setYear(typeof data.year === 'number' ? data.year : '');
+      setSemester(data.semester || '');
+      // Normalizar para número no estado (suporta retorno string ou número da API)
+      if (typeof data.modalityType === 'string') {
+        setSelectedModalityType(ModalityNumberByKey[data.modalityType] ?? '');
+      } else {
+        setSelectedModalityType((data.modalityType as number) ?? '');
+      }
+      if (typeof data.eventType === 'string') {
+        setSelectedEventType(EventNumberByKey[data.eventType] ?? '');
+      } else {
+        setSelectedEventType((data.eventType as number) ?? '');
+      }
 
-      // TODO: Quando a API retornar personTeamsIds, usar:
-      // setSelectedPersonIds(data.personTeamsIds || []);
-      setSelectedPersonIds([]); // Por enquanto vazio
-
-      // TODO: Quando a API retornar projectProgramsIds, usar:
-      // setSelectedProgramIds(data.projectProgramsIds || []);
-      setSelectedProgramIds([]);
+      // Backward compatibility: API may return 'projectProgramsIds' or 'projectProgramIds'
+      const projectIds = (data as any).projectProgramsIds ?? (data as any).projectProgramIds ?? [];
+      setSelectedProgramIds(projectIds || []);
 
       setOpenModal(true);
     } catch (error) {
@@ -407,6 +518,26 @@ const Team: React.FC = () => {
       toast.error('Deve ser informado um programa!');
       return false;
     }
+    if (!year && year !== 0) {
+      toast.error('O ano é obrigatório!');
+      return false;
+    }
+    if (typeof year === 'number' && year <= 0) {
+      toast.error('O ano deve ser maior que 0!');
+      return false;
+    }
+    if (!semester.trim()) {
+      toast.error('O semestre é obrigatório!');
+      return false;
+    }
+    if (!selectedModalityType) {
+      toast.error('A modalidade é obrigatória!');
+      return false;
+    }
+    if (!selectedEventType) {
+      toast.error('O tipo de evento é obrigatório!');
+      return false;
+    }
     if (endDate && endDate.isBefore(startDate)) {
       toast.error('A data de fim deve ser posterior à data de início!');
       return false;
@@ -427,9 +558,13 @@ const Team: React.FC = () => {
           start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
           finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           courseId: selectedCourseId as number,
-          // Implementação do CRUD para ProjectProgram como lista
+          year: (year as number) ?? null,
+          semester: semester || null,
+          // Persistência: backend espera o número do enum
+          modalityType: selectedModalityType as unknown as ModalityType,
+          eventType: selectedEventType as unknown as EventType,
+          // Programas vinculados (N:N). Edit usa 'projectProgramIds'.
           projectProgramIds: selectedProgramIds.length > 0 ? selectedProgramIds : null,
-          personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : null,
         };
 
         const id: number = editingTeam.teamId!;
@@ -441,10 +576,14 @@ const Team: React.FC = () => {
           lessonTime: lessonTime || undefined,
           start: startDate ? startDate.format('YYYY-MM-DD') : undefined,
           finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
+          year: year as number,
+          semester: semester,
+          // Persistência: backend espera o número do enum
+          modalityType: selectedModalityType as unknown as ModalityType,
+          eventType: selectedEventType as unknown as EventType,
           courseId: selectedCourseId as number,
-          // Implementação do CRUD para ProjectProgram como lista
+          // Programas vinculados (N:N). Create usa 'projectProgramsIds' (compatibilidade).
           projectProgramsIds: selectedProgramIds.length > 0 ? selectedProgramIds : undefined,
-          personTeamsIds: selectedPersonIds.length > 0 ? selectedPersonIds : undefined,
         };
 
         await teamsApi.createTeam(createTeamRequest);
@@ -469,7 +608,10 @@ const Team: React.FC = () => {
     setEndDate(undefined);
     setSelectedProgramIds([]);
     setSelectedCourseId('');
-    setSelectedPersonIds([]);
+    setYear('');
+    setSemester('');
+    setSelectedModalityType('');
+    setSelectedEventType('');
   };
 
   const handleCloseModal = () => {
@@ -481,25 +623,23 @@ const Team: React.FC = () => {
   };
 
   const handleProgramChange = (event: SelectChangeEvent<number[]>) => {
-    const value = event.target.value;
-    setSelectedProgramIds(typeof value === 'string' ? [] : value);
+    const value = event.target.value as unknown;
+    if (Array.isArray(value)) {
+      setSelectedProgramIds(value.map((v) => Number(v)));
+    } else if (typeof value === 'string') {
+      const parts = (value as string).split(',').filter((v) => v !== '');
+      setSelectedProgramIds(parts.map((v) => Number(v)));
+    } else {
+      setSelectedProgramIds([]);
+    }
   };
 
   const handleCourseChange = (event: SelectChangeEvent<number | ''>) => {
     setSelectedCourseId(event.target.value as number | '');
   };
 
-  const handleFilterProgramChange = (event: SelectChangeEvent<number | ''>) => {
-    setFilterProgramId(event.target.value as number | '');
-  };
-
   const handleFilterCourseChange = (event: SelectChangeEvent<number | ''>) => {
     setFilterCourseId(event.target.value as number | '');
-  };
-
-  const handlePersonChange = (event: SelectChangeEvent<number[]>) => {
-    const value = event.target.value;
-    setSelectedPersonIds(typeof value === 'string' ? [] : value);
   };
 
   function handlePersonTeam(row: Team): void {
@@ -518,7 +658,7 @@ const Team: React.FC = () => {
       lessonTime: 'Horário da Aula',
       start: 'Data de Início',
       finish: 'Data de Fim',
-      courseId: 'Programa'
+      courseId: 'Programa',
     };
     return mapping[field] || field;
   };
@@ -541,13 +681,33 @@ const Team: React.FC = () => {
     setUploadOpen(true);
   };
 
-  const apiCreate = (data: TeamCsvRow) => teamsApi.createTeam({
-    name: data.name,
-    lessonTime: data.lessonTime || null,
-    start: data.start || null,
-    finish: data.finish || null,
-    courseId: data.courseId || undefined,
-  });
+  const apiCreate = (data: TeamCsvRow) => {
+    const startDateParsed = data.start ? dayjs(data.start) : null;
+    const derivedYear = startDateParsed?.year() ?? dayjs().year();
+    const derivedSemester = startDateParsed ? (startDateParsed.month() <= 5 ? '1' : '2') : '1';
+
+    const parsedCourseId = Number(data.courseId);
+    if (!parsedCourseId || Number.isNaN(parsedCourseId)) {
+      return Promise.reject(
+        new Error('O campo "Programa" (courseId) é obrigatório e deve ser numérico.')
+      );
+    }
+
+    const defaultModality: ModalityType = ModalityType.NUMBER_1;
+    const defaultEvent: EventType = EventType.NUMBER_1;
+
+    return teamsApi.createTeam({
+      name: data.name,
+      lessonTime: data.lessonTime ?? null,
+      start: data.start ?? null,
+      finish: data.finish ?? null,
+      year: derivedYear,
+      semester: derivedSemester,
+      modalityType: defaultModality,
+      eventType: defaultEvent,
+      courseId: parsedCourseId,
+    });
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -572,15 +732,15 @@ const Team: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
-            <TitleAndButtons 
-              title="Listar Turmas" 
-              onAdd={handleAdd} 
-              addLabel="Nova Turma" 
+            <TitleAndButtons
+              title="Listar Turmas"
+              onAdd={handleAdd}
+              addLabel="Nova Turma"
               onImportCsv={handleUploadTeam}
               importLabel="Importar Turma"
             />
 
-            {/* Campo de pesquisa + botão */}
+            {/* Filtros e ações de busca */}
             <Paper
               elevation={0}
               sx={{
@@ -611,11 +771,14 @@ const Team: React.FC = () => {
                 >
                   Filtro de Busca
                 </Typography>
-                {(filterName ||
-                  filterStartDate ||
+                {(filterStartDate ||
                   filterEndDate ||
-                  filterProgramId ||
-                  filterCourseId) && (
+                  filterProjectProgramId ||
+                  filterCourseId ||
+                  filterModalityType ||
+                  filterEventType ||
+                  (filterTotalParticipants !== '' && filterTotalParticipants != null) ||
+                  filterIsDeleted !== '') && (
                   <Chip
                     label="Filtros ativos"
                     size="small"
@@ -631,13 +794,47 @@ const Team: React.FC = () => {
               </Box>
 
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+                {/* Total de Participantes */}
                 <TextField
-                  label="Nome da Turma"
+                  label="Total de Participantes"
                   variant="outlined"
-                  value={filterName}
+                  value={filterTotalParticipants}
+                  type="number"
                   size="small"
-                  onChange={(e) => setFilterName(e.target.value)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setFilterTotalParticipants(v === '' ? '' : parseInt(v, 10));
+                  }}
                 />
+                {/* Projeto/Programa (filtrar por ProjectProgramId) */}
+                <FormControl size="small" sx={{ minWidth: 220 }}>
+                  <InputLabel>Projeto</InputLabel>
+                  <Select
+                    value={filterProjectProgramId === '' ? '' : Number(filterProjectProgramId)}
+                    onChange={(e) => {
+                      const v = e.target.value as string | number;
+                      if (v === '') {
+                        setFilterProjectProgramId('');
+                      } else {
+                        setFilterProjectProgramId(Number(v));
+                      }
+                    }}
+                    label="Projeto/Programa"
+                    disabled={programsLoading}
+                  >
+                    <MenuItem value="">
+                      <em>Todos</em>
+                    </MenuItem>
+                    {programs.map((program) => (
+                      <MenuItem
+                        key={program.projectProgramId as number}
+                        value={program.projectProgramId as number}
+                      >
+                        {program.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <DatePicker
                   label="Data Início"
                   value={filterStartDate}
@@ -666,24 +863,7 @@ const Team: React.FC = () => {
                     },
                   }}
                 />
-                <FormControl size="small" sx={{ minWidth: 200 }}>
-                  <InputLabel>Projeto</InputLabel>
-                  <Select
-                    value={filterProgramId}
-                    onChange={handleFilterProgramChange}
-                    label="Projeto"
-                    disabled={programsLoading}
-                  >
-                    <MenuItem value="">
-                      <em>Todos os projetos</em>
-                    </MenuItem>
-                    {programs.map((program) => (
-                      <MenuItem key={program.id} value={program.id}>
-                        {program.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                {/* Filtro por programa (Course) */}
                 <FormControl size="small" sx={{ minWidth: 200 }}>
                   <InputLabel>Programa</InputLabel>
                   <Select
@@ -700,6 +880,57 @@ const Team: React.FC = () => {
                         {course.name}
                       </MenuItem>
                     ))}
+                  </Select>
+                </FormControl>
+
+                {/* Ativo / Inativo */}
+                <FormControl size="small" sx={{ minWidth: 160 }}>
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={filterIsDeleted === '' ? '' : filterIsDeleted ? 'true' : 'false'}
+                    onChange={(e) => {
+                      const v = e.target.value as string;
+                      setFilterIsDeleted(v === '' ? '' : v === 'true');
+                    }}
+                    label="Status"
+                  >
+                    <MenuItem value={'false'}>Ativo</MenuItem>
+                    <MenuItem value={'true'}>Inativo</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="small" sx={{ minWidth: 180 }}>
+                  <InputLabel>Modalidade</InputLabel>
+                  <Select
+                    value={filterModalityType === '' ? '' : String(filterModalityType)}
+                    onChange={(e) => {
+                      const v = e.target.value as string;
+                      setFilterModalityType(v === '' ? '' : parseInt(v, 10));
+                    }}
+                    label="Modalidade"
+                  >
+                    <MenuItem value="">
+                      <em>Todas as modalidades</em>
+                    </MenuItem>
+                    <MenuItem value="1">Presencial</MenuItem>
+                    <MenuItem value="2">Híbrido</MenuItem>
+                    <MenuItem value="3">EAD</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="small" sx={{ minWidth: 180 }}>
+                  <InputLabel>Tipo de Evento</InputLabel>
+                  <Select
+                    value={filterEventType === '' ? '' : String(filterEventType)}
+                    onChange={(e) => {
+                      const v = e.target.value as string;
+                      setFilterEventType(v === '' ? '' : parseInt(v, 10));
+                    }}
+                    label="Tipo de Evento"
+                  >
+                    <MenuItem value="">
+                      <em>Todos os tipos</em>
+                    </MenuItem>
+                    <MenuItem value="1">Aberto</MenuItem>
+                    <MenuItem value="2">Patrocinado</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -796,11 +1027,12 @@ const Team: React.FC = () => {
           </Box>
         </Paper>
       </Container>
-      {/* --------------------------------- Modais --------------------------------- */}
+      {/* Modal de criação/edição de turma */}
       <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
         title={dialogTitle()}
+        maxWidth="md"
         content={
           <Grid container spacing={2}>
             <Grid size={{ xs: 12 }}>
@@ -877,32 +1109,137 @@ const Team: React.FC = () => {
               />
             </Grid>
 
-            {/* <Grid size={{ xs: 12, md: 6 }}>
+            {/* Ano e Semestre */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextField
+                margin="dense"
+                label="Ano *"
+                type="number"
+                fullWidth
+                variant="outlined"
+                value={year}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setYear(value === '' ? '' : parseInt(value, 10));
+                }}
+                slotProps={{
+                  input: {
+                    readOnly: isVisualizing,
+                  },
+                }}
+                sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth variant="outlined" margin="dense">
-                <InputLabel>Projeto</InputLabel>
+                <InputLabel>Semestre *</InputLabel>
                 <Select
-                  value={selectedProgramId}
-                  onChange={handleProgramChange}
-                  label="Projeto"
-                  disabled={programsLoading || isVisualizing}
+                  value={semester}
+                  label="Semestre *"
+                  onChange={(e) => setSemester(e.target.value as string)}
+                  disabled={isVisualizing}
                 >
-                  <MenuItem value="">
-                    <em>Nenhum projeto</em>
+                  <MenuItem value={''} disabled>
+                    <em>Selecione</em>
                   </MenuItem>
+                  <MenuItem value={'1'}>1º semestre</MenuItem>
+                  <MenuItem value={'2'}>2º semestre</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {/* Modalidade e Tipo de Evento */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Modalidade *</InputLabel>
+                <Select
+                  value={selectedModalityType}
+                  onChange={(e) => setSelectedModalityType(Number(e.target.value))}
+                  label="Modalidade *"
+                  disabled={isVisualizing}
+                >
+                  <MenuItem value={''} disabled>
+                    <em>Selecione</em>
+                  </MenuItem>
+                  <MenuItem value={1}>Presencial</MenuItem>
+                  <MenuItem value={2}>Híbrido</MenuItem>
+                  <MenuItem value={3}>EAD</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Tipo de Evento *</InputLabel>
+                <Select
+                  value={selectedEventType}
+                  onChange={(e) => setSelectedEventType(Number(e.target.value))}
+                  label="Tipo de Evento *"
+                  disabled={isVisualizing}
+                >
+                  <MenuItem value={''} disabled>
+                    <em>Selecione</em>
+                  </MenuItem>
+                  <MenuItem value={1}>Aberto</MenuItem>
+                  <MenuItem value={2}>Patrocinado</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth variant="outlined" margin="dense">
+                <InputLabel>Selecione os projetos</InputLabel>
+                <Select
+                  multiple
+                  value={selectedProgramIds as unknown as number[]}
+                  onChange={handleProgramChange}
+                  label="Selecione os projetos"
+                  disabled={programsLoading || isVisualizing}
+                  renderValue={(selected) => {
+                    const ids = selected as number[];
+                    const names = programs
+                      .filter((p) => ids.includes(p.projectProgramId as number))
+                      .map((p) => p.name)
+                      .filter(Boolean) as string[];
+                    return (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {names.length > 0 ? (
+                          names.map((name, idx) => (
+                            <Chip key={`${name}-${idx}`} label={name} size="small" />
+                          ))
+                        ) : (
+                          <Typography variant="body2">Nenhum projeto selecionado</Typography>
+                        )}
+                      </Box>
+                    );
+                  }}
+                  slotProps={{
+                    input: {
+                      readOnly: isVisualizing,
+                    },
+                  }}
+                  sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                >
                   {programsLoading ? (
                     <MenuItem disabled>
                       <CircularProgress size={20} sx={{ mr: 1 }} /> Carregando...
                     </MenuItem>
+                  ) : programs.length === 0 ? (
+                    <MenuItem disabled>Nenhum projeto cadastrado</MenuItem>
                   ) : (
                     programs.map((program) => (
-                      <MenuItem key={program.id} value={program.id}>
+                      <MenuItem
+                        key={program.projectProgramId as number}
+                        value={program.projectProgramId as number}
+                      >
                         {program.name}
                       </MenuItem>
                     ))
                   )}
                 </Select>
               </FormControl>
-            </Grid> */}
+            </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth variant="outlined" margin="dense">
@@ -929,85 +1266,6 @@ const Team: React.FC = () => {
                 </Select>
               </FormControl>
             </Grid>
-
-            {/* Cadastro de Participantes comentado */}
-            {/* 
-            <Grid size={{ xs: 12 }}>
-              <Box mt={3}>
-                <Typography variant="subtitle1">
-                  <strong>Participantes</strong>
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-
-                <Autocomplete
-                  multiple
-                  options={persons}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.name || ''}
-                  value={persons.filter((p) => selectedPersonIds.includes(p.id))}
-                  onChange={(_, values) => {
-                    setSelectedPersonIds(values.map((v) => v.id));
-                  }}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox checked={selected} sx={{ mr: 1 }} />
-                      {option.name}
-                    </li>
-                  )}
-                  renderTags={() => null}
-                  renderInput={(params) => (
-                    <TextField {...params} placeholder="Selecionar participantes..." size="small" />
-                  )}
-                  isOptionEqualToValue={(option, value) => option.id === value.id}
-                  fullWidth
-                  disabled={personsLoading || isVisualizing}
-                />
-
-                {selectedPersonIds.length > 0 ? (
-                  <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                    {persons
-                      .filter((p) => selectedPersonIds.includes(p.id))
-                      .map((p) => (
-                        <Chip
-                          key={p.id}
-                          label={p.name}
-                          color="primary"
-                          variant="outlined"
-                          onDelete={() => {
-                            setSelectedPersonIds(selectedPersonIds.filter((id) => id !== p.id));
-                          }}
-                        />
-                      ))}
-                  </Stack>
-                ) : (
-                  <Typography color="text.secondary" mt={1}>
-                    Nenhum aluno.
-                  </Typography>
-                )}
-              </Box>
-            </Grid>
-            */}
-
-            {isVisualizing && (
-              <Grid size={{ xs: 12 }}>
-                <Box mt={3}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1a1a2e', mb: 1 }}>
-                    Participantes
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  <Paper variant="outlined" sx={{ p: 2, bgcolor: alpha('#1E4EC4', 0.02) }}>
-                    <Typography
-                      sx={{
-                        color: 'text.secondary',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Nenhum participante cadastrado nesta turma.
-                    </Typography>
-                  </Paper>
-                </Box>
-              </Grid>
-            )}
           </Grid>
         }
         actions={

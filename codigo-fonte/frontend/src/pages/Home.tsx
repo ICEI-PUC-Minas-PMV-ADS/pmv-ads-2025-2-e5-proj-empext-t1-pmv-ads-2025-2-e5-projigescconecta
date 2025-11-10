@@ -28,6 +28,7 @@ const Home: React.FC = () => {
         justifyContent: 'center',
         px: 2,
         textAlign: 'center',
+        bgcolor: '#fff',
       }}
     >
       <Box>

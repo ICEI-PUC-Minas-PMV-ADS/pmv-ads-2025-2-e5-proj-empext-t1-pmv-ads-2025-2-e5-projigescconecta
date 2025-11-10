@@ -901,10 +901,28 @@ export interface CreateTeamRequest {
     'finish'?: string | null;
     /**
      * 
-     * @type {Array<number>}
+     * @type {number}
      * @memberof CreateTeamRequest
      */
-    'personTeamsIds'?: Array<number>;
+    'year': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'semester': string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof CreateTeamRequest
+     */
+    'modalityType': ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof CreateTeamRequest
+     */
+    'eventType': EventType;
     /**
      * 
      * @type {Array<number>}
@@ -916,8 +934,10 @@ export interface CreateTeamRequest {
      * @type {number}
      * @memberof CreateTeamRequest
      */
-    'courseId'?: number;
+    'courseId': number;
 }
+
+
 /**
  * 
  * @export
@@ -1292,12 +1312,6 @@ export interface EditTeamRequest {
      * @type {Array<number>}
      * @memberof EditTeamRequest
      */
-    'personTeamsIds'?: Array<number> | null;
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof EditTeamRequest
-     */
     'projectProgramIds'?: Array<number> | null;
     /**
      * 
@@ -1305,7 +1319,47 @@ export interface EditTeamRequest {
      * @memberof EditTeamRequest
      */
     'courseId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditTeamRequest
+     */
+    'year'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'semester'?: string | null;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof EditTeamRequest
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof EditTeamRequest
+     */
+    'eventType'?: EventType;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EventType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type EventType = typeof EventType[keyof typeof EventType];
+
+
 /**
  * 
  * @export
@@ -1955,6 +2009,30 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof GetTeamByIdResponse
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof GetTeamByIdResponse
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
     'courseId'?: number;
     /**
      * 
@@ -1987,6 +2065,8 @@ export interface GetTeamByIdResponse {
      */
     'createdAt'?: string;
 }
+
+
 /**
  * 
  * @export
@@ -2630,6 +2710,30 @@ export interface ListTeamItemViewModel {
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof ListTeamItemViewModel
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof ListTeamItemViewModel
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
     'projectPrograms'?: number;
     /**
      * 
@@ -2656,6 +2760,8 @@ export interface ListTeamItemViewModel {
      */
     'isDeleted'?: boolean;
 }
+
+
 /**
  * 
  * @export
@@ -2787,6 +2893,21 @@ export const MemberType = {
 } as const;
 
 export type MemberType = typeof MemberType[keyof typeof MemberType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ModalityType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ModalityType = typeof ModalityType[keyof typeof ModalityType];
 
 
 /**
