@@ -82,6 +82,44 @@ export interface BusinessCaseViewModel {
 /**
  * 
  * @export
+ * @interface ChartDataByString
+ */
+export interface ChartDataByString {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChartDataByString
+     */
+    'nome'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByString
+     */
+    'quantidade'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface ChartDataByYear
+ */
+export interface ChartDataByYear {
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByYear
+     */
+    'ano'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByYear
+     */
+    'quantidade'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CompanyViewModel
  */
 export interface CompanyViewModel {
@@ -546,6 +584,32 @@ export interface CreateOscResponse {
 /**
  * 
  * @export
+ * @interface CreatePersonCompanyRequest
+ */
+export interface CreatePersonCompanyRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonCompanyRequest
+     */
+    'personId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonCompanyResponse
+ */
+export interface CreatePersonCompanyResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonCompanyResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CreatePersonOscRequest
  */
 export interface CreatePersonOscRequest {
@@ -568,6 +632,12 @@ export interface CreatePersonOscResponse {
      * @memberof CreatePersonOscResponse
      */
     'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonOscResponse
+     */
+    'name'?: string;
 }
 /**
  * 
@@ -980,6 +1050,49 @@ export interface CreateUserResponse {
      * @memberof CreateUserResponse
      */
     'userId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardViewModel
+ */
+export interface DashboardViewModel {
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'organizacoesPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'consultoresPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'cidadesAtendidasPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByString>}
+     * @memberof DashboardViewModel
+     */
+    'rankingCausas'?: Array<ChartDataByString>;
+    /**
+     * 
+     * @type {Array<ChartDataByString>}
+     * @memberof DashboardViewModel
+     */
+    'rankingTemasProjeto'?: Array<ChartDataByString>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DashboardViewModel
+     */
+    'mapaCidades'?: Array<string>;
 }
 /**
  * 
@@ -2325,6 +2438,18 @@ export interface ListOscRequest {
      * @memberof ListOscRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'beneficiaryId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'originBusinessCaseId'?: number | null;
 }
 /**
  * 
@@ -2344,6 +2469,25 @@ export interface ListOscViewModel {
      * @memberof ListOscViewModel
      */
     'items'?: Array<OscViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonCompanyViewModel
+ */
+export interface ListPersonCompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonCompanyViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonCompanyViewModel>}
+     * @memberof ListPersonCompanyViewModel
+     */
+    'items'?: Array<PersonCompanyViewModel>;
 }
 /**
  * 
@@ -2998,6 +3142,74 @@ export interface OscViewModel {
      * @memberof OscViewModel
      */
     'beneficiariesCount'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface PaginationRequest
+ */
+export interface PaginationRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof PaginationRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface PersonCompanyViewModel
+ */
+export interface PersonCompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonCompanyViewModel
+     */
+    'personCompanyId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonCompanyViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'primaryPhone'?: string | null;
 }
 /**
  * 
@@ -5490,6 +5702,466 @@ export class BusinessCasesApi extends BaseAPI {
 
 
 /**
+ * CompanyApi - axios parameter creator
+ * @export
+ */
+export const CompanyApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjActivatePatch: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjActivatePatch', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}/activate`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjDelete: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjDelete', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjPut: async (cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjPut', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateCompanyCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesPost: async (createCompanyCommand?: CreateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/companies`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createCompanyCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesSearchPost: async (listCompaniesRequest?: ListCompaniesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/companies/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listCompaniesRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompanyByCnpj: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('getCompanyByCnpj', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CompanyApi - functional programming interface
+ * @export
+ */
+export const CompanyApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CompanyApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjActivatePatch(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjActivatePatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjDelete(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesPost(createCompanyCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCompaniesViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesSearchPost(listCompaniesRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompanyByCnpj(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.getCompanyByCnpj']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CompanyApi - factory interface
+ * @export
+ */
+export const CompanyApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CompanyApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjActivatePatch(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjDelete(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjDelete(cnpj, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesPost(createCompanyCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: any): AxiosPromise<ListCompaniesViewModel> {
+            return localVarFp.apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompanyByCnpj(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.getCompanyByCnpj(cnpj, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CompanyApi - object-oriented interface
+ * @export
+ * @class CompanyApi
+ * @extends {BaseAPI}
+ */
+export class CompanyApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjDelete(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateCompanyCommand} [createCompanyCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesPost(createCompanyCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListCompaniesRequest} [listCompaniesRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).getCompanyByCnpj(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * CoursesApi - axios parameter creator
  * @export
  */
@@ -5881,19 +6553,21 @@ export class CoursesApi extends BaseAPI {
 
 
 /**
- * CreateCompanyEndpointApi - axios parameter creator
+ * DashboardApi - axios parameter creator
  * @export
  */
-export const CreateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const DashboardApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCompaniesPost: async (createCompanyCommand?: CreateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/companies`;
+        getDashboardStats: async (courseId?: number, startDate?: string, endDate?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/dashboard/stats`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5901,7 +6575,7 @@ export const CreateCompanyEndpointApiAxiosParamCreator = function (configuration
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -5909,14 +6583,27 @@ export const CreateCompanyEndpointApiAxiosParamCreator = function (configuration
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            if (courseId !== undefined) {
+                localVarQueryParameter['courseId'] = courseId;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createCompanyCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -5927,180 +6614,78 @@ export const CreateCompanyEndpointApiAxiosParamCreator = function (configuration
 };
 
 /**
- * CreateCompanyEndpointApi - functional programming interface
+ * DashboardApi - functional programming interface
  * @export
  */
-export const CreateCompanyEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = CreateCompanyEndpointApiAxiosParamCreator(configuration)
+export const DashboardApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DashboardApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesPost(createCompanyCommand, options);
+        async getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDashboardStats(courseId, startDate, endDate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CreateCompanyEndpointApi.apiCompaniesPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DashboardApi.getDashboardStats']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * CreateCompanyEndpointApi - factory interface
+ * DashboardApi - factory interface
  * @export
  */
-export const CreateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = CreateCompanyEndpointApiFp(configuration)
+export const DashboardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DashboardApiFp(configuration)
     return {
         /**
          * 
-         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiCompaniesPost(createCompanyCommand, options).then((request) => request(axios, basePath));
+        getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: any): AxiosPromise<DashboardViewModel> {
+            return localVarFp.getDashboardStats(courseId, startDate, endDate, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * CreateCompanyEndpointApi - object-oriented interface
+ * DashboardApi - object-oriented interface
  * @export
- * @class CreateCompanyEndpointApi
+ * @class DashboardApi
  * @extends {BaseAPI}
  */
-export class CreateCompanyEndpointApi extends BaseAPI {
+export class DashboardApi extends BaseAPI {
     /**
      * 
-     * @param {CreateCompanyCommand} [createCompanyCommand] 
+     * @param {number} [courseId] 
+     * @param {string} [startDate] 
+     * @param {string} [endDate] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CreateCompanyEndpointApi
+     * @memberof DashboardApi
      */
-    public apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig) {
-        return CreateCompanyEndpointApiFp(this.configuration).apiCompaniesPost(createCompanyCommand, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: RawAxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).getDashboardStats(courseId, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
 
 
 /**
- * CreateDonationEndpointApi - axios parameter creator
+ * DonationApi - axios parameter creator
  * @export
  */
-export const CreateDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {CreateDonationCommand} [createDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsPost: async (createDonationCommand?: CreateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/donations`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createDonationCommand, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * CreateDonationEndpointApi - functional programming interface
- * @export
- */
-export const CreateDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = CreateDonationEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {CreateDonationCommand} [createDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsPost(createDonationCommand, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CreateDonationEndpointApi.apiDonationsPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * CreateDonationEndpointApi - factory interface
- * @export
- */
-export const CreateDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = CreateDonationEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {CreateDonationCommand} [createDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiDonationsPost(createDonationCommand, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * CreateDonationEndpointApi - object-oriented interface
- * @export
- * @class CreateDonationEndpointApi
- * @extends {BaseAPI}
- */
-export class CreateDonationEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {CreateDonationCommand} [createDonationCommand] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CreateDonationEndpointApi
-     */
-    public apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig) {
-        return CreateDonationEndpointApiFp(this.configuration).apiDonationsPost(createDonationCommand, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * DeleteDonationEndpointApi - axios parameter creator
- * @export
- */
-export const DeleteDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
+export const DonationApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -6139,88 +6724,18 @@ export const DeleteDonationEndpointApiAxiosParamCreator = function (configuratio
                 options: localVarRequestOptions,
             };
         },
-    }
-};
-
-/**
- * DeleteDonationEndpointApi - functional programming interface
- * @export
- */
-export const DeleteDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DeleteDonationEndpointApiAxiosParamCreator(configuration)
-    return {
         /**
          * 
          * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdDelete(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DeleteDonationEndpointApi.apiDonationsIdDelete']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * DeleteDonationEndpointApi - factory interface
- * @export
- */
-export const DeleteDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DeleteDonationEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsIdDelete(id: number, options?: any): AxiosPromise<void> {
-            return localVarFp.apiDonationsIdDelete(id, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * DeleteDonationEndpointApi - object-oriented interface
- * @export
- * @class DeleteDonationEndpointApi
- * @extends {BaseAPI}
- */
-export class DeleteDonationEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DeleteDonationEndpointApi
-     */
-    public apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig) {
-        return DeleteDonationEndpointApiFp(this.configuration).apiDonationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * InactivateCompanyEndpointApi - axios parameter creator
- * @export
- */
-export const InactivateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjDelete: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('apiCompaniesCnpjDelete', 'cnpj', cnpj)
-            const localVarPath = `/api/companies/{cnpj}`
-                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+        apiDonationsIdPut: async (id: number, updateDonationCommand?: UpdateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiDonationsIdPut', 'id', id)
+            const localVarPath = `/api/donations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6228,7 +6743,7 @@ export const InactivateCompanyEndpointApiAxiosParamCreator = function (configura
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -6238,94 +6753,26 @@ export const InactivateCompanyEndpointApiAxiosParamCreator = function (configura
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDonationCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
-    }
-};
-
-/**
- * InactivateCompanyEndpointApi - functional programming interface
- * @export
- */
-export const InactivateCompanyEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = InactivateCompanyEndpointApiAxiosParamCreator(configuration)
-    return {
         /**
          * 
-         * @param {string} cnpj 
+         * @param {CreateDonationCommand} [createDonationCommand] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjDelete(cnpj, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['InactivateCompanyEndpointApi.apiCompaniesCnpjDelete']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * InactivateCompanyEndpointApi - factory interface
- * @export
- */
-export const InactivateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = InactivateCompanyEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjDelete(cnpj: string, options?: any): AxiosPromise<void> {
-            return localVarFp.apiCompaniesCnpjDelete(cnpj, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * InactivateCompanyEndpointApi - object-oriented interface
- * @export
- * @class InactivateCompanyEndpointApi
- * @extends {BaseAPI}
- */
-export class InactivateCompanyEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {string} cnpj 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InactivateCompanyEndpointApi
-     */
-    public apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig) {
-        return InactivateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjDelete(cnpj, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * ListCompaniesEndpointApi - axios parameter creator
- * @export
- */
-export const ListCompaniesEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {ListCompaniesRequest} [listCompaniesRequest] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesSearchPost: async (listCompaniesRequest?: ListCompaniesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/companies/search`;
+        apiDonationsPost: async (createDonationCommand?: CreateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/donations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6348,95 +6795,21 @@ export const ListCompaniesEndpointApiAxiosParamCreator = function (configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(listCompaniesRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createDonationCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
-    }
-};
-
-/**
- * ListCompaniesEndpointApi - functional programming interface
- * @export
- */
-export const ListCompaniesEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListCompaniesEndpointApiAxiosParamCreator(configuration)
-    return {
         /**
          * 
-         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCompaniesViewModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesSearchPost(listCompaniesRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListCompaniesEndpointApi.apiCompaniesSearchPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * ListCompaniesEndpointApi - factory interface
- * @export
- */
-export const ListCompaniesEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListCompaniesEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {ListCompaniesRequest} [listCompaniesRequest] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: any): AxiosPromise<ListCompaniesViewModel> {
-            return localVarFp.apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * ListCompaniesEndpointApi - object-oriented interface
- * @export
- * @class ListCompaniesEndpointApi
- * @extends {BaseAPI}
- */
-export class ListCompaniesEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {ListCompaniesRequest} [listCompaniesRequest] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ListCompaniesEndpointApi
-     */
-    public apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig) {
-        return ListCompaniesEndpointApiFp(this.configuration).apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * ListCompanyEndpointApi - axios parameter creator
- * @export
- */
-export const ListCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCompanyByCnpj: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('getCompanyByCnpj', 'cnpj', cnpj)
-            const localVarPath = `/api/companies/{cnpj}`
-                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+        apiDonationsSearchPost: async (listDonationsRequest?: ListDonationsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/donations/search`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6444,7 +6817,7 @@ export const ListCompanyEndpointApiAxiosParamCreator = function (configuration?:
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -6454,86 +6827,18 @@ export const ListCompanyEndpointApiAxiosParamCreator = function (configuration?:
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listDonationsRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
             };
         },
-    }
-};
-
-/**
- * ListCompanyEndpointApi - functional programming interface
- * @export
- */
-export const ListCompanyEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListCompanyEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompanyByCnpj(cnpj, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListCompanyEndpointApi.getCompanyByCnpj']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * ListCompanyEndpointApi - factory interface
- * @export
- */
-export const ListCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListCompanyEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCompanyByCnpj(cnpj: string, options?: any): AxiosPromise<void> {
-            return localVarFp.getCompanyByCnpj(cnpj, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * ListCompanyEndpointApi - object-oriented interface
- * @export
- * @class ListCompanyEndpointApi
- * @extends {BaseAPI}
- */
-export class ListCompanyEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {string} cnpj 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ListCompanyEndpointApi
-     */
-    public getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig) {
-        return ListCompanyEndpointApiFp(this.configuration).getCompanyByCnpj(cnpj, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * ListDonationEndpointApi - axios parameter creator
- * @export
- */
-export const ListDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
         /**
          * 
          * @param {number} id 
@@ -6575,12 +6880,61 @@ export const ListDonationEndpointApiAxiosParamCreator = function (configuration?
 };
 
 /**
- * ListDonationEndpointApi - functional programming interface
+ * DonationApi - functional programming interface
  * @export
  */
-export const ListDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListDonationEndpointApiAxiosParamCreator(configuration)
+export const DonationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DonationApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdPut(id, updateDonationCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateDonationCommand} [createDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsPost(createDonationCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDonationsViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsSearchPost(listDonationsRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
         /**
          * 
          * @param {number} id 
@@ -6590,19 +6944,56 @@ export const ListDonationEndpointApiFp = function(configuration?: Configuration)
         async getDonationById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDonationById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListDonationEndpointApi.getDonationById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.getDonationById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * ListDonationEndpointApi - factory interface
+ * DonationApi - factory interface
  * @export
  */
-export const ListDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListDonationEndpointApiFp(configuration)
+export const DonationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DonationApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdDelete(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateDonationCommand} [createDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsPost(createDonationCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: any): AxiosPromise<ListDonationsViewModel> {
+            return localVarFp.apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {number} id 
@@ -6616,129 +7007,66 @@ export const ListDonationEndpointApiFactory = function (configuration?: Configur
 };
 
 /**
- * ListDonationEndpointApi - object-oriented interface
+ * DonationApi - object-oriented interface
  * @export
- * @class ListDonationEndpointApi
+ * @class DonationApi
  * @extends {BaseAPI}
  */
-export class ListDonationEndpointApi extends BaseAPI {
+export class DonationApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ListDonationEndpointApi
+     * @memberof DonationApi
      */
-    public getDonationById(id: number, options?: RawAxiosRequestConfig) {
-        return ListDonationEndpointApiFp(this.configuration).getDonationById(id, options).then((request) => request(this.axios, this.basePath));
+    public apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
-}
 
-
-
-/**
- * ListDonationsEndpointApi - axios parameter creator
- * @export
- */
-export const ListDonationsEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {ListDonationsRequest} [listDonationsRequest] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsSearchPost: async (listDonationsRequest?: ListDonationsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/donations/search`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(listDonationsRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
+    /**
+     * 
+     * @param {number} id 
+     * @param {UpdateDonationCommand} [updateDonationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(this.axios, this.basePath));
     }
-};
 
-/**
- * ListDonationsEndpointApi - functional programming interface
- * @export
- */
-export const ListDonationsEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ListDonationsEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {ListDonationsRequest} [listDonationsRequest] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDonationsViewModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsSearchPost(listDonationsRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ListDonationsEndpointApi.apiDonationsSearchPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
+    /**
+     * 
+     * @param {CreateDonationCommand} [createDonationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsPost(createDonationCommand, options).then((request) => request(this.axios, this.basePath));
     }
-};
 
-/**
- * ListDonationsEndpointApi - factory interface
- * @export
- */
-export const ListDonationsEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ListDonationsEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {ListDonationsRequest} [listDonationsRequest] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: any): AxiosPromise<ListDonationsViewModel> {
-            return localVarFp.apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * ListDonationsEndpointApi - object-oriented interface
- * @export
- * @class ListDonationsEndpointApi
- * @extends {BaseAPI}
- */
-export class ListDonationsEndpointApi extends BaseAPI {
     /**
      * 
      * @param {ListDonationsRequest} [listDonationsRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ListDonationsEndpointApi
+     * @memberof DonationApi
      */
     public apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: RawAxiosRequestConfig) {
-        return ListDonationsEndpointApiFp(this.configuration).apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(this.axios, this.basePath));
+        return DonationApiFp(this.configuration).apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public getDonationById(id: number, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).getDonationById(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -7590,6 +7918,266 @@ export class OscsApi extends BaseAPI {
      */
     public updateOsc(oscId: number, updateOscRequest?: UpdateOscRequest, options?: RawAxiosRequestConfig) {
         return OscsApiFp(this.configuration).updateOsc(oscId, updateOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonCompanyApi - axios parameter creator
+ * @export
+ */
+export const PersonCompanyApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonCompany: async (companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'companyId' is not null or undefined
+            assertParamExists('createPersonCompany', 'companyId', companyId)
+            const localVarPath = `/api/persons-company/{CompanyId}/create`
+                .replace(`{${"CompanyId"}}`, encodeURIComponent(String(companyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonCompanyRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonCompany: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePersonCompany', 'id', id)
+            const localVarPath = `/api/persons-company/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonCompany: async (companyId: number, paginationRequest?: PaginationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'companyId' is not null or undefined
+            assertParamExists('listPersonCompany', 'companyId', companyId)
+            const localVarPath = `/api/persons-company/{CompanyId}/search`
+                .replace(`{${"CompanyId"}}`, encodeURIComponent(String(companyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(paginationRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonCompanyApi - functional programming interface
+ * @export
+ */
+export const PersonCompanyApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonCompanyApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonCompanyResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonCompany(companyId, createPersonCompanyRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.createPersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonCompany(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonCompany(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.deletePersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonCompanyViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonCompany(companyId, paginationRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.listPersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonCompanyApi - factory interface
+ * @export
+ */
+export const PersonCompanyApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonCompanyApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: any): AxiosPromise<CreatePersonCompanyResponse> {
+            return localVarFp.createPersonCompany(companyId, createPersonCompanyRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonCompany(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePersonCompany(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: any): AxiosPromise<ListPersonCompanyViewModel> {
+            return localVarFp.listPersonCompany(companyId, paginationRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonCompanyApi - object-oriented interface
+ * @export
+ * @class PersonCompanyApi
+ * @extends {BaseAPI}
+ */
+export class PersonCompanyApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} companyId 
+     * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).createPersonCompany(companyId, createPersonCompanyRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public deletePersonCompany(id: number, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).deletePersonCompany(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} companyId 
+     * @param {PaginationRequest} [paginationRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).listPersonCompany(companyId, paginationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -10087,114 +10675,6 @@ export class ProjectTypesApi extends BaseAPI {
 
 
 /**
- * ReactivateCompanyEndpointApi - axios parameter creator
- * @export
- */
-export const ReactivateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjActivatePatch: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('apiCompaniesCnpjActivatePatch', 'cnpj', cnpj)
-            const localVarPath = `/api/companies/{cnpj}/activate`
-                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * ReactivateCompanyEndpointApi - functional programming interface
- * @export
- */
-export const ReactivateCompanyEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ReactivateCompanyEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjActivatePatch(cnpj, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ReactivateCompanyEndpointApi.apiCompaniesCnpjActivatePatch']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * ReactivateCompanyEndpointApi - factory interface
- * @export
- */
-export const ReactivateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ReactivateCompanyEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjActivatePatch(cnpj: string, options?: any): AxiosPromise<void> {
-            return localVarFp.apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * ReactivateCompanyEndpointApi - object-oriented interface
- * @export
- * @class ReactivateCompanyEndpointApi
- * @extends {BaseAPI}
- */
-export class ReactivateCompanyEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {string} cnpj 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReactivateCompanyEndpointApi
-     */
-    public apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig) {
-        return ReactivateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * TeamsApi - axios parameter creator
  * @export
  */
@@ -10580,236 +11060,6 @@ export class TeamsApi extends BaseAPI {
      */
     public listTeam(listTeamRequest?: ListTeamRequest, options?: RawAxiosRequestConfig) {
         return TeamsApiFp(this.configuration).listTeam(listTeamRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * UpdateCompanyEndpointApi - axios parameter creator
- * @export
- */
-export const UpdateCompanyEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjPut: async (cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'cnpj' is not null or undefined
-            assertParamExists('apiCompaniesCnpjPut', 'cnpj', cnpj)
-            const localVarPath = `/api/companies/{cnpj}`
-                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateCompanyCommand, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * UpdateCompanyEndpointApi - functional programming interface
- * @export
- */
-export const UpdateCompanyEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UpdateCompanyEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UpdateCompanyEndpointApi.apiCompaniesCnpjPut']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * UpdateCompanyEndpointApi - factory interface
- * @export
- */
-export const UpdateCompanyEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UpdateCompanyEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} cnpj 
-         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * UpdateCompanyEndpointApi - object-oriented interface
- * @export
- * @class UpdateCompanyEndpointApi
- * @extends {BaseAPI}
- */
-export class UpdateCompanyEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {string} cnpj 
-     * @param {UpdateCompanyCommand} [updateCompanyCommand] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UpdateCompanyEndpointApi
-     */
-    public apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig) {
-        return UpdateCompanyEndpointApiFp(this.configuration).apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * UpdateDonationEndpointApi - axios parameter creator
- * @export
- */
-export const UpdateDonationEndpointApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {number} id 
-         * @param {UpdateDonationCommand} [updateDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsIdPut: async (id: number, updateDonationCommand?: UpdateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiDonationsIdPut', 'id', id)
-            const localVarPath = `/api/donations/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateDonationCommand, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * UpdateDonationEndpointApi - functional programming interface
- * @export
- */
-export const UpdateDonationEndpointApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = UpdateDonationEndpointApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {number} id 
-         * @param {UpdateDonationCommand} [updateDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdPut(id, updateDonationCommand, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UpdateDonationEndpointApi.apiDonationsIdPut']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * UpdateDonationEndpointApi - factory interface
- * @export
- */
-export const UpdateDonationEndpointApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = UpdateDonationEndpointApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {number} id 
-         * @param {UpdateDonationCommand} [updateDonationCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: any): AxiosPromise<void> {
-            return localVarFp.apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * UpdateDonationEndpointApi - object-oriented interface
- * @export
- * @class UpdateDonationEndpointApi
- * @extends {BaseAPI}
- */
-export class UpdateDonationEndpointApi extends BaseAPI {
-    /**
-     * 
-     * @param {number} id 
-     * @param {UpdateDonationCommand} [updateDonationCommand] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UpdateDonationEndpointApi
-     */
-    public apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig) {
-        return UpdateDonationEndpointApiFp(this.configuration).apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
