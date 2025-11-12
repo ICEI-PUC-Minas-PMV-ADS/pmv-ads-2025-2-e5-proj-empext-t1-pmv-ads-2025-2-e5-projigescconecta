@@ -35,6 +35,7 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
         public async Task<Result<PersonTeamDetailDto, ValidationFailed>> Handle(GetPersonTeamByIdQuery request, CancellationToken cancellationToken)
         {
             var personTeam = await _context.PersonTeams
+                .IgnoreQueryFilters()
                 .Include(pt => pt.Person)
                 .Include(pt => pt.Team)
                 .AsNoTracking()

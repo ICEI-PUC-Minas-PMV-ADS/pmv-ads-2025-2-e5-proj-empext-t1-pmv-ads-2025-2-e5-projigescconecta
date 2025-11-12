@@ -1,4 +1,5 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.API.Common.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,18 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
             var result = await _mediator.Send(new ListPersonTeamQuery { TeamId = teamId });
             return Ok(result);
         }
+
+        [HttpPost("search", Name = "SearchPersonTeams")]
+        public async Task<ActionResult<List<PersonTeamDto>>> SearchPersonTeams([FromBody] ListPersonTeamRequest request)
+        {
+            var result = await _mediator.Send(new ListPersonTeamQuery { TeamId = request.TeamId, Filters = request.Filters });
+            return Ok(result);
+        }
+    }
+
+    public class ListPersonTeamRequest
+    {
+        public int? TeamId { get; set; }
+        public List<Filter> Filters { get; set; } = new();
     }
 }

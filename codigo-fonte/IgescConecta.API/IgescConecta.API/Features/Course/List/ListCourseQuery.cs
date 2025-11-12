@@ -70,9 +70,16 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
         public async Task<ListCourseViewModel> Handle(ListCourseQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters);
+            var isDeletedFilter = request.Filters?.FirstOrDefault(f => string.Equals(f.PropertyName, "IsDeleted", StringComparison.OrdinalIgnoreCase));
+            var hasIsDeletedFilter = isDeletedFilter is not null;
+            if (isDeletedFilter is not null && isDeletedFilter.Operation == Op.None)
+            {
+                isDeletedFilter.Operation = Op.Equals;
+            }
 
-            var query = _context.Courses.AsQueryable();
+            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters ?? new List<Filter>());
+
+            var query = hasIsDeletedFilter ? _context.Courses.IgnoreQueryFilters().AsQueryable() : _context.Courses.AsQueryable();
 
             var result = await query
                 .Where(expr)
@@ -87,7 +94,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var totalRecords = await _context.Courses.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(expr, cancellationToken);
 
             return new ListCourseViewModel
             {
@@ -109,6 +116,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public async Task<GetCourseByIdViewModel> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
             var course = await _context.Courses
+                .IgnoreQueryFilters()
                 .Where(c => c.Id == request.Id)
                 .Select(c => new GetCourseByIdViewModel
                 {
@@ -121,13 +129,13 @@ namespace IgescConecta.API.Features.Courses.ListCourse
                     UpdatedAt = c.UpdatedAt,
                     TeamsCount = c.Teams.Count(),
                     Teams = c.Teams.Select(t => new TeamViewModel
-                    {
-                        Id = t.Id,
-                        Name = t.Name,
-                        LessonTime = t.LessonTime,
-                        Start = t.Start,
-                        Finish = t.Finish
-                    }).ToList()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    LessonTime = t.LessonTime,
+                    Start = t.Start,
+                    Finish = t.Finish
+                }).ToList()
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
