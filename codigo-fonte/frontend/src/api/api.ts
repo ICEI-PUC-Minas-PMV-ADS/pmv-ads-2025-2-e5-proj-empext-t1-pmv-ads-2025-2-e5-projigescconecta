@@ -2505,6 +2505,18 @@ export interface ListPersonTeamRequest {
      * @type {number}
      * @memberof ListPersonTeamRequest
      */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
     'teamId'?: number | null;
     /**
      * 
@@ -2512,6 +2524,25 @@ export interface ListPersonTeamRequest {
      * @memberof ListPersonTeamRequest
      */
     'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonTeamViewModel
+ */
+export interface ListPersonTeamViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonTeamDto>}
+     * @memberof ListPersonTeamViewModel
+     */
+    'items'?: Array<PersonTeamDto>;
 }
 /**
  * 
@@ -8329,7 +8360,7 @@ export const PersonTeamsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PersonTeamDto>>> {
+        async searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonTeamViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.searchPersonTeams(listPersonTeamRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.searchPersonTeams']?.[localVarOperationServerIndex]?.url;
@@ -8406,7 +8437,7 @@ export const PersonTeamsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: any): AxiosPromise<Array<PersonTeamDto>> {
+        searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: any): AxiosPromise<ListPersonTeamViewModel> {
             return localVarFp.searchPersonTeams(listPersonTeamRequest, options).then((request) => request(axios, basePath));
         },
     };

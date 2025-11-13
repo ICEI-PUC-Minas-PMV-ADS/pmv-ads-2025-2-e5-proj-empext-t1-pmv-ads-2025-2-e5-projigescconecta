@@ -38,6 +38,9 @@ import {
   CreatePersonTeamRequest,
   EditPersonTeamRequest,
   MemberType,
+  Filter,
+  Op,
+  ListPersonTeamRequest,
 } from './../api';
 import { extractErrorMessage } from '@/utils/error';
 
@@ -62,6 +65,11 @@ interface Person {
 interface Team {
   teamId?: number;
   name?: string | null;
+}
+
+interface ListPersonTeamViewModel {
+  totalItems: number;
+  items: PersonTeam[];
 }
 
 const MemberTypeLabels: Record<MemberType, string> = {
@@ -100,6 +108,8 @@ const PersonTeam: React.FC = () => {
   });
   const [filterPersonName, setFilterPersonName] = useState('');
   const [filterMemberType, setFilterMemberType] = useState<MemberType | ''>('');
+  const [filterIsDeleted, setFilterIsDeleted] = useState<boolean | ''>('');
+  const [totalCount, setTotalCount] = useState(0);
   // CSV import state
   const [isUploadOpen, setUploadOpen] = useState(false);
 
@@ -164,34 +174,63 @@ const PersonTeam: React.FC = () => {
     if (!teamId) return;
 
     try {
-      const response = await apiInstance.listPersonTeamsByTeam(parseInt(teamId), {
-        params: {
-          pageNumber: 1,
-          pageSize: 1000,
-          filters: undefined,
-        },
-      });
+      const filters: Filter[] = [];
+      if (filterPersonName.trim()) {
+        filters.push({ propertyName: 'Person.Name', operation: Op.NUMBER_7, value: filterPersonName });
+      }
+      if (filterMemberType !== '') {
+        filters.push({ propertyName: 'MemberType', operation: Op.NUMBER_1, value: filterMemberType as number });
+      }
+      if (filterIsDeleted !== '') {
+        filters.push({ propertyName: 'IsDeleted', operation: Op.NUMBER_1, value: filterIsDeleted as boolean });
+      }
 
-      if (response.data && Array.isArray(response.data)) {
-        if (response.data.length === 0) {
-          setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
-          setPersonTeams([]);
-          return;
-        }
+      const body: ListPersonTeamRequest = {
+        teamId: parseInt(teamId),
+        filters,
+        pageNumber: page + 1,
+        pageSize: rowsPerPage,
+      } as any;
+      const response = await apiInstance.searchPersonTeams(body);
 
-        setNoDataMessage('');
-        setPersonTeams(response.data);
+      const data = response.data as unknown as ListPersonTeamViewModel;
+
+      if (data && Array.isArray(data.items)) {
+        const hasActiveFilters =
+          (filterPersonName.trim() !== '') ||
+          (filterMemberType !== '') ||
+          (filterIsDeleted !== '');
+        const isEmpty = data.items.length === 0;
+        setNoDataMessage(
+          isEmpty
+            ? (hasActiveFilters
+                ? 'Nenhum resultado encontrado para os filtros aplicados.'
+                : 'Nenhuma pessoa vinculada a esta turma.')
+            : ''
+        );
+        setPersonTeams(data.items);
+        setTotalCount(data.totalItems || 0);
       } else {
         setPersonTeams([]);
-        setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
+        setTotalCount(0);
+        const hasActiveFilters =
+          (filterPersonName.trim() !== '') ||
+          (filterMemberType !== '') ||
+          (filterIsDeleted !== '');
+        setNoDataMessage(
+          hasActiveFilters
+            ? 'Nenhum resultado encontrado para os filtros aplicados.'
+            : 'Nenhuma pessoa vinculada a esta turma.'
+        );
       }
     } catch (error) {
       console.error('Erro ao buscar vínculos:', error);
       toast.error('Erro ao carregar vínculos da turma');
       setPersonTeams([]);
+      setTotalCount(0);
       setNoDataMessage('Erro ao carregar dados.');
     }
-  }, [teamId, apiInstance]);
+  }, [teamId, apiInstance, filterPersonName, filterMemberType, filterIsDeleted, page, rowsPerPage]);
 
   // Busca paginada de pessoas com filtro por nome (não carregar todas de uma vez)
   const fetchPerson = useCallback(
@@ -206,8 +245,8 @@ const PersonTeam: React.FC = () => {
             ? {
                 filters: [
                   {
-                    propertyName: 'name',
-                    operation: 7, // Contém
+                    propertyName: 'Name',
+                    operation: Op.NUMBER_7,
                     value: searchValue,
                   },
                 ],
@@ -401,6 +440,7 @@ const PersonTeam: React.FC = () => {
   const handleClearFilters = () => {
     setFilterPersonName('');
     setFilterMemberType('');
+    setFilterIsDeleted('');
     setSearch('');
     setPage(0);
   };
@@ -409,31 +449,11 @@ const PersonTeam: React.FC = () => {
     navigate('/team');
   };
 
-  const filteredPersonTeams = useMemo(() => {
-    let filtered = personTeams;
-
-    if (filterPersonName.trim()) {
-      filtered = filtered.filter((pt) =>
-        pt.personName?.toLowerCase().includes(filterPersonName.toLowerCase())
-      );
+  useEffect(() => {
+    if (teamId) {
+      fetchPersonTeams();
     }
-
-    if (filterMemberType !== '') {
-      filtered = filtered.filter((pt) => pt.memberTypes?.includes(filterMemberType as MemberType));
-    }
-
-    if (search.trim()) {
-      filtered = filtered.filter((pt) =>
-        pt.personName?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    return filtered;
-  }, [personTeams, filterPersonName, filterMemberType, search]);
-
-  const paginatedPersonTeams = useMemo(() => {
-    return filteredPersonTeams.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  }, [filteredPersonTeams, page, rowsPerPage]);
+  }, [teamId, fetchPersonTeams]);
 
   useEffect(() => {
     if (teamId) {
@@ -649,7 +669,7 @@ const PersonTeam: React.FC = () => {
             >
               Filtro de Busca
             </Typography>
-            {(filterPersonName || filterMemberType || search) && (
+            {(filterPersonName || filterMemberType || filterIsDeleted !== '' || search) && (
               <Chip
                 label="Filtros ativos"
                 size="small"
@@ -698,6 +718,21 @@ const PersonTeam: React.FC = () => {
                   ))}
                 </Select>
               </FormControl>
+
+              <FormControl size="small" sx={{ minWidth: 160 }}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={filterIsDeleted === '' ? '' : filterIsDeleted ? 'true' : 'false'}
+                  onChange={(e) => {
+                    const v = e.target.value as string;
+                    setFilterIsDeleted(v === '' ? '' : v === 'true');
+                  }}
+                  label="Status"
+                >
+                  <MenuItem value={'false'}>Ativo</MenuItem>
+                  <MenuItem value={'true'}>Inativo</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <Button
@@ -729,12 +764,16 @@ const PersonTeam: React.FC = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Table
             columns={columns}
-            data={paginatedPersonTeams}
-            totalCount={filteredPersonTeams.length}
+            data={personTeams}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            totalCount={totalCount}
+            onPageChange={(newPage) => setPage(newPage)}
+            onRowsPerPageChange={(newRows) => setRowsPerPage(newRows)}
             onEdit={handleEdit}
             onDelete={handleDelete}
             onView={handleView}
-            pagination={false}
+            pagination={true}
             noDataMessage={noDataMessage}
           />
         </Box>

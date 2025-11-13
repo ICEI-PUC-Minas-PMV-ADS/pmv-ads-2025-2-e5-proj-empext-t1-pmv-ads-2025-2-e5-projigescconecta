@@ -108,10 +108,10 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                     Semester = team.Semester,
                     ModalityType = team.ModalityType,
                     EventType = team.EventType,
-                    ProjectPrograms = team.ProjectPrograms.Count,
+                    ProjectPrograms = team.ProjectPrograms.Count(pp => !pp.IsDeleted),
                     CourseId = team.CourseId,
                     CourseName = team.Course != null ? team.Course.Name : "",
-                    PersonTeamsCount = team.PersonTeams.Count,
+                    PersonTeamsCount = team.PersonTeams.Count(pt => !pt.IsDeleted),
                     IsDeleted = team.IsDeleted
                 })
                 .OrderByDescending(x => x.CourseId)
