@@ -32,27 +32,27 @@ namespace IgescConecta.API.Features.Donations.CreateDonation
         {
             if (request.Value <= 0)
             {
-                return new ValidationFailed("O valor da doa��o deve ser maior que zero.");
+                return new ValidationFailed("O valor da doação deve ser maior que zero.");
             }
 
             if (request.PersonId.HasValue == request.CompanyId.HasValue)
             {
-                return new ValidationFailed("A doa��o deve ter exatamente um doador: ou uma Pessoa (PersonId) ou uma Empresa (CompanyId).");
+                return new ValidationFailed("A doação deve ter exatamente um doador: ou uma Pessoa (PersonId) ou uma Empresa (CompanyId).");
             }
 
             if (request.OscId.HasValue && request.CourseId.HasValue)
             {
-                return new ValidationFailed("A doa��o pode ser destinada para uma OSC ou para um Curso/Turma, mas n�o para ambos ao mesmo tempo.");
+                return new ValidationFailed("A doação pode ser destinada para uma OSC ou para um Curso/Turma, mas não para ambos ao mesmo tempo.");
             }
 
             if (request.TeamId.HasValue && !request.CourseId.HasValue)
             {
-                return new ValidationFailed("Uma doa��o para uma Turma (TeamId) tamb�m deve especificar o Curso (CourseId).");
+                return new ValidationFailed("Uma doação para uma Turma também deve especificar o Programa.");
             }
 
             if (request.CourseId.HasValue && !request.TeamId.HasValue)
             {
-                return new ValidationFailed("Uma doa��o para um Curso deve especificar uma Turma (TeamId). A doa��o n�o pode ser para um curso em geral.");
+                return new ValidationFailed("Uma doação para um Curso deve especificar uma Turma. A doação não pode ser para um curso em geral.");
             }
 
             var finalDonationDate = request.DonationDate.Date + DateTime.UtcNow.TimeOfDay;
