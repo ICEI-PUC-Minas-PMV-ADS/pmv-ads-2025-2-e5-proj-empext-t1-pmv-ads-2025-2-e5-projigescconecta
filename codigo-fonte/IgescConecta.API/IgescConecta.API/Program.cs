@@ -16,6 +16,7 @@ builder.Services.AddDbContextIgesc(builder.Configuration);
 
 builder.Services.AddIdentity();
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddReportingMetadata();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
