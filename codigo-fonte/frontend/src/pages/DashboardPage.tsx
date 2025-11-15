@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Box, Container,
+  Box, Container, Button,
   CircularProgress, Grid, Typography, Paper,
   alpha, FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
@@ -16,15 +16,17 @@ import {
   CoursesApi,
   type CourseViewModel,
   type DashboardViewModel,
+  type ChartDataByYear,
+  type ChartDataByString,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
 dayjs.locale('pt-br');
 
-const HomePage: React.FC = () => {
+const DashboardPage: React.FC = () => {
   const dashboardApi = useMemo(() => new DashboardApi(apiConfig), []);
   const coursesApi = useMemo(() => new CoursesApi(apiConfig), []);
 
@@ -43,8 +45,8 @@ const HomePage: React.FC = () => {
       setCoursesLoading(true);
       const response = await coursesApi.listCourse({ pageNumber: 1, pageSize: 1000 });
       setCourses(response.data.items ?? []);
-    } catch (err: any) {
-      toast.error(err.message || 'Erro ao carregar lista de programas.');
+    } catch (error) {
+      toast.error('Erro ao carregar lista de programas.');
     } finally {
       setCoursesLoading(false);
     }
@@ -64,8 +66,8 @@ const HomePage: React.FC = () => {
         endDate?.format('YYYY-MM-DD')
       );
       setData(response.data);
-    } catch (err: any) {
-      toast.error(err.message || "Erro ao carregar dados do dashboard.");
+    } catch (error) {
+      toast.error("Erro ao carregar dados do dashboard.");
       setData(null);
     } finally {
       setLoading(false);
@@ -82,27 +84,27 @@ const HomePage: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProgramId, startDate, endDate]);
 
-  const renderChartBox = (title: string, data: any[], chartType: 'vertical-bar' | 'horizontal-bar') => (
-    <Grid size={{ xs: 12, md: 6 }}>
-      <Paper elevation={1} sx={{ p: 2, borderRadius: 2, height: '400px' }}>
+  const renderChartBox = (title: string, data: any[], chartType: 'line' | 'bar') => (
+    <Grid item xs={12} md={6} lg={4}>
+      <Paper elevation={1} sx={{ p: 2, borderRadius: 2, height: '100%' }}>
         <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, mb: 2 }}>
           {title}
         </Typography>
         <ResponsiveContainer width="100%" height={300}>
-          {chartType === 'vertical-bar' ? (
-            <BarChart data={data} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+          {chartType === 'line' ? (
+            <LineChart data={data} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="ano" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="quantidade" fill="#8884d8" name="Total" />
-            </BarChart>
+              <Line type="monotone" dataKey="quantidade" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
           ) : (
-            <BarChart data={data} layout="vertical" margin={{ top: 5, right: 20, left: 100, bottom: 5 }}>
+            <BarChart data={data} layout="vertical" margin={{ top: 5, right: 20, left: 60, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" />
-              <YAxis dataKey="nome" type="category" width={150} interval={0} />
+              <YAxis dataKey="nome" type="category" width={100} />
               <Tooltip />
               <Bar dataKey="quantidade" fill="#82ca9d" name="Total" />
             </BarChart>
@@ -140,7 +142,7 @@ const HomePage: React.FC = () => {
               </Box>
               
               <Grid container spacing={2.5} alignItems="center">
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid item xs={12} md={4}>
                   <FormControl fullWidth size="small">
                     <InputLabel id="programa-select-label">Programa</InputLabel>
                     <Select
@@ -161,7 +163,7 @@ const HomePage: React.FC = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <Grid item xs={12} sm={4} md={4}>
                   <DatePicker
                     label="Período - Início"
                     value={startDate}
@@ -170,7 +172,7 @@ const HomePage: React.FC = () => {
                     slotProps={{ textField: { size: 'small', fullWidth: true } }}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <Grid item xs={12} sm={4} md={4}>
                   <DatePicker
                     label="Período - Fim"
                     value={endDate}
@@ -187,21 +189,21 @@ const HomePage: React.FC = () => {
             )}
 
             {!loading && !data && (
-              <Typography variant="h6" sx={{ textAlign: 'center', p: 5, color: 'text.secondary' }}>
+              <Typography sx={{ textAlign: 'center', p: 5, color: 'text.secondary' }}>
                 Por favor, selecione um programa para visualizar os dados.
               </Typography>
             )}
 
             {!loading && data && (
               <Grid container spacing={3}>
-                {renderChartBox("Organizações Sociais", data.organizacoesPorAno ?? [], 'vertical-bar')}
-                {renderChartBox("Consultores Sociais", data.consultoresPorAno ?? [], 'vertical-bar')}
-                {renderChartBox("Cidades Atendidas", data.cidadesAtendidasPorAno ?? [], 'vertical-bar')}
-                {renderChartBox("Causas", data.rankingCausas ?? [], 'horizontal-bar')}
-                {renderChartBox("Temas de Projeto", data.rankingTemasProjeto ?? [], 'horizontal-bar')}
+                {renderChartBox("Organizações Sociais", data.organizacoesPorAno ?? [], 'line')}
+                {renderChartBox("Consultores Sociais", data.consultoresPorAno ?? [], 'line')}
+                {renderChartBox("Cidades Atendidas", data.cidadesAtendidasPorAno ?? [], 'line')}
+                {renderChartBox("Causas", data.rankingCausas ?? [], 'bar')}
+                {renderChartBox("Temas de Projeto", data.rankingTemasProjeto ?? [], 'bar')}
                 
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <Paper elevation={1} sx={{ p: 2, borderRadius: 2, height: '400px' }}>
+                <Grid item xs={12} md={6} lg={4}>
+                  <Paper elevation={1} sx={{ p: 2, borderRadius: 2, height: '100%' }}>
                     <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, mb: 2 }}>
                       Mapa Cidades Atendidas
                     </Typography>
@@ -222,4 +224,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default DashboardPage;

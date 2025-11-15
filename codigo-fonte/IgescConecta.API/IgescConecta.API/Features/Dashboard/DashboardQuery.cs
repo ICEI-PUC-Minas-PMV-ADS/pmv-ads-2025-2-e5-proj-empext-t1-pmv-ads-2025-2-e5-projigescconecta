@@ -79,9 +79,13 @@ namespace IgescConecta.API.Features.Dashboard
                 .OrderBy(x => x.Ano)
                 .ToListAsync(cancellationToken);
 
-            var oscsAtendidasIds = await personTeamsQuery
-                .Where(pt => pt.OscId != null)
-                .Select(pt => pt.OscId.Value)
+            var projectsQuery = _context.ProjectPrograms
+                .AsNoTracking()
+                .Include(pp => pp.Team)
+                .Where(pp => teamsQuery.Any(t => t.Id == pp.TeamId));
+
+            var oscsAtendidasIds = await projectsQuery
+                .Select(pp => pp.OscId)
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
@@ -89,12 +93,10 @@ namespace IgescConecta.API.Features.Dashboard
                 .AsNoTracking()
                 .Where(o => oscsAtendidasIds.Contains(o.Id))
                 .Include(o => o.OriginsBusinessCases)
-                    .ThenInclude(obc => obc.BusinessCase)
                 .ToListAsync(cancellationToken);
 
-            var oscsComAno = await personTeamsQuery
-                .Where(pt => pt.OscId != null)
-                .Select(pt => new { pt.OscId, Ano = pt.Team.Start.Value.Year })
+            var oscsComAno = await projectsQuery
+                .Select(pp => new { pp.OscId, Ano = pp.Team.Start.Value.Year })
                 .Distinct()
                 .ToListAsync(cancellationToken);
 
@@ -120,10 +122,14 @@ namespace IgescConecta.API.Features.Dashboard
                 .OrderBy(x => x.Ano)
                 .ToList();
 
-            viewModel.RankingCausas = oscsAtendidas
-                .SelectMany(o => o.OriginsBusinessCases)
-                .Where(obc => obc.BusinessCase != null)
-                .GroupBy(obc => obc.BusinessCase.Name)
+            var allCauseIds = oscsAtendidas
+                .SelectMany(o => o.OriginsBusinessCases ?? new List<OriginBusinessCase>())
+                .Select(obc => obc.BusinessCaseId);
+
+            viewModel.RankingCausas = await _context.BusinessCases
+                .AsNoTracking()
+                .Where(bc => allCauseIds.Contains(bc.Id))
+                .GroupBy(bc => bc.Name)
                 .Select(g => new ChartDataByString
                 {
                     Nome = g.Key,
@@ -131,14 +137,16 @@ namespace IgescConecta.API.Features.Dashboard
                 })
                 .OrderByDescending(x => x.Quantidade)
                 .Take(10)
-                .ToList();
+                .ToListAsync(cancellationToken);
 
-            viewModel.RankingTemasProjeto = await _context.ProjectPrograms
+            var allProjectThemeIds = await projectsQuery
+                .Select(pp => pp.ProjectThemeId)
+                .ToListAsync(cancellationToken);
+
+            viewModel.RankingTemasProjeto = await _context.ProjectThemes
                 .AsNoTracking()
-                .Where(pp => teamsQuery.Any(t => t.Id == pp.TeamId))
-                .Include(pp => pp.ProjectTheme)
-                .Where(pp => pp.ProjectTheme != null)
-                .GroupBy(pp => pp.ProjectTheme.Name)
+                .Where(pt => allProjectThemeIds.Contains(pt.Id))
+                .GroupBy(pt => pt.Name)
                 .Select(g => new ChartDataByString
                 {
                     Nome = g.Key,
@@ -150,6 +158,7 @@ namespace IgescConecta.API.Features.Dashboard
 
             viewModel.MapaCidades = oscsAtendidas
                 .Select(o => o.City)
+                .Where(city => !string.IsNullOrEmpty(city))
                 .Distinct()
                 .ToList();
 
