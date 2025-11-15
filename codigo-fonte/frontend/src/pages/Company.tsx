@@ -259,8 +259,8 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''));
-      const companyData = response.data as unknown as CompanyFullDetails;
+      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
+      const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(false);
       setOpenModal(true);
@@ -275,8 +275,8 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''));
-      const companyData = response.data as unknown as CompanyFullDetails;
+      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
+      const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(true);
       setOpenModal(true);
@@ -378,7 +378,7 @@ const CompanyPage: React.FC = () => {
     const requiredFields = ['cnpj', 'razaoSocial', 'nome']
 
     for(const field of requiredFields){
-      if(!company[field] || company[field].toString().trim() === ''){
+      if(!company || !company[field] || company[field].toString().trim() === ''){
         const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
         toast.error(message);
         return message;
@@ -480,7 +480,7 @@ const CompanyPage: React.FC = () => {
             </Box>
             
             <Grid container spacing={2.5} alignItems="center">
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="Nome da Empresa"
                   value={filterNome}
@@ -490,7 +490,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="Área de Atuação"
                   value={filterAreaAtuacao}
@@ -500,7 +500,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="CNPJ"
                   value={filterCnpj}
@@ -510,7 +510,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="Cidade"
                   value={filterCidade}
@@ -520,7 +520,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={3}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="UF"
                   value={filterUf}
@@ -531,7 +531,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={8} md={9}>
+              <Grid size={{ xs: 12, sm: 8, md: 9 }}>
                 <FormControl>
                   <RadioGroup
                     row
@@ -548,7 +548,7 @@ const CompanyPage: React.FC = () => {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1.5, mt: 1 }}>
+              <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1.5, mt: 1 }}>
                 <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearch} sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem' }}>
                   Buscar
                 </Button>
@@ -623,9 +623,9 @@ const CompanyPage: React.FC = () => {
               editingData && (
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="CNPJ"
+                        label="CNPJ *"
                         name="cnpj"
                         value={formatCnpjMask(editingData.cnpj || '')}
                         onChange={handleCnpjChange}
@@ -635,9 +635,9 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ readOnly: !isCreating }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="Razão Social"
+                        label="Razão Social *"
                         name="razaoSocial"
                         value={editingData.razaoSocial || ''}
                         onChange={handleValueChange}
@@ -646,9 +646,9 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="Nome Fantasia"
+                        label="Nome Fantasia *"
                         name="nome"
                         value={editingData.nome || ''}
                         onChange={handleValueChange}
@@ -657,7 +657,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Área de Atuação"
                         name="areaAtuacao"
@@ -668,8 +668,8 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12}><Divider sx={{ my: 1 }} /></Grid>
-                    <Grid item xs={12} md={9}>
+                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12, md: 9 }}>
                       <TextField
                         label="Endereço"
                         name="endereco"
@@ -680,7 +680,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid size={{ xs: 12, md: 3 }}>
                       <TextField
                         label="CEP"
                         name="cep"
@@ -692,7 +692,7 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 9 }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="Bairro"
                         name="bairro"
@@ -703,7 +703,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="Cidade"
                         name="cidade"
@@ -714,7 +714,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="UF"
                         name="uf"
@@ -726,8 +726,8 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 2 }}
                       />
                     </Grid>
-                    <Grid item xs={12}><Divider sx={{ my: 1 }} /></Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Telefone"
                         name="telefone"
@@ -739,7 +739,7 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 15 }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Email"
                         name="email"
@@ -750,7 +750,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Site"
                         name="site"
@@ -761,7 +761,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Redes Sociais"
                         name="redesSociais"
@@ -789,7 +789,6 @@ const CompanyPage: React.FC = () => {
               )
             }
           /> 
-
         </Box>
       </Paper>
     </Container>
