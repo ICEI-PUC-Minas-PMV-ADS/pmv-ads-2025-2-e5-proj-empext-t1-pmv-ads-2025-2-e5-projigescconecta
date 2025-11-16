@@ -21,6 +21,7 @@ import globalAxios from 'axios';
 
 export const BASE_PATH = "https://igesc-temp-azavgcbwcuckbvf0.brazilsouth-01.azurewebsites.net/".replace(/\/+$/, "");
 
+
 /**
  *
  * @export

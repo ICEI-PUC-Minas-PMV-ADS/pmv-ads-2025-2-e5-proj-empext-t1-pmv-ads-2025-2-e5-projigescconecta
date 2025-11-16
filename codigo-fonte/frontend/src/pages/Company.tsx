@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Box, Container, Button, Dialog, DialogTitle, DialogContent, DialogActions,
+  Box, Container, Button,
   CircularProgress, Grid, Typography, Divider, TextField, Chip, Paper,
-  alpha, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio,
+  alpha, FormControl, RadioGroup, FormControlLabel, Radio,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { toast } from 'react-toastify';
 import { mask } from 'remask';
 import {
-  CreateCompanyEndpointApi,
-  ListCompaniesEndpointApi,
-  ListCompanyEndpointApi,
-  UpdateCompanyEndpointApi,
-  InactivateCompanyEndpointApi,
-  ReactivateCompanyEndpointApi,
+  CompanyApi,
   type CreateCompanyCommand,
   type UpdateCompanyCommand,
   type Filter,
+  Op,
   type CompanyViewModel,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
@@ -82,37 +79,27 @@ const formatCnpjMask = (cnpj: string) => mask(cnpj ?? '', ['99.999.999/9999-99']
 const formatCepMask = (cep: string) => mask(cep ?? '', ['99999-999']);
 const formatPhoneMask = (phone: string) => mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
 
-const columns: Column<CompanyViewModel>[] = [
-  { label: 'ID/CNPJ', field: 'cnpj', render: (row) => formatCnpjMask(row.cnpj!) },
+const columns: Column<any>[] = [
+  { label: 'ID/CNPJ', field: 'cnpj' },
   { label: 'Nome', field: 'nome' },
   { label: 'Razão Social', field: 'razaoSocial' },
-  { label: 'Telefone', field: 'telefone', render: (row) => formatPhoneMask(row.telefone!) },
-  {
-    label: 'Status',
-    field: 'ativa',
-    render: (row) => (
-      <Chip
-        label={row.ativa ? 'Ativa' : 'Inativa'}
-        size="small"
-        color={row.ativa ? 'success' : 'error'}
-        variant="outlined"
-      />
-    ),
-  },
+  { label: 'Telefone', field: 'telefone' },
+  { label: 'Status', field: 'statusComponent' },
 ];
 
 const CompanyPage: React.FC = () => {
-  const createApi = useMemo(() => new CreateCompanyEndpointApi(apiConfig), []);
-  const listApi = useMemo(() => new ListCompanyEndpointApi(apiConfig), []);
-  const listAllApi = useMemo(() => new ListCompaniesEndpointApi(apiConfig), []);
-  const updateApi = useMemo(() => new UpdateCompanyEndpointApi(apiConfig), []);
-  const inactivateApi = useMemo(() => new InactivateCompanyEndpointApi(apiConfig), []);
-  const reactivateApi = useMemo(() => new ReactivateCompanyEndpointApi(apiConfig), []);
+  const companyApi = useMemo(() => new CompanyApi(apiConfig), []);
 
-  const [companies, setCompanies] = useState<CompanyViewModel[]>([]);
+  const [companies, setCompanies] = useState<any[]>([]);
   const [editingData, setEditingData] = useState<Partial<CompanyFormData> | null>(null);
-  const [filterText, setFilterText] = useState('');
+  
+  const [filterNome, setFilterNome] = useState('');
+  const [filterAreaAtuacao, setFilterAreaAtuacao] = useState('');
+  const [filterCnpj, setFilterCnpj] = useState('');
+  const [filterCidade, setFilterCidade] = useState('');
+  const [filterUf, setFilterUf] = useState('');
   const [statusFilter, setStatusFilter] = useState('ativas');
+
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -128,8 +115,6 @@ const CompanyPage: React.FC = () => {
   const isCreating = editingData ? !('id' in editingData) : false;
   const dialogTitle = isVisualizing ? 'Visualizar Empresa' : isCreating ? 'Nova Empresa' : 'Editar Empresa';
   const isReadOnlyMode = isVisualizing;
-
-  const companyApi = new CreateCompanyEndpointApi(apiConfig);
 
   const handleUploadCompany = () =>{
     setUploadOpen(true);
@@ -168,24 +153,30 @@ const CompanyPage: React.FC = () => {
     ativa: data.ativa ?? false,
   });
 
-  const fetchCompanies = async () => {
+  const fetchCompanies = async (filtersToUse: Filter[]) => {
     try {
       setLoading(true);
-      const localFilters: Filter[] = [];
-      if (filterText) {
-        localFilters.push({ propertyName: 'CompanyName', operation: 7, value: filterText });
-      }
-      if (statusFilter === 'ativas') {
-        localFilters.push({ propertyName: 'IsActive', operation: 0, value: true });
-      } else if (statusFilter === 'inativas') {
-        localFilters.push({ propertyName: 'IsActive', operation: 0, value: false });
-      }
-      const response = await listAllApi.apiCompaniesSearchPost({
+      const response = await companyApi.apiCompaniesSearchPost({
         pageNumber: page + 1,
         pageSize: rowsPerPage,
-        filters: localFilters.length > 0 ? localFilters : null,
+        filters: filtersToUse.length > 0 ? filtersToUse : undefined,
       });
-      setCompanies(response.data.items ?? []);
+
+      const formattedItems = (response.data.items ?? []).map(item => ({
+        ...item,
+        cnpj: formatCnpjMask(item.cnpj!),
+        telefone: formatPhoneMask(item.telefone!),
+        statusComponent: (
+          <Chip
+            label={item.ativa ? 'Ativa' : 'Inativa'}
+            size="small"
+            color={item.ativa ? 'success' : 'error'}
+            variant="outlined"
+          />
+        )
+      }));
+
+      setCompanies(formattedItems);
       setTotalCount(response.data.totalItems ?? 0);
     } catch (err: any) {
       console.error("Erro detalhado da API:", err.response || err);
@@ -195,24 +186,64 @@ const CompanyPage: React.FC = () => {
     }
   };
 
+  const buildFilters = (forceClear = false) => {
+    const localFilters: Filter[] = [];
+    
+    if (forceClear) {
+      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
+      return localFilters;
+    }
+
+    if (filterNome) {
+      localFilters.push({ propertyName: 'CompanyName', operation: Op.NUMBER_7, value: filterNome });
+    }
+    if (filterAreaAtuacao) {
+      localFilters.push({ propertyName: 'FieldOfActivity', operation: Op.NUMBER_7, value: filterAreaAtuacao });
+    }
+    if (filterCnpj) {
+      localFilters.push({ propertyName: 'CNPJ', operation: Op.NUMBER_7, value: filterCnpj.replace(/\D/g, '') });
+    }
+    if (filterCidade) {
+      localFilters.push({ propertyName: 'City', operation: Op.NUMBER_7, value: filterCidade });
+    }
+    if (filterUf) {
+      localFilters.push({ propertyName: 'State', operation: Op.NUMBER_0, value: filterUf });
+    }
+
+    if (statusFilter === 'ativas') {
+      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
+    } else if (statusFilter === 'inativas') {
+      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: false });
+    }
+
+    return localFilters;
+  }
+
   useEffect(() => {
-    fetchCompanies();
+    const filters = buildFilters();
+    fetchCompanies(filters);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage, statusFilter]);
 
   const handleSearch = () => {
     setPage(0);
-    fetchCompanies();
+    const filters = buildFilters();
+    fetchCompanies(filters);
   };
 
   const handleClearFilters = () => {
-    setFilterText('');
+    setFilterNome('');
+    setFilterAreaAtuacao('');
+    setFilterCnpj('');
+    setFilterCidade('');
+    setFilterUf('');
     setStatusFilter('ativas');
+    
     if (page !== 0) {
         setPage(0);
-    } else if (filterText || statusFilter !== 'ativas') {
-        fetchCompanies();
     }
+    const filters = buildFilters(true);
+    fetchCompanies(filters);
   };
 
   const handleAdd = () => {
@@ -228,7 +259,7 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await listApi.getCompanyByCnpj(company.cnpj);
+      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
       const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(false);
@@ -244,7 +275,7 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await listApi.getCompanyByCnpj(company.cnpj);
+      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
       const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(true);
@@ -269,9 +300,9 @@ const CompanyPage: React.FC = () => {
     if (!companyToAction?.cnpj) return;
     try {
       setModalLoading(true);
-      await inactivateApi.apiCompaniesCnpjDelete(companyToAction.cnpj);
+      await companyApi.apiCompaniesCnpjDelete(companyToAction.cnpj.replace(/\D/g, ''));
       toast.success(`Empresa ${companyToAction.nome} inativada com sucesso!`);
-      fetchCompanies();
+      handleSearch();
     } catch (err: any) {
       toast.error(err?.response?.data?.title || 'Erro ao inativar empresa.');
     } finally {
@@ -285,9 +316,9 @@ const CompanyPage: React.FC = () => {
     if (!companyToAction?.cnpj) return;
     try {
       setModalLoading(true);
-      await reactivateApi.apiCompaniesCnpjActivatePatch(companyToAction.cnpj);
+      await companyApi.apiCompaniesCnpjActivatePatch(companyToAction.cnpj.replace(/\D/g, ''));
       toast.success(`Empresa ${companyToAction.nome} reativada com sucesso!`);
-      fetchCompanies();
+      handleSearch();
     } catch (err: any) {
       toast.error(err?.response?.data?.title || 'Erro ao reativar empresa.');
     } finally {
@@ -300,16 +331,18 @@ const CompanyPage: React.FC = () => {
   const handleSave = async () => {
     const data = editingData;
 
+    if (!data) return;
+
     if(validateCompanyForm(data) !== null){
       console.log(data)
       return
     }
 
-    const cnpjDigits = data.cnpj.replace(/\D/g, '');
+    const cnpjDigits = data.cnpj!.replace(/\D/g, '');
     const payload = {
       cnpj: cnpjDigits,
-      companyName: data.nome,
-      corporateReason: data.razaoSocial,
+      companyName: data.nome!,
+      corporateReason: data.razaoSocial!,
       fieldOfActivity: data.areaAtuacao,
       zipCode: (data.cep || '').replace(/\D/g, ''),
       address: data.endereco,
@@ -326,14 +359,14 @@ const CompanyPage: React.FC = () => {
     try {
       setModalLoading(true);
       if (isCreating) {
-        await createApi.apiCompaniesPost(payload as CreateCompanyCommand);
+        await companyApi.apiCompaniesPost(payload as CreateCompanyCommand);
         toast.success('Empresa criada com sucesso!');
       } else {
-        await updateApi.apiCompaniesCnpjPut(cnpjDigits, payload as UpdateCompanyCommand);
+        await companyApi.apiCompaniesCnpjPut(cnpjDigits, payload as UpdateCompanyCommand);
         toast.success('Empresa atualizada com sucesso!');
       }
       handleCloseModal();
-      fetchCompanies();
+      handleSearch();
     } catch (err: any) {
       toast.error(err?.response?.data?.title || 'Erro ao salvar empresa.');
     } finally {
@@ -345,7 +378,7 @@ const CompanyPage: React.FC = () => {
     const requiredFields = ['cnpj', 'razaoSocial', 'nome']
 
     for(const field of requiredFields){
-      if(!company[field] || company[field].toString().trim() === ''){
+      if(!company || !company[field] || company[field].toString().trim() === ''){
         const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
         toast.error(message);
         return message;
@@ -382,6 +415,11 @@ const CompanyPage: React.FC = () => {
     }
   };
 
+  const handleFilterCnpjChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const masked = formatCnpjMask(e.target.value);
+    setFilterCnpj(masked);
+  };
+
   const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const masked = formatCepMask(e.target.value);
     setEditingData((p) => (p ? { ...p, cep: masked } : null));
@@ -395,6 +433,11 @@ const CompanyPage: React.FC = () => {
   const handleUfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase().slice(0, 2);
     setEditingData((p) => (p ? { ...p, uf: value } : null));
+  };
+  
+  const handleFilterUfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase().slice(0, 2);
+    setFilterUf(value);
   };
 
   const headerTranslations ={
@@ -417,48 +460,100 @@ const CompanyPage: React.FC = () => {
       <Paper elevation={0} sx={{ backgroundColor: '#ffffff', borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: alpha('#1E4EC4', 0.1) }}>
         <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
           <TitleAndButtons title="Lista de Empresas" onAdd={handleAdd} addLabel="Nova Empresa" onImportCsv={handleUploadCompany} importLabel='Importar Empresa'/>
-          <Paper elevation={0} sx={{ p: { xs: 2, sm: 2.5, md: 3 }, mb: 3, backgroundColor: alpha('#1E4EC4', 0.02), border: '1px solid', borderColor: alpha('#1E4EC4', 0.1), borderRadius: 2 }}>
+          
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 2, sm: 2.5, md: 3 },
+              mb: 3,
+              backgroundColor: alpha('#1E4EC4', 0.02),
+              border: '1px solid',
+              borderColor: alpha('#1E4EC4', 0.1),
+              borderRadius: 2,
+            }}
+          >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
-              <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
+              <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
               <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
-                Busca de Empresa
+                Filtro de Busca
               </Typography>
             </Box>
+            
             <Grid container spacing={2.5} alignItems="center">
-              <Grid item xs={12} md={5}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
                   label="Nome da Empresa"
-                  value={filterText}
-                  onChange={(e) => setFilterText(e.target.value)}
+                  value={filterNome}
+                  onChange={(e) => setFilterNome(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  placeholder="Digite o nome para buscar..."
                   fullWidth
                   size="small"
-                  sx={{ '& .MuiOutlinedInput-root': { borderRadius: 1.5, backgroundColor: 'white' } }}
                 />
               </Grid>
-              <Grid item xs={12} md={7}>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                <TextField
+                  label="Área de Atuação"
+                  value={filterAreaAtuacao}
+                  onChange={(e) => setFilterAreaAtuacao(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                <TextField
+                  label="CNPJ"
+                  value={filterCnpj}
+                  onChange={handleFilterCnpjChange}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                <TextField
+                  label="Cidade"
+                  value={filterCidade}
+                  onChange={(e) => setFilterCidade(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                <TextField
+                  label="UF"
+                  value={filterUf}
+                  onChange={handleFilterUfChange}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  inputProps={{ maxLength: 2 }}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 8, md: 9 }}>
                 <FormControl>
                   <RadioGroup
                     row
                     name="status-filter"
                     value={statusFilter}
                     onChange={(e) => {
-                      setPage(0);
                       setStatusFilter(e.target.value);
+                      setPage(0);
                     }}
                   >
                     <FormControlLabel value="ativas" control={<Radio size="small" />} label="Ativas" />
                     <FormControlLabel value="inativas" control={<Radio size="small" />} label="Inativas" />
+                    <FormControlLabel value="todas" control={<Radio size="small" />} label="Todas" />
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5 }}>
-                <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearch} sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 4, py: 1, borderRadius: 1.5 }}>
+              <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1.5, mt: 1 }}>
+                <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearch} sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem' }}>
                   Buscar
                 </Button>
-                <Button variant="outlined" startIcon={<ClearIcon />} onClick={handleClearFilters} sx={{ color: '#1E4EC4', fontWeight: 600, px: 4, py: 1, borderRadius: 1.5 }}>
-                  Limpar
+                <Button variant="outlined" startIcon={<ClearIcon />} onClick={handleClearFilters} sx={{ color: '#1E4EC4', borderColor: alpha('#1E4EC4', 0.3), fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem', '&:hover': { borderColor: '#1E4EC4', bgcolor: alpha('#1E4EC4', 0.05), borderWidth: 1.5 } }}>
+                  Limpar Filtros
                 </Button>
               </Grid>
             </Grid>
@@ -515,7 +610,7 @@ const CompanyPage: React.FC = () => {
               expectedHeaders={['cnpj', 'nome', 'razaoSocial', 'areaAtuacao', 'cep', 'endereco', 'bairro', 'cidade', 'uf', 'telefone', 'site', 'redesSociais']}
               headerTranslations={headerTranslations}
               validateFields={validateCompanyForm}
-              onFinish={() => fetchCompanies()}
+              onFinish={handleSearch}
             />
           )}
 
@@ -528,9 +623,9 @@ const CompanyPage: React.FC = () => {
               editingData && (
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="CNPJ"
+                        label="CNPJ *"
                         name="cnpj"
                         value={formatCnpjMask(editingData.cnpj || '')}
                         onChange={handleCnpjChange}
@@ -540,9 +635,9 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ readOnly: !isCreating }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="Razão Social"
+                        label="Razão Social *"
                         name="razaoSocial"
                         value={editingData.razaoSocial || ''}
                         onChange={handleValueChange}
@@ -551,9 +646,9 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="Nome Fantasia"
+                        label="Nome Fantasia *"
                         name="nome"
                         value={editingData.nome || ''}
                         onChange={handleValueChange}
@@ -562,7 +657,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Área de Atuação"
                         name="areaAtuacao"
@@ -573,8 +668,8 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12}><Divider sx={{ my: 1 }} /></Grid>
-                    <Grid item xs={12} md={9}>
+                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12, md: 9 }}>
                       <TextField
                         label="Endereço"
                         name="endereco"
@@ -585,7 +680,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={3}>
+                    <Grid size={{ xs: 12, md: 3 }}>
                       <TextField
                         label="CEP"
                         name="cep"
@@ -597,7 +692,7 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 9 }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="Bairro"
                         name="bairro"
@@ -608,7 +703,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="Cidade"
                         name="cidade"
@@ -619,7 +714,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
                         label="UF"
                         name="uf"
@@ -631,8 +726,8 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 2 }}
                       />
                     </Grid>
-                    <Grid item xs={12}><Divider sx={{ my: 1 }} /></Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Telefone"
                         name="telefone"
@@ -644,7 +739,7 @@ const CompanyPage: React.FC = () => {
                         inputProps={{ maxLength: 15 }}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Email"
                         name="email"
@@ -655,7 +750,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Site"
                         name="site"
@@ -666,7 +761,7 @@ const CompanyPage: React.FC = () => {
                         size="small"
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Redes Sociais"
                         name="redesSociais"
@@ -694,7 +789,6 @@ const CompanyPage: React.FC = () => {
               )
             }
           /> 
-
         </Box>
       </Paper>
     </Container>

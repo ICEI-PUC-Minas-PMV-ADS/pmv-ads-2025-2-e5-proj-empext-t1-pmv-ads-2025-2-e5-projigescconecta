@@ -1,10 +1,13 @@
+using IgescConecta.API.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Donations.DeleteDonation
 {
-    [ApiController]
+    [ApiAuthorize]
     [Route("api/donations")]
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "Donation")]
     public class DeleteDonationEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

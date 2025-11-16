@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Donations.ListDonations
 {
-    [ApiController]
+    [ApiAuthorize]
     [Route("api/donations")]
+    [ApiController]
+    [ApiExplorerSettings(GroupName = "Donation")]
     public class ListDonationsEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
