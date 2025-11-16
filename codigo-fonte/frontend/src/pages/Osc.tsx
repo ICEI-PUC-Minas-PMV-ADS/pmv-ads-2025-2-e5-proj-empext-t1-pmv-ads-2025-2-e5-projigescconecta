@@ -19,10 +19,12 @@ import {
   Stack,
   Divider,
   TextField,
-  Autocomplete
+  Autocomplete,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import AccessTime from '@mui/icons-material/AccessTime';
+import Avatar from '@mui/material/Avatar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -40,6 +42,7 @@ import {
   ListOscRequest,
   Filter,
   Op,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
@@ -150,8 +153,12 @@ const Osc: React.FC = () => {
   const [cepError, setCepError] = useState<string | null>(null);
 
   const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
 
   const oscApi = new OscsApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
   const originBusinessCaseApi = new OriginsBusinessCasesApi(apiConfig)
   const navigate = useNavigate();
@@ -425,6 +432,14 @@ const Osc: React.FC = () => {
     try {
       const oscId: number = osc.oscId!;
       const { data } = await oscApi.getOsc(oscId);
+
+      const userId = data.updatedBy || data.createdBy;
+      const date = data.updatedAt || data.createdAt;
+
+      const { data: userData } = await userApi.getUserById(userId!);
+
+      setUserUpdatedName(userData.name);
+      setAuditDate(date ? dayjs(date) : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
       setOpenModal(true)
@@ -1076,6 +1091,30 @@ const Osc: React.FC = () => {
                           Nenhuma causa associada.
                         </Typography>
                       )}
+
+                      <Divider sx={{ mt: 4 }} />
+
+                      <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                            {userUpdatedName?.[0] || '?'}
+                          </Avatar>
+                          <Box>
+                            <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                            <Typography variant="body2" fontWeight={600}>{userUpdatedName || '—'}</Typography>
+                          </Box>
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <AccessTime fontSize="small" color="action" />
+                          <Box>
+                            <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                            <Typography variant="body2" fontWeight={600}>
+                              {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                            </Typography>
+                          </Box>
+                        </Stack>
+                      </Stack>
                     </Box>
                   </Box>
                 ) : updateOsc ? (
