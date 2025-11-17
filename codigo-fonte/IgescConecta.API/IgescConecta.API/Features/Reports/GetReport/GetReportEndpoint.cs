@@ -35,7 +35,11 @@ namespace IgescConecta.API.Features.Reports.GetReport
                     ReaderCanExecute = r.ReaderCanExecute,
                     Relations = r.Relations.Select(x => new GetReportRelationResponse
                     {
+                        FromEntity = x.FromEntity,
                         Path = x.Path,
+                        Entity = x.Entity,
+                        JoinType = x.JoinType,
+                        Alias = x.Alias,
                         IsCollection = x.IsCollection
                     }).ToList(),
                     Fields = r.Fields.Select(x => new GetReportFieldResponse
@@ -93,7 +97,11 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportRelationResponse
     {
+        public string FromEntity { get; set; } = default!;
         public string Path { get; set; } = default!;
+        public string Entity { get; set; } = default!;
+        public string JoinType { get; set; } = default!;
+        public string? Alias { get; set; }
         public bool IsCollection { get; set; }
     }
 

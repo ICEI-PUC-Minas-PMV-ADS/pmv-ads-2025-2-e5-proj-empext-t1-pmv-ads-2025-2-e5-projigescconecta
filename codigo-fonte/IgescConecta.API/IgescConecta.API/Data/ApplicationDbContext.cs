@@ -1,7 +1,7 @@
 ﻿using IgescConecta.Domain.Entities;
 using IgescConecta.Domain.Primitives;
 using IgescConecta.Domain.Shared;
-using IgescConecta.Domain.Entities.Reporting; // << adiciona as entidades de Reporting
+using IgescConecta.Domain.Entities.Reporting;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -32,9 +32,6 @@ namespace IgescConecta.API.Data
             _contextAccessor = contextAccessor;
         }
 
-        // ---------------------------
-        // DbSets existentes
-        // ---------------------------
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
@@ -54,9 +51,6 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
 
-        // ---------------------------
-        // DbSets do Gerador de Relatórios
-        // ---------------------------
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReportRelation> ReportRelations { get; set; }
         public DbSet<ReportField> ReportFields { get; set; }
@@ -67,7 +61,6 @@ namespace IgescConecta.API.Data
         {
             base.OnModelCreating(builder);
 
-            // Relacionamentos User -> audit trail
             builder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
                 .WithMany()
@@ -80,7 +73,6 @@ namespace IgescConecta.API.Data
                 .HasForeignKey(u => u.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Query filters (soft delete) das entidades existentes
             builder.Entity<Company>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Course>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Team>().HasQueryFilter(e => !e.IsDeleted);
@@ -98,7 +90,6 @@ namespace IgescConecta.API.Data
             builder.Entity<ProjectTheme>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<ProjectType>().HasQueryFilter(e => !e.IsDeleted);
 
-            // Tabelas de identidade
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -107,7 +98,6 @@ namespace IgescConecta.API.Data
             builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
 
-            // Aplica todas as configurations (inclui Reporting/*Configuration.cs)
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
@@ -129,12 +119,6 @@ namespace IgescConecta.API.Data
         {
             if (DisableAuditing) return;
 
-            var entries = ChangeTracker.Entries()
-                .Where(x => x.Entity is BaseEntity || x.Entity is User)
-                .ToList();
-
-            // Soft delete global: transformar Deleted -> IsDeleted = true,
-            // EXCETO para as entidades do Gerador de Relatórios (hard delete nelas).
             var softDeleteEntries = ChangeTracker
                 .Entries<ISoftDeletable>()
                 .Where(e => e.State == EntityState.Deleted)
@@ -150,20 +134,22 @@ namespace IgescConecta.API.Data
                 entityEntry.Property(nameof(ISoftDeletable.IsDeleted)).CurrentValue = true;
             }
 
-            UpdateTimestamps(entries);
+            var entriesToTimestamp = ChangeTracker.Entries()
+                .Where(x => x.Entity is BaseEntity || x.Entity is User)
+                .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified)
+                .ToList();
+
+            UpdateTimestamps(entriesToTimestamp);
         }
 
         private void UpdateTimestamps(List<EntityEntry> entries)
         {
-            var filtred = entries.Where(x =>
-                x.State == EntityState.Added || x.State == EntityState.Modified);
-
             var currentUserIdStr = _contextAccessor?.HttpContext?.User
                 .FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             int.TryParse(currentUserIdStr, out var currentUserId);
 
-            foreach (var entry in filtred)
+            foreach (var entry in entries)
             {
                 if (entry.Entity is User user)
                 {

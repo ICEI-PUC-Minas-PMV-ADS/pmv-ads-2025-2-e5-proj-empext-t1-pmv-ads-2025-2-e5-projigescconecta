@@ -942,6 +942,240 @@ export interface CreateProjectTypeResponse {
 /**
  * 
  * @export
+ * @interface CreateReportFieldRequest
+ */
+export interface CreateReportFieldRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof CreateReportFieldRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportFieldRequest
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateReportFilterQuestionRequest
+ */
+export interface CreateReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'defaultOperator': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateReportRelationRequest
+ */
+export interface CreateReportRelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'fromEntity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'path': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'joinType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportRelationRequest
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportRequest
+ */
+export interface CreateReportRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'rootEntity': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportRequest
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<CreateReportRelationRequest>}
+     * @memberof CreateReportRequest
+     */
+    'relations'?: Array<CreateReportRelationRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportFieldRequest>}
+     * @memberof CreateReportRequest
+     */
+    'fields'?: Array<CreateReportFieldRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportFilterQuestionRequest>}
+     * @memberof CreateReportRequest
+     */
+    'filterQuestions'?: Array<CreateReportFilterQuestionRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportSortRequest>}
+     * @memberof CreateReportRequest
+     */
+    'sorts'?: Array<CreateReportSortRequest>;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportResponse
+ */
+export interface CreateReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportResponse
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportSortRequest
+ */
+export interface CreateReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportSortRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof CreateReportSortRequest
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportSortRequest
+     */
+    'priority'?: number;
+}
+
+
+/**
+ * 
+ * @export
  * @interface CreateTeamRequest
  */
 export interface CreateTeamRequest {
@@ -1162,6 +1396,19 @@ export interface DeleteProjectTypeResponse {
 /**
  * 
  * @export
+ * @interface DeleteReportResponse
+ */
+export interface DeleteReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteReportResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface DonationViewModel
  */
 export interface DonationViewModel {
@@ -1373,6 +1620,246 @@ export interface EditProjectTypeResponse {
 /**
  * 
  * @export
+ * @interface EditReportFieldRequest
+ */
+export interface EditReportFieldRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof EditReportFieldRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportFieldRequest
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditReportFilterQuestionRequest
+ */
+export interface EditReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'defaultOperator': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditReportRelationRequest
+ */
+export interface EditReportRelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'fromEntity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'path': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'joinType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportRelationRequest
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportRequest
+ */
+export interface EditReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportRequest
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'rootEntity': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportRequest
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<EditReportRelationRequest>}
+     * @memberof EditReportRequest
+     */
+    'relations'?: Array<EditReportRelationRequest>;
+    /**
+     * 
+     * @type {Array<EditReportFieldRequest>}
+     * @memberof EditReportRequest
+     */
+    'fields'?: Array<EditReportFieldRequest>;
+    /**
+     * 
+     * @type {Array<EditReportFilterQuestionRequest>}
+     * @memberof EditReportRequest
+     */
+    'filterQuestions'?: Array<EditReportFilterQuestionRequest>;
+    /**
+     * 
+     * @type {Array<EditReportSortRequest>}
+     * @memberof EditReportRequest
+     */
+    'sorts'?: Array<EditReportSortRequest>;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportResponse
+ */
+export interface EditReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportResponse
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportSortRequest
+ */
+export interface EditReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportSortRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof EditReportSortRequest
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportSortRequest
+     */
+    'priority'?: number;
+}
+
+
+/**
+ * 
+ * @export
  * @interface EditTeamRequest
  */
 export interface EditTeamRequest {
@@ -1419,6 +1906,27 @@ export interface EditTeamRequest {
      */
     'courseId'?: number | null;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const FieldDataType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8
+} as const;
+
+export type FieldDataType = typeof FieldDataType[keyof typeof FieldDataType];
+
+
 /**
  * 
  * @export
@@ -2027,6 +2535,235 @@ export interface GetProjectTypeByIdViewModel {
      */
     'updatedAt'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface GetReportFieldResponse
+ */
+export interface GetReportFieldResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof GetReportFieldResponse
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportFieldResponse
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportFilterQuestionResponse
+ */
+export interface GetReportFilterQuestionResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'defaultOperator'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportRelationResponse
+ */
+export interface GetReportRelationResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'fromEntity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'joinType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportRelationResponse
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetReportResponse
+ */
+export interface GetReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {ReportStatus}
+     * @memberof GetReportResponse
+     */
+    'status'?: ReportStatus;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportResponse
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<GetReportRelationResponse>}
+     * @memberof GetReportResponse
+     */
+    'relations'?: Array<GetReportRelationResponse>;
+    /**
+     * 
+     * @type {Array<GetReportFieldResponse>}
+     * @memberof GetReportResponse
+     */
+    'fields'?: Array<GetReportFieldResponse>;
+    /**
+     * 
+     * @type {Array<GetReportFilterQuestionResponse>}
+     * @memberof GetReportResponse
+     */
+    'filterQuestions'?: Array<GetReportFilterQuestionResponse>;
+    /**
+     * 
+     * @type {Array<GetReportSortResponse>}
+     * @memberof GetReportResponse
+     */
+    'sorts'?: Array<GetReportSortResponse>;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportSortResponse
+ */
+export interface GetReportSortResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportSortResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof GetReportSortResponse
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportSortResponse
+     */
+    'priority'?: number;
+}
+
+
 /**
  * 
  * @export
@@ -2736,6 +3473,113 @@ export interface ListProjectTypeViewModel {
 /**
  * 
  * @export
+ * @interface ListReportItemResponse
+ */
+export interface ListReportItemResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportItemResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {ReportStatus}
+     * @memberof ListReportItemResponse
+     */
+    'status'?: ReportStatus;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListReportItemResponse
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'updatedAt'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ListReportsRequest
+ */
+export interface ListReportsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListReportsRequest
+     */
+    'filters'?: Array<Filter> | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListReportsResponse
+ */
+export interface ListReportsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'totalCount'?: number;
+    /**
+     * 
+     * @type {Array<ListReportItemResponse>}
+     * @memberof ListReportsResponse
+     */
+    'items'?: Array<ListReportItemResponse>;
+}
+/**
+ * 
+ * @export
  * @interface ListTeamItemViewModel
  */
 export interface ListTeamItemViewModel {
@@ -2933,6 +3777,138 @@ export const MemberType = {
 export type MemberType = typeof MemberType[keyof typeof MemberType];
 
 
+/**
+ * 
+ * @export
+ * @interface MetadataEntityDto
+ */
+export interface MetadataEntityDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataEntityDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataEntityDto
+     */
+    'label'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MetadataFieldDto
+ */
+export interface MetadataFieldDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataFieldDto
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataFieldDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof MetadataFieldDto
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MetadataFieldDto
+     */
+    'isArray'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MetadataFieldDto
+     */
+    'allowedOperators'?: Array<string>;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface MetadataRelationDto
+ */
+export interface MetadataRelationDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MetadataRelationDto
+     */
+    'isCollection'?: boolean;
+    /**
+     * 
+     * @type {Array<MetadataFieldDto>}
+     * @memberof MetadataRelationDto
+     */
+    'fields'?: Array<MetadataFieldDto>;
+    /**
+     * 
+     * @type {Array<MetadataRelationDto>}
+     * @memberof MetadataRelationDto
+     */
+    'relations'?: Array<MetadataRelationDto>;
+}
+/**
+ * 
+ * @export
+ * @interface MetadataRootDto
+ */
+export interface MetadataRootDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRootDto
+     */
+    'root'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRootDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {Array<MetadataFieldDto>}
+     * @memberof MetadataRootDto
+     */
+    'fields'?: Array<MetadataFieldDto>;
+    /**
+     * 
+     * @type {Array<MetadataRelationDto>}
+     * @memberof MetadataRootDto
+     */
+    'relations'?: Array<MetadataRelationDto>;
+}
 /**
  * 
  * @export
@@ -3693,6 +4669,33 @@ export interface ProjectTypeViewModel {
 /**
  * 
  * @export
+ * @interface PublishReportResponse
+ */
+export interface PublishReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof PublishReportResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ReportStatus = {
+    NUMBER_0: 0,
+    NUMBER_1: 1
+} as const;
+
+export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
+
+
+/**
+ * 
+ * @export
  * @interface ResetPasswordRequest
  */
 export interface ResetPasswordRequest {
@@ -3770,6 +4773,20 @@ export interface RestoreProjectTypeResponse {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const SortDirection = {
+    NUMBER_0: 0,
+    NUMBER_1: 1
+} as const;
+
+export type SortDirection = typeof SortDirection[keyof typeof SortDirection];
+
+
+/**
+ * 
+ * @export
  * @interface TeamViewModel
  */
 export interface TeamViewModel {
@@ -3803,6 +4820,19 @@ export interface TeamViewModel {
      * @memberof TeamViewModel
      */
     'finish'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UnpublishReportResponse
+ */
+export interface UnpublishReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UnpublishReportResponse
+     */
+    'id'?: number;
 }
 /**
  * 
@@ -10669,6 +11699,783 @@ export class ProjectTypesApi extends BaseAPI {
      */
     public restoreProjectType(projectTypeId: number, options?: RawAxiosRequestConfig) {
         return ProjectTypesApiFp(this.configuration).restoreProjectType(projectTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ReportsApi - axios parameter creator
+ * @export
+ */
+export const ReportsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/entities`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesRootFieldsGet: async (root: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'root' is not null or undefined
+            assertParamExists('apiReportMetadataEntitiesRootFieldsGet', 'root', root)
+            const localVarPath = `/api/report/metadata/entities/{root}/fields`
+                .replace(`{${"root"}}`, encodeURIComponent(String(root)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEnumsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/enums`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataOperatorsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/operators`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createReport: async (createReportRequest?: CreateReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/CreateReport`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteReport', 'id', id)
+            const localVarPath = `/api/report/DeleteReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editReport: async (editReportRequest?: EditReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/EditReport`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getReport', 'id', id)
+            const localVarPath = `/api/report/GetReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReports: async (listReportsRequest?: ListReportsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/ListReports`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listReportsRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        publishReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('publishReport', 'id', id)
+            const localVarPath = `/api/report/PublishReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unpublishReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('unpublishReport', 'id', id)
+            const localVarPath = `/api/report/UnpublishReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ReportsApi - functional programming interface
+ * @export
+ */
+export const ReportsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ReportsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEntitiesGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MetadataEntityDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEntitiesGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEntitiesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEntitiesRootFieldsGet(root: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MetadataRootDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEntitiesRootFieldsGet(root, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEntitiesRootFieldsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEnumsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEnumsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEnumsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataOperatorsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataOperatorsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataOperatorsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createReport(createReportRequest?: CreateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(createReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.createReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.deleteReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editReport(editReportRequest?: EditReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editReport(editReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.editReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.getReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listReports(listReportsRequest?: ListReportsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListReportsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listReports(listReportsRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.listReports']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async publishReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PublishReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publishReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.publishReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async unpublishReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnpublishReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.unpublishReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.unpublishReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ReportsApi - factory interface
+ * @export
+ */
+export const ReportsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ReportsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesGet(options?: any): AxiosPromise<Array<MetadataEntityDto>> {
+            return localVarFp.apiReportMetadataEntitiesGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesRootFieldsGet(root: string, options?: any): AxiosPromise<MetadataRootDto> {
+            return localVarFp.apiReportMetadataEntitiesRootFieldsGet(root, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEnumsGet(options?: any): AxiosPromise<void> {
+            return localVarFp.apiReportMetadataEnumsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataOperatorsGet(options?: any): AxiosPromise<void> {
+            return localVarFp.apiReportMetadataOperatorsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createReport(createReportRequest?: CreateReportRequest, options?: any): AxiosPromise<CreateReportResponse> {
+            return localVarFp.createReport(createReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteReport(id: number, options?: any): AxiosPromise<DeleteReportResponse> {
+            return localVarFp.deleteReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editReport(editReportRequest?: EditReportRequest, options?: any): AxiosPromise<EditReportResponse> {
+            return localVarFp.editReport(editReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReport(id: number, options?: any): AxiosPromise<GetReportResponse> {
+            return localVarFp.getReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReports(listReportsRequest?: ListReportsRequest, options?: any): AxiosPromise<ListReportsResponse> {
+            return localVarFp.listReports(listReportsRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        publishReport(id: number, options?: any): AxiosPromise<PublishReportResponse> {
+            return localVarFp.publishReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unpublishReport(id: number, options?: any): AxiosPromise<UnpublishReportResponse> {
+            return localVarFp.unpublishReport(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ReportsApi - object-oriented interface
+ * @export
+ * @class ReportsApi
+ * @extends {BaseAPI}
+ */
+export class ReportsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEntitiesGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEntitiesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} root 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEntitiesRootFieldsGet(root: string, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEntitiesRootFieldsGet(root, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEnumsGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEnumsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataOperatorsGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataOperatorsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateReportRequest} [createReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public createReport(createReportRequest?: CreateReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).createReport(createReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public deleteReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).deleteReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditReportRequest} [editReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public editReport(editReportRequest?: EditReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).editReport(editReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public getReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).getReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListReportsRequest} [listReportsRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public listReports(listReportsRequest?: ListReportsRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).listReports(listReportsRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public publishReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).publishReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public unpublishReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).unpublishReport(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
