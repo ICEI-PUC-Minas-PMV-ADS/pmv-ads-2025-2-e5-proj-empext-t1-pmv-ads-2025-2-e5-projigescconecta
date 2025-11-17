@@ -21,7 +21,11 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportRelationItem
     {
+        public required string FromEntity { get; set; }
         public required string Path { get; set; }
+        public required string Entity { get; set; }
+        public required string JoinType { get; set; }
+        public string? Alias { get; set; }
         public bool IsCollection { get; set; }
     }
 
@@ -108,7 +112,11 @@ namespace IgescConecta.API.Features.Reports.CreateReport
             {
                 entity.Relations = request.Relations.Select(r => new ReportRelation
                 {
+                    FromEntity = r.FromEntity.Trim(),
                     Path = r.Path.Trim(),
+                    Entity = r.Entity.Trim(),
+                    JoinType = r.JoinType.Trim(),
+                    Alias = string.IsNullOrWhiteSpace(r.Alias) ? null : r.Alias.Trim(),
                     IsCollection = r.IsCollection
                 }).ToList();
             }
