@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Companies.ListCompanies
 {
+    [ApiAuthorize]
+    [Route("/api/companies")]
     [ApiController]
-    [Route("api/companies")]
+    [ApiExplorerSettings(GroupName = "Company")]
     public class ListCompaniesEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

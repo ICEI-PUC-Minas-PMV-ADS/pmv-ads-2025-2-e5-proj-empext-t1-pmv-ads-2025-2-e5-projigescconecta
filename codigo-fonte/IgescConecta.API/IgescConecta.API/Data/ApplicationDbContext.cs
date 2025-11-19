@@ -1,13 +1,17 @@
 ﻿using IgescConecta.Domain.Entities;
 using IgescConecta.Domain.Primitives;
 using IgescConecta.Domain.Shared;
+using IgescConecta.Domain.Entities.Reporting; // << adiciona as entidades de Reporting
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Linq.Expressions;
-using System.Security.Claims;
+
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Linq.Expressions;
+
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -28,6 +32,9 @@ namespace IgescConecta.API.Data
             _contextAccessor = contextAccessor;
         }
 
+        // ---------------------------
+        // DbSets existentes
+        // ---------------------------
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Team> Teams { get; set; }
@@ -47,10 +54,20 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
 
+        // ---------------------------
+        // DbSets do Gerador de Relatórios
+        // ---------------------------
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<ReportRelation> ReportRelations { get; set; }
+        public DbSet<ReportField> ReportFields { get; set; }
+        public DbSet<ReportFilterQuestion> ReportFilterQuestions { get; set; }
+        public DbSet<ReportSort> ReportSorts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            // Relacionamentos User -> audit trail
             builder.Entity<User>()
                 .HasOne(u => u.CreatedByUser)
                 .WithMany()
@@ -63,6 +80,7 @@ namespace IgescConecta.API.Data
                 .HasForeignKey(u => u.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Query filters (soft delete) das entidades existentes
             builder.Entity<Company>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Course>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<Team>().HasQueryFilter(e => !e.IsDeleted);
@@ -80,6 +98,7 @@ namespace IgescConecta.API.Data
             builder.Entity<ProjectTheme>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<ProjectType>().HasQueryFilter(e => !e.IsDeleted);
 
+            // Tabelas de identidade
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
@@ -87,6 +106,8 @@ namespace IgescConecta.API.Data
             builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
             builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+
+            // Aplica todas as configurations (inclui Reporting/*Configuration.cs)
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
@@ -112,9 +133,16 @@ namespace IgescConecta.API.Data
                 .Where(x => x.Entity is BaseEntity || x.Entity is User)
                 .ToList();
 
+            // Soft delete global: transformar Deleted -> IsDeleted = true,
+            // EXCETO para as entidades do Gerador de Relatórios (hard delete nelas).
             var softDeleteEntries = ChangeTracker
                 .Entries<ISoftDeletable>()
-                .Where(e => e.State == EntityState.Deleted);
+                .Where(e => e.State == EntityState.Deleted)
+                .Where(e => e.Entity is not Report
+                         && e.Entity is not ReportRelation
+                         && e.Entity is not ReportField
+                         && e.Entity is not ReportFilterQuestion
+                         && e.Entity is not ReportSort);
 
             foreach (var entityEntry in softDeleteEntries)
             {
