@@ -28,14 +28,13 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
             {
                 TeamId = teamId,
                 PersonId = request.PersonId,
-                OscId = request.OscId,
                 MemberTypes = request.MemberTypes
             };
 
             var result = await _mediator.Send(command);
 
             return result.IsSuccess
-                ? Ok(new CreatePersonTeamResponse(result.Value))
+                ? Ok(result.Value)
                 : BadRequest(result.Error);
         }
     }
@@ -45,8 +44,6 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
         [Required(ErrorMessage = "O ID da pessoa é obrigatório.")]
         public int PersonId { get; set; }
 
-        public int? OscId { get; set; }
-
         [Required(ErrorMessage = "Pelo menos um tipo de membro deve ser especificado.")]
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
     }
@@ -55,9 +52,6 @@ namespace IgescConecta.API.Features.PersonTeams.CreatePersonTeam
     {
         public int Id { get; set; }
 
-        public CreatePersonTeamResponse(int personTeamId)
-        {
-            Id = personTeamId;
-        }
+        public string Name { get; set; }
     }
 }

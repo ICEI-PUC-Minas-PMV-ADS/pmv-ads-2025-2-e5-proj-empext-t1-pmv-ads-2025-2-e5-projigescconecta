@@ -3,6 +3,7 @@ using System;
 using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251117042822_ReportRelation_modify")]
+    partial class ReportRelation_modify
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -560,10 +563,10 @@ namespace IgescConecta.API.Migrations
                         .IsRequired()
                         .HasColumnType("integer[]");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("OscId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("PersonOscId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TeamId")
@@ -577,9 +580,9 @@ namespace IgescConecta.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("OscId");
 
-                    b.HasIndex("PersonOscId");
+                    b.HasIndex("PersonId");
 
                     b.HasIndex("TeamId");
 
@@ -1060,9 +1063,6 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("Finish")
                         .HasColumnType("timestamp without time zone");
 
@@ -1072,14 +1072,7 @@ namespace IgescConecta.API.Migrations
                     b.Property<string>("LessonTime")
                         .HasColumnType("text");
 
-                    b.Property<int>("ModalityType")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Semester")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1090,9 +1083,6 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Year")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -1413,15 +1403,15 @@ namespace IgescConecta.API.Migrations
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.PersonTeam", b =>
                 {
+                    b.HasOne("IgescConecta.Domain.Entities.Osc", "Osc")
+                        .WithMany()
+                        .HasForeignKey("OscId");
+
                     b.HasOne("IgescConecta.Domain.Entities.Person", "Person")
                         .WithMany("Teams")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("IgescConecta.Domain.Entities.PersonOsc", "PersonOsc")
-                        .WithMany()
-                        .HasForeignKey("PersonOscId");
 
                     b.HasOne("IgescConecta.Domain.Entities.Team", "Team")
                         .WithMany("PersonTeams")
@@ -1429,9 +1419,9 @@ namespace IgescConecta.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("Osc");
 
-                    b.Navigation("PersonOsc");
+                    b.Navigation("Person");
 
                     b.Navigation("Team");
                 });

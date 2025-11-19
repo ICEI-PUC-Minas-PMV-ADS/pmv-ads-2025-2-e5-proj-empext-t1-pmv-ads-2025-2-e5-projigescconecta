@@ -105,7 +105,11 @@ public sealed class SchemaProvider : ISchemaProvider
         }
     }
 
-    private List<MetadataRelationDto> BuildRelations(Type currentClr, string prefixEntity, List<KeyValuePair<string, string>> rels, IReadOnlyDictionary<FieldDataType, string[]> opsMap)
+    private List<MetadataRelationDto> BuildRelations(
+     Type currentClr,
+     string prefixEntity,
+     List<KeyValuePair<string, string>> rels,
+     IReadOnlyDictionary<FieldDataType, string[]> opsMap)
     {
         var list = new List<MetadataRelationDto>();
         var groups = rels.GroupBy(r => r.Key.Split('.', 2)[1].Split('.')[0]);
@@ -126,6 +130,7 @@ public sealed class SchemaProvider : ISchemaProvider
             var dto = new MetadataRelationDto
             {
                 Path = fullPath.Split('.', 2)[1],
+                Entity = targetType.Name, // <--- AQUI: nome da entidade de destino
                 Label = _labels.TryRelation(fullPath) ?? relName,
                 IsCollection = isCollection
             };
@@ -150,7 +155,10 @@ public sealed class SchemaProvider : ISchemaProvider
                 });
             }
 
-            var children = g.Where(x => x.Key != fullPath && x.Key.StartsWith(fullPath + ".", StringComparison.Ordinal)).ToList();
+            var children = g
+                .Where(x => x.Key != fullPath && x.Key.StartsWith(fullPath + ".", StringComparison.Ordinal))
+                .ToList();
+
             if (children.Count > 0)
                 dto.Relations.AddRange(BuildRelations(targetType, fullPath, children, opsMap));
 
@@ -159,6 +167,7 @@ public sealed class SchemaProvider : ISchemaProvider
 
         return list;
     }
+
 
     private static (Type? propType, bool isArray) ResolvePathType(Type start, string fullPath, bool expectField, string? basePrefix = null)
     {

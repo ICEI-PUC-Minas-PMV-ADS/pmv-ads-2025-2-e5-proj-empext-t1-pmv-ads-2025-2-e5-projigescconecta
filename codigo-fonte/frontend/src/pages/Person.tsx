@@ -32,6 +32,7 @@ import {
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const digits = (s: string) => (s || '').replace(/\D/g, '');
@@ -119,6 +120,9 @@ const PersonPage: React.FC = () => {
   const [education1, setEducation1] = useState('');
   const [education2, setEducation2] = useState('');
   const [professionalActivity, setProfessionalActivity] = useState('');
+
+  // CSV import state
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   const nameError = !!name && !(name.trim().split(/\s+/).length >= 2);
   const cpfError = !!cpf && !isValidCPF(cpf);
@@ -219,6 +223,89 @@ const PersonPage: React.FC = () => {
     setEducation2('');
     setProfessionalActivity('');
     setOpenModal(true);
+  };
+
+  // ----------------------------- CSV Import -----------------------------
+  interface PersonCsvRow {
+    name: string;
+    personalDocumment: string; // CPF
+    email: string;
+    secondaryEmail?: string;
+    primaryPhone: string;
+    secondaryPhone?: string;
+    education1?: string;
+    education2?: string;
+    professionalActivity?: string;
+  }
+
+  const PERSON_CSV_HEADERS: (keyof PersonCsvRow)[] = [
+    'name',
+    'personalDocumment',
+    'email',
+    'secondaryEmail',
+    'primaryPhone',
+    'secondaryPhone',
+    'education1',
+    'education2',
+    'professionalActivity',
+  ];
+
+  const headerTranslations: Record<string, string> = {
+    name: 'Nome completo',
+    personalDocumment: 'CPF (apenas números)',
+    email: 'E-mail',
+    secondaryEmail: 'Segundo e-mail (opcional)',
+    primaryPhone: 'Telefone principal (apenas números)',
+    secondaryPhone: 'Segundo telefone (opcional)',
+    education1: 'Formação (opcional)',
+    education2: 'Formação 2 (opcional)',
+    professionalActivity: 'Atuação Profissional (opcional)',
+  };
+
+  const handleUploadPerson = () => {
+    setUploadOpen(true);
+  };
+
+  const validatePersonCsvForm = (p: PersonCsvRow): string | null => {
+    const nm = (p.name || '').trim();
+    const cpfVal = digits(p.personalDocumment || '');
+    const mail = (p.email || '').trim();
+    const secMail = (p.secondaryEmail || '').trim();
+    const phone = digits(p.primaryPhone || '');
+    const secPhone = digits(p.secondaryPhone || '');
+
+    if (!nm) return 'O campo "Nome completo" é obrigatório!';
+    if (nm.split(/\s+/).length < 2) return 'Nome inválido: informe nome e sobrenome.';
+    if (!cpfVal) return 'O campo "CPF" é obrigatório!';
+    if (!isValidCPF(cpfVal)) return 'CPF inválido.';
+    if (!mail) return 'O campo "E-mail" é obrigatório!';
+    if (!emailRegex.test(mail)) return 'E-mail inválido.';
+    if (!phone) return 'O campo "Telefone principal" é obrigatório!';
+    if (phone.length < 10)
+      return 'Telefone principal inválido: informe DDD + número (10 ou 11 dígitos).';
+
+    if (secMail && !emailRegex.test(secMail)) return 'Segundo e-mail inválido.';
+    if (secPhone && secPhone.length > 0 && secPhone.length < 10)
+      return 'Segundo telefone inválido: informe DDD + número (10 ou 11 dígitos) ou deixe vazio.';
+
+    return null;
+  };
+
+  const apiCreate = (data: PersonCsvRow) => {
+    const body: CreatePersonRequest = {
+      name: (data.name || '').trim(),
+      email: (data.email || '').trim(),
+      personalDocumment: digits(data.personalDocumment || ''),
+      secondaryEmail: (data.secondaryEmail || '').trim() || null,
+      primaryPhone: digits(data.primaryPhone || ''),
+      secondaryPhone: digits(data.secondaryPhone || '') || null,
+      education1: (data.education1 || '').trim() || null,
+      education2: (data.education2 || '').trim() || null,
+      professionalActivity: (data.professionalActivity || '').trim() || null,
+      isActive: true,
+    } as CreatePersonRequest;
+
+    return api.createPerson(body);
   };
 
   const handleView = async (p: PersonRow) => {
@@ -371,7 +458,13 @@ const PersonPage: React.FC = () => {
         }}
       >
         <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-          <TitleAndButtons title="Listar Pessoas" onAdd={openCreate} addLabel="Nova Pessoa" />
+          <TitleAndButtons
+            title="Listar Pessoas"
+            onAdd={openCreate}
+            addLabel="Nova Pessoa"
+            onImportCsv={handleUploadPerson}
+            importLabel="Importar Pessoa"
+          />
 
           <Paper
             elevation={0}
@@ -498,7 +591,7 @@ const PersonPage: React.FC = () => {
                 }}
               >
                 <TextField
-                  label="Nome completo"
+                  label="Nome completo*"
                   fullWidth
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -507,7 +600,7 @@ const PersonPage: React.FC = () => {
                   slotProps={{ input: { readOnly: isVisualizing } }}
                 />
                 <TextField
-                  label="CPF (apenas números)"
+                  label="CPF (apenas números)*"
                   fullWidth
                   value={cpf}
                   onChange={(e) => setCpf(digits(e.target.value))}
@@ -517,7 +610,7 @@ const PersonPage: React.FC = () => {
                   slotProps={{ input: { readOnly: isVisualizing } }}
                 />
                 <TextField
-                  label="E-mail"
+                  label="E-mail*"
                   fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -536,7 +629,7 @@ const PersonPage: React.FC = () => {
                   slotProps={{ input: { readOnly: isVisualizing } }}
                 />
                 <TextField
-                  label="Telefone principal (apenas números)"
+                  label="Telefone principal (apenas números)*"
                   fullWidth
                   value={primaryPhone}
                   onChange={(e) => setPrimaryPhone(digits(e.target.value))}
@@ -626,6 +719,19 @@ const PersonPage: React.FC = () => {
             loading={confirmDialog.loading}
             danger
           />
+
+          {/* Upload CSV Modal */}
+          {isUploadOpen && (
+            <UploadCsvModal<PersonCsvRow>
+              title="Importar Pessoa"
+              onClose={() => setUploadOpen(false)}
+              apiCreate={apiCreate}
+              expectedHeaders={PERSON_CSV_HEADERS}
+              headerTranslations={headerTranslations}
+              validateFields={validatePersonCsvForm}
+              onFinish={() => fetchPeople()}
+            />
+          )}
         </Box>
       </Paper>
     </Container>
