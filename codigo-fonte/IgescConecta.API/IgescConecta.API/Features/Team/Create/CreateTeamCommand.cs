@@ -1,6 +1,7 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,11 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public DateTime? Finish { get; set; }
 
-        public List<int> PersonTeamsIds { get; set; } = [];
+        public required int Year { get; set; }
+        public required string Semester { get; set; }
+        public required ModalityType ModalityType { get; set; }
+        public required EventType EventType { get; set; }
+
         public List<int> ProjectProgramsIds { get; set; } = [];
         public int CourseId { get; set; }
     }
@@ -34,6 +39,19 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
+
+            if (request.Year <= 0)
+                return new ValidationFailed(new[] { "O ano é obrigatório e deve ser maior que zero." });
+
+            if (string.IsNullOrWhiteSpace(request.Semester))
+                return new ValidationFailed(new[] { "O semestre é obrigatório." });
+
+            // Validação de enum obrigatório
+            if (!Enum.IsDefined(typeof(ModalityType), request.ModalityType))
+                return new ValidationFailed(new[] { "A modalidade é obrigatória e deve ser válida." });
+
+            if (!Enum.IsDefined(typeof(EventType), request.EventType))
+                return new ValidationFailed(new[] { "O tipo de evento é obrigatório e deve ser válido." });
                 
             var courseExists = await _context.Courses
             .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
@@ -61,27 +79,16 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 }
             }
 
-            if (request.PersonTeamsIds.Any())
-            {
-                var personsExist = await _context.Persons
-                    .Where(p => request.PersonTeamsIds.Contains(p.Id))
-                    .Select(p => p.Id)
-                    .ToListAsync(cancellationToken);
-
-                var invalidIds = request.PersonTeamsIds.Except(personsExist).ToList();
-
-                if (invalidIds.Any())
-                {
-                    return new ValidationFailed(new[] { $"Pessoas com IDs {string.Join(", ", invalidIds)} não encontradas." });
-                }
-            }
-
             var team = new Team
             {
                 Name = request.Name,
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
+                Year = request.Year,
+                Semester = request.Semester,
+                ModalityType = request.ModalityType,
+                EventType = request.EventType,
                 CourseId = request.CourseId
             };
 
@@ -93,24 +100,8 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
             try
             {
-                // Salva o Team primeiro para gerar o Id
                 await _context.Teams.AddAsync(team, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-
-                //Adiciona os PersonTeams com TeamId garantido
-                if (request.PersonTeamsIds.Any())
-                {
-                    foreach (var personId in request.PersonTeamsIds)
-                    {
-                        team.PersonTeams.Add(new PersonTeam
-                        {
-                            TeamId = team.Id,
-                            PersonId = personId
-                        });
-                    }
-
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
 
                 return team.Id;
             }
