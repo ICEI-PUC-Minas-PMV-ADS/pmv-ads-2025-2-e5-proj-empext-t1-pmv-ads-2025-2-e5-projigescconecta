@@ -23,6 +23,7 @@ namespace IgescConecta.API.Features.Companies.CreateCompany
         public string? PhoneNumber { get; set; }
         public string? Website { get; set; }
         public string? SocialMedia { get; set; }
+        public string? Email { get; set; } 
         public bool IsActive { get; set; } = true;
     }
 
@@ -75,6 +76,7 @@ namespace IgescConecta.API.Features.Companies.CreateCompany
                 PhoneNumber = request.PhoneNumber,
                 Website = request.Website,
                 SocialMedia = request.SocialMedia,
+                Email = request.Email, 
                 IsDeleted = !request.IsActive
             };
 
