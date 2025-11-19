@@ -1,0 +1,249 @@
+    {
+        "version": 1,
+        "culture": "pt-BR",
+
+        "entities": {
+            "User": "Usuários",
+            "Role": "Perfis",
+            "Course": "Programas",
+            "Team": "Turmas",
+            "Person": "Pessoas",
+            "Osc": "OSCs",
+            "Company": "Empresas",
+            "Beneficiary": "Públicos",
+            "OriginBusinessCase": "Causas",
+            "BusinessCase": "Grupo de Causas",
+            "ProjectProgram": "Projetos",
+            "ProjectTheme": "Temas de Projeto",
+            "ProjectType": "Tipos de Projeto",
+            "Donation": "Doações",
+            "PersonTeam": "Participações em Turmas",
+            "PersonOsc": "Vínculos Pessoa-OSC",
+            "PersonCompany": "Vínculos Pessoa-Empresa"
+        },
+
+        "relations": {
+            /* User */
+            "User.CreatedByUser": "Criado por (Usuário)",
+            "User.UpdatedByUser": "Atualizado por (Usuário)",
+
+            /* Team */
+            "Team.Course": "Programa",
+            "Team.PersonTeams": "Participações",
+            "Team.PersonOscs": "Vínculos com OSC",
+            "Team.ProjectPrograms": "Projetos",
+
+            /* Course */
+            "Course.Teams": "Turmas",
+
+            /* Person */
+            "Person.Teams": "Participações em Turmas",
+            "Person.Oscs": "Vínculos com OSC",
+            "Person.Companies": "Vínculos com Empresas",
+
+            /* Osc */
+            "Osc.OriginsBusinessCases": "Causas de Negócio",
+            "Osc.Beneficiaries": "Públicos Atendidos",
+
+            /* Beneficiary */
+            "Beneficiary.Oscs": "OSCs Vinculadas",
+
+            /* BusinessCase */
+            "BusinessCase.Origins": "Causas de Negócio",
+
+            /* OriginBusinessCase */
+            "OriginBusinessCase.Oscs": "OSCs Vinculadas",
+            "OriginBusinessCase.BusinessCase": "Grupo de Causas",
+
+            /* PersonTeam */
+            "PersonTeam.Person": "Pessoa",
+            "PersonTeam.Team": "Turma",
+            "PersonTeam.Osc": "OSC Vinculada",
+
+            /* PersonOsc */
+            "PersonOsc.Person": "Pessoa",
+            "PersonOsc.Osc": "OSC",
+
+            /* PersonCompany */
+            "PersonCompany.Person": "Pessoa",
+            "PersonCompany.Company": "Empresa",
+
+            /* Company */
+            "Company.Donations": "Doações",
+
+            /* Donation */
+            "Donation.Person": "Pessoa",
+            "Donation.Company": "Empresa",
+            "Donation.Osc": "OSC",
+            "Donation.Course": "Programa",
+            "Donation.Team": "Turma",
+
+            /* ProjectProgram */
+            "ProjectProgram.ProjectType": "Tipo do Projeto",
+            "ProjectProgram.ProjectTheme": "Tema do Projeto",
+            "ProjectProgram.Team": "Turma",
+            "ProjectProgram.Osc": "OSC",
+            "ProjectProgram.ProjectDocument": "Documento do Projeto"
+        },
+
+        "fields": {
+            /* ========= User (Usuários) ========= */
+            "User.Name": "Nome",
+            "User.UserName": "Nome de Usuário",
+            "User.Email": "E-mail Principal",
+            "User.IsActive": "Ativo",
+
+            /* ========= Team (Turmas) ========= */
+            "Team.Name": "Turma",
+            "Team.LessonTime": "Horário da Aula",
+            "Team.Start": "Data de Início",
+            "Team.Finish": "Data de Término",
+
+            /* ========= PersonTeam (Participações em Turmas) ========= */
+            "PersonTeam.MemberTypes": "Papel na Turma",
+
+            /* ========= Course (Programas) ========= */
+            "Course.Name": "Programa",
+
+            /* ========= Person (Pessoas) ========= */
+            "Person.Name": "Nome",
+            "Person.Email": "E-mail",
+            "Person.PersonalDocumment": "CPF",
+            "Person.SecondaryEmail": "E-mail Secundário",
+            "Person.PrimaryPhone": "Telefone Principal",
+            "Person.SecondaryPhone": "Telefone Secundário",
+            "Person.Education1": "Formação 1",
+            "Person.Education2": "Formação 2",
+            "Person.ProfessionalActivity": "Atividade Profissional",
+            "Person.IsActive": "Ativo",
+
+            /* ========= Company (Empresas) ========= */
+            "Company.CompanyName": "Nome Fantasia",
+            "Company.CorporateReason": "Razão Social",
+            "Company.CNPJ": "CNPJ",
+            "Company.FieldOfActivity": "Ramo de Atividade",
+            "Company.ZipCode": "CEP",
+            "Company.Address": "Endereço",
+            "Company.Neighborhood": "Bairro",
+            "Company.City": "Cidade",
+            "Company.State": "UF",
+            "Company.PhoneNumber": "Telefone",
+            "Company.Website": "Site",
+            "Company.SocialMedia": "Redes Sociais",
+            "Company.IsActive": "Ativa",
+
+            /* ========= Osc (OSCs) ========= */
+            "Osc.Name": "Nome Fantasia",
+            "Osc.Objective": "Objetivo",
+            "Osc.CorporateName": "Razão Social",
+            "Osc.Address": "Endereço",
+            "Osc.Neighborhood": "Bairro",
+            "Osc.City": "Cidade",
+            "Osc.State": "UF",
+            "Osc.PhoneNumber": "Telefone",
+            "Osc.Email": "E-mail",
+            "Osc.WebUrl": "Website",
+            "Osc.SocialMedia": "Redes Sociais",
+            "Osc.ZipCode": "CEP",
+            "Osc.OscPrimaryDocumment": "Documento Principal",
+
+            /* ========= Donation (Doações) ========= */
+            "Donation.Value": "Valor",
+            "Donation.DonationDate": "Data da Doação",
+
+            /* ========= Catálogos / Dicionários ========= */
+            "Beneficiary.Name": "Público",
+            "Beneficiary.Notes": "Notas",
+            "OriginBusinessCase.Name": "Causa",
+            "OriginBusinessCase.Notes": "Notas",
+            "BusinessCase.Name": "Grupo de Causas",
+            "ProjectType.Name": "Tipo do Projeto",
+            "ProjectTheme.Name": "Tema do Projeto",
+
+            /* ========= ProjectProgram (Projetos) ========= */
+            "ProjectProgram.Name": "Nome do Projeto",
+            "ProjectProgram.OdsTypes": "ODS (múltiplas)",
+            "ProjectProgram.Decision": "Decisão"
+        },
+
+        /* Aplicável a TODAS as entidades que herdam BaseEntity */
+        "baseFields": {
+            "CreatedBy": "Criado por",
+            "CreatedAt": "Criado em",
+            "UpdatedBy": "Atualizado por",
+            "UpdatedAt": "Atualizado em",
+            "IsDeleted": "Deletado"
+        },
+
+        "enums": {
+            "ReportStatus": {
+                "label": "Status",
+                "values": {
+                    "Draft": "Rascunho",
+                    "Published": "Publicado"
+                }
+            },
+            "SortDirection": {
+                "label": "Ordenação",
+                "values": {
+                    "Asc": "Ascendente",
+                    "Desc": "Descendente"
+                }
+            },
+            "JoinType": {
+                "label": "Tipo de Junção",
+                "values": {
+                    "Inner": "Somente com Correspondência (INNER)",
+                    "Left": "Todos da Origem (LEFT)"
+                }
+            },
+            "MemberType": {
+                "label": "Papel na Turma",
+                "values": {
+                    "Student": "Participante",
+                    "Professor": "Professor",
+                    "Coordinator": "Coordenador",
+                    "Consultant": "Consultor Social",
+                    "TeamLeader": "Mentor",
+                    "ProgramCoordinator": "Coordenador Geral",
+                    "Speaker": "Palestrante",
+                    "TechSupport": "Apoio Técnico"
+                }
+            },
+            "OdsType": {
+                "label": "ODS",
+                "values": {
+                    "Ods1": "Erradicação da Pobreza",
+                    "Ods2": "Fome Zero e Agricultura Sustentável",
+                    "Ods3": "Saúde e Bem-Estar",
+                    "Ods4": "Educação de Qualidade",
+                    "Ods5": "Igualdade de Gênero",
+                    "Ods6": "Água Potável e Saneamento",
+                    "Ods7": "Energia Limpa e Acessível",
+                    "Ods8": "Trabalho Decente e Crescimento Econômico",
+                    "Ods9": "Indústria, Inovação e Infraestrutura",
+                    "Ods10": "Redução das Desigualdades",
+                    "Ods11": "Cidades e Comunidades Sustentáveis",
+                    "Ods12": "Consumo e Produção Responsáveis",
+                    "Ods13": "Ação Contra a Mudança Global do Clima",
+                    "Ods14": "Vida na Água",
+                    "Ods15": "Vida Terrestre",
+                    "Ods16": "Paz, Justiça e Instituições Eficazes",
+                    "Ods17": "Parcerias e Meios de Implementação"
+                }
+            },
+            "ProjectDecisionType": {
+                "label": "Decisão do Projeto",
+                "values": {
+                    "Started": "Iniciado",
+                    "Incomplete": "Incompleto",
+                    "Approved": "Aprovado",
+                    "Failed": "Reprovado"
+                }
+            }
+        },
+
+        "blockedPaths": [
+            "ProjectProgram.ProjectDocument"
+        ]
+    }

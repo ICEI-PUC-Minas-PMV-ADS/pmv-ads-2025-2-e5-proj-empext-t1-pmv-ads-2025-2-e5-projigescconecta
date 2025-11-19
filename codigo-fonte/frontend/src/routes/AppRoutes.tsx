@@ -22,6 +22,7 @@ import ProjectType from '@/pages/ProjectType';
 import ProjectTheme from '@/pages/ProjectTheme';
 import ProjectProgram from '@/pages/ProjectProgram';
 import PersonOsc from '@/pages/PersonOsc';
+import Report from '@/pages/Report';
 
 const routeConfig = [
   { path: '/login', element: <Login />, isPrivate: false },
@@ -43,6 +44,7 @@ const routeConfig = [
   { path: '/project-type', element: <ProjectType />, isPrivate: true },
   { path: '/project-theme', element: <ProjectTheme />, isPrivate: true },
   { path: '/project-program', element: <ProjectProgram />, isPrivate: true },
+  { path: '/report', element: <Report />, isPrivate: true },
 ];
 
 export default function AppRoutes() {

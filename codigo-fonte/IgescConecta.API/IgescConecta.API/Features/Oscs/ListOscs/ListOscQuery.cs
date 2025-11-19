@@ -46,8 +46,14 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
 
     public class ListOscQuery : PaginationRequest, IRequest<ListOscViewModel>
     {
-        public ListOscQuery(int pageNumber, int pageSize, List<Filter> filters) : base(pageNumber, pageSize, filters)
+        public int? BeneficiaryId { get; set; }
+
+        public int? OriginBussinesCaseId { get; set; }
+
+        public ListOscQuery(int pageNumber, int pageSize, List<Filter> filters, int? beneficiaryId, int? originBussinesCaseId) : base(pageNumber, pageSize, filters)
         {
+            BeneficiaryId = beneficiaryId;
+            OriginBussinesCaseId = originBussinesCaseId;
         }
     }
 
@@ -63,8 +69,23 @@ namespace IgescConecta.API.Features.Oscs.ListOscs
         public async Task<ListOscViewModel> Handle(ListOscQuery request, CancellationToken cancellationToken)
         {
             var expr = ExpressionBuilder.GetExpression<Osc>(request.Filters);
-            var query = _context.Oscs.AsQueryable();
-            var result = await query.Where(expr).Select(osc => new OscViewModel
+            var query = _context.Oscs
+                .AsQueryable()
+                .Include(o => o.Beneficiaries)
+                .Include(o => o.OriginsBusinessCases)
+                .Where(expr);
+
+            if (request.BeneficiaryId.HasValue)
+            {
+                query = query.Where(o => o.Beneficiaries.Any(b => b.Id == request.BeneficiaryId));
+            }
+
+            if (request.OriginBussinesCaseId.HasValue)
+            {
+                query = query.Where(o => o.OriginsBusinessCases.Any(obc => obc.Id == request.OriginBussinesCaseId));
+            }
+
+            var result = await query.Select(osc => new OscViewModel
             {
                 OscId = osc.Id,
                 Name = osc.Name,
