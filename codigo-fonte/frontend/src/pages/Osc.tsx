@@ -3,6 +3,7 @@ import {
   Box,
   Container,
   Button,
+  ButtonGroup,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,10 +19,15 @@ import {
   Stack,
   Divider,
   TextField,
-  Autocomplete
+  Autocomplete,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import AccessTime from '@mui/icons-material/AccessTime';
+import Avatar from '@mui/material/Avatar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -39,6 +45,7 @@ import {
   ListOscRequest,
   Filter,
   Op,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
@@ -74,6 +81,7 @@ interface Osc {
   beneficiariesCount?: number;
   beneficiaries?: Beneficiary[];
   originsBusinessCases?: OriginBusinessCase[];
+  isDeleted?: boolean;
 }
 
 interface Beneficiary {
@@ -147,7 +155,13 @@ const Osc: React.FC = () => {
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
 
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
+
   const oscApi = new OscsApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
   const originBusinessCaseApi = new OriginsBusinessCasesApi(apiConfig)
   const navigate = useNavigate();
@@ -191,7 +205,7 @@ const Osc: React.FC = () => {
       city: data.city,
       state: data.state,
       phoneNumber: data.phoneNumber,
-      email: data.email, 
+      email: data.email,
       webUrl: data.webUrl,
       socialMedia: data.socialMedia,
       zipCode: data.zipCode,
@@ -261,7 +275,7 @@ const Osc: React.FC = () => {
     }
   };
 
-  const fetchOscs = async (customFilters?: Filter[], beneficiaryId?: number, originBusinessCaseId?: number) => {
+  const fetchOscs = async (customFilters?: Filter[], beneficiaryId?: number, originBusinessCaseId?: number, statusFilter?: string) => {
     try {
       setLoading(true);
       setOscs([]);
@@ -273,7 +287,8 @@ const Osc: React.FC = () => {
         pageSize: rowsPerPage,
         filters: filters.length > 0 ? filters : undefined,
         beneficiaryId: beneficiaryId,
-        originBusinessCaseId: originBusinessCaseId
+        originBusinessCaseId: originBusinessCaseId,
+        statusFilter: statusFilter
       };
 
       const { data } = await oscApi.listOsc(listOscRequest);
@@ -340,10 +355,10 @@ const Osc: React.FC = () => {
     const beneficiaryId = filterBeneficiaryId || undefined;
     const originBusinessCaseId = filterOriginBusinesCaseId || undefined
 
-    console.log(originBusinessCaseId)
+    console.log(statusFilter)
 
     setPage(0);
-    fetchOscs(filters, beneficiaryId, originBusinessCaseId);
+    fetchOscs(filters, beneficiaryId, originBusinessCaseId, statusFilter);
   };
 
   const handleClearFilters = () => {
@@ -357,6 +372,7 @@ const Osc: React.FC = () => {
     setFilterBeneficiaryId(undefined);
     setSelectedBeneficiaryFilter(null);
     setSelectedOriginBusinessCaseFilter(null);
+    setStatusFilter(undefined);
     fetchOscs([]);
   };
 
@@ -419,6 +435,14 @@ const Osc: React.FC = () => {
     try {
       const oscId: number = osc.oscId!;
       const { data } = await oscApi.getOsc(oscId);
+
+      const userId = data.updatedBy || data.createdBy;
+      const date = data.updatedAt || data.createdAt;
+
+      const { data: userData } = await userApi.getUserById(userId!);
+
+      setUserUpdatedName(userData.name);
+      setAuditDate(date ? dayjs(date) : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
       setOpenModal(true)
@@ -641,6 +665,11 @@ const Osc: React.FC = () => {
     },
     { label: 'Objetivo', field: 'objective' },
     { label: 'Público Atendido', field: 'beneficiariesCount' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      render: (value) => (value ? 'Inativo' : 'Ativo')
+    }
   ];
 
   const headerTranslations = {
@@ -658,7 +687,8 @@ const Osc: React.FC = () => {
     socialMedia: 'Mídia Social',
     oscPrimaryDocumment: 'CNPJ',
     beneficiariesIds: 'Id de Público',
-    originsBusinessCasesIds: 'Id de Causa'
+    originsBusinessCasesIds: 'Id de Causa',
+    isDeleted: 'Ativo'
   }
 
   return (
@@ -843,8 +873,76 @@ const Osc: React.FC = () => {
                 />
               </Stack>
 
-              {/* Botões de Busca e Limpar */}
+              {/* Botões de Busca, Limpar e Filtrar Inativos */}
               <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
+                {/*<ButtonGroup
+                  sx={{
+                    mb: 2,
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    boxShadow: '0px 4px 12px rgba(0,0,0,0.08)',
+                    '& .MuiButton-root': {
+                      px: 3,
+                      py: 1.2,
+                      fontWeight: 600,
+                      textTransform: 'none',
+                      borderColor: 'transparent !important',
+                      transition: 'all 0.3s ease',
+                    },
+                    '& .MuiButton-outlined': {
+                      backgroundColor: '#ffffff',
+                    },
+                    '& .MuiButton-contained': {
+                      background: 'linear-gradient(135deg, #1E4EC4, #3A6BDB)',
+                      color: '#ffffff',
+                    },
+                  }}
+                >
+                  <Button
+                    variant={statusFilter === 'Inactive' ? 'contained' : 'outlined'}
+                    onClick={() =>
+                      setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                    }
+                  >
+                    Inativos
+                  </Button>
+
+                  <Button
+                    variant={statusFilter === 'all' ? 'contained' : 'outlined'}
+                    onClick={() =>
+                      setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                    }
+                  >
+                    Todos
+                  </Button>
+                </ButtonGroup>*/}
+
+                <FormGroup row sx={{ mb: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'Inactive'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        }
+                      />
+                    }
+                    label="Somente Inativos"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'all'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                        }
+                      />
+                    }
+                    label="Incluir Inativos"
+                  />
+                </FormGroup>
+
                 <Button
                   variant="contained"
                   startIcon={<SearchIcon />}
@@ -1022,6 +1120,30 @@ const Osc: React.FC = () => {
                           Nenhuma causa associada.
                         </Typography>
                       )}
+
+                      <Divider sx={{ mt: 4 }} />
+
+                      <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                            {userUpdatedName?.[0] || '?'}
+                          </Avatar>
+                          <Box>
+                            <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                            <Typography variant="body2" fontWeight={600}>{userUpdatedName || '—'}</Typography>
+                          </Box>
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <AccessTime fontSize="small" color="action" />
+                          <Box>
+                            <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                            <Typography variant="body2" fontWeight={600}>
+                              {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                            </Typography>
+                          </Box>
+                        </Stack>
+                      </Stack>
                     </Box>
                   </Box>
                 ) : updateOsc ? (

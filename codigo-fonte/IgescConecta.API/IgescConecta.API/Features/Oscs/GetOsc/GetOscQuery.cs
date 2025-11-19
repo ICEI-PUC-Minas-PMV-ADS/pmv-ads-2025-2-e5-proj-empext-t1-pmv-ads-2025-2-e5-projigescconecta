@@ -27,6 +27,7 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
         public async Task<Result<Osc, ValidationFailed>> Handle(GetOscQuery request, CancellationToken cancellationToken)
         {
             var osc = await _context.Oscs
+                .IgnoreQueryFilters()
                 .Where(osc => osc.Id == request.OscId)
                 .Include(osc => osc.Beneficiaries)
                 .Include(osc => osc.OriginsBusinessCases)
