@@ -28,6 +28,7 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
         public async Task<Result<Team, ValidationFailed>> Handle(GetTeamQuery request, CancellationToken cancellationToken)
         {
             var team = await _context.Teams
+                .IgnoreQueryFilters()
                 .Where(team => team.Id == request.TeamId)
                 .Include(team => team.PersonTeams)
                 .Include(team => team.ProjectPrograms)

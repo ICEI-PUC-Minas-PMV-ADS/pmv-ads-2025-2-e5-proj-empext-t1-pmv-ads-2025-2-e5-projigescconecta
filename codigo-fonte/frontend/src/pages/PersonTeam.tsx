@@ -30,6 +30,7 @@ import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
 import DialogPadronized from '@/components/DialogPadronized';
 import { apiConfig } from '../services/auth';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 import {
   PersonTeamsApi,
   PersonsApi,
@@ -37,7 +38,11 @@ import {
   CreatePersonTeamRequest,
   EditPersonTeamRequest,
   MemberType,
+  Filter,
+  Op,
+  ListPersonTeamRequest,
 } from './../api';
+import { extractErrorMessage } from '@/utils/error';
 
 interface PersonTeam {
   id?: number;
@@ -62,15 +67,20 @@ interface Team {
   name?: string | null;
 }
 
+interface ListPersonTeamViewModel {
+  totalItems: number;
+  items: PersonTeam[];
+}
+
 const MemberTypeLabels: Record<MemberType, string> = {
-  [MemberType.NUMBER_0]: 'Estudante',
+  [MemberType.NUMBER_0]: 'Participante',
   [MemberType.NUMBER_1]: 'Professor',
   [MemberType.NUMBER_2]: 'Coordenador',
-  [MemberType.NUMBER_3]: 'Supervisor',
-  [MemberType.NUMBER_4]: 'Líder da Equipe',
-  [MemberType.NUMBER_5]: 'Mentor',
-  [MemberType.NUMBER_6]: 'Voluntário',
-  [MemberType.NUMBER_7]: 'Observador',
+  [MemberType.NUMBER_3]: 'Consultor Social',
+  [MemberType.NUMBER_4]: 'Mentor',
+  [MemberType.NUMBER_5]: 'Coordenador Geral',
+  [MemberType.NUMBER_6]: 'Palestrante',
+  [MemberType.NUMBER_7]: 'Apoio Técnico',
 };
 
 const PersonTeam: React.FC = () => {
@@ -98,6 +108,10 @@ const PersonTeam: React.FC = () => {
   });
   const [filterPersonName, setFilterPersonName] = useState('');
   const [filterMemberType, setFilterMemberType] = useState<MemberType | ''>('');
+  const [filterIsDeleted, setFilterIsDeleted] = useState<boolean | ''>('');
+  const [totalCount, setTotalCount] = useState(0);
+  // CSV import state
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   const memberTypeOptions = useMemo(
     () =>
@@ -160,52 +174,98 @@ const PersonTeam: React.FC = () => {
     if (!teamId) return;
 
     try {
-      const response = await apiInstance.listPersonTeamsByTeam(parseInt(teamId), {
-        params: {
-          pageNumber: 1,
-          pageSize: 1000,
-          filters: undefined,
-        },
-      });
+      const filters: Filter[] = [];
+      if (filterPersonName.trim()) {
+        filters.push({ propertyName: 'Person.Name', operation: Op.NUMBER_7, value: filterPersonName });
+      }
+      if (filterMemberType !== '') {
+        filters.push({ propertyName: 'MemberType', operation: Op.NUMBER_1, value: filterMemberType as number });
+      }
+      if (filterIsDeleted !== '') {
+        filters.push({ propertyName: 'IsDeleted', operation: Op.NUMBER_1, value: filterIsDeleted as boolean });
+      }
 
-      if (response.data && Array.isArray(response.data)) {
-        if (response.data.length === 0) {
-          setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
-          setPersonTeams([]);
-          return;
-        }
+      const body: ListPersonTeamRequest = {
+        teamId: parseInt(teamId),
+        filters,
+        pageNumber: page + 1,
+        pageSize: rowsPerPage,
+      } as any;
+      const response = await apiInstance.searchPersonTeams(body);
 
-        setNoDataMessage('');
-        setPersonTeams(response.data);
+      const data = response.data as unknown as ListPersonTeamViewModel;
+
+      if (data && Array.isArray(data.items)) {
+        const hasActiveFilters =
+          (filterPersonName.trim() !== '') ||
+          (filterMemberType !== '') ||
+          (filterIsDeleted !== '');
+        const isEmpty = data.items.length === 0;
+        setNoDataMessage(
+          isEmpty
+            ? (hasActiveFilters
+                ? 'Nenhum resultado encontrado para os filtros aplicados.'
+                : 'Nenhuma pessoa vinculada a esta turma.')
+            : ''
+        );
+        setPersonTeams(data.items);
+        setTotalCount(data.totalItems || 0);
       } else {
         setPersonTeams([]);
-        setNoDataMessage('Nenhuma pessoa vinculada a esta turma.');
+        setTotalCount(0);
+        const hasActiveFilters =
+          (filterPersonName.trim() !== '') ||
+          (filterMemberType !== '') ||
+          (filterIsDeleted !== '');
+        setNoDataMessage(
+          hasActiveFilters
+            ? 'Nenhum resultado encontrado para os filtros aplicados.'
+            : 'Nenhuma pessoa vinculada a esta turma.'
+        );
       }
     } catch (error) {
       console.error('Erro ao buscar vínculos:', error);
       toast.error('Erro ao carregar vínculos da turma');
       setPersonTeams([]);
+      setTotalCount(0);
       setNoDataMessage('Erro ao carregar dados.');
     }
-  }, [teamId, apiInstance]);
+  }, [teamId, apiInstance, filterPersonName, filterMemberType, filterIsDeleted, page, rowsPerPage]);
 
-  const fetchPersons = useCallback(async () => {
-    try {
-      setPersonsLoading(true);
-      const response = await personsApiInstance.listPerson({
-        pageNumber: 1,
-        pageSize: 100,
-      });
+  // Busca paginada de pessoas com filtro por nome (não carregar todas de uma vez)
+  const fetchPerson = useCallback(
+    async (searchValue?: string) => {
+      try {
+        setPersonsLoading(true);
 
-      const items = response.data?.items ?? [];
-      setPersons(items.map((p) => ({ id: p.personId, name: p.name })));
-    } catch (error) {
-      console.error('Erro ao buscar pessoas:', error);
-      toast.error('Erro ao carregar lista de pessoas');
-    } finally {
-      setPersonsLoading(false);
-    }
-  }, [personsApiInstance]);
+        const request = {
+          pageNumber: 1,
+          pageSize: 10,
+          ...(searchValue && searchValue.trim() !== ''
+            ? {
+                filters: [
+                  {
+                    propertyName: 'Name',
+                    operation: Op.NUMBER_7,
+                    value: searchValue,
+                  },
+                ],
+              }
+            : {}),
+        };
+
+        const { data } = await personsApiInstance.listPerson(request as any);
+        const items = data?.items || [];
+        setPersons(items.map((p: any) => ({ id: p.personId, name: p.name })));
+      } catch (error) {
+        console.error('Erro ao buscar Pessoa', error);
+        toast.error('Erro ao buscar Pessoa');
+      } finally {
+        setPersonsLoading(false);
+      }
+    },
+    [personsApiInstance]
+  );
 
   const fetchTeamInfo = useCallback(async () => {
     if (!teamId) return;
@@ -229,6 +289,11 @@ const PersonTeam: React.FC = () => {
     setSelectedPersonOption(null);
     setInputPersonValue('');
     setIsVisualizing(false);
+    fetchPerson('');
+  };
+
+  const handleUploadPersonTeam = () => {
+    setUploadOpen(true);
   };
 
   const handleCloseModal = () => {
@@ -239,6 +304,7 @@ const PersonTeam: React.FC = () => {
     setSelectedPersonOption(null);
     setInputPersonValue('');
     setIsVisualizing(false);
+    setPersons([]);
   };
 
   const handleEdit = (personTeam: PersonTeam) => {
@@ -246,12 +312,10 @@ const PersonTeam: React.FC = () => {
     setSelectedPersonId(personTeam.personId || '');
     setSelectedMemberTypes(personTeam.memberTypes || []);
 
-    const selectedPerson = persons.find((p) => p.id === personTeam.personId);
-    if (selectedPerson) {
-      setSelectedPersonOption({
-        id: selectedPerson.id!,
-        label: selectedPerson.name!,
-      });
+    if (personTeam.personId && personTeam.personName) {
+      setSelectedPersonOption({ id: personTeam.personId, label: personTeam.personName });
+    } else {
+      setSelectedPersonOption(null);
     }
 
     setInputPersonValue('');
@@ -264,12 +328,10 @@ const PersonTeam: React.FC = () => {
     setSelectedPersonId(personTeam.personId || '');
     setSelectedMemberTypes(personTeam.memberTypes || []);
 
-    const selectedPerson = persons.find((p) => p.id === personTeam.personId);
-    if (selectedPerson) {
-      setSelectedPersonOption({
-        id: selectedPerson.id!,
-        label: selectedPerson.name!,
-      });
+    if (personTeam.personId && personTeam.personName) {
+      setSelectedPersonOption({ id: personTeam.personId, label: personTeam.personName });
+    } else {
+      setSelectedPersonOption(null);
     }
 
     setInputPersonValue('');
@@ -364,7 +426,7 @@ const PersonTeam: React.FC = () => {
       handleCloseModal();
     } catch (error) {
       console.error('Erro ao salvar vínculo:', error);
-      toast.error('Erro ao salvar vínculo');
+      toast.error(extractErrorMessage(error));
     } finally {
       setModalLoading(false);
     }
@@ -378,6 +440,7 @@ const PersonTeam: React.FC = () => {
   const handleClearFilters = () => {
     setFilterPersonName('');
     setFilterMemberType('');
+    setFilterIsDeleted('');
     setSearch('');
     setPage(0);
   };
@@ -386,33 +449,11 @@ const PersonTeam: React.FC = () => {
     navigate('/team');
   };
 
-  const filteredPersonTeams = useMemo(() => {
-    let filtered = personTeams;
-
-    if (filterPersonName.trim()) {
-      filtered = filtered.filter((pt) =>
-        pt.personName?.toLowerCase().includes(filterPersonName.toLowerCase())
-      );
+  useEffect(() => {
+    if (teamId) {
+      fetchPersonTeams();
     }
-
-    if (filterMemberType !== '') {
-      filtered = filtered.filter((pt) =>
-        pt.memberTypes?.includes(filterMemberType as MemberType)
-      );
-    }
-
-    if (search.trim()) {
-      filtered = filtered.filter((pt) =>
-        pt.personName?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    return filtered;
-  }, [personTeams, filterPersonName, filterMemberType, search]);
-
-  const paginatedPersonTeams = useMemo(() => {
-    return filteredPersonTeams.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  }, [filteredPersonTeams, page, rowsPerPage]);
+  }, [teamId, fetchPersonTeams]);
 
   useEffect(() => {
     if (teamId) {
@@ -421,9 +462,110 @@ const PersonTeam: React.FC = () => {
     }
   }, [teamId, fetchPersonTeams, fetchTeamInfo]);
 
+  // Debounce da pesquisa pelo nome
   useEffect(() => {
-    fetchPersons();
-  }, [fetchPersons]);
+    const handler = setTimeout(() => {
+      if (openModal && !isVisualizing && !editingPersonTeam) {
+        fetchPerson(inputPersonValue);
+      }
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [inputPersonValue, openModal, isVisualizing, editingPersonTeam, fetchPerson]);
+
+  // ----------------------------- CSV Import -----------------------------
+  interface PersonTeamCsvRow {
+    personId: number | string;
+    memberTypes: string;
+  }
+
+  const PERSON_TEAM_CSV_HEADERS: (keyof PersonTeamCsvRow)[] = ['personId', 'memberTypes'];
+
+  // Mapeia os nomes de coluna do CSV para rótulos exibidos na UI
+  const headerTranslations: Record<keyof PersonTeamCsvRow, string> = {
+    personId: 'ID da Pessoa',
+    memberTypes: 'Funções (separadas por ";")',
+  };
+
+  /**
+   * Mapeia rótulos legíveis (de um CSV, por exemplo) para seus respectivos valores do enum MemberType.
+   * Normaliza acentuação e caixa para garantir correspondência robusta.
+   */
+  const memberTypeByNormalizedLabel: Record<string, MemberType> = Object.entries(
+    MemberTypeLabels
+  ).reduce(
+    (map, [enumValue, label]) => {
+      const normalizedLabel = label
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '');
+      map[normalizedLabel] = parseInt(enumValue) as MemberType;
+      return map;
+    },
+    {} as Record<string, MemberType>
+  );
+
+  /**
+   * Converte uma string com valores de funções (ex: "0,1, Coordenador")
+   * em uma lista de valores válidos do enum MemberType.
+   *
+   * @param raw String vinda do CSV (pode conter números ou rótulos, separados por "," ou ";")
+   * @returns Lista de tipos de membro sem duplicatas.
+   */
+  const parseMemberTypes = (raw: string): MemberType[] => {
+    const tokens = (raw || '')
+      .split(/[;,]/)
+      .map((token) => token.trim())
+      .filter((token) => token.length > 0);
+
+    const memberTypes: MemberType[] = [];
+    for (const token of tokens) {
+      // Caso: número direto (ex: "3")
+      if (/^\d+$/.test(token)) {
+        const numericValue = parseInt(token, 10);
+        if (numericValue >= 0 && numericValue <= 7) memberTypes.push(numericValue as MemberType);
+        continue;
+      }
+      // Caso: rótulo textual (ex: "coordenador")
+      const normalizedLabel = token
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '');
+      const memberType = memberTypeByNormalizedLabel[normalizedLabel];
+      if (memberType !== undefined) memberTypes.push(memberType);
+    }
+    // Deduplica, garantindo funções únicas
+    return Array.from(new Set(memberTypes));
+  };
+
+  /**
+   * Valida uma linha de importação CSV contendo informações de associação pessoa–time.
+   *
+   * @param row Linha do CSV com `personId` e `memberTypes`
+   * @returns Mensagem de erro se inválido, ou `null` se os dados forem válidos.
+   */
+  const validatePersonTeamCsvForm = (row: PersonTeamCsvRow): string | null => {
+    const personId = Number((row.personId ?? '').toString().trim());
+    const parsedMemberTypes = parseMemberTypes(row.memberTypes ?? '');
+
+    if (!personId || personId <= 0)
+      return 'O campo "ID da Pessoa" é obrigatório e deve ser numérico.';
+    if (!parsedMemberTypes.length)
+      return 'O campo "Funções" é obrigatório. Informe ao menos uma função válida (por número ou rótulo).';
+
+    return null;
+  };
+
+  const apiCreateFromCsv = (row: PersonTeamCsvRow) => {
+    const personId = Number((row.personId ?? '').toString().trim());
+    const memberTypes = parseMemberTypes(row.memberTypes ?? '');
+
+    const body: CreatePersonTeamRequest = {
+      personId,
+      memberTypes,
+    };
+
+    return apiInstance.createPersonTeam(parseInt(teamId || ''), body);
+  };
 
   return (
     <Container
@@ -491,6 +633,8 @@ const PersonTeam: React.FC = () => {
               title="Integrantes da Turma"
               onAdd={handleAdd}
               addLabel="Adicionar Integrante"
+              onImportCsv={handleUploadPersonTeam}
+              importLabel="Importar Integrantes"
             />
           </Box>
         </Box>
@@ -525,7 +669,7 @@ const PersonTeam: React.FC = () => {
             >
               Filtro de Busca
             </Typography>
-            {(filterPersonName || filterMemberType || search) && (
+            {(filterPersonName || filterMemberType || filterIsDeleted !== '' || search) && (
               <Chip
                 label="Filtros ativos"
                 size="small"
@@ -574,6 +718,21 @@ const PersonTeam: React.FC = () => {
                   ))}
                 </Select>
               </FormControl>
+
+              <FormControl size="small" sx={{ minWidth: 160 }}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={filterIsDeleted === '' ? '' : filterIsDeleted ? 'true' : 'false'}
+                  onChange={(e) => {
+                    const v = e.target.value as string;
+                    setFilterIsDeleted(v === '' ? '' : v === 'true');
+                  }}
+                  label="Status"
+                >
+                  <MenuItem value={'false'}>Ativo</MenuItem>
+                  <MenuItem value={'true'}>Inativo</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <Button
@@ -605,15 +764,16 @@ const PersonTeam: React.FC = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Table
             columns={columns}
-            data={paginatedPersonTeams}
+            data={personTeams}
             page={page}
             rowsPerPage={rowsPerPage}
-            totalCount={filteredPersonTeams.length}
-            onPageChange={setPage}
-            onRowsPerPageChange={setRowsPerPage}
+            totalCount={totalCount}
+            onPageChange={(newPage) => setPage(newPage)}
+            onRowsPerPageChange={(newRows) => setRowsPerPage(newRows)}
             onEdit={handleEdit}
             onDelete={handleDelete}
             onView={handleView}
+            pagination={true}
             noDataMessage={noDataMessage}
           />
         </Box>
@@ -638,6 +798,7 @@ const PersonTeam: React.FC = () => {
                     <Autocomplete
                       options={personOptions}
                       getOptionLabel={(option) => option.label}
+                      isOptionEqualToValue={(option, value) => option.id === value.id}
                       value={selectedPersonOption}
                       onChange={(_, value) => {
                         if (value) {
@@ -651,6 +812,12 @@ const PersonTeam: React.FC = () => {
                       inputValue={inputPersonValue}
                       onInputChange={(_, newInputValue) => {
                         setInputPersonValue(newInputValue);
+                      }}
+                      filterOptions={(x) => x} // não filtra no cliente; lista vem da API
+                      onOpen={() => {
+                        if (persons.length === 0) {
+                          fetchPerson('');
+                        }
                       }}
                       loading={personsLoading}
                       renderInput={(params) => (
@@ -805,6 +972,21 @@ const PersonTeam: React.FC = () => {
           )
         }
       />
+
+      {isUploadOpen && (
+        <UploadCsvModal<PersonTeamCsvRow>
+          title="Importar Integrantes"
+          onClose={() => setUploadOpen(false)}
+          apiCreate={apiCreateFromCsv}
+          expectedHeaders={PERSON_TEAM_CSV_HEADERS}
+          headerTranslations={headerTranslations}
+          validateFields={validatePersonTeamCsvForm}
+          onFinish={() => {
+            setUploadOpen(false);
+            fetchPersonTeams();
+          }}
+        />
+      )}
 
       <ConfirmDialog
         open={confirmDialog.open}

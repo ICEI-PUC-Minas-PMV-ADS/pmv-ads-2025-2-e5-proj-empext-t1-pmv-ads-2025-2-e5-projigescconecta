@@ -2,6 +2,7 @@
 using IgescConecta.Domain.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,25 @@ namespace IgescConecta.Domain.Entities
 {
     public class PersonTeam : BaseEntity
     {
+        [Required]
+        [MinLength(1)]
         public IList<MemberType> MemberTypes { get; set; } = new List<MemberType>();
-        public int PersonId { get; set; }
 
-        public int TeamId { get; set; }
+        [Required]
+        public required int PersonId { get; set; }
 
-        public int? OscId { get; set; }
+        [Required]
+        public required int TeamId { get; set; }
+
+        public int? PersonOscId { get; set; }
 
         [ForeignKey("PersonId")]
-        public Person Person { get; set; }
+        public Person Person { get; set; } = null!;
 
         [ForeignKey("TeamId")]
-        public Team Team { get; set; }
+        public Team Team { get; set; } = null!;
 
-        [ForeignKey("OscId")]
-        public Osc? Osc { get; set; }
+        [ForeignKey("PersonOscId")]
+        public PersonOsc? PersonOsc { get; set; }
     }
 }

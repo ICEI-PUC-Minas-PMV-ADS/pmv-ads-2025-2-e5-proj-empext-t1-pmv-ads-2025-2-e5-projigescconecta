@@ -793,12 +793,6 @@ export interface CreatePersonTeamRequest {
     'personId': number;
     /**
      * 
-     * @type {number}
-     * @memberof CreatePersonTeamRequest
-     */
-    'oscId'?: number | null;
-    /**
-     * 
      * @type {Array<MemberType>}
      * @memberof CreatePersonTeamRequest
      */
@@ -816,6 +810,12 @@ export interface CreatePersonTeamResponse {
      * @memberof CreatePersonTeamResponse
      */
     'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonTeamResponse
+     */
+    'name'?: string;
 }
 /**
  * 
@@ -1205,10 +1205,28 @@ export interface CreateTeamRequest {
     'finish'?: string | null;
     /**
      * 
-     * @type {Array<number>}
+     * @type {number}
      * @memberof CreateTeamRequest
      */
-    'personTeamsIds'?: Array<number>;
+    'year': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'semester': string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof CreateTeamRequest
+     */
+    'modalityType': ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof CreateTeamRequest
+     */
+    'eventType': EventType;
     /**
      * 
      * @type {Array<number>}
@@ -1220,8 +1238,10 @@ export interface CreateTeamRequest {
      * @type {number}
      * @memberof CreateTeamRequest
      */
-    'courseId'?: number;
+    'courseId': number;
 }
+
+
 /**
  * 
  * @export
@@ -1892,12 +1912,6 @@ export interface EditTeamRequest {
      * @type {Array<number>}
      * @memberof EditTeamRequest
      */
-    'personTeamsIds'?: Array<number> | null;
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof EditTeamRequest
-     */
     'projectProgramIds'?: Array<number> | null;
     /**
      * 
@@ -1905,7 +1919,47 @@ export interface EditTeamRequest {
      * @memberof EditTeamRequest
      */
     'courseId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditTeamRequest
+     */
+    'year'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'semester'?: string | null;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof EditTeamRequest
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof EditTeamRequest
+     */
+    'eventType'?: EventType;
 }
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EventType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type EventType = typeof EventType[keyof typeof EventType];
+
+
 /**
  * 
  * @export
@@ -2805,6 +2859,30 @@ export interface GetTeamByIdResponse {
      * @type {number}
      * @memberof GetTeamByIdResponse
      */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof GetTeamByIdResponse
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof GetTeamByIdResponse
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
     'courseId'?: number;
     /**
      * 
@@ -2837,6 +2915,8 @@ export interface GetTeamByIdResponse {
      */
     'createdAt'?: string;
 }
+
+
 /**
  * 
  * @export
@@ -3298,6 +3378,56 @@ export interface ListPersonRequest {
 /**
  * 
  * @export
+ * @interface ListPersonTeamRequest
+ */
+export interface ListPersonTeamRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'teamId'?: number | null;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonTeamRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonTeamViewModel
+ */
+export interface ListPersonTeamViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonTeamDto>}
+     * @memberof ListPersonTeamViewModel
+     */
+    'items'?: Array<PersonTeamDto>;
+}
+/**
+ * 
+ * @export
  * @interface ListPersonViewModel
  */
 export interface ListPersonViewModel {
@@ -3618,6 +3748,30 @@ export interface ListTeamItemViewModel {
      * @type {number}
      * @memberof ListTeamItemViewModel
      */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof ListTeamItemViewModel
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof ListTeamItemViewModel
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
     'projectPrograms'?: number;
     /**
      * 
@@ -3644,6 +3798,8 @@ export interface ListTeamItemViewModel {
      */
     'isDeleted'?: boolean;
 }
+
+
 /**
  * 
  * @export
@@ -3909,6 +4065,21 @@ export interface MetadataRootDto {
      */
     'relations'?: Array<MetadataRelationDto>;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ModalityType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ModalityType = typeof ModalityType[keyof typeof ModalityType];
+
+
 /**
  * 
  * @export
@@ -4311,18 +4482,6 @@ export interface PersonTeamDetailDto {
     'teamName'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof PersonTeamDetailDto
-     */
-    'oscId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonTeamDetailDto
-     */
-    'oscName'?: string;
-    /**
-     * 
      * @type {Array<MemberType>}
      * @memberof PersonTeamDetailDto
      */
@@ -4376,18 +4535,6 @@ export interface PersonTeamDto {
      * @memberof PersonTeamDto
      */
     'teamName'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PersonTeamDto
-     */
-    'oscId'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonTeamDto
-     */
-    'oscName'?: string;
     /**
      * 
      * @type {Array<MemberType>}
@@ -9705,6 +9852,43 @@ export const PersonTeamsApiAxiosParamCreator = function (configuration?: Configu
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPersonTeams: async (listPersonTeamRequest?: ListPersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/personteams/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -9788,6 +9972,18 @@ export const PersonTeamsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.listPersonTeamsByTeam']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonTeamViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchPersonTeams(listPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.searchPersonTeams']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -9852,6 +10048,15 @@ export const PersonTeamsApiFactory = function (configuration?: Configuration, ba
          */
         listPersonTeamsByTeam(teamId: number, options?: any): AxiosPromise<Array<PersonTeamDto>> {
             return localVarFp.listPersonTeamsByTeam(teamId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: any): AxiosPromise<ListPersonTeamViewModel> {
+            return localVarFp.searchPersonTeams(listPersonTeamRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -9928,6 +10133,17 @@ export class PersonTeamsApi extends BaseAPI {
      */
     public listPersonTeamsByTeam(teamId: number, options?: RawAxiosRequestConfig) {
         return PersonTeamsApiFp(this.configuration).listPersonTeamsByTeam(teamId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).searchPersonTeams(listPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

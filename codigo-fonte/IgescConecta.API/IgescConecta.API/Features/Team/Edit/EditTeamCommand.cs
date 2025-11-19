@@ -1,6 +1,7 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -14,9 +15,12 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public List<int>? PersonTeamsIds { get; set; }
         public List<int>? ProjectProgramIds { get; set; }
         public int? CourseId { get; set; }
+        public int? Year { get; set; }
+        public string? Semester { get; set; }
+        public ModalityType? ModalityType { get; set; }
+        public EventType? EventType { get; set; }
     }
 
     internal sealed class EditTeamCommandHandler : IRequestHandler<EditTeamCommand, Result<Team, ValidationFailed>>
@@ -72,24 +76,31 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                     return new ValidationFailed(new[] { $"Projeto com ID {request.CourseId} não encontrado." });
             }
 
-            if (request.PersonTeamsIds != null && request.PersonTeamsIds.Any())
-            {
-                var personsExist = await _context.Persons
-                    .Where(p => request.PersonTeamsIds.Contains(p.Id))
-                    .Select(p => p.Id)
-                    .ToListAsync(cancellationToken);
-
-                var invalidIds = request.PersonTeamsIds.Except(personsExist).ToList();
-
-                if (invalidIds.Any())
-                {
-                    return new ValidationFailed(new[] { $"Pessoas com IDs {string.Join(", ", invalidIds)} não encontradas." });
-                }
-            }
 
             if (request.Name != null && string.IsNullOrWhiteSpace(request.Name))
             {
                 return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
+            }
+
+            if (request.Year.HasValue && request.Year <= 0)
+            {
+                return new ValidationFailed(new[] { "O ano deve ser maior que zero quando fornecido." });
+            }
+
+            if (request.Semester != null && string.IsNullOrWhiteSpace(request.Semester))
+            {
+                return new ValidationFailed(new[] { "O semestre é obrigatório quando fornecido." });
+            }
+
+            // Validações de enums quando fornecidos
+            if (request.ModalityType.HasValue && !Enum.IsDefined(typeof(ModalityType), request.ModalityType.Value))
+            {
+                return new ValidationFailed(new[] { "A modalidade fornecida é inválida." });
+            }
+
+            if (request.EventType.HasValue && !Enum.IsDefined(typeof(EventType), request.EventType.Value))
+            {
+                return new ValidationFailed(new[] { "O tipo de evento fornecido é inválido." });
             }
             
             team.Name = request.Name ?? team.Name;
@@ -97,6 +108,18 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             team.Start = request.Start ?? team.Start;
             team.Finish = request.Finish ?? team.Finish;
             team.CourseId = request.CourseId ?? team.CourseId;
+            team.Year = request.Year ?? team.Year;
+            team.Semester = request.Semester ?? team.Semester;
+
+            if (request.ModalityType.HasValue)
+            {
+                team.ModalityType = request.ModalityType.Value;
+            }
+
+            if (request.EventType.HasValue)
+            {
+                team.EventType = request.EventType.Value;
+            }
 
             // Atualizar ProjectPrograms
             if (request.ProjectProgramIds != null)
@@ -116,22 +139,7 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                 }
             }
 
-            // Atualizar PersonTeams
-            if (request.PersonTeamsIds != null &&
-                !request.PersonTeamsIds.OrderBy(x => x)
-                    .SequenceEqual(team.PersonTeams.Select(pt => pt.PersonId).OrderBy(x => x)))
-            {
-                team.PersonTeams.Clear();
-
-                foreach (var personId in request.PersonTeamsIds)
-                {
-                    team.PersonTeams.Add(new PersonTeam
-                    {
-                        PersonId = personId,
-                        TeamId = team.Id
-                    });
-                }
-            }
+            // Atualização de PersonTeams removida deste contexto.
 
             await _context.SaveChangesAsync(cancellationToken);
 

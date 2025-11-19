@@ -1,4 +1,5 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using IgescConecta.Domain.Entities;
@@ -28,7 +29,10 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
-                PersonTeamsIds = request.PersonTeamsIds,
+                Year = request.Year,
+                Semester = request.Semester,
+                ModalityType = request.ModalityType,
+                EventType = request.EventType,
                 ProjectProgramsIds = request.ProjectProgramsIds,
                 CourseId = request.CourseId
             });
@@ -50,8 +54,21 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public DateTime? Finish { get; set; }
 
-        public List<int> PersonTeamsIds { get; set; } = [];
+        [Required(ErrorMessage = "O ano é obrigatório.")]
+        public required int Year { get; set; }
+
+        [Required(ErrorMessage = "O semestre é obrigatório.")]
+        public required string Semester { get; set; }
+
+        [Required(ErrorMessage = "A modalidade é obrigatória.")]
+        public required ModalityType ModalityType { get; set; }
+
+        [Required(ErrorMessage = "O tipo de evento é obrigatório.")]
+        public required EventType EventType { get; set; }
+
         public List<int> ProjectProgramsIds { get; set; } = [];
+
+        [Required(ErrorMessage = "Pelo menos um Programa é obrigatório.")]
         public int CourseId { get; set; }
     }
 

@@ -18,8 +18,6 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
         public string PersonName { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
-        public int? OscId { get; set; }
-        public string OscName { get; set; }
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -37,9 +35,9 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
         public async Task<Result<PersonTeamDetailDto, ValidationFailed>> Handle(GetPersonTeamByIdQuery request, CancellationToken cancellationToken)
         {
             var personTeam = await _context.PersonTeams
+                .IgnoreQueryFilters()
                 .Include(pt => pt.Person)
                 .Include(pt => pt.Team)
-                .Include(pt => pt.Osc)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(pt => pt.Id == request.Id, cancellationToken);
 
@@ -53,8 +51,6 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
                 PersonName = personTeam.Person.Name,
                 TeamId = personTeam.TeamId,
                 TeamName = personTeam.Team.Name,
-                OscId = personTeam.OscId,
-                OscName = personTeam.Osc?.Name,
                 MemberTypes = personTeam.MemberTypes.ToList(),
                 CreatedAt = personTeam.CreatedAt,
                 UpdatedAt = personTeam.UpdatedAt
