@@ -21,6 +21,7 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 
     internal sealed class GetPersonTeamByIdQueryHandler : IRequestHandler<GetPersonTeamByIdQuery, Result<PersonTeamDetailDto, ValidationFailed>>
@@ -53,7 +54,8 @@ namespace IgescConecta.API.Features.PersonTeams.GetPersonTeamById
                 TeamName = personTeam.Team.Name,
                 MemberTypes = personTeam.MemberTypes.ToList(),
                 CreatedAt = personTeam.CreatedAt,
-                UpdatedAt = personTeam.UpdatedAt
+                UpdatedAt = personTeam.UpdatedAt,
+                UpdatedBy = personTeam.UpdatedBy
             };
 
             return dto;

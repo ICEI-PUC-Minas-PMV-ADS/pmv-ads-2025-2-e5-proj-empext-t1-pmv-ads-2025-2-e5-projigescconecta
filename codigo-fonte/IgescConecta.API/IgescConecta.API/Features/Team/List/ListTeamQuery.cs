@@ -34,9 +34,12 @@ namespace IgescConecta.API.Features.Teams.ListTeams
     
     public class ListTeamQuery : PaginationRequest, IRequest<ListTeamViewModel>
     {
-        public ListTeamQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public string? StatusFilter { get; set; }
+
+        public ListTeamQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -51,17 +54,28 @@ namespace IgescConecta.API.Features.Teams.ListTeams
 
         public async Task<ListTeamViewModel> Handle(ListTeamQuery request, CancellationToken cancellationToken)
         {
-            var baseQuery = _context.Teams
+            var expr = ExpressionBuilder.GetExpression<Team>(request.Filters ?? new List<Filter>());
+            var query = _context.Teams
                 .AsNoTracking()
                 .Include(t => t.Course)
                 .Include(t => t.ProjectPrograms)
                 .Include(t => t.PersonTeams)
-                .AsQueryable();
+                .AsQueryable()
+                .Where(expr);
 
-            var hasIsDeletedFilter = request.Filters?.Any(f =>
-                string.Equals(f.PropertyName, "IsDeleted", StringComparison.OrdinalIgnoreCase)) == true;
-
-            var query = hasIsDeletedFilter ? baseQuery.IgnoreQueryFilters() : baseQuery;
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(t => t.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
             var ppFilter = request.Filters?
                 .FirstOrDefault(f => string.Equals(f.PropertyName, "ProjectProgramId", StringComparison.OrdinalIgnoreCase));
 
@@ -93,10 +107,7 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                 request.Filters.Remove(ppFilter);
             }
 
-            var expr = ExpressionBuilder.GetExpression<Team>(request.Filters ?? new System.Collections.Generic.List<Filter>());
-
             var result = await query
-                .Where(expr)
                 .Select(team => new ListTeamItemViewModel
                 {
                     TeamId = team.Id,
@@ -119,7 +130,7 @@ namespace IgescConecta.API.Features.Teams.ListTeams
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var totalRecords = await query.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListTeamViewModel
             {
