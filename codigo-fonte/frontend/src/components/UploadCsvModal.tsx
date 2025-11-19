@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import generateXlsx from '../utils/generateXlsx';
 import { CsvService } from '@/services/csvService';
+import { extractErrorMessage } from '@/utils/error';
 import DownloadIcon from '@mui/icons-material/Download';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InfoIcon from '@mui/icons-material/Info';
@@ -111,28 +112,6 @@ export function UploadCsvModal<T extends Record<string, any>>({
     } finally {
       setLoading(false);
     }
-  };
-
-  const extractErrorMessage = (error: any): string => {
-    if (!error.response?.data) {
-      return 'Erro ao criar';
-    }
-
-    const data = error.response.data;
-
-    if (data.errors && Array.isArray(data.errors)) {
-      return data.errors.join(', ');
-    }
-
-    if (typeof data.message === 'string') {
-      return data.message;
-    }
-
-    if (typeof data === 'string') {
-      return data;
-    }
-
-    return JSON.stringify(data);
   };
 
   const handleUpload = async () => {

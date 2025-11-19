@@ -28,7 +28,11 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportRelationItem
     {
+        public string FromEntity { get; set; } = default!;
         public string Path { get; set; } = default!;
+        public string Entity { get; set; } = default!;
+        public string JoinType { get; set; } = default!;
+        public string? Alias { get; set; }
         public bool IsCollection { get; set; }
     }
 
@@ -92,7 +96,15 @@ namespace IgescConecta.API.Features.Reports.GetReport
                 ReaderCanExecute = e.ReaderCanExecute,
                 Relations = e.Relations
                     .OrderBy(x => x.Path)
-                    .Select(x => new GetReportRelationItem { Path = x.Path, IsCollection = x.IsCollection })
+                    .Select(x => new GetReportRelationItem
+                    {
+                        FromEntity = x.FromEntity,
+                        Path = x.Path,
+                        Entity = x.Entity,
+                        JoinType = x.JoinType,
+                        Alias = x.Alias,
+                        IsCollection = x.IsCollection
+                    })
                     .ToList(),
                 Fields = e.Fields
                     .OrderBy(x => x.DisplayOrder)

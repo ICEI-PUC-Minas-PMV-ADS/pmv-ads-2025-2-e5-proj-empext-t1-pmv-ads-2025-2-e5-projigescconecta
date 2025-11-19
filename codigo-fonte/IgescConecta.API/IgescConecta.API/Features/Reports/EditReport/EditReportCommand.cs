@@ -23,7 +23,11 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
     public class EditReportRelationItem
     {
+        public required string FromEntity { get; set; }
         public required string Path { get; set; }
+        public required string Entity { get; set; }
+        public required string JoinType { get; set; }
+        public string? Alias { get; set; }
         public bool IsCollection { get; set; }
     }
 
@@ -66,8 +70,10 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
         public async Task<Result<int, ValidationFailed>> Handle(EditReportCommand request, CancellationToken ct)
         {
-            if (string.IsNullOrWhiteSpace(request.Name)) throw new ArgumentException("Informe o nome do relatório.");
-            if (string.IsNullOrWhiteSpace(request.RootEntity)) throw new ArgumentException("Informe a entidade principal.");
+            if (string.IsNullOrWhiteSpace(request.Name))
+                throw new ArgumentException("Informe o nome do relatório.");
+            if (string.IsNullOrWhiteSpace(request.RootEntity))
+                throw new ArgumentException("Informe a entidade principal.");
 
             var entity = await _context.Reports
                 .Include(r => r.Relations)
@@ -76,10 +82,13 @@ namespace IgescConecta.API.Features.Reports.EditReport
                 .Include(r => r.Sorts)
                 .FirstOrDefaultAsync(r => r.Id == request.Id, ct);
 
-            if (entity is null) throw new ArgumentException("Relatório não encontrado.");
+            if (entity is null)
+                throw new ArgumentException("Relatório não encontrado.");
 
-            var relPaths = request.Relations.Select(r => r.Path.Trim()).ToList();
-            if (relPaths.Count != relPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count())
+            var relKeys = request.Relations
+                .Select(r => $"{r.FromEntity.Trim()}|{r.Path.Trim()}")
+                .ToList();
+            if (relKeys.Count != relKeys.Distinct(StringComparer.OrdinalIgnoreCase).Count())
                 throw new ArgumentException("Existem relações duplicadas.");
 
             var fieldPaths = request.Fields.Select(f => f.FieldPath.Trim()).ToList();
@@ -92,15 +101,24 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
             if (request.RootEntity.Equals("Project", StringComparison.OrdinalIgnoreCase))
             {
-                bool hasDocsInRelations = relPaths.Any(p => p.Split('.', StringSplitOptions.RemoveEmptyEntries)
-                    .Skip(1).Any(seg => seg.Equals("Documents", StringComparison.OrdinalIgnoreCase)));
+                bool hasDocsInRelations = request.Relations
+                    .Select(r => r.Path.Trim())
+                    .Any(p => p.Split('.', StringSplitOptions.RemoveEmptyEntries)
+                        .Skip(1)
+                        .Any(seg => seg.Equals("Documents", StringComparison.OrdinalIgnoreCase)));
+
                 bool hasDocsInFields = fieldPaths.Any(p => p.Split('.', StringSplitOptions.RemoveEmptyEntries)
-                    .Skip(1).Any(seg => seg.Equals("Documents", StringComparison.OrdinalIgnoreCase)));
+                    .Skip(1)
+                    .Any(seg => seg.Equals("Documents", StringComparison.OrdinalIgnoreCase)));
+
                 if (hasDocsInRelations || hasDocsInFields)
                     throw new ArgumentException("A relação/coluna 'Documentos' de Projeto não está disponível para relatórios.");
             }
 
-            bool hasDateColumn = request.Fields.Any(f => f.DataType == FieldDataType.Date || f.DataType == FieldDataType.DateTime);
+            bool hasDateColumn = request.Fields.Any(f =>
+                f.DataType == FieldDataType.Date ||
+                f.DataType == FieldDataType.DateTime);
+
             int dateBases = request.FilterQuestions.Count(q => q.IsDateBase);
             if (hasDateColumn && dateBases == 0)
                 throw new ArgumentException("Selecione uma 'Data base' porque o relatório possui colunas de data.");
@@ -120,7 +138,11 @@ namespace IgescConecta.API.Features.Reports.EditReport
             entity.Relations = request.Relations.Select(r => new ReportRelation
             {
                 ReportId = entity.Id,
+                FromEntity = r.FromEntity.Trim(),
                 Path = r.Path.Trim(),
+                Entity = r.Entity.Trim(),
+                JoinType = r.JoinType.Trim(),
+                Alias = string.IsNullOrWhiteSpace(r.Alias) ? string.Empty : r.Alias.Trim(),
                 IsCollection = r.IsCollection
             }).ToList();
 

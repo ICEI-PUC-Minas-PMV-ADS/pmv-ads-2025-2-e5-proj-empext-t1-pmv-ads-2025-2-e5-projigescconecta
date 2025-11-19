@@ -3,6 +3,7 @@ using System;
 using IgescConecta.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IgescConecta.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251110231725_PersonTeam_RefToPersonOsc")]
+    partial class PersonTeam_RefToPersonOsc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,10 +143,6 @@ namespace IgescConecta.API.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(254)
-                        .HasColumnType("character varying(254)");
 
                     b.Property<string>("FieldOfActivity")
                         .HasMaxLength(100)
@@ -746,278 +745,6 @@ namespace IgescConecta.API.Migrations
                     b.ToTable("ProjectTypes");
                 });
 
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<bool>("ReaderCanExecute")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("RootEntity")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name");
-
-                    b.HasIndex("RootEntity", "Status");
-
-                    b.ToTable("Reports", (string)null);
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportField", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DataType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FieldPath")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
-
-                    b.Property<string>("FormatHint")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("ReportId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportId", "DisplayOrder");
-
-                    b.ToTable("ReportFields", (string)null);
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportFilterQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DataType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("DefaultOperator")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("EnumOptionsJson")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FieldPath")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
-
-                    b.Property<bool>("IsDateBase")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("ReportId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportId", "IsDateBase");
-
-                    b.ToTable("ReportFilterQuestions", (string)null);
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportRelation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Alias")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Entity")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FromEntity")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsCollection")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("JoinType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
-
-                    b.Property<int>("ReportId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportId", "Path")
-                        .IsUnique();
-
-                    b.ToTable("ReportRelations", (string)null);
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportSort", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Direction")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FieldPath")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ReportId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReportId", "Priority")
-                        .IsUnique();
-
-                    b.ToTable("ReportSorts", (string)null);
-                });
-
             modelBuilder.Entity("IgescConecta.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -1481,50 +1208,6 @@ namespace IgescConecta.API.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportField", b =>
-                {
-                    b.HasOne("IgescConecta.Domain.Entities.Reporting.Report", "Report")
-                        .WithMany("Fields")
-                        .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportFilterQuestion", b =>
-                {
-                    b.HasOne("IgescConecta.Domain.Entities.Reporting.Report", "Report")
-                        .WithMany("FilterQuestions")
-                        .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportRelation", b =>
-                {
-                    b.HasOne("IgescConecta.Domain.Entities.Reporting.Report", "Report")
-                        .WithMany("Relations")
-                        .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.ReportSort", b =>
-                {
-                    b.HasOne("IgescConecta.Domain.Entities.Reporting.Report", "Report")
-                        .WithMany("Sorts")
-                        .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Report");
-                });
-
             modelBuilder.Entity("IgescConecta.Domain.Entities.Team", b =>
                 {
                     b.HasOne("IgescConecta.Domain.Entities.Course", "Course")
@@ -1641,17 +1324,6 @@ namespace IgescConecta.API.Migrations
                     b.Navigation("Oscs");
 
                     b.Navigation("Teams");
-                });
-
-            modelBuilder.Entity("IgescConecta.Domain.Entities.Reporting.Report", b =>
-                {
-                    b.Navigation("Fields");
-
-                    b.Navigation("FilterQuestions");
-
-                    b.Navigation("Relations");
-
-                    b.Navigation("Sorts");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.Team", b =>

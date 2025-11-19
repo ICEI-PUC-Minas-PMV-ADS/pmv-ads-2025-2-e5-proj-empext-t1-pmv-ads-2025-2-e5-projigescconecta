@@ -22,6 +22,7 @@ public sealed class MetadataFieldDto
 public sealed class MetadataRelationDto
 {
     public string Path { get; set; } = "";
+    public string Entity { get; set; } = "";   
     public string Label { get; set; } = "";
     public bool IsCollection { get; set; }
     public List<MetadataFieldDto> Fields { get; set; } = new();
@@ -35,4 +36,3 @@ public sealed class MetadataRootDto
     public List<MetadataFieldDto> Fields { get; set; } = new();
     public List<MetadataRelationDto> Relations { get; set; } = new();
 }
-

@@ -19,7 +19,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 /**
  * Exemplo de uso da Tabela com ações e paginação backend:
@@ -88,12 +87,15 @@ export type Column<T> = {
 type TableProps<T> = {
   columns: Column<T>[];
   data: T[];
-  page: number;
-  rowsPerPage: number;
-  totalCount: number;
-  onPageChange: (newPage: number) => void;
+  // Paginação opcional
+  page?: number;
+  rowsPerPage?: number;
+  totalCount?: number;
+  onPageChange?: (newPage: number) => void;
   onRowsPerPageChange?: (newRowsPerPage: number) => void;
   rowsPerPageOptions?: number[];
+  // Controla a exibição da paginação. Padrão: true (mantém comportamento atual)
+  pagination?: boolean;
   onView?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
@@ -112,6 +114,7 @@ function Table<T extends { [key: string]: any }>({
   onPageChange,
   onRowsPerPageChange,
   rowsPerPageOptions = [5, 10, 25],
+  pagination = true,
   onView,
   onEdit,
   onDelete,
@@ -121,16 +124,17 @@ function Table<T extends { [key: string]: any }>({
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    onPageChange(newPage);
+    onPageChange?.(newPage);
   };
 
-  const pageCount = totalCount / page;
+  // Usa o totalCount quando fornecido; caso contrário, utiliza o tamanho da lista atual
+  const effectiveTotalCount = typeof totalCount === 'number' ? totalCount : data.length;
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     onRowsPerPageChange?.(parseInt(event.target.value, 10));
-    onPageChange(0);
+    onPageChange?.(0);
   };
 
   const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam || onPersonOsc;
@@ -167,7 +171,7 @@ function Table<T extends { [key: string]: any }>({
           >
             Total de registros:{' '}
             <Box component="span" sx={{ color: '#1E4EC4' }}>
-              {totalCount}
+              {effectiveTotalCount}
             </Box>
           </Typography>
         </Box>
@@ -428,49 +432,51 @@ function Table<T extends { [key: string]: any }>({
           <></>
         )}
 
-        {/* Paginação */}
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          sx={{
-            bgcolor: alpha('#1E4EC4', 0.02),
-            borderTop: '1px solid',
-            borderColor: alpha('#1E4EC4', 0.1),
-            px: 2,
-          }}
-        >
-          <TablePagination
-            component="div"
-            count={totalCount}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-            labelRowsPerPage="Linhas por página"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}–${to} de ${count !== -1 ? count : `mais de ${to}`}`
-            }
+        {/* Paginação (opcional) */}
+        {pagination && typeof page === 'number' && typeof rowsPerPage === 'number' ? (
+          <Box
+            display="flex"
+            justifyContent="flex-end"
             sx={{
-              '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
-                color: '#1a1a2e',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-              },
-              '.MuiSelect-select': {
-                color: '#1a1a2e',
-                fontSize: '0.875rem',
-                fontWeight: 600,
-              },
-              '.MuiTablePagination-actions button': {
-                color: '#1E4EC4',
-                '&:hover': {
-                  bgcolor: alpha('#1E4EC4', 0.08),
-                },
-              },
+              bgcolor: alpha('#1E4EC4', 0.02),
+              borderTop: '1px solid',
+              borderColor: alpha('#1E4EC4', 0.1),
+              px: 2,
             }}
-          />
-        </Box>
+          >
+            <TablePagination
+              component="div"
+              count={effectiveTotalCount}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              labelRowsPerPage="Linhas por página"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} de ${count !== -1 ? count : `mais de ${to}`}`
+              }
+              sx={{
+                '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
+                  color: '#1a1a2e',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                },
+                '.MuiSelect-select': {
+                  color: '#1a1a2e',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                },
+                '.MuiTablePagination-actions button': {
+                  color: '#1E4EC4',
+                  '&:hover': {
+                    bgcolor: alpha('#1E4EC4', 0.08),
+                  },
+                },
+              }}
+            />
+          </Box>
+        ) : null}
       </TableContainer>
     </Box>
   );

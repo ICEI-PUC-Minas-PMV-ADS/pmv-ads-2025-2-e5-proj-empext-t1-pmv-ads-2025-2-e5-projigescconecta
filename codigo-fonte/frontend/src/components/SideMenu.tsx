@@ -26,6 +26,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'; 
 import PaletteRoundedIcon from '@mui/icons-material/PaletteRounded';  
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 
 const IGESC_COLORS = {
   AZUL_CLARO: '#1E4EC4',
@@ -49,6 +50,7 @@ const menuItems = [
   { path: '/person', label: 'Pessoas', icon: <PeopleAltIcon /> },
   { path: '/company', label: 'Empresas', icon: <BusinessIcon /> },
   { path: '/donation', label: 'Doações', icon: <VolunteerActivismIcon /> },
+  { path: '/report', label: 'Gerador de Relatórios', icon: <SummarizeOutlinedIcon /> },
   { path: '/user', label: 'Usuários', icon: <PeopleAltIcon /> },
 ];
 
