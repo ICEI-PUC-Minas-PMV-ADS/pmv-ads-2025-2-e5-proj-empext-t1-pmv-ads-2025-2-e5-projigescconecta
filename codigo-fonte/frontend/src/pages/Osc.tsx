@@ -20,6 +20,9 @@ import {
   Divider,
   TextField,
   Autocomplete,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
@@ -870,9 +873,9 @@ const Osc: React.FC = () => {
                 />
               </Stack>
 
-              {/* Botões de Busca e Limpar */}
+              {/* Botões de Busca, Limpar e Filtrar Inativos */}
               <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
-                <ButtonGroup
+                {/*<ButtonGroup
                   sx={{
                     mb: 2,
                     borderRadius: '16px',
@@ -912,7 +915,33 @@ const Osc: React.FC = () => {
                   >
                     Todos
                   </Button>
-                </ButtonGroup>
+                </ButtonGroup>*/}
+
+                <FormGroup row sx={{ mb: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'Inactive'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        }
+                      />
+                    }
+                    label="Somente Inativos"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'all'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                        }
+                      />
+                    }
+                    label="Incluir Inativos"
+                  />
+                </FormGroup>
 
                 <Button
                   variant="contained"
