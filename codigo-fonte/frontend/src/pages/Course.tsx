@@ -13,6 +13,12 @@ import {
   alpha,
   Typography,
   Chip,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Stack,
+  Divider,
+  Avatar,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -21,6 +27,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
@@ -33,12 +40,17 @@ import {
   ListCourseRequest,
   Filter,
   Op,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/pt-br';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
+
+dayjs.locale('pt-br');
 
 interface Course {
   courseId?: number;
@@ -67,8 +79,12 @@ const Course: React.FC = () => {
     course: null as Course | null,
     loading: false,
   });
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const courseApi = new CoursesApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
 
   const dialogTitle = () => {
     return isVisualizing
@@ -82,6 +98,11 @@ const Course: React.FC = () => {
     { label: 'Id', field: 'courseId' },
     { label: 'Nome do Programa', field: 'name' },
     { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      render: (value) => (value ? 'Inativo' : 'Ativo')
+    }
   ];
 
   const headerTranslations = {
@@ -90,7 +111,7 @@ const Course: React.FC = () => {
 
   /* --------------------------------- Funções -------------------------------- */
 
-  const fetchCourses = async (noFilter?) => {
+  const fetchCourses = async (noFilter?, statusFilterParam?: string) => {
     try {
       setLoading(true);
 
@@ -112,6 +133,7 @@ const Course: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters,
+        statusFilter: statusFilterParam,
       };
 
       const { data } = await courseApi.listCourse(listCourseRequest);
@@ -138,12 +160,13 @@ const Course: React.FC = () => {
   const handleClearFilters = () => {
     setPage(0);
     setSearch('');
+    setStatusFilter(undefined);
     fetchCourses([]);
   };
 
   const handleSearch = () => {
     setPage(0);
-    fetchCourses();
+    fetchCourses(false, statusFilter);
   };
 
   const handleAdd = () => {
@@ -162,6 +185,14 @@ const Course: React.FC = () => {
     try {
       const id: number = course.courseId!;
       const { data } = await courseApi.getCourseById(id);
+
+      const userId = data.updatedBy || data.createdBy;
+      const date = data.updatedAt || data.createdAt;
+
+      const { data: userData } = await userApi.getUserById(userId!);
+
+      setUserUpdatedName(userData.name || null);
+      setAuditDate(date ? dayjs(date) : undefined);
       setIsVisualizing(true);
       setCourseName(data.name || '');
       setOpenModal(true);
@@ -370,7 +401,7 @@ const Course: React.FC = () => {
               )}
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2, mb: 2 }}>
               <TextField
                 label="Nome do Programa"
                 variant="outlined"
@@ -383,6 +414,35 @@ const Course: React.FC = () => {
                   }
                 }}
               />
+            </Box>
+
+            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
+              <FormGroup row sx={{ mb: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'Inactive'}
+                      onChange={() =>
+                        setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                      }
+                    />
+                  }
+                  label="Somente Inativos"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'all'}
+                      onChange={() =>
+                        setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                      }
+                    />
+                  }
+                  label="Incluir Inativos"
+                />
+              </FormGroup>
+
               <Button
                 variant="contained"
                 startIcon={<SearchIcon />}
@@ -431,7 +491,7 @@ const Course: React.FC = () => {
               >
                 Limpar Filtros
               </Button>
-            </Box>
+            </Stack>
           </Paper>
 
           {/* Tabela */}
@@ -475,27 +535,64 @@ const Course: React.FC = () => {
         maxWidth="sm"
         title={dialogTitle()}
         content={
-          <TextField
-            autoFocus={!isVisualizing}
-            margin="dense"
-            label="Nome do Programa"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter') {
-                handleSave();
-              }
-            }}
-            slotProps={{
-              input: {
-                readOnly: isVisualizing,
-              },
-            }}
-            sx={isVisualizing ? { pointerEvents: 'none' } : {}}
-          />
+          isVisualizing ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <TextField
+                margin="dense"
+                label="Nome do Programa"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={courseName}
+                slotProps={{
+                  input: {
+                    readOnly: true,
+                  },
+                }}
+                sx={{ pointerEvents: 'none' }}
+              />
+              
+              <Divider sx={{ mt: 2 }} />
+
+              <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                    {userUpdatedName?.[0] || '?'}
+                  </Avatar>
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                    <Typography variant="body2" fontWeight={600}>{userUpdatedName || '—'}</Typography>
+                  </Box>
+                </Stack>
+
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <AccessTime fontSize="small" color="action" />
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                    </Typography>
+                  </Box>
+                </Stack>
+              </Stack>
+            </Box>
+          ) : (
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Nome do Programa"
+              type="text"
+              fullWidth
+              variant="outlined"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  handleSave();
+                }
+              }}
+            />
+          )
         }
         actions={
           isVisualizing ? (

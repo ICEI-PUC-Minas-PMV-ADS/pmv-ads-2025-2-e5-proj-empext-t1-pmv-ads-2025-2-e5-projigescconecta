@@ -15,11 +15,18 @@ import {
   Paper,
   alpha,
   TextField,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Stack,
+  Divider,
+  Avatar,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
+import AccessTime from '@mui/icons-material/AccessTime';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -42,6 +49,7 @@ import {
   ModalityType,
   ProjectProgramsApi,
   ProjectProgramListItemViewModel,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
@@ -79,7 +87,6 @@ const Team: React.FC = () => {
   const [filterModalityType, setFilterModalityType] = useState<number | ''>('');
   const [filterEventType, setFilterEventType] = useState<number | ''>('');
   const [filterTotalParticipants, setFilterTotalParticipants] = useState<number | ''>('');
-  const [filterIsDeleted, setFilterIsDeleted] = useState<boolean | ''>(false);
 
   const [teams, setTeams] = useState<Team[]>([]);
   const [programs, setPrograms] = useState<ProjectProgramListItemViewModel[]>([]);
@@ -114,10 +121,14 @@ const Team: React.FC = () => {
     team: null as Team | null,
     loading: false,
   });
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const teamsApi = new TeamsApi(apiConfig);
   const coursesApi = new CoursesApi(apiConfig);
   const projectsApi = new ProjectProgramsApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
 
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
@@ -133,7 +144,7 @@ const Team: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchTeams = async (customFilters?: Filter[]) => {
+  const fetchTeams = async (customFilters?: Filter[], statusFilterParam?: string) => {
     try {
       setLoading(true);
       setTeams([]);
@@ -199,20 +210,13 @@ const Team: React.FC = () => {
             value: filterTotalParticipants,
           });
         }
-
-        if (filterIsDeleted !== '') {
-          filters.push({
-            propertyName: 'IsDeleted',
-            operation: Op.NUMBER_1,
-            value: filterIsDeleted as boolean,
-          });
-        }
       }
 
       const listTeamRequest: ListTeamRequest = {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters.length > 0 ? filters : undefined,
+        statusFilter: statusFilterParam,
       };
 
       const { data } = await teamsApi.listTeam(listTeamRequest);
@@ -371,11 +375,17 @@ const Team: React.FC = () => {
 
     { label: 'Total de Projetos', field: 'projectPrograms', align: 'center' },
     { label: 'Total de Integrantes', field: 'personTeamsCount', align: 'center' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      align: 'center',
+      render: (value) => (value ? 'Inativo' : 'Ativo'),
+    },
   ];
 
   const handleSearch = () => {
     setPage(0);
-    fetchTeams();
+    fetchTeams(undefined, statusFilter);
   };
 
   const handleClearFilters = () => {
@@ -386,7 +396,7 @@ const Team: React.FC = () => {
     setFilterModalityType('');
     setFilterEventType('');
     setFilterTotalParticipants('');
-    setFilterIsDeleted(false);
+    setStatusFilter(undefined);
     setPage(0);
     fetchTeams([]);
   };
@@ -433,6 +443,15 @@ const Team: React.FC = () => {
     try {
       const id: number = team.teamId!;
       const { data } = await teamsApi.getTeamById(id);
+
+      const userId = data.updatedBy;
+      const date = data.updatedAt || data.createdAt;
+
+      const { data: userData } = await userApi.getUserById(userId!);
+
+      setUserUpdatedName(userData.name || null);
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setIsVisualizing(true);
       setTeamName(data.name || '');
       setLessonTime(data.lessonTime || '');
@@ -700,8 +719,7 @@ const Team: React.FC = () => {
                   filterCourseId ||
                   filterModalityType ||
                   filterEventType ||
-                  (filterTotalParticipants !== '' && filterTotalParticipants != null) ||
-                  filterIsDeleted !== '') && (
+                  (filterTotalParticipants !== '' && filterTotalParticipants != null)) && (
                   <Chip
                     label="Filtros ativos"
                     size="small"
@@ -806,21 +824,6 @@ const Team: React.FC = () => {
                   </Select>
                 </FormControl>
 
-                {/* Ativo / Inativo */}
-                <FormControl size="small" sx={{ minWidth: 160 }}>
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    value={filterIsDeleted === '' ? '' : filterIsDeleted ? 'true' : 'false'}
-                    onChange={(e) => {
-                      const v = e.target.value as string;
-                      setFilterIsDeleted(v === '' ? '' : v === 'true');
-                    }}
-                    label="Status"
-                  >
-                    <MenuItem value={'false'}>Ativo</MenuItem>
-                    <MenuItem value={'true'}>Inativo</MenuItem>
-                  </Select>
-                </FormControl>
                 <FormControl size="small" sx={{ minWidth: 180 }}>
                   <InputLabel>Modalidade</InputLabel>
                   <Select
@@ -868,6 +871,32 @@ const Team: React.FC = () => {
                   flexWrap: 'wrap',
                 }}
               >
+                <FormGroup row sx={{ mb: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'Inactive'}
+                        onChange={() =>
+                          setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        }
+                      />
+                    }
+                    label="Somente Inativos"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'all'}
+                        onChange={() =>
+                          setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                        }
+                      />
+                    }
+                    label="Incluir Inativos"
+                  />
+                </FormGroup>
+
                 <Button
                   variant="contained"
                   startIcon={<SearchIcon />}
@@ -1189,6 +1218,40 @@ const Team: React.FC = () => {
                 </Select>
               </FormControl>
             </Grid>
+
+            {isVisualizing && (
+              <Grid size={{ xs: 12 }}>
+                <Divider sx={{ mt: 4 }} />
+
+                <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                      {userUpdatedName?.[0] || '?'}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado por
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {userUpdatedName || '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTime fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado em
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </Grid>
+            )}
           </Grid>
         }
         actions={

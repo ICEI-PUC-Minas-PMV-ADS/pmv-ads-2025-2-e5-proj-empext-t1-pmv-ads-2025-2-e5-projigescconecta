@@ -18,12 +18,19 @@ import {
   Stack,
   Divider,
   Autocomplete,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Avatar,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import AccessTime from '@mui/icons-material/AccessTime';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/pt-br';
 
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
@@ -35,6 +42,7 @@ import {
   PersonTeamsApi,
   PersonsApi,
   TeamsApi,
+  UsersApi,
   CreatePersonTeamRequest,
   EditPersonTeamRequest,
   MemberType,
@@ -43,6 +51,8 @@ import {
   ListPersonTeamRequest,
 } from './../api';
 import { extractErrorMessage } from '@/utils/error';
+
+dayjs.locale('pt-br');
 
 interface PersonTeam {
   id?: number;
@@ -55,6 +65,7 @@ interface PersonTeam {
   memberTypes?: MemberType[];
   createdAt?: string;
   updatedAt?: string | null;
+  isDeleted?: boolean;
 }
 
 interface Person {
@@ -108,10 +119,12 @@ const PersonTeam: React.FC = () => {
   });
   const [filterPersonName, setFilterPersonName] = useState('');
   const [filterMemberType, setFilterMemberType] = useState<MemberType | ''>('');
-  const [filterIsDeleted, setFilterIsDeleted] = useState<boolean | ''>('');
   const [totalCount, setTotalCount] = useState(0);
   // CSV import state
   const [isUploadOpen, setUploadOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const memberTypeOptions = useMemo(
     () =>
@@ -139,6 +152,7 @@ const PersonTeam: React.FC = () => {
   const apiInstance = useMemo(() => new PersonTeamsApi(apiConfig), []);
   const personsApiInstance = useMemo(() => new PersonsApi(apiConfig), []);
   const teamsApiInstance = useMemo(() => new TeamsApi(apiConfig), []);
+  const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
   const dialogTitle = () => {
     return isVisualizing
@@ -168,69 +182,77 @@ const PersonTeam: React.FC = () => {
         </Stack>
       ),
     },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      render: (value) => (value ? 'Inativo' : 'Ativo'),
+    },
   ];
 
-  const fetchPersonTeams = useCallback(async () => {
-    if (!teamId) return;
+  const fetchPersonTeams = useCallback(
+    async (statusFilterParam?: string) => {
+      if (!teamId) return;
 
-    try {
-      const filters: Filter[] = [];
-      if (filterPersonName.trim()) {
-        filters.push({ propertyName: 'Person.Name', operation: Op.NUMBER_7, value: filterPersonName });
-      }
-      if (filterMemberType !== '') {
-        filters.push({ propertyName: 'MemberType', operation: Op.NUMBER_1, value: filterMemberType as number });
-      }
-      if (filterIsDeleted !== '') {
-        filters.push({ propertyName: 'IsDeleted', operation: Op.NUMBER_1, value: filterIsDeleted as boolean });
-      }
+      try {
+        const filters: Filter[] = [];
+        if (filterPersonName.trim()) {
+          filters.push({
+            propertyName: 'Person.Name',
+            operation: Op.NUMBER_7,
+            value: filterPersonName,
+          });
+        }
+        if (filterMemberType !== '') {
+          filters.push({
+            propertyName: 'MemberType',
+            operation: Op.NUMBER_1,
+            value: filterMemberType as number,
+          });
+        }
 
-      const body: ListPersonTeamRequest = {
-        teamId: parseInt(teamId),
-        filters,
-        pageNumber: page + 1,
-        pageSize: rowsPerPage,
-      } as any;
-      const response = await apiInstance.searchPersonTeams(body);
+        const body: ListPersonTeamRequest = {
+          teamId: parseInt(teamId),
+          filters,
+          pageNumber: page + 1,
+          pageSize: rowsPerPage,
+          statusFilter: statusFilterParam,
+        } as any;
+        const response = await apiInstance.searchPersonTeams(body);
 
-      const data = response.data as unknown as ListPersonTeamViewModel;
+        const data = response.data as unknown as ListPersonTeamViewModel;
 
-      if (data && Array.isArray(data.items)) {
-        const hasActiveFilters =
-          (filterPersonName.trim() !== '') ||
-          (filterMemberType !== '') ||
-          (filterIsDeleted !== '');
-        const isEmpty = data.items.length === 0;
-        setNoDataMessage(
-          isEmpty
-            ? (hasActiveFilters
+        if (data && Array.isArray(data.items)) {
+          const hasActiveFilters = filterPersonName.trim() !== '' || filterMemberType !== '';
+          const isEmpty = data.items.length === 0;
+          setNoDataMessage(
+            isEmpty
+              ? hasActiveFilters
                 ? 'Nenhum resultado encontrado para os filtros aplicados.'
-                : 'Nenhuma pessoa vinculada a esta turma.')
-            : ''
-        );
-        setPersonTeams(data.items);
-        setTotalCount(data.totalItems || 0);
-      } else {
+                : 'Nenhuma pessoa vinculada a esta turma.'
+              : ''
+          );
+          setPersonTeams(data.items);
+          setTotalCount(data.totalItems || 0);
+        } else {
+          setPersonTeams([]);
+          setTotalCount(0);
+          const hasActiveFilters = filterPersonName.trim() !== '' || filterMemberType !== '';
+          setNoDataMessage(
+            hasActiveFilters
+              ? 'Nenhum resultado encontrado para os filtros aplicados.'
+              : 'Nenhuma pessoa vinculada a esta turma.'
+          );
+        }
+      } catch (error) {
+        console.error('Erro ao buscar vínculos:', error);
+        toast.error('Erro ao carregar vínculos da turma');
         setPersonTeams([]);
         setTotalCount(0);
-        const hasActiveFilters =
-          (filterPersonName.trim() !== '') ||
-          (filterMemberType !== '') ||
-          (filterIsDeleted !== '');
-        setNoDataMessage(
-          hasActiveFilters
-            ? 'Nenhum resultado encontrado para os filtros aplicados.'
-            : 'Nenhuma pessoa vinculada a esta turma.'
-        );
+        setNoDataMessage('Erro ao carregar dados.');
       }
-    } catch (error) {
-      console.error('Erro ao buscar vínculos:', error);
-      toast.error('Erro ao carregar vínculos da turma');
-      setPersonTeams([]);
-      setTotalCount(0);
-      setNoDataMessage('Erro ao carregar dados.');
-    }
-  }, [teamId, apiInstance, filterPersonName, filterMemberType, filterIsDeleted, page, rowsPerPage]);
+    },
+    [teamId, apiInstance, filterPersonName, filterMemberType, page, rowsPerPage]
+  );
 
   // Busca paginada de pessoas com filtro por nome (não carregar todas de uma vez)
   const fetchPerson = useCallback(
@@ -323,20 +345,43 @@ const PersonTeam: React.FC = () => {
     setOpenModal(true);
   };
 
-  const handleView = (personTeam: PersonTeam) => {
-    setEditingPersonTeam(personTeam);
-    setSelectedPersonId(personTeam.personId || '');
-    setSelectedMemberTypes(personTeam.memberTypes || []);
+  const handleView = async (personTeam: PersonTeam) => {
+    try {
+      setEditingPersonTeam(personTeam);
+      setSelectedPersonId(personTeam.personId || '');
+      setSelectedMemberTypes(personTeam.memberTypes || []);
 
-    if (personTeam.personId && personTeam.personName) {
-      setSelectedPersonOption({ id: personTeam.personId, label: personTeam.personName });
-    } else {
-      setSelectedPersonOption(null);
+      if (personTeam.personId && personTeam.personName) {
+        setSelectedPersonOption({ id: personTeam.personId, label: personTeam.personName });
+      } else {
+        setSelectedPersonOption(null);
+      }
+
+      // Buscar dados de auditoria usando getPersonTeamById
+      if (personTeam.id) {
+        const { data } = await apiInstance.getPersonTeamById(personTeam.id);
+
+        const userId = data.updatedBy;
+        const date = data.updatedAt || data.createdAt;
+
+        if (userId) {
+          const { data: userData } = await userApi.getUserById(userId);
+          setUserUpdatedName(userData.name || null);
+        }
+        setAuditDate(date ? dayjs(date) : undefined);
+      }
+
+      setInputPersonValue('');
+      setIsVisualizing(true);
+      setOpenModal(true);
+    } catch (error) {
+      console.error('Erro ao visualizar vínculo:', error);
+      toast.error('Erro ao carregar detalhes do vínculo');
+      // Mesmo com erro, abrir modal com dados básicos
+      setInputPersonValue('');
+      setIsVisualizing(true);
+      setOpenModal(true);
     }
-
-    setInputPersonValue('');
-    setIsVisualizing(true);
-    setOpenModal(true);
   };
 
   const handleDelete = (personTeam: PersonTeam) => {
@@ -440,8 +485,8 @@ const PersonTeam: React.FC = () => {
   const handleClearFilters = () => {
     setFilterPersonName('');
     setFilterMemberType('');
-    setFilterIsDeleted('');
     setSearch('');
+    setStatusFilter(undefined);
     setPage(0);
   };
 
@@ -451,13 +496,13 @@ const PersonTeam: React.FC = () => {
 
   useEffect(() => {
     if (teamId) {
-      fetchPersonTeams();
+      fetchPersonTeams(statusFilter);
     }
-  }, [teamId, fetchPersonTeams]);
+  }, [teamId, fetchPersonTeams, statusFilter]);
 
   useEffect(() => {
     if (teamId) {
-      fetchPersonTeams();
+      fetchPersonTeams(statusFilter);
       fetchTeamInfo();
     }
   }, [teamId, fetchPersonTeams, fetchTeamInfo]);
@@ -639,6 +684,7 @@ const PersonTeam: React.FC = () => {
           </Box>
         </Box>
 
+        {/* Seção de filtros */}
         <Paper
           elevation={0}
           sx={{
@@ -669,7 +715,7 @@ const PersonTeam: React.FC = () => {
             >
               Filtro de Busca
             </Typography>
-            {(filterPersonName || filterMemberType || filterIsDeleted !== '' || search) && (
+            {(filterPersonName || filterMemberType || search) && (
               <Chip
                 label="Filtros ativos"
                 size="small"
@@ -687,12 +733,11 @@ const PersonTeam: React.FC = () => {
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
+              flexDirection: 'column',
               flexWrap: 'wrap',
-              gap: 6,
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
               <TextField
                 label="Nome da Pessoa"
                 variant="outlined"
@@ -719,45 +764,58 @@ const PersonTeam: React.FC = () => {
                 </Select>
               </FormControl>
 
-              <FormControl size="small" sx={{ minWidth: 160 }}>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filterIsDeleted === '' ? '' : filterIsDeleted ? 'true' : 'false'}
-                  onChange={(e) => {
-                    const v = e.target.value as string;
-                    setFilterIsDeleted(v === '' ? '' : v === 'true');
-                  }}
-                  label="Status"
-                >
-                  <MenuItem value={'false'}>Ativo</MenuItem>
-                  <MenuItem value={'true'}>Inativo</MenuItem>
-                </Select>
-              </FormControl>
+              <FormGroup row >
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'Inactive'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                      }
+                    />
+                  }
+                  label="Somente Inativos"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'all'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                      }
+                    />
+                  }
+                  label="Incluir Inativos"
+                />
+              </FormGroup>
             </Box>
 
-            <Button
-              variant="outlined"
-              startIcon={<ClearIcon />}
-              onClick={handleClearFilters}
-              sx={{
-                borderColor: alpha('#1E4EC4', 0.3),
-                color: '#1E4EC4',
-                fontWeight: 600,
-                px: 4,
-                py: 1,
-                borderRadius: 1.5,
-                textTransform: 'none',
-                fontSize: '0.95rem',
-                '&:hover': {
-                  borderColor: '#1E4EC4',
-                  bgcolor: alpha('#1E4EC4', 0.05),
-                  borderWidth: 1.5,
-                },
-                transition: 'all 0.2s ease',
-              }}
-            >
-              Limpar Filtros
-            </Button>
+            <Box sx={{ display: 'flex', gap: 2, mt: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Button
+                variant="outlined"
+                startIcon={<ClearIcon />}
+                onClick={handleClearFilters}
+                sx={{
+                  borderColor: alpha('#1E4EC4', 0.3),
+                  color: '#1E4EC4',
+                  fontWeight: 600,
+                  px: 4,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    borderColor: '#1E4EC4',
+                    bgcolor: alpha('#1E4EC4', 0.05),
+                    borderWidth: 1.5,
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Limpar Filtros
+              </Button>
+            </Box>
           </Box>
         </Paper>
 
@@ -904,6 +962,40 @@ const PersonTeam: React.FC = () => {
                 </FormControl>
               </Grid>
             </Grid>
+
+            {isVisualizing && (
+              <>
+                <Divider sx={{ mt: 4 }} />
+
+                <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                      {userUpdatedName?.[0] || '?'}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado por
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {userUpdatedName || '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTime fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado em
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </>
+            )}
           </Box>
         }
         actions={
