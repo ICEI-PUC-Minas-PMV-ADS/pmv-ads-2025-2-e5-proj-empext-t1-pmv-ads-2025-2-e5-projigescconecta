@@ -1,3 +1,4 @@
+// ==================== Imports ====================
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -32,11 +33,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import DialogPadronized from '@/components/DialogPadronized';
+import { apiConfig } from '../services/auth';
 import {
   TeamsApi,
   CreateTeamRequest,
@@ -51,10 +54,10 @@ import {
   ProjectProgramListItemViewModel,
   UsersApi,
 } from './../api';
-import { apiConfig } from '../services/auth';
-import DialogPadronized from '@/components/DialogPadronized';
 
 dayjs.locale('pt-br');
+
+// ==================== Tipos/Interfaces ====================
 interface Team {
   teamId?: number;
   name: string;
@@ -79,7 +82,78 @@ interface Course {
   name?: string | null;
 }
 
+// ==================== Constantes/Funções ====================
+const ModalityKeyByNumber: Record<number, 'InPerson' | 'Hybrid' | 'EAD'> = {
+  1: 'InPerson',
+  2: 'Hybrid',
+  3: 'EAD',
+};
+
+const EventKeyByNumber: Record<number, 'Open' | 'Sponsored'> = {
+  1: 'Open',
+  2: 'Sponsored',
+};
+
+const ModalityNumberByKey: Record<string, number> = {
+  InPerson: 1,
+  Hybrid: 2,
+  EAD: 3,
+};
+
+const EventNumberByKey: Record<string, number> = {
+  Open: 1,
+  Sponsored: 2,
+};
+
+const modalityLabel = (value: number | string | null | undefined): string => {
+  if (typeof value === 'string') {
+    switch (value) {
+      case 'InPerson':
+        return 'Presencial';
+      case 'Hybrid':
+        return 'Híbrido';
+      case 'EAD':
+        return 'EAD';
+      default:
+        return '';
+    }
+  }
+  switch (value) {
+    case 1:
+      return 'Presencial';
+    case 2:
+      return 'Híbrido';
+    case 3:
+      return 'EAD';
+    default:
+      return '';
+  }
+};
+
+const eventLabel = (value: number | string | null | undefined): string => {
+  if (typeof value === 'string') {
+    switch (value) {
+      case 'Open':
+        return 'Aberto';
+      case 'Sponsored':
+        return 'Patrocinado';
+      default:
+        return '';
+    }
+  }
+  switch (value) {
+    case 1:
+      return 'Aberto';
+    case 2:
+      return 'Patrocinado';
+    default:
+      return '';
+  }
+};
+
+// ==================== Componente ====================
 const Team: React.FC = () => {
+  // ==================== Estados ====================
   const [filterProjectProgramId, setFilterProjectProgramId] = useState<number | ''>('');
   const [filterCourseId, setFilterCourseId] = useState<number | ''>('');
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
@@ -87,7 +161,6 @@ const Team: React.FC = () => {
   const [filterModalityType, setFilterModalityType] = useState<number | ''>('');
   const [filterEventType, setFilterEventType] = useState<number | ''>('');
   const [filterTotalParticipants, setFilterTotalParticipants] = useState<number | ''>('');
-
   const [teams, setTeams] = useState<Team[]>([]);
   const [programs, setPrograms] = useState<ProjectProgramListItemViewModel[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -97,9 +170,6 @@ const Team: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [isVisualizing, setIsVisualizing] = useState(false);
-
-  const navigate = useNavigate();
-
   const [teamName, setTeamName] = useState('');
   const [lessonTime, setLessonTime] = useState('');
   const [startDate, setStartDate] = useState<Dayjs | undefined>(undefined);
@@ -110,7 +180,6 @@ const Team: React.FC = () => {
   const [semester, setSemester] = useState<string>('');
   const [selectedModalityType, setSelectedModalityType] = useState<number | ''>('');
   const [selectedEventType, setSelectedEventType] = useState<number | ''>('');
-
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [programsLoading, setProgramsLoading] = useState(false);
@@ -125,14 +194,13 @@ const Team: React.FC = () => {
   const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
   const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
+  const navigate = useNavigate();
   const teamsApi = new TeamsApi(apiConfig);
   const coursesApi = new CoursesApi(apiConfig);
   const projectsApi = new ProjectProgramsApi(apiConfig);
   const userApi = new UsersApi(apiConfig);
 
-  const dialogTitle = () => {
-    return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
-  };
+  // ==================== Effects ====================
   useEffect(() => {
     fetchTeams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,6 +212,11 @@ const Team: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ==================== Funções Internas ====================
+  const dialogTitle = () => {
+    return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
+  };
+
   const fetchTeams = async (customFilters?: Filter[], statusFilterParam?: string) => {
     try {
       setLoading(true);
@@ -152,7 +225,6 @@ const Team: React.FC = () => {
       const filters: Filter[] = customFilters ?? [];
 
       if (!customFilters) {
-        // Filtro por programa: usar propertyName 'ProjectProgramId' + Op.NUMBER_1 (Equals). O backend intercepta esse filtro.
         if (filterProjectProgramId) {
           filters.push({
             propertyName: 'ProjectProgramId',
@@ -189,7 +261,6 @@ const Team: React.FC = () => {
           filters.push({
             propertyName: 'modalityType',
             operation: Op.NUMBER_1,
-            // Persistência/consulta: backend espera o nome do enum
             value: ModalityKeyByNumber[filterModalityType as number],
           });
         }
@@ -198,7 +269,6 @@ const Team: React.FC = () => {
           filters.push({
             propertyName: 'eventType',
             operation: Op.NUMBER_1,
-            // Persistência/consulta: backend espera o nome do enum
             value: EventKeyByNumber[filterEventType as number],
           });
         }
@@ -235,7 +305,6 @@ const Team: React.FC = () => {
       }));
 
       setTeams(teams as Team[]);
-
       setTotalCount(data.totalItems || 0);
       setNoDataMessage('');
     } catch (error) {
@@ -279,72 +348,6 @@ const Team: React.FC = () => {
       setCourses([]);
     } finally {
       setCoursesLoading(false);
-    }
-  };
-
-  // Enums: filtro usa o nome (string); persistência usa número
-  const ModalityKeyByNumber: Record<number, 'InPerson' | 'Hybrid' | 'EAD'> = {
-    1: 'InPerson',
-    2: 'Hybrid',
-    3: 'EAD',
-  };
-  const EventKeyByNumber: Record<number, 'Open' | 'Sponsored'> = {
-    1: 'Open',
-    2: 'Sponsored',
-  };
-  const ModalityNumberByKey: Record<string, number> = {
-    InPerson: 1,
-    Hybrid: 2,
-    EAD: 3,
-  };
-  const EventNumberByKey: Record<string, number> = {
-    Open: 1,
-    Sponsored: 2,
-  };
-
-  const modalityLabel = (value: number | string | null | undefined): string => {
-    if (typeof value === 'string') {
-      switch (value) {
-        case 'InPerson':
-          return 'Presencial';
-        case 'Hybrid':
-          return 'Híbrido';
-        case 'EAD':
-          return 'EAD';
-        default:
-          return '';
-      }
-    }
-    switch (value) {
-      case 1:
-        return 'Presencial';
-      case 2:
-        return 'Híbrido';
-      case 3:
-        return 'EAD';
-      default:
-        return '';
-    }
-  };
-
-  const eventLabel = (value: number | string | null | undefined): string => {
-    if (typeof value === 'string') {
-      switch (value) {
-        case 'Open':
-          return 'Aberto';
-        case 'Sponsored':
-          return 'Patrocinado';
-        default:
-          return '';
-      }
-    }
-    switch (value) {
-      case 1:
-        return 'Aberto';
-      case 2:
-        return 'Patrocinado';
-      default:
-        return '';
     }
   };
 
@@ -418,7 +421,6 @@ const Team: React.FC = () => {
       setSelectedCourseId(data.courseId || '');
       setYear(typeof data.year === 'number' ? data.year : '');
       setSemester(data.semester || '');
-      // Modalidade/Event podem vir como número ou nome; normalizar para número no estado
       if (typeof data.modalityType === 'string') {
         setSelectedModalityType(ModalityNumberByKey[data.modalityType] ?? '');
       } else {
@@ -429,7 +431,6 @@ const Team: React.FC = () => {
       } else {
         setSelectedEventType((data.eventType as number) ?? '');
       }
-      // Backward compatibility: API may return 'projectProgramsIds' or 'projectProgramIds'
       const projectIds = (data as any).projectProgramsIds ?? (data as any).projectProgramIds ?? [];
       setSelectedProgramIds(projectIds || []);
       setOpenModal(true);
@@ -460,7 +461,6 @@ const Team: React.FC = () => {
       setSelectedCourseId(data.courseId || '');
       setYear(typeof data.year === 'number' ? data.year : '');
       setSemester(data.semester || '');
-      // Normalizar para número no estado (suporta retorno string ou número da API)
       if (typeof data.modalityType === 'string') {
         setSelectedModalityType(ModalityNumberByKey[data.modalityType] ?? '');
       } else {
@@ -472,7 +472,6 @@ const Team: React.FC = () => {
         setSelectedEventType((data.eventType as number) ?? '');
       }
 
-      // Backward compatibility: API may return 'projectProgramsIds' or 'projectProgramIds'
       const projectIds = (data as any).projectProgramsIds ?? (data as any).projectProgramIds ?? [];
       setSelectedProgramIds(projectIds || []);
 
@@ -567,10 +566,8 @@ const Team: React.FC = () => {
           courseId: selectedCourseId as number,
           year: (year as number) ?? null,
           semester: semester || null,
-          // Persistência: backend espera o número do enum
           modalityType: selectedModalityType as unknown as ModalityType,
           eventType: selectedEventType as unknown as EventType,
-          // Programas vinculados (N:N). Edit usa 'projectProgramIds'.
           projectProgramIds: selectedProgramIds.length > 0 ? selectedProgramIds : null,
         };
 
@@ -585,11 +582,9 @@ const Team: React.FC = () => {
           finish: endDate ? endDate.format('YYYY-MM-DD') : undefined,
           year: year as number,
           semester: semester,
-          // Persistência: backend espera o número do enum
           modalityType: selectedModalityType as unknown as ModalityType,
           eventType: selectedEventType as unknown as EventType,
           courseId: selectedCourseId as number,
-          // Programas vinculados (N:N). Create usa 'projectProgramsIds' (compatibilidade).
           projectProgramsIds: selectedProgramIds.length > 0 ? selectedProgramIds : undefined,
         };
 
@@ -657,8 +652,10 @@ const Team: React.FC = () => {
     }
   }
 
+  // ==================== JSX ====================
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+      {/* Container Principal */}
       <Container
         maxWidth="xl"
         sx={{
@@ -680,9 +677,10 @@ const Team: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4, flex: 1 } }}>
+            {/* Título e Botão Adicionar */}
             <TitleAndButtons title="Listar Turmas" onAdd={handleAdd} addLabel="Nova Turma" />
 
-            {/* Filtros e ações de busca */}
+            {/* Área de Filtros */}
             <Paper
               elevation={0}
               sx={{
@@ -979,7 +977,8 @@ const Team: React.FC = () => {
           </Box>
         </Paper>
       </Container>
-      {/* Modal de criação/edição de turma */}
+
+      {/* Modal de Criação/Edição */}
       <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
@@ -1321,7 +1320,7 @@ const Team: React.FC = () => {
         }
       />
 
-      {/* -------------------- Confirmação de Exclusão -------------------- */}
+      {/* Modal de Confirmação */}
       <ConfirmDialog
         open={confirmDialog.open}
         title="Excluir Turma"

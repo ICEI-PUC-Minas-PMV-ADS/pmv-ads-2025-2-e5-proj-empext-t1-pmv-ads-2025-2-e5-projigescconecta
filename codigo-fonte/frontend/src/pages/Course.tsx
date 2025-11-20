@@ -1,13 +1,10 @@
+// ----------------------------- Imports -----------------------------
 import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   TextField,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
   Paper,
   alpha,
@@ -23,10 +20,7 @@ import {
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
@@ -50,6 +44,7 @@ import 'dayjs/locale/pt-br';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 
+// ----------------------------- Tipos/Interfaces -----------------------------
 dayjs.locale('pt-br');
 
 interface Course {
@@ -59,9 +54,50 @@ interface Course {
   isDeleted?: boolean;
 }
 
-const Course: React.FC = () => {
-  /* ------------------------------ Variáveis ------------------------------ */
+interface CourseCsvRow {
+  name: string;
+}
 
+// ----------------------------- Constantes/Funções fora do componente -----------------------------
+const headerTranslations = {
+  name: 'Nome do Programa',
+};
+
+const columns: Column<Course>[] = [
+  { label: 'Id', field: 'courseId' },
+  { label: 'Nome do Programa', field: 'name' },
+  { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
+  {
+    label: 'Status',
+    field: 'isDeleted',
+    render: (value) => (value ? 'Inativo' : 'Ativo'),
+  },
+];
+
+const formatFieldName = (field: string): string => {
+  const mapping: Record<string, string> = {
+    name: 'Nome',
+  };
+  return mapping[field] || field;
+};
+
+const validateCourseForm = (course: { [k: string]: any }): string | null => {
+  const requiredFields = ['name'];
+
+  for (const field of requiredFields) {
+    if (!course[field] || course[field].toString().trim() === '') {
+      const message = `O campo "${formatFieldName(field)}" é obrigatório!`;
+      toast.error(message);
+      return message;
+    }
+  }
+
+  return null;
+};
+
+// ----------------------------- Component -----------------------------
+const Course: React.FC = () => {
+  // ----------------------------- Estados (useState) -----------------------------
   const [search, setSearch] = useState('');
   const [courses, setCourses] = useState<Course[]>([]);
   const [page, setPage] = useState(0);
@@ -83,9 +119,21 @@ const Course: React.FC = () => {
   const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
   const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
+  const [isUploadOpen, setUploadOpen] = useState(false);
+
+  // ----------------------------- Refs (useRef) -----------------------------
+
+  // ----------------------------- Instâncias de API (dentro do componente) -----------------------------
   const courseApi = new CoursesApi(apiConfig);
   const userApi = new UsersApi(apiConfig);
 
+  // ----------------------------- Effects (useEffect) -----------------------------
+  useEffect(() => {
+    fetchCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage]);
+
+  // ----------------------------- Funções internas -----------------------------
   const dialogTitle = () => {
     return isVisualizing
       ? 'Visualizar Programa'
@@ -94,24 +142,7 @@ const Course: React.FC = () => {
         : 'Adicionar Programa';
   };
 
-  const columns: Column<Course>[] = [
-    { label: 'Id', field: 'courseId' },
-    { label: 'Nome do Programa', field: 'name' },
-    { label: 'Número de turmas', field: 'teamsCount', align: 'center' },
-    {
-      label: 'Status',
-      field: 'isDeleted',
-      render: (value) => (value ? 'Inativo' : 'Ativo')
-    }
-  ];
-
-  const headerTranslations = {
-    name: 'Nome do Programa',
-  };
-
-  /* --------------------------------- Funções -------------------------------- */
-
-  const fetchCourses = async (noFilter?, statusFilterParam?: string) => {
+  const fetchCourses = async (noFilter?: any, statusFilterParam?: string) => {
     try {
       setLoading(true);
 
@@ -240,38 +271,20 @@ const Course: React.FC = () => {
       setConfirmDialog((prev) => ({ ...prev, loading: false }));
     }
   };
-    const formatFieldName = (field: string): string => {
-        const mapping: Record<string, string> = {
-            name: 'Nome'
-        };
-        return mapping[field] || field;
-    }
-
-    const validateCourseForm = (course: any): string | null => {
-        const requiredFields = ['name'];
-
-        for (const field of requiredFields) {
-            if (!course[field] || course[field].toString().trim() === '') {
-                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
-                toast.error(message)
-                return message;
-            }
-        }
-
-        return null;
-    }
 
   const handleSave = async () => {
-    if (!validateCourseForm({ name: courseName })) return;
+    if (validateCourseForm({ name: courseName }) !== null) return;
+
+    console.log('Salvando curso:', { courseName });
 
     try {
       setModalLoading(true);
-
+      console.log('Modal loading set to true');
       if (editingCourse) {
         const editCourseRequest: EditCourseRequest = {
           name: courseName,
         };
-
+        console.log('Edit request:', editCourseRequest);
         const id: number = editingCourse.courseId!;
 
         await courseApi.editCourse(id, editCourseRequest);
@@ -282,6 +295,7 @@ const Course: React.FC = () => {
         };
 
         await courseApi.createCourse(createCourseRequest);
+        console.log('Create request:', createCourseRequest);
         toast.success('Programa criado com sucesso!');
       }
 
@@ -304,27 +318,18 @@ const Course: React.FC = () => {
     }, 300);
   };
 
-  useEffect(() => {
-    fetchCourses();
-  }, [page, rowsPerPage]);
-
-  /* CSV imports */
-  interface CourseCsvRow {
-    name: string;
-  }
-
-  const [isUploadOpen, setUploadOpen] = useState(false);
-
+  // CSV related functions
   const handleUploadCourse = () => {
     setUploadOpen(true);
   };
 
-  const apiCreate = (data: CourseCsvRow) => courseApi.createCourse({
-        name: data.name,
+  const apiCreate = (data: CourseCsvRow) =>
+    courseApi.createCourse({
+      name: data.name,
     });
 
+  // ----------------------------- return JSX -----------------------------
   return (
-    /* -------------------------------- Template -------------------------------- */
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Container
         maxWidth="xl"
@@ -347,6 +352,7 @@ const Course: React.FC = () => {
             p: { xs: 2, sm: 3, md: 4 },
           }}
         >
+          {/* Title */}
           <TitleAndButtons
             title="Listar Programas"
             onAdd={handleAdd}
@@ -355,7 +361,7 @@ const Course: React.FC = () => {
             importLabel="Importar Programa"
           />
 
-          {/* Campo de pesquisa + botão */}
+          {/* Filters */}
           <Paper
             elevation={0}
             sx={{
@@ -423,7 +429,7 @@ const Course: React.FC = () => {
                     <Switch
                       checked={statusFilter === 'Inactive'}
                       onChange={() =>
-                        setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
                       }
                     />
                   }
@@ -435,7 +441,7 @@ const Course: React.FC = () => {
                     <Switch
                       checked={statusFilter === 'all'}
                       onChange={() =>
-                        setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                        setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
                       }
                     />
                   }
@@ -494,7 +500,7 @@ const Course: React.FC = () => {
             </Stack>
           </Paper>
 
-          {/* Tabela */}
+          {/* Table */}
           <Box sx={{ flexGrow: 1 }}>
             {loading ? (
               <Box
@@ -526,9 +532,7 @@ const Course: React.FC = () => {
         </Paper>
       </Container>
 
-      {/* --------------------------------- Modais --------------------------------- */}
-
-      {/* ------------------------- Criação/Edição ------------------------ */}
+      {/* Modals */}
       <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
@@ -551,7 +555,7 @@ const Course: React.FC = () => {
                 }}
                 sx={{ pointerEvents: 'none' }}
               />
-              
+
               <Divider sx={{ mt: 2 }} />
 
               <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
@@ -560,15 +564,21 @@ const Course: React.FC = () => {
                     {userUpdatedName?.[0] || '?'}
                   </Avatar>
                   <Box>
-                    <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
-                    <Typography variant="body2" fontWeight={600}>{userUpdatedName || '—'}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Atualizado por
+                    </Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {userUpdatedName || '—'}
+                    </Typography>
                   </Box>
                 </Stack>
 
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <AccessTime fontSize="small" color="action" />
                   <Box>
-                    <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      Atualizado em
+                    </Typography>
                     <Typography variant="body2" fontWeight={600}>
                       {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
                     </Typography>
@@ -661,7 +671,6 @@ const Course: React.FC = () => {
         }
       />
 
-      {/* -------------------- Confirmação de Exclusão -------------------- */}
       <ConfirmDialog
         open={confirmDialog.open}
         title="Excluir Programa"
@@ -675,7 +684,6 @@ const Course: React.FC = () => {
         danger={true}
       />
 
-      {/* Upload Excel Modal */}
       {isUploadOpen && (
         <UploadCsvModal<CourseCsvRow>
           title="Importar Programa"

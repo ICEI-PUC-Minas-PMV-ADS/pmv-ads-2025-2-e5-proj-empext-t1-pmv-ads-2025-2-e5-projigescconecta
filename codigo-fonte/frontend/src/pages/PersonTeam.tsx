@@ -1,3 +1,4 @@
+// ==================== Imports ====================
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box,
@@ -31,13 +32,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
-
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
 import DialogPadronized from '@/components/DialogPadronized';
 import { apiConfig } from '../services/auth';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
+import { extractErrorMessage } from '@/utils/error';
 import {
   PersonTeamsApi,
   PersonsApi,
@@ -50,10 +51,10 @@ import {
   Op,
   ListPersonTeamRequest,
 } from './../api';
-import { extractErrorMessage } from '@/utils/error';
 
 dayjs.locale('pt-br');
 
+// ==================== Tipos/Interfaces ====================
 interface PersonTeam {
   id?: number;
   personId?: number;
@@ -83,6 +84,12 @@ interface ListPersonTeamViewModel {
   items: PersonTeam[];
 }
 
+interface PersonTeamCsvRow {
+  personId: number | string;
+  memberTypes: string;
+}
+
+// ==================== Constantes/Funções ====================
 const MemberTypeLabels: Record<MemberType, string> = {
   [MemberType.NUMBER_0]: 'Participante',
   [MemberType.NUMBER_1]: 'Professor',
@@ -94,7 +101,65 @@ const MemberTypeLabels: Record<MemberType, string> = {
   [MemberType.NUMBER_7]: 'Apoio Técnico',
 };
 
+const PERSON_TEAM_CSV_HEADERS: (keyof PersonTeamCsvRow)[] = ['personId', 'memberTypes'];
+
+const headerTranslations: Record<keyof PersonTeamCsvRow, string> = {
+  personId: 'ID da Pessoa',
+  memberTypes: 'Funções (separadas por ";")',
+};
+
+const memberTypeByNormalizedLabel: Record<string, MemberType> = Object.entries(
+  MemberTypeLabels
+).reduce(
+  (map, [enumValue, label]) => {
+    const normalizedLabel = label
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+    map[normalizedLabel] = parseInt(enumValue) as MemberType;
+    return map;
+  },
+  {} as Record<string, MemberType>
+);
+
+const parseMemberTypes = (raw: string): MemberType[] => {
+  const tokens = (raw || '')
+    .split(/[;,]/)
+    .map((token) => token.trim())
+    .filter((token) => token.length > 0);
+
+  const memberTypes: MemberType[] = [];
+  for (const token of tokens) {
+    if (/^\d+$/.test(token)) {
+      const numericValue = parseInt(token, 10);
+      if (numericValue >= 0 && numericValue <= 7) memberTypes.push(numericValue as MemberType);
+      continue;
+    }
+    const normalizedLabel = token
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+    const memberType = memberTypeByNormalizedLabel[normalizedLabel];
+    if (memberType !== undefined) memberTypes.push(memberType);
+  }
+  return Array.from(new Set(memberTypes));
+};
+
+const validatePersonTeamCsvForm = (row: PersonTeamCsvRow): string | null => {
+  const personId = Number((row.personId ?? '').toString().trim());
+  const parsedMemberTypes = parseMemberTypes(row.memberTypes ?? '');
+
+  if (!personId || personId <= 0)
+    return 'O campo "ID da Pessoa" é obrigatório e deve ser numérico.';
+  if (!parsedMemberTypes.length)
+    return 'O campo "Funções" é obrigatório. Informe ao menos uma função válida (por número ou rótulo).';
+
+  return null;
+};
+
+// ==================== Componente ====================
 const PersonTeam: React.FC = () => {
+  // ==================== Estados ====================
   const { teamId } = useParams<{ teamId: string }>();
   const navigate = useNavigate();
 
@@ -120,11 +185,15 @@ const PersonTeam: React.FC = () => {
   const [filterPersonName, setFilterPersonName] = useState('');
   const [filterMemberType, setFilterMemberType] = useState<MemberType | ''>('');
   const [totalCount, setTotalCount] = useState(0);
-  // CSV import state
   const [isUploadOpen, setUploadOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
   const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
   const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+  const [selectedPersonOption, setSelectedPersonOption] = useState<{
+    id: number;
+    label: string;
+  } | null>(null);
+  const [inputPersonValue, setInputPersonValue] = useState('');
 
   const memberTypeOptions = useMemo(
     () =>
@@ -143,17 +212,13 @@ const PersonTeam: React.FC = () => {
       })),
     [persons]
   );
-  const [selectedPersonOption, setSelectedPersonOption] = useState<{
-    id: number;
-    label: string;
-  } | null>(null);
-  const [inputPersonValue, setInputPersonValue] = useState('');
 
   const apiInstance = useMemo(() => new PersonTeamsApi(apiConfig), []);
   const personsApiInstance = useMemo(() => new PersonsApi(apiConfig), []);
   const teamsApiInstance = useMemo(() => new TeamsApi(apiConfig), []);
   const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
+  // ==================== Funções Internas ====================
   const dialogTitle = () => {
     return isVisualizing
       ? 'Visualizar Vínculo'
@@ -254,7 +319,6 @@ const PersonTeam: React.FC = () => {
     [teamId, apiInstance, filterPersonName, filterMemberType, page, rowsPerPage]
   );
 
-  // Busca paginada de pessoas com filtro por nome (não carregar todas de uma vez)
   const fetchPerson = useCallback(
     async (searchValue?: string) => {
       try {
@@ -357,7 +421,6 @@ const PersonTeam: React.FC = () => {
         setSelectedPersonOption(null);
       }
 
-      // Buscar dados de auditoria usando getPersonTeamById
       if (personTeam.id) {
         const { data } = await apiInstance.getPersonTeamById(personTeam.id);
 
@@ -377,7 +440,6 @@ const PersonTeam: React.FC = () => {
     } catch (error) {
       console.error('Erro ao visualizar vínculo:', error);
       toast.error('Erro ao carregar detalhes do vínculo');
-      // Mesmo com erro, abrir modal com dados básicos
       setInputPersonValue('');
       setIsVisualizing(true);
       setOpenModal(true);
@@ -505,9 +567,8 @@ const PersonTeam: React.FC = () => {
       fetchPersonTeams(statusFilter);
       fetchTeamInfo();
     }
-  }, [teamId, fetchPersonTeams, fetchTeamInfo]);
+  }, [teamId, fetchPersonTeams, fetchTeamInfo, statusFilter]);
 
-  // Debounce da pesquisa pelo nome
   useEffect(() => {
     const handler = setTimeout(() => {
       if (openModal && !isVisualizing && !editingPersonTeam) {
@@ -516,89 +577,6 @@ const PersonTeam: React.FC = () => {
     }, 400);
     return () => clearTimeout(handler);
   }, [inputPersonValue, openModal, isVisualizing, editingPersonTeam, fetchPerson]);
-
-  // ----------------------------- CSV Import -----------------------------
-  interface PersonTeamCsvRow {
-    personId: number | string;
-    memberTypes: string;
-  }
-
-  const PERSON_TEAM_CSV_HEADERS: (keyof PersonTeamCsvRow)[] = ['personId', 'memberTypes'];
-
-  // Mapeia os nomes de coluna do CSV para rótulos exibidos na UI
-  const headerTranslations: Record<keyof PersonTeamCsvRow, string> = {
-    personId: 'ID da Pessoa',
-    memberTypes: 'Funções (separadas por ";")',
-  };
-
-  /**
-   * Mapeia rótulos legíveis (de um CSV, por exemplo) para seus respectivos valores do enum MemberType.
-   * Normaliza acentuação e caixa para garantir correspondência robusta.
-   */
-  const memberTypeByNormalizedLabel: Record<string, MemberType> = Object.entries(
-    MemberTypeLabels
-  ).reduce(
-    (map, [enumValue, label]) => {
-      const normalizedLabel = label
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '');
-      map[normalizedLabel] = parseInt(enumValue) as MemberType;
-      return map;
-    },
-    {} as Record<string, MemberType>
-  );
-
-  /**
-   * Converte uma string com valores de funções (ex: "0,1, Coordenador")
-   * em uma lista de valores válidos do enum MemberType.
-   *
-   * @param raw String vinda do CSV (pode conter números ou rótulos, separados por "," ou ";")
-   * @returns Lista de tipos de membro sem duplicatas.
-   */
-  const parseMemberTypes = (raw: string): MemberType[] => {
-    const tokens = (raw || '')
-      .split(/[;,]/)
-      .map((token) => token.trim())
-      .filter((token) => token.length > 0);
-
-    const memberTypes: MemberType[] = [];
-    for (const token of tokens) {
-      // Caso: número direto (ex: "3")
-      if (/^\d+$/.test(token)) {
-        const numericValue = parseInt(token, 10);
-        if (numericValue >= 0 && numericValue <= 7) memberTypes.push(numericValue as MemberType);
-        continue;
-      }
-      // Caso: rótulo textual (ex: "coordenador")
-      const normalizedLabel = token
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '');
-      const memberType = memberTypeByNormalizedLabel[normalizedLabel];
-      if (memberType !== undefined) memberTypes.push(memberType);
-    }
-    // Deduplica, garantindo funções únicas
-    return Array.from(new Set(memberTypes));
-  };
-
-  /**
-   * Valida uma linha de importação CSV contendo informações de associação pessoa–time.
-   *
-   * @param row Linha do CSV com `personId` e `memberTypes`
-   * @returns Mensagem de erro se inválido, ou `null` se os dados forem válidos.
-   */
-  const validatePersonTeamCsvForm = (row: PersonTeamCsvRow): string | null => {
-    const personId = Number((row.personId ?? '').toString().trim());
-    const parsedMemberTypes = parseMemberTypes(row.memberTypes ?? '');
-
-    if (!personId || personId <= 0)
-      return 'O campo "ID da Pessoa" é obrigatório e deve ser numérico.';
-    if (!parsedMemberTypes.length)
-      return 'O campo "Funções" é obrigatório. Informe ao menos uma função válida (por número ou rótulo).';
-
-    return null;
-  };
 
   const apiCreateFromCsv = (row: PersonTeamCsvRow) => {
     const personId = Number((row.personId ?? '').toString().trim());
@@ -612,6 +590,7 @@ const PersonTeam: React.FC = () => {
     return apiInstance.createPersonTeam(parseInt(teamId || ''), body);
   };
 
+  // ==================== JSX ====================
   return (
     <Container
       maxWidth="xl"
@@ -634,6 +613,7 @@ const PersonTeam: React.FC = () => {
           p: { xs: 2, sm: 3, md: 4 },
         }}
       >
+        {/* Botão Voltar e Breadcrumb */}
         <Box
           sx={{
             display: 'flex',
@@ -684,7 +664,7 @@ const PersonTeam: React.FC = () => {
           </Box>
         </Box>
 
-        {/* Seção de filtros */}
+        {/* Área de Filtros */}
         <Paper
           elevation={0}
           sx={{
@@ -764,7 +744,7 @@ const PersonTeam: React.FC = () => {
                 </Select>
               </FormControl>
 
-              <FormGroup row >
+              <FormGroup row>
                 <FormControlLabel
                   control={
                     <Switch
@@ -819,6 +799,7 @@ const PersonTeam: React.FC = () => {
           </Box>
         </Paper>
 
+        {/* Tabela */}
         <Box sx={{ flexGrow: 1 }}>
           <Table
             columns={columns}
@@ -837,6 +818,7 @@ const PersonTeam: React.FC = () => {
         </Box>
       </Paper>
 
+      {/* Modal de Criação/Edição */}
       <DialogPadronized
         open={openModal}
         onClose={handleCloseModal}
@@ -1065,6 +1047,7 @@ const PersonTeam: React.FC = () => {
         }
       />
 
+      {/* Modal de Importação CSV */}
       {isUploadOpen && (
         <UploadCsvModal<PersonTeamCsvRow>
           title="Importar Integrantes"
@@ -1080,6 +1063,7 @@ const PersonTeam: React.FC = () => {
         />
       )}
 
+      {/* Modal de Confirmação */}
       <ConfirmDialog
         open={confirmDialog.open}
         title="Remover Vínculo"
