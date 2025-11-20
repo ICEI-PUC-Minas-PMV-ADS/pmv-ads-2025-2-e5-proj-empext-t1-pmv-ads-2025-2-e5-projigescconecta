@@ -48,7 +48,7 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
           py: 3,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
+        <Typography variant="h5" component="div" sx={{ fontWeight: 600, color: '#1a1a2e' }}>
           {title}
         </Typography>
       </DialogTitle>

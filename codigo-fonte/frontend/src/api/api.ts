@@ -184,6 +184,12 @@ export interface CourseViewModel {
      * @memberof CourseViewModel
      */
     'teamsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CourseViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -2300,6 +2306,42 @@ export interface GetOscResponse {
      * @type {number}
      * @memberof GetOscResponse
      */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetOscResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
     'oscId'?: number;
     /**
      * 
@@ -2914,6 +2956,18 @@ export interface GetTeamByIdResponse {
      * @memberof GetTeamByIdResponse
      */
     'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'updatedAt'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'updatedBy'?: number | null;
 }
 
 
@@ -3073,6 +3127,12 @@ export interface ListCourseRequest {
      * @memberof ListCourseRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListCourseRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3267,6 +3327,12 @@ export interface ListOscRequest {
      * @memberof ListOscRequest
      */
     'originBusinessCaseId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListOscRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3405,6 +3471,12 @@ export interface ListPersonTeamRequest {
      * @memberof ListPersonTeamRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListPersonTeamRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3824,6 +3896,12 @@ export interface ListTeamRequest {
      * @memberof ListTeamRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -4289,6 +4367,12 @@ export interface OscViewModel {
      * @memberof OscViewModel
      */
     'beneficiariesCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OscViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -4498,6 +4582,12 @@ export interface PersonTeamDetailDto {
      * @memberof PersonTeamDetailDto
      */
     'updatedAt'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'updatedBy'?: number | null;
 }
 /**
  * 
@@ -4541,6 +4631,12 @@ export interface PersonTeamDto {
      * @memberof PersonTeamDto
      */
     'memberTypes'?: Array<MemberType>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonTeamDto
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
