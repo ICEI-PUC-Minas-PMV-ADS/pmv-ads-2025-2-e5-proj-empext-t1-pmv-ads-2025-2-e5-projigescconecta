@@ -38,6 +38,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportFieldItem
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public string Label { get; set; } = default!;
         public FieldDataType DataType { get; set; }
@@ -47,6 +48,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportFilterQuestionItem
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public string DefaultOperator { get; set; } = default!;
         public FieldDataType DataType { get; set; }
@@ -58,6 +60,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportSortItem
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public SortDirection Direction { get; set; }
         public int Priority { get; set; }
@@ -110,6 +113,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
                     .OrderBy(x => x.DisplayOrder)
                     .Select(x => new GetReportFieldItem
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         Label = x.Label,
                         DataType = x.DataType,
@@ -120,6 +124,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
                     .OrderBy(x => x.Label)
                     .Select(x => new GetReportFilterQuestionItem
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         DefaultOperator = x.DefaultOperator,
                         DataType = x.DataType,
@@ -132,6 +137,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
                     .OrderBy(x => x.Priority)
                     .Select(x => new GetReportSortItem
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         Direction = x.Direction,
                         Priority = x.Priority
