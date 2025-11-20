@@ -31,6 +31,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportFieldItem
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string Label { get; set; }
         public FieldDataType DataType { get; set; }
@@ -40,6 +41,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportFilterQuestionItem
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string DefaultOperator { get; set; }
         public FieldDataType DataType { get; set; }
@@ -51,6 +53,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportSortItem
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public SortDirection Direction { get; set; } = SortDirection.Asc;
         public int Priority { get; set; } = 1;
@@ -75,9 +78,12 @@ namespace IgescConecta.API.Features.Reports.CreateReport
             if (relPaths.Count != relPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count())
                 throw new ArgumentException("Existem relações duplicadas.");
 
+
             var fieldPaths = request.Fields.Select(f => f.FieldPath.Trim()).ToList();
+            /*
             if (fieldPaths.Count != fieldPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count())
                 throw new ArgumentException("Existem campos (colunas) duplicados.");
+            */
 
             var sortPriorities = request.Sorts.Select(s => s.Priority).ToList();
             if (sortPriorities.Count != sortPriorities.Distinct().Count())
@@ -125,6 +131,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
             {
                 entity.Fields = request.Fields.Select(f => new ReportField
                 {
+                    Entity = f.Entity.Trim(),
                     FieldPath = f.FieldPath.Trim(),
                     Label = f.Label.Trim(),
                     DataType = f.DataType,
@@ -137,6 +144,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
             {
                 entity.FilterQuestions = request.FilterQuestions.Select(q => new ReportFilterQuestion
                 {
+                    Entity = q.Entity.Trim(),
                     FieldPath = q.FieldPath.Trim(),
                     DefaultOperator = q.DefaultOperator.Trim(),
                     DataType = q.DataType,
@@ -151,6 +159,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
             {
                 entity.Sorts = request.Sorts.Select(s => new ReportSort
                 {
+                    Entity = s.Entity.Trim(),
                     FieldPath = s.FieldPath.Trim(),
                     Direction = s.Direction,
                     Priority = s.Priority

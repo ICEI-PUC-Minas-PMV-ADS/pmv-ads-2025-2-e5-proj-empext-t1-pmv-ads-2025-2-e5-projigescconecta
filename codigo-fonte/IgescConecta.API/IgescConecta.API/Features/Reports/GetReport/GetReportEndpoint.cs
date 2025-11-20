@@ -33,6 +33,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
                     RootEntity = r.RootEntity,
                     Status = r.Status,
                     ReaderCanExecute = r.ReaderCanExecute,
+
                     Relations = r.Relations.Select(x => new GetReportRelationResponse
                     {
                         FromEntity = x.FromEntity,
@@ -42,16 +43,20 @@ namespace IgescConecta.API.Features.Reports.GetReport
                         Alias = x.Alias,
                         IsCollection = x.IsCollection
                     }).ToList(),
+
                     Fields = r.Fields.Select(x => new GetReportFieldResponse
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         Label = x.Label,
                         DataType = x.DataType,
                         FormatHint = x.FormatHint,
                         DisplayOrder = x.DisplayOrder
                     }).ToList(),
+
                     FilterQuestions = r.FilterQuestions.Select(x => new GetReportFilterQuestionResponse
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         DefaultOperator = x.DefaultOperator,
                         DataType = x.DataType,
@@ -60,13 +65,16 @@ namespace IgescConecta.API.Features.Reports.GetReport
                         Label = x.Label,
                         EnumOptionsJson = x.EnumOptionsJson
                     }).ToList(),
+
                     Sorts = r.Sorts.Select(x => new GetReportSortResponse
                     {
+                        Entity = x.Entity,
                         FieldPath = x.FieldPath,
                         Direction = x.Direction,
                         Priority = x.Priority
                     }).ToList()
                 };
+
 
                 return Ok(response);
             }
@@ -107,6 +115,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportFieldResponse
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public string Label { get; set; } = default!;
         public FieldDataType DataType { get; set; }
@@ -116,6 +125,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportFilterQuestionResponse
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public string DefaultOperator { get; set; } = default!;
         public FieldDataType DataType { get; set; }
@@ -127,6 +137,7 @@ namespace IgescConecta.API.Features.Reports.GetReport
 
     public class GetReportSortResponse
     {
+        public string Entity { get; set; } = default!;
         public string FieldPath { get; set; } = default!;
         public SortDirection Direction { get; set; }
         public int Priority { get; set; }

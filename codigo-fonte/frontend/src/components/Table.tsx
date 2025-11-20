@@ -102,6 +102,7 @@ type TableProps<T> = {
   onOriginBusinessCase?: (row: T) => void;
   onTeam?: (row: T) => void;
   onPersonOsc?: (row: T) => void;
+  onReport?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -121,6 +122,7 @@ function Table<T extends { [key: string]: any }>({
   onOriginBusinessCase,
   onTeam,
   onPersonOsc,
+  onReport,   
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -137,7 +139,15 @@ function Table<T extends { [key: string]: any }>({
     onPageChange?.(0);
   };
 
-  const hasActions = onView || onEdit || onDelete || onOriginBusinessCase || onTeam || onPersonOsc;
+  const hasActions =
+  onView ||
+  onEdit ||
+  onDelete ||
+  onOriginBusinessCase ||
+  onTeam ||
+  onPersonOsc ||
+  onReport;
+
 
   return (
     <Box>
@@ -412,6 +422,33 @@ function Table<T extends { [key: string]: any }>({
                             }}
                           >
                             Integrantes
+                          </Button>
+                        )}
+                        {onReport && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<TravelExploreIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onReport(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#21AD53',
+                              borderColor: alpha('#21AD53', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#21AD53',
+                                bgcolor: alpha('#21AD53', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Executar
                           </Button>
                         )}
                       </Stack>
