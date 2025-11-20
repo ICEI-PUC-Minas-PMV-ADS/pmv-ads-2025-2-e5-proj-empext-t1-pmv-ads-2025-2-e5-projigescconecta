@@ -1,5 +1,6 @@
 using IgescConecta.API.Common.Extensions;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -34,12 +35,18 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
                 LessonTime = result.Value.LessonTime,
                 Start = result.Value.Start,
                 Finish = result.Value.Finish,
+                Year = result.Value.Year,
+                Semester = result.Value.Semester,
+                ModalityType = result.Value.ModalityType,
+                EventType = result.Value.EventType,
                 CourseId = result.Value.CourseId,
                 CourseName = result.Value.Course?.Name,
                 ProjectProgramsCount = result.Value.ProjectPrograms.Count,
                 PersonTeamsCount = result.Value.PersonTeams.Count,
                 IsDeleted = result.Value.IsDeleted,
-                CreatedAt = result.Value.CreatedAt
+                CreatedAt = result.Value.CreatedAt,
+                UpdatedAt = result.Value.UpdatedAt,
+                UpdatedBy = result.Value.UpdatedBy
             };
 
             return Ok(teamInfo);
@@ -53,11 +60,17 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
+        public int Year { get; set; }
+        public string Semester { get; set; }
+        public ModalityType ModalityType { get; set; }
+        public EventType EventType { get; set; }
         public int CourseId { get; set; }
         public string? CourseName { get; set; }
         public int ProjectProgramsCount { get; set; }
         public int PersonTeamsCount { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 }

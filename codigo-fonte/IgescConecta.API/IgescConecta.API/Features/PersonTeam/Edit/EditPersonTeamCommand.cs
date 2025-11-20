@@ -36,6 +36,23 @@ namespace IgescConecta.API.Features.PersonTeams.EditPersonTeam
             // Atualiza apenas o campo MemberTypes
             personTeam.MemberTypes = request.MemberTypes;
 
+            // Regra de negócio: se incluir Estudante, deve existir vínculo PersonOsc para a pessoa.
+            if (request.MemberTypes.Contains(MemberType.Student))
+            {
+                var personOsc = await _context.PersonOscs
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(po => po.PersonId == personTeam.PersonId, cancellationToken);
+
+                if (personOsc == null)
+                    return new ValidationFailed(new[] { "Para membros do tipo Estudante, é necessário vínculo prévio da pessoa com uma OSC (PersonOsc)." });
+
+                personTeam.PersonOscId = personOsc.Id;
+            }
+            else
+            {
+                personTeam.PersonOscId = null;
+            }
+
             try
             {
                 await _context.SaveChangesAsync(cancellationToken);
