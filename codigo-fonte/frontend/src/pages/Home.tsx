@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
       const response = await coursesApi.listCourse({ pageNumber: 1, pageSize: 1000 });
       setCourses(response.data.items ?? []);
     } catch (err: any) {
-      toast.error(err.message || 'Erro ao carregar lista de programas.');
+      toast.error(err?.message || 'Erro ao carregar lista de programas.');
     } finally {
       setCoursesLoading(false);
     }
@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
       );
       setData(response.data);
     } catch (err: any) {
-      toast.error(err.message || "Erro ao carregar dados do dashboard.");
+      toast.error(err?.message || "Erro ao carregar dados do dashboard.");
       setData(null);
     } finally {
       setLoading(false);
@@ -199,19 +199,6 @@ const HomePage: React.FC = () => {
                 {renderChartBox("Cidades Atendidas", data.cidadesAtendidasPorAno ?? [], 'vertical-bar')}
                 {renderChartBox("Causas", data.rankingCausas ?? [], 'horizontal-bar')}
                 {renderChartBox("Temas de Projeto", data.rankingTemasProjeto ?? [], 'horizontal-bar')}
-                
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <Paper elevation={1} sx={{ p: 2, borderRadius: 2, height: '400px' }}>
-                    <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, mb: 2 }}>
-                      Mapa Cidades Atendidas
-                    </Typography>
-                    <Box sx={{ height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: alpha('#1E4EC4', 0.05), borderRadius: 1 }}>
-                      <Typography sx={{ color: 'text.secondary' }}>
-                        (Componente de Mapa a ser implementado aqui)
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid>
               </Grid>
             )}
 

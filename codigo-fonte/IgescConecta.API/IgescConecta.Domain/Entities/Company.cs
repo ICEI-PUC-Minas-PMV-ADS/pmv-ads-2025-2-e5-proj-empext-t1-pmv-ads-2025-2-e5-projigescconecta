@@ -4,22 +4,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IgescConecta.Domain.Entities
 {
-    public class Company : BaseEntity 
+    public class Company : BaseEntity
     {
         [Required]
         [StringLength(120)]
-        public string CompanyName { get; set; } = string.Empty; 
+        public string CompanyName { get; set; } = string.Empty;
 
         [StringLength(120)]
-        public string? CorporateReason { get; set; } 
+        public string? CorporateReason { get; set; }
 
         [Required]
         [StringLength(14)]
-        public string CNPJ { get; set; } = string.Empty; 
+        public string CNPJ { get; set; } = string.Empty;
 
 
         [StringLength(100)]
-        public string? FieldOfActivity { get; set; } 
+        public string? FieldOfActivity { get; set; }
 
         [StringLength(8)]
         public string? ZipCode { get; set; }
@@ -39,6 +39,9 @@ namespace IgescConecta.Domain.Entities
         [StringLength(20)]
         public string? PhoneNumber { get; set; }
 
+        [StringLength(254)]
+        public string? Email { get; set; }
+
         [StringLength(255)]
         public string? Website { get; set; }
 
@@ -46,7 +49,6 @@ namespace IgescConecta.Domain.Entities
         public string? SocialMedia { get; set; }
 
         public bool IsActive { get; set; } = true;
-
 
         public ICollection<Donation> Donations { get; set; } = new List<Donation>();
     }
