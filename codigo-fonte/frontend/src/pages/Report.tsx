@@ -409,7 +409,7 @@ const Report: React.FC = () => {
       try {
         const { data } = await reportsApi.getReport(row.id);
         if (!isWizardComplete(data)) {
-          toast.warning('Falta finalizar o wizard de configuração');
+          toast.warning('Falta efetuar a configuração do Relatório');
           return;
         }
       } catch {
