@@ -1,4 +1,5 @@
 ﻿using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,10 @@ namespace IgescConecta.API.Features.Beneficiares.GetBeneficiary
                 BeneficiaryId = beneficiaryId,
                 Name = result.Value?.Name,
                 Notes = result.Value?.Notes,
+                CreatedBy = result.Value.CreatedBy,
+                CreatedAt = result.Value.CreatedAt,
+                UpdatedBy = result.Value.UpdatedBy,
+                UpdatedAt = result.Value.UpdatedAt,
                 Oscs = result.Value?.Oscs.Select(o => new GetBeneficiaryOscResponse
                 {
                     OscId = o.Id,
@@ -38,7 +43,7 @@ namespace IgescConecta.API.Features.Beneficiares.GetBeneficiary
             return result.IsSuccess ? Ok(beneficiaryInfo) : BadRequest(result.Error);
         }
 
-        public class GetBeneficiaryResponse
+        public class GetBeneficiaryResponse : BaseEntity
         {
             public int BeneficiaryId { get; set; }
 

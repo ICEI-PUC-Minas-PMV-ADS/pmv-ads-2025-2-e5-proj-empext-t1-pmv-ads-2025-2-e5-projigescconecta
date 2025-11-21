@@ -28,6 +28,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
         public async Task<Result<OriginBusinessCase, ValidationFailed>> Handle(GetOriginBusinessCaseQuery request, CancellationToken cancellationToken)
         {
             var originBusinessCase = await _context.OriginBusinessCases
+                .IgnoreQueryFilters()
                 .Where(obc => obc.Id == request.OriginBusinessCaseId)
                 .Include(obc => obc.Oscs)
                 .FirstOrDefaultAsync(cancellationToken);
