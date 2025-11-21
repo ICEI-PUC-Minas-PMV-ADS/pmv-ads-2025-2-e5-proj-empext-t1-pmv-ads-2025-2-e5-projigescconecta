@@ -1,0 +1,27 @@
+{
+    "User": "Users",
+    "Role": "Roles",
+
+    "Team": "Teams",
+    "Company": "Companies",
+    "Course": "Courses",
+    "Donation": "Donations",
+    "OriginBusinessCase": "OriginBusinessCases",
+    "Osc": "Oscs",
+    "Beneficiary": "Beneficiaries",
+    "BusinessCase": "BusinessCases",
+    "Person": "Persons",
+    "PersonCompany": "PersonCompanies",
+    "PersonOsc": "PersonOscs",
+    "PersonTeam": "PersonTeams",
+    "ProjectProgram": "ProjectPrograms",
+    "ProjectDocument": "ProjectDocuments",
+    "ProjectTheme": "ProjectThemes",
+    "ProjectType": "ProjectTypes",
+
+    "Report": "Reports",
+    "ReportRelation": "ReportRelations",
+    "ReportField": "ReportFields",
+    "ReportFilterQuestion": "ReportFilterQuestions",
+    "ReportSort": "ReportSorts"
+}

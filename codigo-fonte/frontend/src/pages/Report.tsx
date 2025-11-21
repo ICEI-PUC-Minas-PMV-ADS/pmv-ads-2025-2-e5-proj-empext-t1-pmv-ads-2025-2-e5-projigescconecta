@@ -23,6 +23,7 @@ import Table, { Column } from '@/components/Table';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import DialogPadronized from '@/components/DialogPadronized';
 import ReportWizard from '@/components/ReportWizard';
+import ReportRunner from '@/components/ReportRunner';
 import {
   ReportsApi,
   CreateReportRequest,
@@ -1202,35 +1203,45 @@ const Report: React.FC = () => {
         danger={confirmDialog.action === 'delete'}
       />
 
-      <DialogPadronized
-        open={runnerOpen}
-        onClose={() => setRunnerOpen(false)}
-        title="Executar Relatório"
-        content={
-          <Box sx={{ minWidth: 320 }}>
-            <Typography variant="body1">
-              Aqui será executado o relatório ID {runnerId}.
-            </Typography>
-          </Box>
-        }
-        actions={
-          <Button
-            variant="contained"
-            onClick={() => setRunnerOpen(false)}
-            sx={{
-              bgcolor: '#1E4EC4',
-              color: 'white',
-              fontWeight: 600,
-              px: 3,
-              py: 1,
-              borderRadius: 1.5,
-              textTransform: 'none',
-            }}
-          >
-            Fechar
-          </Button>
-        }
-      />
+<DialogPadronized
+  open={runnerOpen}
+  onClose={() => setRunnerOpen(false)}
+  title="Executar Relatório"
+  fullWidth
+  maxWidth="xl"
+  content={
+    <Box
+      sx={{
+        width: '100%',
+        minHeight: '70vh',
+        p: 2,
+        overflow: 'auto',
+      }}
+    >
+      {runnerId && <ReportRunner reportId={runnerId} />}
+    </Box>
+  }
+  actions={
+    <Button
+      variant="contained"
+      onClick={() => setRunnerOpen(false)}
+      sx={{
+        bgcolor: '#1E4EC4',
+        color: 'white',
+        fontWeight: 600,
+        px: 3,
+        py: 1,
+        borderRadius: 1.5,
+        textTransform: 'none',
+      }}
+    >
+      Fechar
+    </Button>
+  }
+/>
+
+
+      
     </Container>
   );
 };

@@ -347,6 +347,12 @@ export interface CreateCompanyCommand {
     'socialMedia'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'email'?: string | null;
+    /**
+     * 
      * @type {boolean}
      * @memberof CreateCompanyCommand
      */
@@ -956,6 +962,12 @@ export interface CreateReportFieldRequest {
      * @type {string}
      * @memberof CreateReportFieldRequest
      */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
     'fieldPath': string;
     /**
      * 
@@ -990,6 +1002,12 @@ export interface CreateReportFieldRequest {
  * @interface CreateReportFilterQuestionRequest
  */
 export interface CreateReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'entity': string;
     /**
      * 
      * @type {string}
@@ -1158,6 +1176,12 @@ export interface CreateReportResponse {
  * @interface CreateReportSortRequest
  */
 export interface CreateReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportSortRequest
+     */
+    'entity': string;
     /**
      * 
      * @type {string}
@@ -1654,6 +1678,12 @@ export interface EditReportFieldRequest {
      * @type {string}
      * @memberof EditReportFieldRequest
      */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
     'fieldPath': string;
     /**
      * 
@@ -1688,6 +1718,12 @@ export interface EditReportFieldRequest {
  * @interface EditReportFilterQuestionRequest
  */
 export interface EditReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'entity': string;
     /**
      * 
      * @type {string}
@@ -1862,6 +1898,12 @@ export interface EditReportResponse {
  * @interface EditReportSortRequest
  */
 export interface EditReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportSortRequest
+     */
+    'entity': string;
     /**
      * 
      * @type {string}
@@ -2642,6 +2684,12 @@ export interface GetReportFieldResponse {
      * @type {string}
      * @memberof GetReportFieldResponse
      */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
     'fieldPath'?: string;
     /**
      * 
@@ -2676,6 +2724,12 @@ export interface GetReportFieldResponse {
  * @interface GetReportFilterQuestionResponse
  */
 export interface GetReportFilterQuestionResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'entity'?: string;
     /**
      * 
      * @type {string}
@@ -2839,6 +2893,12 @@ export interface GetReportResponse {
  * @interface GetReportSortResponse
  */
 export interface GetReportSortResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportSortResponse
+     */
+    'entity'?: string;
     /**
      * 
      * @type {string}
@@ -4925,6 +4985,62 @@ export interface PublishReportResponse {
 /**
  * 
  * @export
+ * @interface ReportExecutionColumn
+ */
+export interface ReportExecutionColumn {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'dataType'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReportExecutionResult
+ */
+export interface ReportExecutionResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionResult
+     */
+    'reportName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionResult
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {Array<ReportExecutionColumn>}
+     * @memberof ReportExecutionResult
+     */
+    'columns'?: Array<ReportExecutionColumn>;
+    /**
+     * 
+     * @type {Array<{ [key: string]: any; }>}
+     * @memberof ReportExecutionResult
+     */
+    'rows'?: Array<{ [key: string]: any; }>;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -5012,6 +5128,19 @@ export interface RestoreProjectTypeResponse {
      * @memberof RestoreProjectTypeResponse
      */
     'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface RunReportRequest
+ */
+export interface RunReportRequest {
+    /**
+     * 
+     * @type {{ [key: string]: string | null; }}
+     * @memberof RunReportRequest
+     */
+    'answers'?: { [key: string]: string | null; };
 }
 /**
  * 
@@ -12160,6 +12289,47 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportsIdRunPost: async (id: number, runReportRequest?: RunReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiReportsIdRunPost', 'id', id)
+            const localVarPath = `/api/reports/{id}/run`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(runReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {CreateReportRequest} [createReportRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12474,6 +12644,19 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReportExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportsIdRunPost(id, runReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportsIdRunPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {CreateReportRequest} [createReportRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12601,6 +12784,16 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: any): AxiosPromise<ReportExecutionResult> {
+            return localVarFp.apiReportsIdRunPost(id, runReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {CreateReportRequest} [createReportRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12711,6 +12904,18 @@ export class ReportsApi extends BaseAPI {
      */
     public apiReportMetadataOperatorsGet(options?: RawAxiosRequestConfig) {
         return ReportsApiFp(this.configuration).apiReportMetadataOperatorsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {RunReportRequest} [runReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportsIdRunPost(id, runReportRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
