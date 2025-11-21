@@ -1,31 +1,26 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Container,
     Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     CircularProgress,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Grid,
-    SelectChangeEvent,
     Typography,
     Stack,
     Divider,
     TextField,
-    Autocomplete
+    FormGroup,
+    FormControlLabel,
+    Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AccessTime } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
@@ -37,24 +32,28 @@ import {
     UpdateBeneficiaryRequest,
     ListBeneficiaryRequest,
     Filter,
-    Op,
+    UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('pt-br');
+
+const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
 
 interface Beneficiary {
     beneficiaryId?: number;
     name?: string;
     notes?: string;
     oscs?: Osc[];
+    isDeleted?: boolean;
 }
 
 interface BeneficiaryCsvRow {
@@ -89,8 +88,13 @@ const Beneficiary: React.FC = () => {
     const [beneficiaryToDelete, setBeneficiaryToDelete] = useState<Beneficiary | null>(null);
     const [isUploadOpen, setUploadOpen] = useState(false);
 
+    const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+    const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+    const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
     const beneficiariesApi = new BeneficiariesApi(apiConfig);
     const oscsApi = new OscsApi(apiConfig);
+    const userApi = new UsersApi(apiConfig);
 
     const dialogTitle = () => {
         return isVisualizing ? 'Visualizar Público' : updateBeneficiary ? 'Atualizar Público' : 'Criar Público';
@@ -109,7 +113,7 @@ const Beneficiary: React.FC = () => {
         notes: data.notes,
     });
 
-    const fetchBeneficiaries = async (customFilters?: Filter[]) => {
+    const fetchBeneficiaries = async (customFilters?: Filter[], statusFilter?: string) => {
         try {
             setLoading(true);
             setBeneficiaries([]);
@@ -120,6 +124,7 @@ const Beneficiary: React.FC = () => {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
+                statusFilter: statusFilter,
             };
 
             const { data } = await beneficiariesApi.listBeneficiary(listBeneficiaryRequest);
@@ -159,12 +164,13 @@ const Beneficiary: React.FC = () => {
             });
         }
         setPage(0);
-        fetchBeneficiaries(filters);
+        fetchBeneficiaries(filters, statusFilter);
     }
 
     const handleClearFilters = () => {
         setPage(0);
         setFilterBeneficiaryName('');
+        setStatusFilter(undefined);
         fetchBeneficiaries([]);
     }
 
@@ -211,6 +217,14 @@ const Beneficiary: React.FC = () => {
     const handleView = async (beneficiary: Beneficiary) => {
         try {
             const { data } = await beneficiariesApi.getBeneficiary(beneficiary.beneficiaryId!);
+
+            const userId = data.updatedBy || data.createdBy;
+            const date = data.updatedAt || data.createdAt;
+
+            const { data: userData } = await userApi.getUserById(userId!);
+
+            setUserUpdatedName(userData.name);
+            setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
             setSelectedBeneficiary(data);
             setIsVisualizing(true);
             setOpenModal(true);
@@ -314,11 +328,17 @@ const Beneficiary: React.FC = () => {
         { label: 'ID', field: 'beneficiaryId' },
         { label: 'Nome', field: 'name' },
         { label: 'Observações', field: 'notes' },
+        {
+            label: 'Status',
+            field: 'isDeleted',
+            render: (value) => (value ? 'Inativo' : 'Ativo')
+        }
+
     ];
 
-    const headerTranslations ={
+    const headerTranslations = {
         name: 'Nome*',
-        notes: 'Observação*'
+        notes: 'Observação*',
     }
 
     return (
@@ -376,109 +396,109 @@ const Beneficiary: React.FC = () => {
                                     Busca de Público
                                 </Typography>
 
-                                {filterBeneficiaryName && (
-                                    <Chip
-                                        label="Busca ativa"
-                                        size="small"
-                                        sx={{
-                                            ml: 1,
-                                            bgcolor: alpha('#1E4EC4', 0.1),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            fontSize: '0.75rem',
-                                        }}
-                                    />
-                                )}
+                                {(
+                                    filterBeneficiaryName ||
+                                    statusFilter
+                                ) && (
+                                        <Chip
+                                            label="Busca ativa"
+                                            size="small"
+                                            sx={{
+                                                ml: 1,
+                                                bgcolor: alpha('#1E4EC4', 0.1),
+                                                color: '#1E4EC4',
+                                                fontWeight: 600,
+                                                fontSize: '0.75rem',
+                                            }}
+                                        />
+                                    )}
                             </Box>
 
-                            <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                                    <TextField
-                                        label="Nome do Público"
-                                        value={filterBeneficiaryName}
-                                        onChange={(e) => setFilterBeneficiaryName(e.target.value)}
-                                        placeholder="Digite o nome..."
-                                        fullWidth
-                                        size="small"
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: 1.5,
-                                                backgroundColor: 'white',
-                                                '&:hover fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#1E4EC4',
-                                            },
-                                        }}
-                                    />
-                                </Grid>
+                            <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                                <TextField
+                                    label="Nome do Público"
+                                    value={filterBeneficiaryName}
+                                    onChange={(e) => setFilterBeneficiaryName(e.target.value)}
+                                    placeholder="Digite o nome..."
+                                    size="small"
+                                    sx={FIELD_STYLE}
+                                />
 
-                                <Grid
-                                    size={{ xs: 12, sm: 6, md: 8 }}
+                                <FormGroup row sx={{ mb: 2 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'Inactive'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                                                }
+                                            />
+                                        }
+                                        label="Somente Inativos"
+                                    />
+
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'all'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                                                }
+                                            />
+                                        }
+                                        label="Incluir Inativos"
+                                    />
+                                </FormGroup>
+
+                                <Button
+                                    variant="contained"
+                                    startIcon={<SearchIcon />}
+                                    onClick={handleSearch}
                                     sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                                        gap: 1.5,
-                                        mt: { xs: 1.5, sm: 0 },
+                                        bgcolor: '#1E4EC4',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                        '&:hover': {
+                                            bgcolor: '#1640a8',
+                                            boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                            transform: 'translateY(-1px)',
+                                        },
+                                        transition: 'all 0.2s ease',
                                     }}
                                 >
-                                    <Button
-                                        variant="contained"
-                                        startIcon={<SearchIcon />}
-                                        onClick={handleSearch}
-                                        sx={{
-                                            bgcolor: '#1E4EC4',
-                                            color: 'white',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                            '&:hover': {
-                                                bgcolor: '#1640a8',
-                                                boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                                transform: 'translateY(-1px)',
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Buscar
-                                    </Button>
+                                    Buscar
+                                </Button>
 
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={<ClearIcon />}
-                                        onClick={handleClearFilters}
-                                        sx={{
-                                            borderColor: alpha('#1E4EC4', 0.3),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            '&:hover': {
-                                                borderColor: '#1E4EC4',
-                                                bgcolor: alpha('#1E4EC4', 0.05),
-                                                borderWidth: 1.5,
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Limpar Filtros
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<ClearIcon />}
+                                    onClick={handleClearFilters}
+                                    sx={{
+                                        borderColor: alpha('#1E4EC4', 0.3),
+                                        color: '#1E4EC4',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        '&:hover': {
+                                            borderColor: '#1E4EC4',
+                                            bgcolor: alpha('#1E4EC4', 0.05),
+                                            borderWidth: 1.5,
+                                        },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    Limpar Filtros
+                                </Button>
+                            </Stack>
                         </Paper>
 
                         {/* Tabela */}
@@ -540,7 +560,7 @@ const Beneficiary: React.FC = () => {
                         <DialogPadronized
                             open={openModal}
                             onClose={handleCloseModal}
-                            maxWidth="md"
+                            maxWidth="sm"
                             title={dialogTitle()}
                             content={
                                 isVisualizing && selectedBeneficiary ? (
@@ -670,6 +690,28 @@ const Beneficiary: React.FC = () => {
                                     <Typography>Nenhum dado encontrado.</Typography>
                                 )
                             }
+                            footerContent={isVisualizing ? (
+                                <>
+                                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                                        {userUpdatedName?.[0] || '?'}
+                                    </Avatar>
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {userUpdatedName || '—'}
+                                        </Typography>
+                                    </Box>
+
+                                    <AccessTime fontSize="small" color="action" />
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                                        </Typography>
+                                    </Box>
+                                </>) : null}
                             actions={
                                 isVisualizing ? (
                                     <Button
