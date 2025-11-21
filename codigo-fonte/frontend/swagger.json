@@ -3477,6 +3477,65 @@
         }
       }
     },
+    "/api/reports/{id}/run": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportExecutionResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportExecutionResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportExecutionResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/report/PublishReport/{id}": {
       "post": {
         "tags": [
@@ -4546,6 +4605,10 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
           "isActive": {
             "type": "boolean"
           }
@@ -4965,11 +5028,15 @@
       },
       "CreateReportFieldRequest": {
         "required": [
+          "entity",
           "fieldPath",
           "label"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -4993,11 +5060,15 @@
       "CreateReportFilterQuestionRequest": {
         "required": [
           "defaultOperator",
+          "entity",
           "fieldPath",
           "label"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -5119,10 +5190,14 @@
       },
       "CreateReportSortRequest": {
         "required": [
+          "entity",
           "fieldPath"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -5491,11 +5566,15 @@
       },
       "EditReportFieldRequest": {
         "required": [
+          "entity",
           "fieldPath",
           "label"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -5519,11 +5598,15 @@
       "EditReportFilterQuestionRequest": {
         "required": [
           "defaultOperator",
+          "entity",
           "fieldPath",
           "label"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -5649,10 +5732,14 @@
       },
       "EditReportSortRequest": {
         "required": [
+          "entity",
           "fieldPath"
         ],
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -6169,6 +6256,9 @@
       "GetReportFieldResponse": {
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -6192,6 +6282,9 @@
       "GetReportFilterQuestionResponse": {
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -6295,6 +6388,9 @@
       "GetReportSortResponse": {
         "type": "object",
         "properties": {
+          "entity": {
+            "type": "string"
+          },
           "fieldPath": {
             "type": "string"
           },
@@ -7788,6 +7884,46 @@
         },
         "additionalProperties": false
       },
+      "ReportExecutionColumn": {
+        "type": "object",
+        "properties": {
+          "fieldPath": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "dataType": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportExecutionResult": {
+        "type": "object",
+        "properties": {
+          "reportName": {
+            "type": "string"
+          },
+          "rootEntity": {
+            "type": "string"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportExecutionColumn"
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": { }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "ReportStatus": {
         "enum": [
           0,
@@ -7847,6 +7983,19 @@
           "projectTypeId": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RunReportRequest": {
+        "type": "object",
+        "properties": {
+          "answers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            }
           }
         },
         "additionalProperties": false
