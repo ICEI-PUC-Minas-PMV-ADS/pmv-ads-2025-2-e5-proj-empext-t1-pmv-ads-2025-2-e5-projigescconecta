@@ -351,6 +351,45 @@ namespace IgescConecta.API.Reporting
         {
             var op = (opName ?? "Equal").Trim();
 
+            if (left.Type == typeof(string))
+            {
+         
+                if (right.Type != typeof(string))
+                {
+                    right = System.Linq.Expressions.Expression.Convert(right, typeof(string));
+                }
+
+                var toLowerMethod = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)!;
+                var leftLower = System.Linq.Expressions.Expression.Call(left, toLowerMethod);
+                var rightLower = System.Linq.Expressions.Expression.Call(right, toLowerMethod);
+
+                var containsMethod = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })!;
+                var startsWithMethod = typeof(string).GetMethod(nameof(string.StartsWith), new[] { typeof(string) })!;
+                var endsWithMethod = typeof(string).GetMethod(nameof(string.EndsWith), new[] { typeof(string) })!;
+
+                switch (op.ToLowerInvariant())
+                {
+                    case "contains":
+                        return System.Linq.Expressions.Expression.Call(leftLower, containsMethod, rightLower);
+
+                    case "doesnotcontain":
+                        return System.Linq.Expressions.Expression.Not(
+                            System.Linq.Expressions.Expression.Call(leftLower, containsMethod, rightLower));
+
+                    case "startswith":
+                        return System.Linq.Expressions.Expression.Call(leftLower, startsWithMethod, rightLower);
+
+                    case "endswith":
+                        return System.Linq.Expressions.Expression.Call(leftLower, endsWithMethod, rightLower);
+
+                    case "equal":
+                        return System.Linq.Expressions.Expression.Equal(leftLower, rightLower);
+
+                    case "notequal":
+                        return System.Linq.Expressions.Expression.NotEqual(leftLower, rightLower);
+                }
+            }
+
             if (string.Equals(op, "Equal", StringComparison.OrdinalIgnoreCase))
                 return System.Linq.Expressions.Expression.Equal(left, right);
 
@@ -371,6 +410,7 @@ namespace IgescConecta.API.Reporting
 
             return System.Linq.Expressions.Expression.Equal(left, right);
         }
+
 
         private static System.Linq.Expressions.Expression? BuildFilterConstantExpression(
             Type propertyType,
