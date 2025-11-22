@@ -37,8 +37,9 @@ import {
   ProjectTypesApi,
   ProjectThemesApi,
   OscsApi,
-} from './../api';
+} from '../api';
 import { apiConfig } from '../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 type ListItem = {
   projectProgramId: number;
@@ -95,6 +96,7 @@ const ODS_OPTIONS: OptOds[] = [
 
 const ProjectProgram: React.FC = () => {
   const api = new ProjectProgramsApi(apiConfig);
+  const navigate = useNavigate();
 
   const [items, setItems] = useState<ListItemWithLabel[]>([]);
   const [page, setPage] = useState(0);
@@ -135,7 +137,7 @@ const ProjectProgram: React.FC = () => {
   const [odsOpen, setOdsOpen] = useState(false);
 
   const columns: Column<ListItemWithLabel>[] = [
-    { label: 'ID', field: 'projectProgramId', width: 90 },
+    { label: 'ID', field: 'projectProgramId', width: 90 as any },
     { label: 'Nome do Projeto', field: 'name' },
     { label: 'Tipo do Projeto', field: 'projectTypeName' },
     { label: 'Tema do Projeto', field: 'projectThemeName' },
@@ -352,8 +354,10 @@ const ProjectProgram: React.FC = () => {
 
   const openDelete = (row: ListItemWithLabel) =>
     setConfirmDialog({ open: true, loading: false, row, restore: false });
+
   const openRestore = (row: ListItemWithLabel) =>
     setConfirmDialog({ open: true, loading: false, row, restore: true });
+
   const closeConfirm = () =>
     setConfirmDialog({ open: false, loading: false, row: null, restore: false });
 
@@ -443,6 +447,13 @@ const ProjectProgram: React.FC = () => {
     } finally {
       setModalLoading(false);
     }
+  };
+
+  const handleDocuments = (row: ListItemWithLabel) => {
+    if (!row.projectProgramId) return;
+    navigate(`/project-program/${row.projectProgramId}/documents`, {
+      state: { name: row.name },
+    });
   };
 
   useEffect(() => {
@@ -678,46 +689,7 @@ const ProjectProgram: React.FC = () => {
               onEdit={(row) => (!row.isDeleted ? handleEdit(row) : undefined)}
               onDelete={(row) => (!row.isDeleted ? openDelete(row) : openRestore(row))}
               noDataMessage={noDataMessage}
-              customActionsRender={(row) =>
-                row.isDeleted ? (
-                  <Button
-                    size="small"
-                    startIcon={<RestoreOutlinedIcon />}
-                    onClick={() => openRestore(row)}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    Restaurar
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      size="small"
-                      startIcon={<VisibilityIcon />}
-                      onClick={() => handleView(row)}
-                      sx={{ textTransform: 'none' }}
-                    >
-                      Ver
-                    </Button>
-                    <Button
-                      size="small"
-                      startIcon={<EditIcon />}
-                      onClick={() => handleEdit(row)}
-                      sx={{ textTransform: 'none' }}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      size="small"
-                      color="error"
-                      startIcon={<DeleteOutlineIcon />}
-                      onClick={() => openDelete(row)}
-                      sx={{ textTransform: 'none' }}
-                    >
-                      Excluir
-                    </Button>
-                  </>
-                )
-              }
+              onProjectDocument={handleDocuments}
             />
           )}
         </Box>
@@ -850,7 +822,8 @@ const ProjectProgram: React.FC = () => {
                         onDelete={
                           isVisualizing
                             ? undefined
-                            : () => setMOdsOpts((prev) => prev.filter((x) => x.value !== opt.value))
+                            : () =>
+                                setMOdsOpts((prev) => prev.filter((x) => x.value !== opt.value))
                         }
                       />
                     ))}

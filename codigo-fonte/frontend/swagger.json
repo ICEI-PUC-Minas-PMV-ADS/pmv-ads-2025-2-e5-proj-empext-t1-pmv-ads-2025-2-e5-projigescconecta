@@ -2599,6 +2599,271 @@
         }
       }
     },
+    "/api/projectdocuments/{id}": {
+      "put": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "UpdateProjectDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "File": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProjectDocumentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProjectDocumentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProjectDocumentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "GetProjectDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectDocumentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectDocumentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectDocumentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "DeleteProjectDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/projectdocuments": {
+      "get": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "ListProjectDocuments",
+        "parameters": [
+          {
+            "name": "ProjectProgramId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectDocumentsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectDocumentsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProjectDocumentsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "CreateProjectDocument",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ProjectProgramId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProjectProgramId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "File": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectDocumentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectDocumentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProjectDocumentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projectdocuments/{id}/download": {
+      "get": {
+        "tags": [
+          "ProjectDocuments"
+        ],
+        "operationId": "DownloadProjectDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/projectprograms/{projectProgramId}/restore": {
       "patch": {
         "tags": [
@@ -4407,6 +4672,9 @@
           "oscsCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -4424,6 +4692,9 @@
           "originsBusinessCases": {
             "type": "integer",
             "format": "int32"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -4935,6 +5206,16 @@
           },
           "name": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateProjectDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -5881,6 +6162,29 @@
       "GetBeneficiaryResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
           "beneficiaryId": {
             "type": "integer",
             "format": "int32"
@@ -5916,6 +6220,29 @@
       "GetBusinessCaseResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
           "businessCaseId": {
             "type": "integer",
             "format": "int32"
@@ -5995,6 +6322,29 @@
       "GetOriginBusinessCaseResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
           "originBusinessCaseId": {
             "type": "integer",
             "format": "int32"
@@ -6122,6 +6472,36 @@
             "items": {
               "$ref": "#/components/schemas/GetOscOriginBusinessCaseResponse"
             }
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProjectDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "projectProgramId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasFile": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -6494,6 +6874,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6530,6 +6914,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6718,6 +7106,10 @@
           "businessCaseId": {
             "type": "integer",
             "format": "int32"
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6916,6 +7308,18 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PersonListItemViewModel"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListProjectDocumentsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectDocumentListItem"
             }
           }
         },
@@ -7442,6 +7846,9 @@
           "businessCaseId": {
             "type": "integer",
             "format": "int32"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -7777,6 +8184,30 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "ProjectDocumentListItem": {
+        "type": "object",
+        "properties": {
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
       },
       "ProjectProgramListItemViewModel": {
         "type": "object",
@@ -8471,6 +8902,16 @@
           },
           "isActive": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateProjectDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "projectDocumentId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
