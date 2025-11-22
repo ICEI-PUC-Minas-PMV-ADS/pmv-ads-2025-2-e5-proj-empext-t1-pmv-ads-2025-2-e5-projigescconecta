@@ -31,6 +31,7 @@ namespace IgescConecta.Domain.Entities
         [ForeignKey(nameof(OscId))]
         public Osc Osc { get; set; }
 
+        //Relação abaixo está errada e será descontinuada... Por enquanto manter ela sem informação
         [ForeignKey(nameof(ProjectDocumentId))]
         public ProjectDocument? ProjectDocument { get; set; }
     }

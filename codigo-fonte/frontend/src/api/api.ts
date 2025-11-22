@@ -53,6 +53,12 @@ export interface BeneficiaryViewModel {
      * @memberof BeneficiaryViewModel
      */
     'oscsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BeneficiaryViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -78,6 +84,12 @@ export interface BusinessCaseViewModel {
      * @memberof BusinessCaseViewModel
      */
     'originsBusinessCases'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BusinessCaseViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -828,6 +840,19 @@ export interface CreatePersonTeamResponse {
      * @memberof CreatePersonTeamResponse
      */
     'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectDocumentResponse
+ */
+export interface CreateProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectDocumentResponse
+     */
+    'projectDocumentId'?: number;
 }
 /**
  * 
@@ -2118,6 +2143,42 @@ export interface GetBeneficiaryResponse {
      * @type {number}
      * @memberof GetBeneficiaryResponse
      */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetBeneficiaryResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
     'beneficiaryId'?: number;
     /**
      * 
@@ -2163,6 +2224,42 @@ export interface GetBusinessCaseOriginResponse {
  * @interface GetBusinessCaseResponse
  */
 export interface GetBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetBusinessCaseResponse
+     */
+    'isDeleted'?: boolean;
     /**
      * 
      * @type {number}
@@ -2274,6 +2371,42 @@ export interface GetOriginBusinessCaseOscResponse {
  * @interface GetOriginBusinessCaseResponse
  */
 export interface GetOriginBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'isDeleted'?: boolean;
     /**
      * 
      * @type {number}
@@ -2475,6 +2608,55 @@ export interface GetOscResponse {
      * @memberof GetOscResponse
      */
     'originsBusinessCases'?: Array<GetOscOriginBusinessCaseResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface GetProjectDocumentResponse
+ */
+export interface GetProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectDocumentResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'fileName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'contentType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectDocumentResponse
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectDocumentResponse
+     */
+    'hasFile'?: boolean;
 }
 /**
  * 
@@ -3055,6 +3237,12 @@ export interface ListBeneficiaryRequest {
      * @memberof ListBeneficiaryRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListBeneficiaryRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3099,6 +3287,12 @@ export interface ListBusinessCaseRequest {
      * @memberof ListBusinessCaseRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListBusinessCaseRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3331,6 +3525,12 @@ export interface ListOriginsBusinessCaseByBusinessCaseIdRequest {
      * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
      */
     'businessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3575,6 +3775,19 @@ export interface ListPersonViewModel {
      * @memberof ListPersonViewModel
      */
     'items'?: Array<PersonListItemViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectDocumentsResponse
+ */
+export interface ListProjectDocumentsResponse {
+    /**
+     * 
+     * @type {Array<ProjectDocumentListItem>}
+     * @memberof ListProjectDocumentsResponse
+     */
+    'items'?: Array<ProjectDocumentListItem>;
 }
 /**
  * 
@@ -4305,6 +4518,12 @@ export interface OriginBusinessCaseByBusinessCaseIdViewModel {
      * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
      */
     'businessCaseId'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -4826,6 +5045,43 @@ export const ProjectDecisionType = {
 export type ProjectDecisionType = typeof ProjectDecisionType[keyof typeof ProjectDecisionType];
 
 
+/**
+ * 
+ * @export
+ * @interface ProjectDocumentListItem
+ */
+export interface ProjectDocumentListItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectDocumentListItem
+     */
+    'projectDocumentId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'fileName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'createdAt'?: string;
+}
 /**
  * 
  * @export
@@ -5825,6 +6081,19 @@ export interface UpdatePersonResponse {
      * @memberof UpdatePersonResponse
      */
     'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateProjectDocumentResponse
+ */
+export interface UpdateProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateProjectDocumentResponse
+     */
+    'projectDocumentId'?: number;
 }
 /**
  * 
@@ -10760,6 +11029,517 @@ export class PersonsApi extends BaseAPI {
      */
     public updatePerson(personId: number, updatePersonRequest?: UpdatePersonRequest, options?: RawAxiosRequestConfig) {
         return PersonsApiFp(this.configuration).updatePerson(personId, updatePersonRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectDocumentsApi - axios parameter creator
+ * @export
+ */
+export const ProjectDocumentsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectDocument: async (projectProgramId?: number, name?: string, description?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectdocuments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            if (projectProgramId !== undefined) { 
+                localVarFormParams.append('ProjectProgramId', projectProgramId as any);
+            }
+    
+            if (name !== undefined) { 
+                localVarFormParams.append('Name', name as any);
+            }
+    
+            if (description !== undefined) { 
+                localVarFormParams.append('Description', description as any);
+            }
+    
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('downloadProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}/download`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectDocuments: async (projectProgramId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectdocuments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (projectProgramId !== undefined) {
+                localVarQueryParameter['ProjectProgramId'] = projectProgramId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectDocument: async (id: number, name?: string, description?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            if (name !== undefined) { 
+                localVarFormParams.append('Name', name as any);
+            }
+    
+            if (description !== undefined) { 
+                localVarFormParams.append('Description', description as any);
+            }
+    
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectDocumentsApi - functional programming interface
+ * @export
+ */
+export const ProjectDocumentsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectDocumentsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectDocument(projectProgramId, name, description, file, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.createProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.deleteProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async downloadProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.downloadProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.getProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectDocuments(projectProgramId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectDocumentsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectDocuments(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.listProjectDocuments']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProjectDocument(id, name, description, file, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.updateProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectDocumentsApi - factory interface
+ * @export
+ */
+export const ProjectDocumentsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectDocumentsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: any): AxiosPromise<CreateProjectDocumentResponse> {
+            return localVarFp.createProjectDocument(projectProgramId, name, description, file, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectDocument(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadProjectDocument(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.downloadProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectDocument(id: number, options?: any): AxiosPromise<GetProjectDocumentResponse> {
+            return localVarFp.getProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectDocuments(projectProgramId?: number, options?: any): AxiosPromise<ListProjectDocumentsResponse> {
+            return localVarFp.listProjectDocuments(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: any): AxiosPromise<UpdateProjectDocumentResponse> {
+            return localVarFp.updateProjectDocument(id, name, description, file, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectDocumentsApi - object-oriented interface
+ * @export
+ * @class ProjectDocumentsApi
+ * @extends {BaseAPI}
+ */
+export class ProjectDocumentsApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} [projectProgramId] 
+     * @param {string} [name] 
+     * @param {string} [description] 
+     * @param {File} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).createProjectDocument(projectProgramId, name, description, file, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public deleteProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).deleteProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public downloadProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).downloadProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public getProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).getProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [projectProgramId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public listProjectDocuments(projectProgramId?: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).listProjectDocuments(projectProgramId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} [name] 
+     * @param {string} [description] 
+     * @param {File} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).updateProjectDocument(id, name, description, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

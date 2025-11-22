@@ -19,6 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 /**
  * Exemplo de uso da Tabela com ações e paginação backend:
@@ -103,6 +104,7 @@ type TableProps<T> = {
   onTeam?: (row: T) => void;
   onPersonOsc?: (row: T) => void;
   onReport?: (row: T) => void;
+  onProjectDocument?: (row: T) => void;
   noDataMessage?: string;
 };
 
@@ -123,6 +125,7 @@ function Table<T extends { [key: string]: any }>({
   onTeam,
   onPersonOsc,
   onReport,   
+  onProjectDocument,
   noDataMessage,
 }: TableProps<T>) {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -146,7 +149,8 @@ function Table<T extends { [key: string]: any }>({
   onOriginBusinessCase ||
   onTeam ||
   onPersonOsc ||
-  onReport;
+  onReport ||
+  onProjectDocument;
 
 
   return (
@@ -449,6 +453,33 @@ function Table<T extends { [key: string]: any }>({
                             }}
                           >
                             Executar
+                          </Button>
+                        )}
+                        {onProjectDocument && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<DescriptionIcon sx={{ fontSize: '1rem' }} />}
+                            onClick={() => onProjectDocument(row)}
+                            sx={{
+                              minWidth: 0,
+                              color: '#1E4EC4',
+                              borderColor: alpha('#1E4EC4', 0.3),
+                              textTransform: 'none',
+                              fontWeight: 600,
+                              fontSize: '0.85rem',
+                              px: 2,
+                              py: 0.75,
+                              borderRadius: 1.5,
+                              '&:hover': {
+                                borderColor: '#1E4EC4',
+                                bgcolor: alpha('#1E4EC4', 0.08),
+                                borderWidth: 1.5,
+                              },
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            Documentos
                           </Button>
                         )}
                       </Stack>
