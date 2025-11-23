@@ -2741,9 +2741,812 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
+## Etapa 04
+<details>
+<summary><h2>📊 Gerador de Relatórios</h2></summary>
 
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT01-S<br>Listar relatórios (sem filtros)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se o sistema lista corretamente os relatórios cadastrados, sem aplicação de filtros, exibindo paginação e informações principais (nome, entidade raiz, status, leitor executa).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013 </td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Usuário autenticado com perfil com acesso ao Gerador de Relatórios (Admin ou Editor).</li>
+        <li>Existem relatórios cadastrados na base (rascunho e publicado).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar o menu “Gerador de Relatórios”.</li>
+        <li>Garantir que os campos de filtro (Nome, Entidade Raiz, Status) estejam vazios.</li>
+        <li>Verificar a tabela de resultados exibida na tela.</li>
+        <li>Navegar para a próxima página (se houver) usando a paginação.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A lista exibe todos os relatórios cadastrados, respeitando a paginação configurada.</li>
+        <li>Para cada relatório, são exibidos: Nome, Entidade Raiz (rótulo), Status (Rascunho/Publicado) e coluna “Leitor executa?”.</li>
+        <li>A paginação permite navegar entre as páginas sem erros.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
+<br>
 
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT02-S<br>Filtrar relatórios por Nome e limpar filtros</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Validar se o filtro por Nome funciona corretamente e se o botão “Limpar filtros” restaura a listagem padrão sem filtros aplicados.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existem relatórios com nomes distintos, incluindo um com o nome parcialmente conhecido (ex.: “Relatório Projetos”).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar a tela “Gerador de Relatórios”.</li>
+        <li>Digitar parte do nome de um relatório existente no campo “Nome”.</li>
+        <li>Clicar no botão “Buscar”.</li>
+        <li>Verificar os resultados exibidos.</li>
+        <li>Clicar no botão “Limpar filtros”.</li>
+        <li>Verificar novamente a listagem de relatórios.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Após clicar em “Buscar”, são exibidos apenas relatórios cujo Nome contém o texto informado.</li>
+        <li>A flag “Filtros ativos” aparece enquanto houver filtros aplicados.</li>
+        <li>Ao clicar em “Limpar filtros”, os campos de filtro são esvaziados e todos os relatórios voltam a aparecer na listagem.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT03-S<br>Filtrar relatórios por Entidade Raiz e Status</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a combinação de filtros por Entidade Raiz e Status (Rascunho/Publicado) retorna apenas os relatórios correspondentes.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existem relatórios para pelo menos duas entidades raiz diferentes (ex.: Project, Person).</li>
+        <li>Existem relatórios tanto em Rascunho quanto Publicados.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar a tela “Gerador de Relatórios”.</li>
+        <li>Selecionar uma Entidade Raiz específica no filtro (ex.: Project).</li>
+        <li>Selecionar Status “Publicado”.</li>
+        <li>Clicar em “Buscar”.</li>
+        <li>Verificar se todos os resultados pertencem à Entidade Raiz e Status selecionados.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A listagem exibe apenas relatórios com Entidade Raiz igual à selecionada.</li>
+        <li>Todos os relatórios retornados possuem Status “Publicado”.</li>
+        <li>Não são exibidos relatórios de outras entidades nem em outro status.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT04-S<br>Cadastrar novo relatório (rascunho – dados gerais)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que o usuário consiga cadastrar um novo relatório em estado de rascunho, preenchendo apenas os dados gerais (Nome, Descrição, Entidade Raiz e permissão para leitor executar).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Usuário autenticado com permissão para criar relatórios.</li>
+        <li>Entidades de metadados configuradas e retornando na API (lista de entidades raiz).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na tela “Gerador de Relatórios”, clicar em “Novo Relatório”.</li>
+        <li>No modal, preencher o campo “Nome*” com um valor válido.</li>
+        <li>Preencher opcionalmente o campo “Descrição”.</li>
+        <li>Selecionar uma Entidade Raiz válida.</li>
+        <li>Definir “Leitor pode executar?” como “Sim” ou “Não”.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal é fechado sem erros.</li>
+        <li>Uma mensagem de sucesso é exibida (“Relatório criado com sucesso”).</li>
+        <li>O novo relatório aparece na listagem em Status “Rascunho”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT05-I01<br>Validação ao salvar relatório sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se o sistema impede o salvamento de um relatório quando o campo obrigatório “Nome” não é informado.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>A tela “Gerador de Relatórios” estar acessível.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Clicar em “Novo Relatório”.</li>
+        <li>Deixar o campo “Nome*” em branco.</li>
+        <li>Selecionar uma Entidade Raiz válida.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal não é fechado.</li>
+        <li>É exibida mensagem de erro no frontend: “O nome do relatório é obrigatório”.</li>
+        <li>Nenhuma requisição de criação/edição é enviada para a API.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT06-I02<br>Validação ao salvar relatório sem Entidade Raiz</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Confirmar que o sistema não permite salvar um relatório quando a Entidade Raiz não é selecionada.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Tela “Gerador de Relatórios” carregada.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Clicar em “Novo Relatório”.</li>
+        <li>Preencher o campo “Nome*” com um valor válido.</li>
+        <li>Não selecionar nenhuma Entidade Raiz.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal permanece aberto.</li>
+        <li>É exibida mensagem de erro no frontend: “Selecione a entidade raiz”.</li>
+        <li>O backend não recebe requisição de criação/edição.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT07-S<br>Visualizar relatório existente (dados gerais e configuração)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a funcionalidade de “Visualizar” permite consultar os dados do relatório em modo somente leitura, incluindo a revisão da configuração (relacionamentos, campos, filtros e ordenações).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório previamente configurado, com relações, campos, filtros e ordenações.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório configurado.</li>
+        <li>Clicar na ação “Visualizar”.</li>
+        <li>No modal, clicar em “Visualizar configuração”.</li>
+        <li>Analisar os blocos de Revisão (Geral, Relacionamentos, Campos, Filtros e Ordenação).</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Os campos Nome, Descrição, Entidade Raiz e “Leitor pode executar?” são exibidos em modo somente leitura.</li>
+        <li>A Revisão da Configuração apresenta os relacionamentos, campos, filtros e ordenações cadastrados para o relatório.</li>
+        <li>Não é possível alterar nem salvar dados na tela de visualização.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT08-S<br>Editar dados gerais de relatório em rascunho</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que um relatório em Status “Rascunho” possa ter seus dados gerais alterados (Nome, Descrição, Entidade Raiz, Leitor executa) e que as mudanças sejam persistidas corretamente no backend.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Rascunho”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar um relatório em Rascunho.</li>
+        <li>Clicar na ação “Editar”.</li>
+        <li>Alterar o Nome e a Descrição do relatório.</li>
+        <li>Opcionalmente alterar a Entidade Raiz (se desejado pela regra de negócio).</li>
+        <li>Alterar o valor de “Leitor pode executar?”.</li>
+        <li>Clicar em “Salvar”.</li>
+        <li>Fechar e reabrir o modal de edição ou consultar via API para confirmar as alterações.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal é fechado com sucesso e uma mensagem de “Relatório atualizado com sucesso” é exibida.</li>
+        <li>Os novos valores aparecem na listagem (Nome, Status, etc.).</li>
+        <li>Ao reabrir o modal ou consultar o relatório via API, os dados gerais refletem as alterações realizadas.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT09-S<br>Abrir configuração para relatório em rascunho</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a configuração de relatórios abre corretamente para um relatório em Status “Rascunho” e carrega metadados (entidade raiz, campos, relações).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Rascunho com Entidade Raiz já definida.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Localizar o relatório em Rascunho na listagem.</li>
+        <li>Clicar na ação para “Configurar relatório”.</li>
+        <li>Verificar se a configuração abre na etapa “Geral” com Nome, Descrição e Entidade Raiz carregados.</li>
+        <li>Navegar para as demais etapas (Relacionamentos, Campos, Filtros e Ordenação, Revisão), confirmando o carregamento dos metadados.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração é aberta sem erro para relatórios em Rascunho.</li>
+        <li>Os dados do relatório são carregados na etapa “Geral”.</li>
+        <li>As listas de entidades relacionadas e campos são carregadas conforme metadados configurados na API.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT10-I03<br>Bloquear abertura da configuração para relatório publicado</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que a configuração não seja aberta para um relatório em Status “Publicado”, exibindo mensagem orientando a despublicação antes da configuração.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar um relatório com Status “Publicado”.</li>
+        <li>Clicar na ação “Configurar relatório”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração não é aberta.</li>
+        <li>É exibida mensagem de aviso no frontend: “Para configurar esse relatório, favor despublicá-lo”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT11-S<br>Configurar relacionamentos, campos, filtros e ordenações e salvar</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Validar o fluxo completo das configurações válidas de relacionamentos, campos, filtros e ordenações, salvando com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Relatório em Status “Rascunho” com Entidade Raiz já definida.</li>
+        <li>Metadados de relações e campos configurados na API.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Abrir a configuração para o relatório em Rascunho.</li>
+        <li>Na etapa “Geral”, conferir os dados e clicar em “Próximo”.</li>
+        <li>Na etapa “Relacionamentos”, adicionar pelo menos um relacionamento válido.</li>
+        <li>Na etapa “Campos”, adicionar pelo menos um campo da entidade raiz e/ou relacionada.</li>
+        <li>Na etapa “Filtros e ordenação”, adicionar pelo menos um filtro e uma ordenação válidos, respeitando prioridades distintas.</li>
+        <li>Na etapa “Revisão”, conferir os dados e clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração é concluída sem erros e retorna mensagem de sucesso.</li>
+        <li>Ao reabrir a configuração, as informações salvas são carregadas corretamente em todas as etapas.</li>
+        <li>Na tela de visualização/revisão do relatório, os relacionamentos, campos, filtros e ordenações aparecem conforme configurados.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT12-I04<br>Impedir publicação de relatório sem configuração de campos (configuração não feita)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que não seja possível publicar um relatório que ainda não foi configurado (sem Entidade Raiz definida no backend ou sem campos configurados).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Rascunho criado somente pelos dados gerais, sem passar pela configuração.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho sem configuração de campos.</li>
+        <li>Clicar na ação “Publicar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Ao detectar que o relatório não tem campos configurados, exibe a mensagem: “Falta efetuar a configuração do Relatório”.</li>
+        <li>Nenhuma mudança de Status ocorre.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT13-S<br>Publicar relatório configurado com sucesso</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se um relatório corretamente configurado pode ser publicado com sucesso, alterando seu Status para “Publicado”.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Relatório em Rascunho, totalmente configurado.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho configurado corretamente.</li>
+        <li>Clicar na ação “Publicar”.</li>
+        <li>Confirmar a operação na caixa de diálogo.</li>
+        <li>Atualizar a listagem e verificar o Status do relatório.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A operação de publicação é concluída com sucesso, exibindo mensagem de “Operação concluída”.</li>
+        <li>O Status do relatório passa a ser “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT14-S<br>Despublicar relatório para permitir nova configuração</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se um relatório publicado pode ser despublicado, retornando ao Status “Rascunho” e permitindo a reabertura da configuração.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Status “Publicado”.</li>
+        <li>Clicar na ação “Despublicar”.</li>
+        <li>Confirmar a operação de despublicação.</li>
+        <li>Verificar se o Status mudou para “Rascunho”.</li>
+        <li>Tentar novamente abrir a configuração para o relatório.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A operação de despublicação é concluída com sucesso, com mensagem de “Operação concluída”.</li>
+        <li>O Status do relatório passa de “Publicado” para “Rascunho”.</li>
+        <li>Após despublicar, a configuração volta a ser acessível normalmente (sem mensagem de bloqueio).</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT15-S<br>Excluir relatório e atualizar listagem</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que a exclusão de um relatório funcione corretamente, removendo-o da base de dados e da listagem, com confirmação prévia do usuário.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir pelo menos um relatório em Rascunho que possa ser excluído.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho a ser excluído.</li>
+        <li>Clicar na ação “Excluir”.</li>
+        <li>Confirmar a exclusão no diálogo exibido.</li>
+        <li>Verificar a mensagem de retorno.</li>
+        <li>Observar a listagem após a operação.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O sistema exibe mensagem de confirmação de exclusão antes da operação.</li>
+        <li>Após a confirmação, é exibida mensagem de sucesso (“Operação concluída” ou equivalente).</li>
+        <li>O relatório excluído não aparece mais na listagem.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+</details>
 
 # Evidências de Testes de Software
 
