@@ -3821,7 +3821,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-030</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -3868,7 +3868,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-030</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -3913,7 +3913,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-030</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -3962,7 +3962,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-031</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -4010,7 +4010,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-031</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -4059,7 +4059,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-040</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -4106,7 +4106,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-040</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -4150,7 +4150,7 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
   <tr>
     <td><strong>Requisitos associados</strong></td>
-    <td>RF-040</td>
+    <td>RF-014</td>
   </tr>
 
   <tr>
@@ -6930,7 +6930,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="1996" height="3238" alt="image" src="https://github.com/user-attachments/assets/42dc62c3-4c2e-441f-a8dc-df38e7595909" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -6973,7 +6973,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+       <img width="471" height="328" alt="image" src="https://github.com/user-attachments/assets/1f2fa4a2-96e5-4533-a1e9-53e6e7b61a28" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7016,7 +7016,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="2167" height="893" alt="image" src="https://github.com/user-attachments/assets/ad2d3663-db0f-4d7b-93fa-d99a64b1de44" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7063,7 +7063,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="3186" height="3006" alt="image" src="https://github.com/user-attachments/assets/77c1f04b-c2f7-4cf9-aaa7-faf02941917c" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7105,7 +7105,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="2206" height="893" alt="image" src="https://github.com/user-attachments/assets/15786dba-8a10-44b7-82bc-384583d371f7" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7152,7 +7152,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="2312" height="3093" alt="image" src="https://github.com/user-attachments/assets/6877ed1e-bc23-4c4c-8926-8543d1167086" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7195,7 +7195,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="473" height="273" alt="image" src="https://github.com/user-attachments/assets/17c53fcf-dd8f-471c-a890-463b82120675" />
       <br><br><br><br><br>
     </td>
   </tr>
@@ -7238,7 +7238,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
   <tr>
     <td colspan="6" align="center">
-      <!-- Espaço para print -->
+      <img width="2198" height="893" alt="image" src="https://github.com/user-attachments/assets/abe7d48b-8eca-4329-b7d6-b585ede43ccb" />
       <br><br><br><br><br>
     </td>
   </tr>
