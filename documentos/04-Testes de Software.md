@@ -5552,6 +5552,98 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 ## Etapa 4
 
 <details>
+<summary><h2>Testes: 🌱 Projetos</h2></summary>  
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O01 - S<br>Anexar Documentos no Projeto</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve inclir o documento no projeto.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Documento anexado com sucesso.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="763" alt="Captura de tela 2025-11-23 155744" src="https://github.com/user-attachments/assets/9657b109-e443-4390-a9d5-963b3e353083" />
+        <img width="1599" height="764" alt="Captura de tela 2025-11-23 155857" src="https://github.com/user-attachments/assets/f36ff64f-410e-454f-839f-83dad3ed5bc3" />
+        <img width="1598" height="762" alt="Captura de tela 2025-11-23 155923" src="https://github.com/user-attachments/assets/f77da527-58f7-4ee8-be7c-5ae4ce0468dd" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O02 - S<br>Remover Documento do Projeto.</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover um documento anexado no projeto.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">O sistema excluiu o arquivo com sucesso.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="764" alt="1 1" src="https://github.com/user-attachments/assets/48d779e8-d35f-44c6-aaa2-fc4a1afe3fb0" />
+        <img width="1599" height="765" alt="1 2" src="https://github.com/user-attachments/assets/7d31eeef-a8b0-483e-a9e5-9771e50f61dc" />
+      </td>
+    </tr>
+  </table>
+
+   <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O03 - I01<br>Adicionar documento sem nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir uma mensagem de erro informando ser necessário o nome do documento.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">O sistema apresentou mensagem de erro com êxito.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="768" alt="2 1" src="https://github.com/user-attachments/assets/b00bfa31-cd65-4257-9e3d-08e071e3d91e" />
+        <img width="1599" height="763" alt="2 2" src="https://github.com/user-attachments/assets/13b86a35-0481-4e6e-9d49-d8fb48638823" />
+      </td>
+    </tr>
+  </table>
+  
+</details>
+<details>
 <summary><h2>Testes: 📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>  
 
   <table>
