@@ -3548,6 +3548,65 @@ Tentar Criar Doação sem Doador</th>
 </table>
 </details>
 
+<details> <summary><h2>📊 Dashboard</h2></summary>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-01 - S
+
+
+Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica o comportamento da tela ao ser acessada pela primeira vez, antes de o usuário selecionar um filtro.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Acessar a aplicação e realizar login.
+
+
+2. Clicar em "Dashboard" no menu.
+
+
+3. Verificar a área principal da tela. </td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-02 - S
+
+
+Gerar Indicadores (Com Dados)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica se os gráficos são carregados corretamente ao selecionar um Programa e um período válido que contenha dados.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 1. No filtro "Programa", selecionar um programa que possua turmas e alunos (ex: "Programa GESC Prossiga").
+
+
+2. No filtro "Período - Início", selecionar uma data antiga (ex: 01/01/2017).
+
+
+3. No filtro "Período - Fim", selecionar uma data futura (ex: 31/12/2028).
+
+
+4. Aguardar o carregamento. </td> </tr> <tr> <td><strong>Dados de teste</strong></td> <td> - <strong>Programa:</strong> Programa GESC Prossiga
+
+
+- <strong>Período:</strong> 2017 a 2028 </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve exibir os 5 gráficos (Organizações, Consultores, Cidades atendidas, Causas e Temas de projeto). Os gráficos devem conter barras indicando as quantidades corretas baseadas nos registros do banco de dados.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-03 - S
+
+
+Gerar Indicadores (Sem Dados no Período)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica o comportamento dos gráficos quando o filtro é válido, mas não existem registros para aquele período específico.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 1. Selecionar um Programa válido.
+
+
+2. Alterar o "Período - Início" e "Fim" para um intervalo onde não houve turmas (ex: ano de 1990 ate 1991).
+
+
+3. Verificar a renderização. </td> </tr> <tr> <td><strong>Dados de teste</strong></td> <td> - <strong>Período:</strong> 01/01/1990 a 31/12/1991 </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>Os gráficos devem ser exibidos, mas vazios (sem barras) ou zerados, sem quebrar a aplicação.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-04 - I01
+
+
+Trocar de Programa</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica se os dados são atualizados automaticamente ao trocar apenas o Programa no filtro.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Estando com os gráficos carregados para o "Programa GESC Prossiga".
+
+
+2. Clicar no dropdown de Programa.
+
+
+3. Selecionar o "Programa Mais GESC". </td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve disparar uma nova requisição automaticamente e atualizar os gráficos com os números referentes ao novo programa selecionado.</td> </tr> </table>
+
+</details>
+
+
+
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
