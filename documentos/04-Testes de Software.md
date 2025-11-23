@@ -7691,7 +7691,9 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
 Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
 
 
-Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao acessar a rota do Dashboard, os filtros foram carregados vazios e a mensagem de instrução foi exibida corretamente ao centro, sem tentar buscar dados desnecessários no backend.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1227" height="643" alt="image" src="https://github.com/user-attachments/assets/5ab7825a-2a65-446f-920e-55ed85abd965" />
+Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao acessar a rota do Dashboard, os filtros foram carregados vazios e a mensagem de instrução foi exibida corretamente ao centro, sem tentar buscar dados desnecessários no backend.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
+<img width="1227" height="643" alt="image" src="https://github.com/user-attachments/assets/69efa82a-9f7a-426c-adbd-a4e1d4d24c72" />
+
 
 
 <table> <tr> <th colspan="6" width="1000">CT-DASH-02
