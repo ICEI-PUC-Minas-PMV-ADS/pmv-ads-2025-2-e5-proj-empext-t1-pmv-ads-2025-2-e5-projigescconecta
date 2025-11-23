@@ -6052,7 +6052,7 @@ Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/
 <table> <tr> <th colspan="6" width="1000">CT-RL-01
 
 
-O sistema deve exibir relatório que descreve o que o executor busca filtrar</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+O sistema deve exibir relatório que descreva o que o executor busca filtrar</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
 Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao executar o relatório, usuário visualiza na tela os dados.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="703" height="460" alt="image" src="https://github.com/user-attachments/assets/49978eff-7ef2-4e6f-994e-538e3b7572a6" />
