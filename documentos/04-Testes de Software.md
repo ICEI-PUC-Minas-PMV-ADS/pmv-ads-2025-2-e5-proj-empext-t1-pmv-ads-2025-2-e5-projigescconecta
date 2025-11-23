@@ -3793,6 +3793,317 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 
 </details>
 
+<details>
+  <summary> <h2>📩 Importação por CSV </h2> </summary>
+
+
+  <details>
+    <summary><h3>Cadastrar Integrantes na Turma</h3></summary>
+    
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-01 <br> Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os integrantes da turma quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha com as colunas: Id da Pessoa e Função.<br>
+      4. Preencher corretamente os dados seguindo o padrão das colunas.<br>
+      5. Salvar como CSV e enviar para o sistema.<br>
+      6. Visualizar corretamente os dados carregados no modal de pré-visualização.<br>
+      7. Confirmar a importação e visualizar mensagens de sucesso para todos os itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve permitir a importação apenas se todas as colunas estiverem de acordo com o modelo.  
+      Se estiver tudo correto, e os vinculos forem válidos todos os integrantes devem ser adicionados com sucesso.
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>
+      O sistema deve bloquear a importação quando o arquivo CSV não contém as colunas corretas conforme o modelo padrão para integrantes de turma.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Criar ou selecionar uma planilha CSV que não utiliza as colunas do modelo (ex: nomes diferentes, colunas faltando ou colunas extras).<br>
+      4. Enviar o arquivo para o sistema.<br>
+      5. Tentar gerar a pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir um alerta informando que a planilha não contém as colunas corretas e impedir a importação.  
+      Nenhum dado deve ser processado, visualizado ou criado.
+    </td>
+  </tr>
+</table>
+
+
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-03 <br> Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação de uma pessoa sem vínculo com a OSC quando ela é cadastrada como participante, permitindo a criação apenas dos demais registros válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso Parcial</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha com as colunas: ID da Pessoa e Função.<br>
+      4. Preencher vários registros válidos seguindo exatamente o modelo.<br>
+      5. Incluir um registro contendo uma pessoa sem vínculo com a OSC, atribuindo a função de participante.<br>
+      6. Salvar a planilha como CSV e enviar para o sistema.<br>
+      7. Gerar a pré-visualização dos dados.<br>
+      8. Confirmar a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar corretamente todos os registros válidos.<br>
+      Para o registro da pessoa sem vínculo, deve exibir mensagem de insucesso indicando que não é permitido adicioná-la como participante.<br>
+      O processo deve ser concluído exibindo as linhas com sucesso e a linha com erro, sem impedir a importação dos demais registros.
+    </td>
+  </tr>
+</table>
+ 
+  </details>
+
+  <details>
+    <summary> <h3> Cadastrar Pessoas </h2> </summary>
+
+  <table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-01 <br> Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de pessoas quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher corretamente os dados seguindo o padrão das colunas do modelo.<br>
+      5. Salvar como CSV e enviar para o sistema.<br>
+      6. Visualizar os dados carregados no modal de pré-visualização.<br>
+      7. Confirmar a importação e visualizar mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve permitir a importação apenas se todas as colunas estiverem de acordo com o modelo.  
+      Com os dados válidos, todos os registros devem ser adicionados com sucesso.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-02<br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve bloquear a importação quando o arquivo CSV não contém as colunas corretas conforme o modelo padrão para o cadastro de pessoas.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Criar ou selecionar uma planilha CSV que não utiliza as colunas do modelo (ex: nomes diferentes, colunas faltando ou colunas extras).<br>
+      4. Enviar o arquivo para o sistema.<br>
+      5. Tentar gerar a pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir um alerta informando que a planilha não contém as colunas corretas e impedir a importação.  
+      Nenhum dado deve ser processado, visualizado ou criado.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-03 <br> Falha ao importar devido à ausência de campo obrigatório</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação de registros em que o CPF não foi preenchido, permitindo apenas que os demais registros válidos sejam importados.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso Parcial</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher vários registros válidos seguindo o modelo.<br>
+      5. Incluir um registro em que o CPF não esteja preenchido.<br>
+      6. Salvar a planilha como CSV e enviar para o sistema.<br>
+      7. Gerar a pré-visualização dos dados.<br>
+      8. Confirmar a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os registros válidos.  
+      Para o registro sem CPF, deve exibir mensagem de insucesso indicando que o CPF é obrigatório.  
+      A importação deve ser concluída exibindo as linhas com sucesso e a linha com erro, sem bloquear os demais registros.
+    </td>
+  </tr>
+</table>
+    
+  </details>
+  
+</details>
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
@@ -6139,7 +6450,8 @@ Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/
 
 </details>
 
-<details> <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
+<details> 
+  <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
 
 <table> <tr> <th colspan="6" width="1000">CT-RL-01
 
@@ -6181,6 +6493,7 @@ O sistema não exibi o relatório</th> </tr> <tr> <td width="170"><strong>Crité
 
 Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
 <img width="1433" height="617" alt="image" src="https://github.com/user-attachments/assets/8879b3ef-1a22-4b94-9e5d-d954193e0010" />
+</table>
 
 <table> <tr> <th colspan="6" width="1000">CT-RL-05
 
@@ -6194,6 +6507,279 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
 
  </td> </tr> </table>
+
+</details>
+
+<details>
+  <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
+  
+  <details>
+    <summary> <h3> Evidências: Cadastrar Integrantes na Turma </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-01<br>Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar todos os integrantes corretamente quando o arquivo CSV segue o modelo padrão e todos os vínculos são válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com arquivo CSV seguindo exatamente o modelo fornecido.  
+      O sistema carregou os dados na pré-visualização e concluiu a importação com mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço reservado para prints -->
+      <br><br><br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta de colunas inválidas e impedir qualquer pré-visualização ou importação.
+    </td>
+  </tr>
+
+   <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com planilha contendo colunas diferentes do modelo.  
+      O sistema identificou a divergência e bloqueou o processo, exibindo mensagem de alerta antes da pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço reservado para prints -->
+      <br><br><br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-03<br>Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de insucesso para o integrante sem vínculo, sem interromper a importação dos demais itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado incluindo no CSV um registro de pessoa sem vínculo com a OSC.  
+      O sistema importou corretamente os demais registros válidos e exibiu a mensagem de erro apenas para o item inválido, destacando o motivo da rejeição.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço reservado para prints -->
+      <br><br><br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+
+  </details>
+
+  <details>
+    <summary> <h3> Evidências: Cadastrar Pessoas </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-01<br>Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as pessoas quando o CSV segue exatamente o modelo fornecido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando o modelo padrão de planilha. Os dados foram carregados corretamente na pré-visualização e todas as pessoas foram importadas com sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço para print -->
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta informando que a planilha não contém as colunas corretas e impedir a importação, sem carregar a pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Foi utilizada uma planilha com colunas divergentes do modelo oficial.  
+      O sistema reconheceu a inconsistência e bloqueou o processo antes de carregar qualquer dado.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço para print -->
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-03<br>Falha ao importar pessoa sem CPF informado</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de erro especificamente para a pessoa cujo CPF não foi preenchido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Os demais registros foram carregados corretamente na pré-visualização e importados.  
+      O sistema exibiu erro apenas para a linha sem CPF, mantendo o fluxo padrão de importação parcial.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <!-- Espaço para print -->
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+  </details>
+  
+
 
 </details>
 
