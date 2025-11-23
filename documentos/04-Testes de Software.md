@@ -6694,50 +6694,6 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
   </tr>
 </table>
 
-
-<table>
-  <tr>
-    <th colspan="6" width="1000">CT-IMPINTOSC-02<br>Falha ao importar devido a colunas incorretas</th>
-  </tr>
-
-  <tr>
-    <td width="170"><strong>Critérios de êxito</strong></td>
-    <td colspan="5">
-      O sistema deve identificar colunas inválidas e impedir tanto a pré-visualização quanto a importação de integrantes.
-    </td>
-  </tr>
-
-  <tr>
-    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
-    <td width="430">
-      Desenvolvimento: Felipe<br>
-      Teste: Felipe
-    </td>
-    <td><strong>Data do Teste</strong></td>
-    <td width="150">23/11/2025</td>
-  </tr>
-
-  <tr>
-    <td><strong>Comentário</strong></td>
-    <td colspan="5">
-      Utilizou-se uma planilha com colunas divergentes do modelo padrão.  
-      O sistema detectou a divergência e bloqueou o processo exibindo mensagem de alerta ao usuário.
-    </td>
-  </tr>
-
-  <tr>
-    <td colspan="6" align="center"><strong>Evidência</strong></td>
-  </tr>
-
-  <tr>
-    <td colspan="6" align="center">
-      <!-- Espaço para print -->
-      <br><br><br><br><br>
-    </td>
-  </tr>
-</table>
-
-
 <table>
   <tr>
     <th colspan="6" width="1000">CT-IMPINTOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
