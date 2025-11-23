@@ -9243,3 +9243,292 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 </table>
 
 </details>
+<details>
+  <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
+  
+  <details>
+    <summary> <h3> Evidências: Cadastrar Integrantes na Turma </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-01<br>Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar todos os integrantes corretamente quando o arquivo CSV segue o modelo padrão e todos os vínculos são válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com arquivo CSV seguindo exatamente o modelo fornecido.  
+      O sistema carregou os dados na pré-visualização e concluiu a importação com mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="1899" height="925" alt="image" src="https://github.com/user-attachments/assets/839fc5d6-cdd6-428f-a87f-101b8df44162" />
+<img width="592" height="441" alt="image" src="https://github.com/user-attachments/assets/c07e5d99-22af-4661-b873-3c72b3e842c6" />
+<img width="591" height="455" alt="image" src="https://github.com/user-attachments/assets/6194238b-cf44-4791-a1c3-2fda8ffa34fc" />
+<img width="895" height="348" alt="image" src="https://github.com/user-attachments/assets/5b52bdf5-812f-40bd-9374-752ecaff6a1b" />
+<img width="1906" height="932" alt="image" src="https://github.com/user-attachments/assets/cb380638-e1b8-401d-b5ab-6ec2e58092fe" />
+
+
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta de colunas inválidas e impedir qualquer pré-visualização ou importação.
+    </td>
+  </tr>
+
+   <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com planilha contendo colunas diferentes do modelo.  
+      O sistema identificou a divergência e bloqueou o processo, exibindo mensagem de alerta antes da pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="591" height="454" alt="image" src="https://github.com/user-attachments/assets/47df0014-fc75-43fd-94b1-abd0989cdabc" />
+<img width="896" height="352" alt="image" src="https://github.com/user-attachments/assets/25c05920-18be-418e-a785-846788b66560" />
+
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-03<br>Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de insucesso para o integrante sem vínculo, sem interromper a importação dos demais itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado incluindo no CSV um registro de pessoa sem vínculo com a OSC.  
+      O sistema importou corretamente os demais registros válidos e exibiu a mensagem de erro apenas para o item inválido, destacando o motivo da rejeição.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="888" height="445" alt="image" src="https://github.com/user-attachments/assets/1cbf38c1-9aac-4d28-abd5-23d0fe0e2d41" />
+
+
+    </td>
+  </tr>
+</table>
+
+
+
+  </details>
+
+  <details>
+    <summary> <h3> Evidências: Cadastrar Pessoas </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-01<br>Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as pessoas quando o CSV segue exatamente o modelo fornecido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando o modelo padrão de planilha. Os dados foram carregados corretamente na pré-visualização e todas as pessoas foram importadas com sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="1894" height="923" alt="image" src="https://github.com/user-attachments/assets/266fd770-822f-4b67-8212-1fe7a759b5de" />
+<img width="1886" height="928" alt="image" src="https://github.com/user-attachments/assets/b4dc21ae-f427-4021-ade0-d685855c4def" />
+<img width="584" height="576" alt="image" src="https://github.com/user-attachments/assets/c793691f-1fc9-47ae-8f59-d9955aca119c" />
+<img width="1895" height="921" alt="image" src="https://github.com/user-attachments/assets/a447ae3c-4af6-4e60-b3f9-ab9e77712736" />
+<img width="1840" height="913" alt="image" src="https://github.com/user-attachments/assets/b961cc8c-20b9-496a-a999-b0f84dc0e16d" />
+
+
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta informando que a planilha não contém as colunas corretas e impedir a importação, sem carregar a pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Foi utilizada uma planilha com colunas divergentes do modelo oficial.  
+      O sistema reconheceu a inconsistência e bloqueou o processo antes de carregar qualquer dado.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1885" height="919" alt="image" src="https://github.com/user-attachments/assets/c8b88063-2b5d-4c09-889f-ebef11bff051" />
+
+
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-03<br>Falha ao importar pessoa sem CPF informado</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de erro especificamente para a pessoa cujo CPF não foi preenchido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Os demais registros foram carregados corretamente na pré-visualização e importados.  
+      O sistema exibiu erro apenas para a linha sem CPF, mantendo o fluxo padrão de importação parcial.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+
+
+<img width="1885" height="919" alt="image" src="https://github.com/user-attachments/assets/e6241c77-dc52-40af-8c75-69245a9a44c6" />
+
+      
+
+    </td>
+  </tr>
+</table>
+
+
+  </details>
+  
+
+
+</details>
