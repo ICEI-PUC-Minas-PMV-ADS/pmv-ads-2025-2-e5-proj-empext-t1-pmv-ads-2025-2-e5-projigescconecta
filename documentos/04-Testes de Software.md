@@ -7678,3 +7678,53 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
        </td>     </tr>   </table>
 
 </details>
+
+## ETAPA 4
+
+<details>
+
+<details> <summary><h2>Testes: 📊 Dashboard</h2></summary>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-01
+
+
+Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao acessar a rota do Dashboard, os filtros foram carregados vazios e a mensagem de instrução foi exibida corretamente ao centro, sem tentar buscar dados desnecessários no backend.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1227" height="643" alt="image" src="https://github.com/user-attachments/assets/5ab7825a-2a65-446f-920e-55ed85abd965" />
+
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-02
+
+
+Gerar Indicadores (Com Dados)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os 5 gráficos (Organizações Sociais, Consultores Sociais, Cidades Atendidas, Causas e Temas de Projeto) com barras indicando as quantidades corretas.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar o "Programa GESC Prossiga" e um período válido, os gráficos foram renderizados. O gráfico de "Consultores Sociais" exibiu corretamente a quantidade "1 e 2" (referente ao dado de teste inserido), e os eixos X (Ano) e Y (Quantidade) foram plotados corretamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/51cd512c-b124-4e86-b856-81a5e3940898" />
+<img width="1893" height="934" alt="image" src="https://github.com/user-attachments/assets/fb00d954-d1f3-4b01-92b7-b0c5c04d3a01" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-03
+
+
+Gerar Indicadores (Sem Dados no Período)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">Os gráficos devem ser exibidos, mas vazios (sem barras) ou zerados, sem quebrar a aplicação.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado selecionando um período futuro ou um programa sem turmas vinculadas. O sistema tratou o retorno vazio da API corretamente, exibindo a estrutura dos gráficos sem barras.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1904" height="936" alt="image" src="https://github.com/user-attachments/assets/f03f0abc-2626-4e60-94cf-883c9718891c" />
+<img width="1885" height="929" alt="image" src="https://github.com/user-attachments/assets/622ca591-d2dd-4ad7-a529-87c43cafb0c6" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-04
+
+
+Trocar de Programa</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve disparar uma nova requisição automaticamente e atualizar os gráficos com os números referentes ao novo programa selecionado.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">A funcionalidade de troca de filtros está operante. Ao alterar o Programa no dropdown, disparou a atualização e os gráficos refletiram os dados do novo contexto selecionado instantaneamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/48f3ef6a-8cf9-4793-a095-0b5f0096e965" />
+<img width="1885" height="936" alt="image" src="https://github.com/user-attachments/assets/e06748ef-b5a2-4a74-927b-48595dbcdeb9" />
+
+ </td> </tr> </table>
+
+</details>
