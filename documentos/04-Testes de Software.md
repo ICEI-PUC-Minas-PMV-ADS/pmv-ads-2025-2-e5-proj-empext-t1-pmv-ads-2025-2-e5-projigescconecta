@@ -6055,7 +6055,7 @@ Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/
 O sistema deve exibir relatório que descreve o que o executor busca filtrar</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
-Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao executar o relatório, usuário visualiza na tela os dados.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1914" height="940" alt="image" src="https://github.com/user-attachments/assets/b4bef276-8d3d-49d4-ace8-df582aa2099c" /><img width="703" height="460" alt="image" src="https://github.com/user-attachments/assets/49978eff-7ef2-4e6f-994e-538e3b7572a6" />
+Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao executar o relatório, usuário visualiza na tela os dados.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="703" height="460" alt="image" src="https://github.com/user-attachments/assets/49978eff-7ef2-4e6f-994e-538e3b7572a6" />
 
 > </td> </tr> </table>
 
@@ -6065,7 +6065,7 @@ Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <t
 O Sistema deve exibir dados em PDF</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema exibe o relatório em PDF e permite salvar.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
-Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar PDF o usuaário visualiza em PDF e consegue salvar.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/51cd512c-b124-4e86-b856-81a5e3940898" />
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar PDF o usuaário visualiza em PDF e consegue salvar.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
 <img width="645" height="193" alt="image" src="https://github.com/user-attachments/assets/88814442-d53a-47e5-9341-ca9abf8f97ad" />
 
  </td> </tr> </table>
@@ -6075,7 +6075,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 O sistema deve exibir dados dados em Excel</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema exibe o relatório em Excel e permitir salvar.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
-Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar Excel o usuaário visualiza em Excel e consegue salvar</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1904" height="936" alt="image" src="https://github.com/user-attachments/assets/f03f0abc-2626-4e60-94cf-883c9718891c" />
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar Excel o usuaário visualiza em Excel e consegue salvar</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
 <img width="733" height="330" alt="image" src="https://github.com/user-attachments/assets/0387548a-bda3-4144-bb11-61ce19698b87" />
 
 
@@ -6087,7 +6087,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 O sistema não exibi o relatório</th> </tr> <tr> <td width="170"><strong>Critérios</strong></td> <td colspan="5">O usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
-Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/48f3ef6a-8cf9-4793-a095-0b5f0096e965" />
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
 <img width="1433" height="617" alt="image" src="https://github.com/user-attachments/assets/8879b3ef-1a22-4b94-9e5d-d954193e0010" />
 
 <table> <tr> <th colspan="6" width="1000">CT-RL-05
@@ -6096,7 +6096,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 O sistema não exibi o relatório, pois o usuário não preencheu corretamente os dados obrigatórios</th> </tr> <tr> <td width="170"><strong>Critérios</strong></td> <td colspan="5">O usuário não preenche os campos obrigatorios corretamente e não consegue emitir relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
 
 
-Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche corretamente os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/48f3ef6a-8cf9-4793-a095-0b5f0096e965" />
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche corretamente os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
 <img width="1350" height="868" alt="image" src="https://github.com/user-attachments/assets/d64ae4f9-ff59-482b-a254-0bcb40ca7fc0" />
 
 
