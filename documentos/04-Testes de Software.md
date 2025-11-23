@@ -2741,6 +2741,130 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
+<details>
+<summary><h2>🌱 Projetos</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O01 - S<br>Anexar Documentos no Projeto</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td> Este caso de teste verifica se o sistema permite anexar arquivos no projeto.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Novo Documento"<br>
+      4. Preencha o campo obrigatorio "Nome" e preferencialmente "Descrição".<br>
+      5. Clicar em "Selecionar Arquivo".<br>
+      6. Selecionar o arquivo desejado.<br>
+      7. Clicar em "Salvar".<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    
+      
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve inclir o documento no projeto.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O02 - S<br>Remover Documento do Projeto</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir documentos do projeto.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Remover" no documento que deseja ser excluído.<br>
+      4. Clicar Novamente em "Remover" para confirmar exclusão.<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover o documento.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O03 - I01<br>Adicionar documento sem nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede a inclusão de um documento sem preencher seu nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Novo Documento"<br>
+      4. Não preencher o nome. <br>
+      5. Clicar em "Salvar".<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando ser necessário o nome do documento.</td>
+  </tr>
+  </table>
+</details>
+
+
 ## Etapa 4
 <details>
 <summary><h2>📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>
