@@ -2741,6 +2741,7 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
+## Etapa 4
 <details>
 <summary><h2>🌱 Projetos</h2></summary>
 
@@ -2864,8 +2865,6 @@ Tentar Criar Doação sem Doador</th>
   </table>
 </details>
 
-
-## Etapa 4
 <details>
 <summary><h2>📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>
 
