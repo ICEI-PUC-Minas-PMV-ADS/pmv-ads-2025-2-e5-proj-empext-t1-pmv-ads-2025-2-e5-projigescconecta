@@ -9087,6 +9087,125 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
 ## ETAPA 4
 
 <details>
+<details>
+  <summary><h2>Testes: 🌱 Upload de Documento</h2></summary>
+
+  <table>
+<tr>
+  <th colspan="6" width="1000">CT-U01-I<br>Criar Documento sem Nome</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve impedir a criação do documento e exibir mensagem informando que o nome é obrigatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    Ao tentar salvar o documento sem preencher o nome, o sistema exibiu mensagem de validação e não permitiu prosseguir.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1578" height="893" alt="image" src="https://github.com/user-attachments/assets/e7e68fdb-e5ab-46aa-9274-6ca70e85f81a" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-U02-S<br>Upload de Documento PDF</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve permitir anexar um arquivo PDF válido e salvar corretamente o documento.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O documento foi anexado com sucesso, aparecendo corretamente na listagem de documentos do projeto.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="3162" height="2818" alt="image" src="https://github.com/user-attachments/assets/153a97a8-a0f4-4781-b4d4-899a036903f5" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-U03-S<br>Visualizar Documento Enviado</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve abrir corretamente a visualização do documento em página blob ao clicar em "Ver".
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150"></td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    A visualização abriu corretamente e exibiu todo o conteúdo do documento PDF sem falhas.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1578" height="893" alt="image" src="https://github.com/user-attachments/assets/a052ab89-743e-4f72-80f0-665fc1e6de76" />
+</em>
+  </td>
+</tr>
+</table>
+
+
+</details>
 
 <details> <summary><h2>Testes: 📊 Dashboard</h2></summary>
 
