@@ -2397,7 +2397,7 @@ Tentar Criar Doação sem Doador</th>
 
 
 <details>
-  <summary><h2>👤 Usuários (RF-010)</h2></summary>
+  <summary><h2>👤 Usuários</h2></summary>
 
   <table>
     <tr>
@@ -2741,9 +2741,9 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
-## Etapa 04
+## Etapa 4
 <details>
-<summary><h2>📊 Gerador de Relatórios</h2></summary>
+<summary><h2>📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>
 
 <table>
   <tr>
@@ -2856,11 +2856,11 @@ Tentar Criar Doação sem Doador</th>
 
 <table>
   <tr>
-    <th colspan="2" width="1000">CT-RPT03-S<br>Filtrar relatórios por Entidade Raiz e Status</th>
+    <th colspan="2" width="1000">CT-RPT03-S<br>Filtrar relatórios por Nome e Entidade Raiz</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Verificar se a combinação de filtros por Entidade Raiz e Status (Rascunho/Publicado) retorna apenas os relatórios correspondentes.</td>
+    <td>Verificar se a combinação de filtros por Nome e Entidade Raiz e retorna apenas os relatórios correspondentes.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste</strong></td>
@@ -2878,8 +2878,8 @@ Tentar Criar Doação sem Doador</th>
     <td><strong>Pré-condições</strong></td>
     <td>
       <ul>
-        <li>Existem relatórios para pelo menos duas entidades raiz diferentes (ex.: Project, Person).</li>
-        <li>Existem relatórios tanto em Rascunho quanto Publicados.</li>
+        <li>Existem relatórios para pelo menos duas entidades raiz diferentes (ex.: Projetos, Pessoas).</li>
+        <li>Existem relatórios com nomes diferentes.</li>
       </ul>
     </td>
   </tr>
@@ -3077,7 +3077,7 @@ Tentar Criar Doação sem Doador</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Verificar se a funcionalidade de “Visualizar” permite consultar os dados do relatório em modo somente leitura, incluindo a revisão da configuração (relacionamentos, campos, filtros e ordenações).</td>
+    <td>Verificar se a funcionalidade de “Visualizar” permite consultar os dados do relatório, incluindo a revisão da configuração (relacionamentos, campos, filtros e ordenações).</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste</strong></td>
@@ -3130,7 +3130,7 @@ Tentar Criar Doação sem Doador</th>
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Garantir que um relatório em Status “Rascunho” possa ter seus dados gerais alterados (Nome, Descrição, Entidade Raiz, Leitor executa) e que as mudanças sejam persistidas corretamente no backend.</td>
+    <td>Garantir que um relatório em Status “Rascunho” possa ter seus dados gerais alterados (Nome, Descrição, Entidade Raiz, Leitor executa).</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste</strong></td>
@@ -3162,7 +3162,7 @@ Tentar Criar Doação sem Doador</th>
         <li>Opcionalmente alterar a Entidade Raiz (se desejado pela regra de negócio).</li>
         <li>Alterar o valor de “Leitor pode executar?”.</li>
         <li>Clicar em “Salvar”.</li>
-        <li>Fechar e reabrir o modal de edição ou consultar via API para confirmar as alterações.</li>
+        <li>Verificar se as mudanças foram efetuadas na listagem.</li>
       </ol>
     </td>
   </tr>
@@ -5304,6 +5304,456 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 
 </details>
 
+## Etapa 4
+
+<details>
+<summary><h2>Testes: 📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>  
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT01-S<br>Listar relatórios (sem filtros)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve listar corretamente os relatórios cadastrados, sem filtros aplicados, exibindo colunas principais e paginação funcionando.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem exibida com relatórios em Rascunho e Publicado. Colunas Nome, Entidade Raiz, Status e “Leitor executa?” renderizadas corretamente e paginação navegando entre páginas sem erros.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1298" height="732" alt="image" src="https://github.com/user-attachments/assets/977cc85a-2f96-468c-af8d-8ec9e77b604b" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT02-S<br>Filtrar relatórios por Nome e limpar filtros</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve filtrar relatórios pelo campo Nome e permitir limpar filtros, retornando à listagem completa.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Filtro por Nome retornou apenas relatórios cujo Nome contém o texto informado. Flag “Filtros ativos” exibida enquanto o filtro estava aplicado. Botão “Limpar filtros” limpou os campos e restaurou a listagem completa.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="615" alt="image" src="https://github.com/user-attachments/assets/49d41162-aaa6-44e0-bfa7-197bbf80e62f" />
+        <img width="1341" height="749" alt="image" src="https://github.com/user-attachments/assets/376cc009-d8b5-4271-95bb-485ef4e4d5fb" />
+      </td>
+    </tr>
+  </table>
+
+   <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT03-S<br>Filtrar relatórios por Nome e Entidade Raiz</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve combinar filtros por Nome e Entidade Raiz, exibindo somente relatórios que atendam a ambos os critérios.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Aplicação de filtro por Nome e Entidade Raiz e retornou apenas relatório com esse nome e entidade. Nenhum relatório fora dos critérios apareceu na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1319" height="560" alt="image" src="https://github.com/user-attachments/assets/d4789d58-0f19-4fda-a559-45d21f866f9c" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT04-S<br>Cadastrar novo relatório (rascunho – dados gerais)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir cadastrar um novo relatório em Status “Rascunho”, preenchendo os dados gerais obrigatórios.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Novo relatório criado preenchendo Nome, Entidade Raiz e opção “Leitor pode executar?”. Toast “Relatório criado com sucesso” exibido e registro incluído na listagem com Status “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1340" height="718" alt="image" src="https://github.com/user-attachments/assets/856da053-8cca-4026-b07d-ff6975700631" />
+        <img width="1350" height="756" alt="image" src="https://github.com/user-attachments/assets/7fd393e4-3783-4c3f-8bf1-bb7d955b012d" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT05-I01<br>Validação ao salvar relatório sem Nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o salvamento de relatório sem Nome, exibindo mensagem de validação no frontend e não enviando requisição ao backend.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Tentativa de salvar com campo “Nome*” em branco manteve o modal aberto e exibiu toast “O nome do relatório é obrigatório”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="761" alt="image" src="https://github.com/user-attachments/assets/59d95939-2cc2-4013-996e-7136755d6f51" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT06-I02<br>Validação ao salvar relatório sem Entidade Raiz</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir salvar relatório sem Entidade Raiz selecionada, exibindo mensagem de erro e não chamando a API.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Com Nome preenchido e Entidade Raiz vazia, o sistema exibiu toast “Selecione a entidade raiz” e manteve o modal aberto. Não houve requisição para o endpoint de criação/edição.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="761" alt="image" src="https://github.com/user-attachments/assets/98448168-3510-4f13-b600-ef4543a47d80" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT07-S<br>Visualizar relatório existente (dados gerais e configuração)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve abrir o modal de visualização e permitir revisar a configuração do relatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao clicar em “Visualizar”, o modal abriu com campos desabilitados. Botão “Visualizar configuração” exibiu blocos de Revisão (Geral, Relacionamentos, Campos, Filtros e Ordenação) com dados conforme a configuração salva.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1343" height="760" alt="image" src="https://github.com/user-attachments/assets/09296d35-48ee-4f8b-92b6-3fb7e87574b3" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT08-S<br>Editar dados gerais de relatório em rascunho</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir editar os dados gerais de um relatório em Rascunho.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Alterações em Nome, Descrição, Entidade Raiz e “Leitor pode executar?” foram salvas com sucesso. Toast “Relatório atualizado com sucesso” exibido everificar se as alterações aparecem na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1345" height="752" alt="image" src="https://github.com/user-attachments/assets/70583147-03be-43af-a288-3f5ba1827641" />
+        <img width="1344" height="758" alt="image" src="https://github.com/user-attachments/assets/5a420a36-5b5c-40d4-b479-621bd17855f9" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT09-S<br>Abrir configuração para relatório em rascunho</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve abrir a tela de configuração para relatórios em Rascunho, carregando dados gerais e metadados (entidades e campos).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Botão “Configurar relatório” para item em Rascunho abriu a configuração na etapa “Geral” com Nome, Descrição e Entidade Raiz carregados. Etapas de Relacionamentos, Campos e Filtros/Ordenação exibiram as opções de metadados retornadas pela API.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1318" height="743" alt="image" src="https://github.com/user-attachments/assets/8ac14d82-740d-44ef-92ab-9f39c4a0f051" />
+        <img width="1347" height="745" alt="image" src="https://github.com/user-attachments/assets/1ac9c720-4137-4b5e-a5a1-79c399d9838a" />
+        <img width="1355" height="751" alt="image" src="https://github.com/user-attachments/assets/e94f2f76-0f01-418c-8145-81e95334fa4c" />
+        <img width="1355" height="745" alt="image" src="https://github.com/user-attachments/assets/b598606b-7f78-42b3-b056-d64bb74bc8b6" />
+        <img width="1335" height="763" alt="image" src="https://github.com/user-attachments/assets/5d1e6dfa-c36a-4189-a934-d4d68dad145a" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT10-I03<br>Bloquear abertura da configuração para relatório publicado</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir a abertura da configuração para relatórios em Status “Publicado”, exibindo mensagem orientando a despublicação.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao tentar abrir “Configurar relatório” para item em Status “Publicado”, o wizard não foi aberto e apareceu a mensagem “Para configurar esse relatório, favor despublicá-lo”. Comportamento conforme regra de negócio.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1327" height="745" alt="image" src="https://github.com/user-attachments/assets/87c7a99c-72b3-4e8c-964e-4bf087f3ed86" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT11-S<br>Configurar relacionamentos, campos, filtros e ordenações e salvar</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir configurar relacionamentos, campos, filtros e ordenações válidos e salvar a configuração sem erros.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Fluxo completo da configuração percorrido: inclusão de relacionamento, seleção de campos, definição de filtros e ordenações, revisão e salvamento. Toast de sucesso exibido e, ao reabrir a configuração, todas as informações apareceram conforme o que foi configurado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1363" height="733" alt="image" src="https://github.com/user-attachments/assets/e99092e8-e6ae-4953-a583-11cc6558aa02" />
+        <img width="1347" height="765" alt="image" src="https://github.com/user-attachments/assets/e95f1bfc-c448-42b6-9e31-f85e1eea37d4" />
+        <img width="1370" height="749" alt="image" src="https://github.com/user-attachments/assets/fed20518-5c91-485f-b317-55ba1e6e1616" />
+        <img width="1335" height="753" alt="image" src="https://github.com/user-attachments/assets/b35fa677-ccb1-4ba5-860c-1777be5c097e" />
+        <img width="1345" height="751" alt="image" src="https://github.com/user-attachments/assets/eaad074e-8c8f-4461-b987-42e26f536955" />
+        <img width="1356" height="744" alt="image" src="https://github.com/user-attachments/assets/11ae71ab-658e-4c1d-b576-61debadbc73c" />
+        <img width="1334" height="758" alt="image" src="https://github.com/user-attachments/assets/c9aa5c3c-a88d-47f5-9fff-04541718d8bb" />
+        <img width="1345" height="757" alt="image" src="https://github.com/user-attachments/assets/5c1f6172-f93e-416a-a18f-bb168fe8d118" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT12-I04<br>Impedir publicação de relatório sem configuração de campos (configuração não feita)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir a publicação de relatórios que não possuam campos configurados, mantendo o Status como “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Publicação acionada para relatório criado apenas com dados gerais. Sistema exibiu aviso “Falta efetuar a configuração do Relatório” e não alterou o Status, que permaneceu “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1344" height="758" alt="image" src="https://github.com/user-attachments/assets/74ca6926-ecd1-438b-8ee0-f4482c5e094f" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT13-S<br>Publicar relatório configurado com sucesso</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir publicar relatórios devidamente configurados, alterando o Status para “Publicado”.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Relatório totalmente configurado foi publicado com sucesso após confirmação no diálogo. Toast “Operação concluída” exibido e Status atualizado para “Publicado” na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="752" alt="image" src="https://github.com/user-attachments/assets/12f6c0cd-31c9-4b55-bbcb-3f5dc970f1a3" />
+        <img width="1350" height="764" alt="image" src="https://github.com/user-attachments/assets/e7812d58-4073-4fd5-b8f2-9c8512a2bea6" />
+        <img width="1337" height="752" alt="image" src="https://github.com/user-attachments/assets/8edeef52-778b-4d17-84cd-70fd5acbb4df" />
+        <img width="1346" height="769" alt="image" src="https://github.com/user-attachments/assets/85dbd3e0-d8d3-4d0c-8fc9-da1646e05e51" />
+        <img width="1337" height="760" alt="image" src="https://github.com/user-attachments/assets/2bb33bb2-28c8-4148-a99c-39dcb6148fa5" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT14-S<br>Despublicar relatório para permitir nova configuração</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir despublicar relatório, retornando-o a “Rascunho” e liberando novamente a configuração.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ação “Despublicar” executada para relatório em Status “Publicado”. Toast “Operação concluída” exibido, Status voltou para “Rascunho” e, após isso, o botão “Configurar relatório” passou a abrir o wizard normalmente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1349" height="748" alt="image" src="https://github.com/user-attachments/assets/fcb673df-2354-4374-abf0-7b3f5e16049c" />
+        <img width="1352" height="739" alt="image" src="https://github.com/user-attachments/assets/c498adc0-2bcb-406a-8920-2bc9acdd064c" />
+        <img width="1354" height="759" alt="image" src="https://github.com/user-attachments/assets/93d5c0d2-9c1c-45a7-8b59-d70a6c58d1ad" />
+        <img width="1363" height="750" alt="image" src="https://github.com/user-attachments/assets/ee961204-fd6f-4934-aac2-c859f514d733" />
+        <img width="1320" height="756" alt="image" src="https://github.com/user-attachments/assets/cc79b542-b68f-48d9-9eb9-217eea762647" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT15-S<br>Excluir relatório e atualizar listagem</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir excluir um relatório e atualizar a listagem removendo o item.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao clicar em “Excluir”, o sistema exibiu modal de confirmação. Após confirmar, toast “Operação concluída” foi apresentado e o relatório deixou de ser exibido na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1323" height="771" alt="image" src="https://github.com/user-attachments/assets/827eb162-3ed1-44a4-b521-e80fbfaeb6ce" />
+        <img width="1366" height="757" alt="image" src="https://github.com/user-attachments/assets/ed3a6c8b-9a3f-4798-8625-072fff3c61c4" />
+        <img width="1348" height="761" alt="image" src="https://github.com/user-attachments/assets/ac9e92c1-3576-4122-bbf6-3fc5f34d3533" />
+      </td>
+    </tr>
+  </table>
+
+</details>
 
 
 ## Parte 2 - Testes por pares
