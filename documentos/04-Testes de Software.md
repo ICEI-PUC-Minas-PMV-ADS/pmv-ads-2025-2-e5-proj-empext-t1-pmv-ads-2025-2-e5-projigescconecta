@@ -3604,8 +3604,71 @@ Trocar de Programa</th> </tr> <tr> <td width="150"><strong>Descrição</strong><
 
 </details>
 
+<details> <summary><h2>📊 Executor Relatório</h2></summary>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-01 
 
 
+Executor Relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Relatório descreve o que o executor busca filtrar</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Executor digita o que o foi selecionado como fonte de busca
+
+
+2. Clicar em "Executor" no painel.
+
+
+3. Visualisar relatório com os dados solicitados</td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>Usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> </table>
+
+   
+<table> <tr> <th colspan="2" width="1000">CT-RL-02 
+
+
+Exportar dados relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário exporta dados em PDF <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário clica em Exportar em PDF
+
+2. Usuário visualiza o relatório em PDF
+
+3. Usuário consegue salvar o documento em PDF
+   
+ <tr> <td><strong>Critérios de êxito</strong></td> <td>Sistema exibe o relatório em PDF e permite salvar.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-03 
+
+Exportar dados relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário exporta dados em Excel <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário clica em Exportar em Excel
+
+2. Usuário visualiza o relatório em Excel
+
+3. Usuário consegue salvar o documento em Excel
+   
+ <tr> <td><strong>Critérios de êxito</strong></td> <td>Sistema exibe o relatório em Excel e permite salvar.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-04 
+
+Não preencher dados obrigatorios</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário não consegue emitir relatório <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">insucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário não preenche os dados obrigatorios
+
+2. Dados em branco
+
+3. Usuário não consegue gerar relatório
+   
+ <tr> <td><strong>Critérios</strong></td> <td>O sistema não exibe o relatório.</td> </tr> </table>
+
+ <table> <tr> <th colspan="2" width="1000">CT-RL-05 
+
+Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário não consegue emitir relatório <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">InSucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário não preenche os dados obrigatorios corretamente
+
+2. Aparece uma mensagem informando "dados digitados estão incorretos"
+
+3. Usuário não consegue gerar relatório
+   
+ <tr> <td><strong>Critérios</strong></td> <td>Sistema não exibe o relatório e sim uma mensagem informandos que os dados estão incorretos.</td> </tr> </table>
+
+</details>
 
 # Evidências de Testes de Software
 
