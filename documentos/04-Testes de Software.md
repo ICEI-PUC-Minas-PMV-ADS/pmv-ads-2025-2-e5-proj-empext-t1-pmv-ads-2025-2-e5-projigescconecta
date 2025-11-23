@@ -3796,6 +3796,384 @@ Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><
 <details>
   <summary> <h2>📩 Importação por CSV </h2> </summary>
 
+  <details>
+    <summary><h3>Cadastrar OSC</h3></summary>
+    
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-01 <br> Importar OSC corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de OSC quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-030</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher corretamente os dados conforme o modelo.<br>
+      5. Salvar como CSV e enviar ao sistema.<br>
+      6. Verificar pré-visualização dos dados.<br>
+      7. Confirmar a importação e validar mensagens de sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os dados, desde que estejam dentro do modelo padrão e com campos válidos.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação quando as colunas não estiverem de acordo com o modelo padrão.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-030</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Utilizar planilha CSV com colunas divergentes.<br>
+      4. Enviar a planilha ao sistema.<br>
+      5. Tentar gerar pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir alerta informando divergência de colunas e impedir qualquer processamento.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação quando o arquivo CSV estiver vazio, sem nenhum registro válido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-030</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar um CSV completamente vazio.<br>
+      4. Enviar para o sistema.<br>
+      5. Observar resposta do sistema.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir mensagem de alerta informando ausência de dados e impedir qualquer processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
+  <details>
+    <summary><h3>Cadastrar Integrantes da OSC</h3></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPINTOSC-01 <br> Importar integrantes da OSC usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os integrantes vinculados à OSC quando o CSV segue o modelo correto.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-031</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Abrir a seção de Integrantes.<br>
+      3. Baixar e preencher o modelo corretamente.<br>
+      4. Salvar como CSV e enviar ao sistema.<br>
+      5. Verificar pré-visualização.<br>
+      6. Confirmar importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os registros seguindo o modelo e vínculos válidos com a OSC.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPINTOSC-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação quando o arquivo CSV estiver vazio, sem registros de integrantes.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-031</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir seção de integrantes da OSC.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar arquivo CSV vazio.<br>
+      4. Enviar ao sistema.<br>
+      5. Observar comportamento.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve alertar ausência de registros e impedir o processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
+  <details>
+    <summary><h3>Cadastrar Empresa</h3></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-01 <br> Importar empresas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de empresas quando o CSV segue o modelo padrão.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-040</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar modelo de planilha.<br>
+      4. Preencher registros seguindo o modelo.<br>
+      5. Enviar CSV ao sistema.<br>
+      6. Verificar pré-visualização.<br>
+      7. Confirmar importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>O sistema deve importar todos os registros válidos preenchidos conforme modelo.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir importações quando a planilha não segue as colunas corretas exigidas.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-040</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Selecionar arquivo CSV com colunas erradas.<br>
+      3. Enviar para o sistema.<br>
+      4. Tentar visualizar/importar.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>O sistema deve bloquear todo o processo e mostrar mensagem de divergência de colunas.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação quando o arquivo CSV estiver vazio.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-040</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar CSV vazio.<br>
+      4. Enviar ao sistema.<br>
+      5. Observar comportamento.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir mensagem de ausência de registros e impedir o processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
 
   <details>
     <summary><h3>Cadastrar Integrantes na Turma</h3></summary>
@@ -6512,10 +6890,7 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 
 <details>
   <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
-
-  <details>
-  <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
-
+  
   <details>
   <summary> <h3> Evidências: Cadastrar OSC </h3> </summary>
 
