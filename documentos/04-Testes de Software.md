@@ -9087,7 +9087,6 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
 ## ETAPA 4
 
 <details>
-<details>
   <summary><h2>Testes: 🌱 Upload de Documento</h2></summary>
 
   <table>
@@ -9696,6 +9695,319 @@ Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150
 <details>
   <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
   
+  <details>
+  <summary><h3> Cadastrar OSC </h3></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-01<br>Importar OSC corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as OSCs quando o arquivo CSV segue exatamente o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Reproduzi o cenário utilizando o modelo oficial de planilha. As OSCs foram exibidas na pré-visualização com os dados alinhados às colunas esperadas e, após confirmar a importação, todos os registros foram criados sem inconsistências aparentes.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="746" alt="image" src="https://github.com/user-attachments/assets/ae246ea4-b05f-4bfa-9adb-f692bbcf42a7" />
+        <img width="1343" height="735" alt="image" src="https://github.com/user-attachments/assets/e30b8474-f096-4d5a-b36b-4275cd6aa18f" />
+        <img width="1628" height="453" alt="image" src="https://github.com/user-attachments/assets/a0b6b6ba-b72f-4aaa-8042-283d51c3ca68" />
+        <img width="1366" height="765" alt="image" src="https://github.com/user-attachments/assets/e3204814-5568-47b0-a3cb-b5f1016e0683" />
+        <img width="1359" height="741" alt="image" src="https://github.com/user-attachments/assets/57c237fd-7b21-4ca9-a02c-d578c440dc4c" />
+        <img width="1340" height="764" alt="image" src="https://github.com/user-attachments/assets/ad0ae430-352c-400b-a926-5382f27f3f03" />
+        <img width="1355" height="748" alt="image" src="https://github.com/user-attachments/assets/588892e9-97e7-48ff-b58b-7df3fb608c03" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-02<br>Falha ao importar devido a colunas incorretas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve identificar colunas inválidas, bloquear a pré-visualização e impedir que qualquer OSC seja importada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Executei o teste com uma planilha alterando os nomes de algumas colunas em relação ao modelo padrão. O sistema identificou as colunas inválidas, exibiu mensagem de alerta e não chegou a carregar a pré-visualização nem permitiu iniciar a importação.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="459" height="272" alt="image" src="https://github.com/user-attachments/assets/8ad6edc4-9afb-4f0c-825e-f48bdee3619d" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação quando a planilha está vazia, sem nenhum registro, exibindo mensagem de alerta ao usuário.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Testei com uma planilha completamente vazia, apenas com o cabeçalho padrão. O sistema bloqueou a operação de importação e apresentou mensagem orientando que é necessário ao menos um registro para continuar, sem criar qualquer dado na base.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1349" height="768" alt="image" src="https://github.com/user-attachments/assets/7a86ced9-3c78-4c58-be78-84fb3a2d2fc9" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  </details>
+  
+  <details>
+  <summary><h3> Cadastrar Integrantes da OSC </h3></summary>
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPINTOSC-01<br>Importar integrantes da OSC corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todos os integrantes vinculados à OSC quando o arquivo CSV segue o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Utilizando a planilha de integrantes no formato oficial, os registros foram exibidos na pré-visualização com os vínculos corretos à OSC. Após confirmar a importação, todos os integrantes foram criados com os campos esperados e sem erros de validação.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1356" height="764" alt="image" src="https://github.com/user-attachments/assets/faf98041-0090-4d94-bc90-879249ec59eb" />
+        <img width="1359" height="751" alt="image" src="https://github.com/user-attachments/assets/65d02699-02c7-48db-9eb3-32c96ab8c58a" />
+        <img width="1592" height="493" alt="image" src="https://github.com/user-attachments/assets/e022d2e4-1de2-4b45-8d22-56807053dfb2" />
+        <img width="1351" height="757" alt="image" src="https://github.com/user-attachments/assets/12e805ca-288a-4c0d-b5a4-a729f53c0596" />
+        <img width="1360" height="746" alt="image" src="https://github.com/user-attachments/assets/085fcd51-ec70-46ca-8f30-2b02d2aa7d11" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPINTOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha estiver vazia, sem nenhum integrante informado.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Carreguei uma planilha de integrantes sem nenhuma linha de dados. O sistema impediu a continuidade da importação e mostrou mensagem clara indicando a necessidade de pelo menos um registro antes de prosseguir.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1379" height="762" alt="image" src="https://github.com/user-attachments/assets/66801912-f50e-4084-b3c1-fcd1faeaec23" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table> 
+  </details>
+  
+  <details>
+  <summary><h3> Cadastrar Empresas </h3></summary>
+  <table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-01<br>Importar empresas corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as empresas quando o arquivo CSV segue exatamente o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Reexecutei o fluxo com a planilha de empresas seguindo o modelo padrão. Todas foram exibidas na pré-visualização e, após a importação, os registros foram criados com os dados íntegros, sem mensagens de erro ou campos ausentes.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1364" height="753" alt="image" src="https://github.com/user-attachments/assets/3ad271de-a3fd-4eb8-8b85-6509dc4001fd" />
+        <img width="1357" height="745" alt="image" src="https://github.com/user-attachments/assets/0354593c-2d94-4abf-bea3-c6f3e3c18358" />
+        <img width="1576" height="694" alt="image" src="https://github.com/user-attachments/assets/61f9c122-d985-454c-aeff-ee639848eac8" />
+        <img width="1366" height="750" alt="image" src="https://github.com/user-attachments/assets/420aa30d-7af0-49d1-b28d-1db1d0ac0b82" />
+        <img width="1350" height="757" alt="image" src="https://github.com/user-attachments/assets/72099651-cf05-4741-a827-f894e67b1d82" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-02<br>Falha ao importar devido a colunas incorretas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve identificar colunas inválidas e impedir a pré-visualização e a importação de empresas.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Utilizei um arquivo com colunas diferentes do layout padrão. O sistema acusou a divergência logo após o upload, mostrou mensagem de alerta e não habilitou a pré-visualização nem a importação das empresas.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="444" height="230" alt="image" src="https://github.com/user-attachments/assets/b5e0d4e1-12ad-4d68-acf2-21cf7b2ecb7f" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha não contém nenhum registro de empresa.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Foi utilizada uma planilha totalmente vazia. O sistema barrou a importação, mantendo a base sem alterações e exibindo mensagem reforçando a necessidade de pelo menos um registro para prosseguir.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1370" height="771" alt="image" src="https://github.com/user-attachments/assets/e1cd7807-0b14-4c3e-b43a-62571636ba9c" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  </details>
+
   <details>
     <summary> <h3> Evidências: Cadastrar Integrantes na Turma </summary>
 
