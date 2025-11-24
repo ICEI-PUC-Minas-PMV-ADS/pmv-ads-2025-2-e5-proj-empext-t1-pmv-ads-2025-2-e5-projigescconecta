@@ -9088,6 +9088,211 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
 
 <details>
 <details>
+  <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
+
+  <table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-01<br>Exibir relatório que descreva o que o executor busca filtrar</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+   Usuário visualiza na tela todos os dados selecionados para conter no relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema apresentou o relatório perfeitamente.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1598" height="767" alt="3 1" src="https://github.com/user-attachments/assets/c4655c32-e40f-4354-8390-1f291250f744" />
+        <img width="1599" height="764" alt="3 3" src="https://github.com/user-attachments/assets/47b16acf-ef4b-4e08-b665-165451a28b43" />
+        <img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/6ab0700a-76df-4706-999d-93d59cc67f9d" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-02<br>O Sistema deve exibir dados em PDF</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve permitir visualizar e salvar o arquivo em pdf.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kenia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+     A visualização abriu corretamente e foi possível salvar o arquivo.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/5dfd9c39-3eb1-4658-9eef-4bc16e41ef29" />
+        <img width="1588" height="331" alt="4 0" src="https://github.com/user-attachments/assets/e969ab44-3231-4676-b6ae-25e3276f8465" />
+        <img width="1599" height="852" alt="4 1" src="https://github.com/user-attachments/assets/c1c8d6f3-ec4b-49ed-bc1d-219cf40745b8" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-03<br>O sistema deve exibir dados em Excel</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema exibe o relatório em Excel e permite salvar.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    A visualização abriu corretamente e foi possível salvar o arquivo.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/c0d13b15-dedf-4e66-9537-e0189cb330a6" />
+    <img width="1599" height="338" alt="4 2" src="https://github.com/user-attachments/assets/3630e976-1ca7-4cc0-a19a-087f750bd30d" />
+    <img width="1598" height="850" alt="4 3" src="https://github.com/user-attachments/assets/5b4e516b-aeb4-440d-8528-358981dafb03" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-04<br>Não preencher dados obrigatorios</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório se não preencher os campos obrigatórios.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="766" alt="erro 3" src="https://github.com/user-attachments/assets/8b9fd76d-8148-4e12-9af9-12c4f72cfde3" />
+</em>
+  </td>
+</tr>
+</table>
+
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-05<br>Não preencher corretamente os dados obrigatorios</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema apresenta mensagem e não exibe o relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório se não preencher corretamente os campos obrigatórios.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="771" alt="5" src="https://github.com/user-attachments/assets/c12db963-a309-43f2-9f70-1441ce21b703" />
+</em>
+  </td>
+</tr>
+</table>
+
+
+
+</details>
+
+  
+<details>
   <summary><h2>Testes: 🌱 Upload de Documento</h2></summary>
 
   <table>
