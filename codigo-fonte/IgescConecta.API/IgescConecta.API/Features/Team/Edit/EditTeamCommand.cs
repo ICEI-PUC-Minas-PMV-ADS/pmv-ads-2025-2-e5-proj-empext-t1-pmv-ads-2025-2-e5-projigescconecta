@@ -1,8 +1,10 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
@@ -13,9 +15,12 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public List<int>? PersonTeamsIds { get; set; }
-        public int? ProjectProgramId { get; set; }
+        public List<int>? ProjectProgramIds { get; set; }
         public int? CourseId { get; set; }
+        public int? Year { get; set; }
+        public string? Semester { get; set; }
+        public ModalityType? ModalityType { get; set; }
+        public EventType? EventType { get; set; }
     }
 
     internal sealed class EditTeamCommandHandler : IRequestHandler<EditTeamCommand, Result<Team, ValidationFailed>>
@@ -31,31 +36,35 @@ namespace IgescConecta.API.Features.Teams.EditTeam
         {
             var team = await _context.Teams
                 .Where(t => t.Id == request.TeamId)
-                .Include(p => p.ProjectProgram)  
+                .Include(p => p.ProjectPrograms)  
                 .Include(c => c.Course)
                 .Include(pt => pt.PersonTeams)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (team == null)
             {
-                return new ValidationFailed(new[] { "Turma não encontrado ou excluída." });
+                return new ValidationFailed(new[] { "Turma não encontrada ou excluída." });
             }
 
             var startDate = request.Start ?? team.Start;
             var finishDate = request.Finish ?? team.Finish;
 
-            if (startDate >= finishDate)
+            if (startDate.HasValue && finishDate.HasValue && startDate >= finishDate)
             {
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            if (request.ProjectProgramId.HasValue)
+            if (request.ProjectProgramIds != null && request.ProjectProgramIds.Any())
             {
-                var programExists = await _context.ProjectPrograms
-                    .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
+                var programsExist = await _context.ProjectPrograms
+                    .Where(p => request.ProjectProgramIds.Contains(p.Id))
+                    .Select(p => p.Id)
+                    .ToListAsync(cancellationToken);
 
-                if (!programExists)
-                    return new ValidationFailed(new[] { $"Projeto com ID {request.ProjectProgramId} não encontrado." });
+                var invalidIds = request.ProjectProgramIds.Except(programsExist).ToList();
+
+                if (invalidIds.Any())
+                    return new ValidationFailed(new[] { $"Projetos com IDs {string.Join(", ", invalidIds)} não encontrados." });
             }
 
             if (request.CourseId.HasValue)
@@ -67,43 +76,70 @@ namespace IgescConecta.API.Features.Teams.EditTeam
                     return new ValidationFailed(new[] { $"Projeto com ID {request.CourseId} não encontrado." });
             }
 
-            if (request.PersonTeamsIds != null && request.PersonTeamsIds.Any())
+
+            if (request.Name != null && string.IsNullOrWhiteSpace(request.Name))
             {
-                var personsExist = await _context.Persons
-                    .Where(p => request.PersonTeamsIds.Contains(p.Id))
-                    .Select(p => p.Id)
-                    .ToListAsync(cancellationToken);
-
-                var invalidIds = request.PersonTeamsIds.Except(personsExist).ToList();
-
-                if (invalidIds.Any())
-                {
-                    return new ValidationFailed(new[] { $"Pessoas com IDs {string.Join(", ", invalidIds)} não encontradas." });
-                }
+                return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
             }
 
+            if (request.Year.HasValue && request.Year <= 0)
+            {
+                return new ValidationFailed(new[] { "O ano deve ser maior que zero quando fornecido." });
+            }
+
+            if (request.Semester != null && string.IsNullOrWhiteSpace(request.Semester))
+            {
+                return new ValidationFailed(new[] { "O semestre é obrigatório quando fornecido." });
+            }
+
+            // Validações de enums quando fornecidos
+            if (request.ModalityType.HasValue && !Enum.IsDefined(typeof(ModalityType), request.ModalityType.Value))
+            {
+                return new ValidationFailed(new[] { "A modalidade fornecida é inválida." });
+            }
+
+            if (request.EventType.HasValue && !Enum.IsDefined(typeof(EventType), request.EventType.Value))
+            {
+                return new ValidationFailed(new[] { "O tipo de evento fornecido é inválido." });
+            }
+            
             team.Name = request.Name ?? team.Name;
             team.LessonTime = request.LessonTime ?? team.LessonTime;
             team.Start = request.Start ?? team.Start;
             team.Finish = request.Finish ?? team.Finish;
-            team.ProjectProgramId = request.ProjectProgramId ?? team.ProjectProgramId;
             team.CourseId = request.CourseId ?? team.CourseId;
+            team.Year = request.Year ?? team.Year;
+            team.Semester = request.Semester ?? team.Semester;
 
-            if (request.PersonTeamsIds != null &&
-                !request.PersonTeamsIds.OrderBy(x => x)
-                    .SequenceEqual(team.PersonTeams.Select(pt => pt.PersonId).OrderBy(x => x)))
+            if (request.ModalityType.HasValue)
             {
-                team.PersonTeams.Clear();
+                team.ModalityType = request.ModalityType.Value;
+            }
 
-                foreach (var personId in request.PersonTeamsIds)
+            if (request.EventType.HasValue)
+            {
+                team.EventType = request.EventType.Value;
+            }
+
+            // Atualizar ProjectPrograms
+            if (request.ProjectProgramIds != null)
+            {
+                team.ProjectPrograms.Clear();
+
+                if (request.ProjectProgramIds.Any())
                 {
-                    team.PersonTeams.Add(new PersonTeam
+                    var projectPrograms = await _context.ProjectPrograms
+                        .Where(pp => request.ProjectProgramIds.Contains(pp.Id))
+                        .ToListAsync(cancellationToken);
+
+                    foreach (var projectProgram in projectPrograms)
                     {
-                        TeamId = team.Id,
-                        PersonId = personId
-                    });
+                        team.ProjectPrograms.Add(projectProgram);
+                    }
                 }
             }
+
+            // Atualização de PersonTeams removida deste contexto.
 
             await _context.SaveChangesAsync(cancellationToken);
 

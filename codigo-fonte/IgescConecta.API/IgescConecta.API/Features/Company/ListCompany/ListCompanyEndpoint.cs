@@ -1,11 +1,14 @@
+using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Features.Companies.ListCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Companies.ListCompany
 {
+    [ApiAuthorize]
+    [Route("/api/companies")]
     [ApiController]
-    [Route("api/companies")]
+    [ApiExplorerSettings(GroupName = "Company")]
     public class ListCompanyEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

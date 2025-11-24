@@ -1,10 +1,13 @@
-﻿using MediatR;
+﻿using IgescConecta.API.Common.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Companies.ReactivateCompany
 {
+    [ApiAuthorize]
+    [Route("/api/companies")]
     [ApiController]
-    [Route("api/companies")]
+    [ApiExplorerSettings(GroupName = "Company")]
     public class ReactivateCompanyEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

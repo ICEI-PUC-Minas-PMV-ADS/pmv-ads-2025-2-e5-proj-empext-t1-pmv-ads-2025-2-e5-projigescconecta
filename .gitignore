@@ -362,3 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 ITALearning/ITALearning/Files/
+
+#Extensões
+sessions.json
+.trae
+.github/copilot-instructions.md
+.github/instructions

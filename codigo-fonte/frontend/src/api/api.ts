@@ -13,25 +13,14550 @@
  */
 
 
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
+// Some imports not used depending on template conditions
+// @ts-ignore
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import type { RequestArgs } from './base';
+// @ts-ignore
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-export * from './apis/auth-api';
-export * from './apis/beneficiaries-api';
-export * from './apis/business-cases-api';
-export * from './apis/courses-api';
-export * from './apis/create-company-endpoint-api';
-export * from './apis/create-donation-endpoint-api';
-export * from './apis/delete-donation-endpoint-api';
-export * from './apis/inactivate-company-endpoint-api';
-export * from './apis/list-companies-endpoint-api';
-export * from './apis/list-company-endpoint-api';
-export * from './apis/list-donation-endpoint-api';
-export * from './apis/list-donations-endpoint-api';
-export * from './apis/origins-business-cases-api';
-export * from './apis/oscs-api';
-export * from './apis/persons-api';
-export * from './apis/reactivate-company-endpoint-api';
-export * from './apis/teams-api';
-export * from './apis/update-company-endpoint-api';
-export * from './apis/update-donation-endpoint-api';
-export * from './apis/users-api';
+/**
+ * 
+ * @export
+ * @interface BeneficiaryViewModel
+ */
+export interface BeneficiaryViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof BeneficiaryViewModel
+     */
+    'beneficiaryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BeneficiaryViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BeneficiaryViewModel
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BeneficiaryViewModel
+     */
+    'oscsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BeneficiaryViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface BusinessCaseViewModel
+ */
+export interface BusinessCaseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof BusinessCaseViewModel
+     */
+    'businessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BusinessCaseViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BusinessCaseViewModel
+     */
+    'originsBusinessCases'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BusinessCaseViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ChartDataByString
+ */
+export interface ChartDataByString {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChartDataByString
+     */
+    'nome'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByString
+     */
+    'quantidade'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface ChartDataByYear
+ */
+export interface ChartDataByYear {
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByYear
+     */
+    'ano'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChartDataByYear
+     */
+    'quantidade'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CompanyViewModel
+ */
+export interface CompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof CompanyViewModel
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyViewModel
+     */
+    'cnpj'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyViewModel
+     */
+    'nome'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyViewModel
+     */
+    'razaoSocial'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyViewModel
+     */
+    'telefone'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CompanyViewModel
+     */
+    'ativa'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CourseViewModel
+ */
+export interface CourseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof CourseViewModel
+     */
+    'courseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CourseViewModel
+     */
+    'teamsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CourseViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreateBeneficiaryRequest
+ */
+export interface CreateBeneficiaryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBeneficiaryRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBeneficiaryRequest
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateBeneficiaryResponse
+ */
+export interface CreateBeneficiaryResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateBeneficiaryResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBeneficiaryResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateBusinessCaseRequest
+ */
+export interface CreateBusinessCaseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCaseRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateBusinessCaseRequest
+     */
+    'originsBusinessCasesIds'?: Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface CreateBusinessCaseResponse
+ */
+export interface CreateBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCaseResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCompanyCommand
+ */
+export interface CreateCompanyCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'cnpj'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'companyName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'corporateReason'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'fieldOfActivity'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'zipCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'address'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'neighborhood'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'state'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'website'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'socialMedia'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCompanyCommand
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateCompanyCommand
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCourseRequest
+ */
+export interface CreateCourseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCourseRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateCourseResponse
+ */
+export interface CreateCourseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateCourseResponse
+     */
+    'courseId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateDonationCommand
+ */
+export interface CreateDonationCommand {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'value'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateDonationCommand
+     */
+    'donationDate'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'personId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'companyId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'oscId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'courseId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateDonationCommand
+     */
+    'teamId'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface CreateOriginBusinessCaseRequest
+ */
+export interface CreateOriginBusinessCaseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOriginBusinessCaseRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOriginBusinessCaseRequest
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateOriginBusinessCaseRequest
+     */
+    'businessCaseId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateOriginBusinessCaseResponse
+ */
+export interface CreateOriginBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateOriginBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOriginBusinessCaseResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateOscRequest
+ */
+export interface CreateOscRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'objective'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'corporateName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'zipCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscRequest
+     */
+    'oscPrimaryDocumment'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateOscRequest
+     */
+    'beneficiariesIds'?: Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateOscRequest
+     */
+    'originsBusinessCasesIds'?: Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface CreateOscResponse
+ */
+export interface CreateOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateOscResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateOscResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonCompanyRequest
+ */
+export interface CreatePersonCompanyRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonCompanyRequest
+     */
+    'personId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonCompanyResponse
+ */
+export interface CreatePersonCompanyResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonCompanyResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonOscRequest
+ */
+export interface CreatePersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscRequest
+     */
+    'personId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonOscResponse
+ */
+export interface CreatePersonOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonOscResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonOscResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonRequest
+ */
+export interface CreatePersonRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'secondaryEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'secondaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'education1'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'education2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonRequest
+     */
+    'professionalActivity'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePersonRequest
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonResponse
+ */
+export interface CreatePersonResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonResponse
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'secondaryEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'secondaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'education1'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'education2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonResponse
+     */
+    'professionalActivity'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreatePersonResponse
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonTeamRequest
+ */
+export interface CreatePersonTeamRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonTeamRequest
+     */
+    'personId': number;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof CreatePersonTeamRequest
+     */
+    'memberTypes': Array<MemberType>;
+}
+/**
+ * 
+ * @export
+ * @interface CreatePersonTeamResponse
+ */
+export interface CreatePersonTeamResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreatePersonTeamResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePersonTeamResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectDocumentResponse
+ */
+export interface CreateProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectDocumentResponse
+     */
+    'projectDocumentId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectProgramRequest
+ */
+export interface CreateProjectProgramRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectProgramRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof CreateProjectProgramRequest
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof CreateProjectProgramRequest
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramRequest
+     */
+    'projectDocumentId'?: number | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateProjectProgramResponse
+ */
+export interface CreateProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectProgramResponse
+     */
+    'projectProgramId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectThemeRequest
+ */
+export interface CreateProjectThemeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectThemeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectThemeResponse
+ */
+export interface CreateProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectTypeRequest
+ */
+export interface CreateProjectTypeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectTypeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateProjectTypeResponse
+ */
+export interface CreateProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportFieldRequest
+ */
+export interface CreateReportFieldRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof CreateReportFieldRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFieldRequest
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportFieldRequest
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateReportFilterQuestionRequest
+ */
+export interface CreateReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'defaultOperator': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportFilterQuestionRequest
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateReportRelationRequest
+ */
+export interface CreateReportRelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'fromEntity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'path': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'joinType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRelationRequest
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportRelationRequest
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportRequest
+ */
+export interface CreateReportRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    'rootEntity': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateReportRequest
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<CreateReportRelationRequest>}
+     * @memberof CreateReportRequest
+     */
+    'relations'?: Array<CreateReportRelationRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportFieldRequest>}
+     * @memberof CreateReportRequest
+     */
+    'fields'?: Array<CreateReportFieldRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportFilterQuestionRequest>}
+     * @memberof CreateReportRequest
+     */
+    'filterQuestions'?: Array<CreateReportFilterQuestionRequest>;
+    /**
+     * 
+     * @type {Array<CreateReportSortRequest>}
+     * @memberof CreateReportRequest
+     */
+    'sorts'?: Array<CreateReportSortRequest>;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportResponse
+ */
+export interface CreateReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportResponse
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateReportSortRequest
+ */
+export interface CreateReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportSortRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportSortRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof CreateReportSortRequest
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateReportSortRequest
+     */
+    'priority'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateTeamRequest
+ */
+export interface CreateTeamRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTeamRequest
+     */
+    'year': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTeamRequest
+     */
+    'semester': string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof CreateTeamRequest
+     */
+    'modalityType': ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof CreateTeamRequest
+     */
+    'eventType': EventType;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateTeamRequest
+     */
+    'projectProgramsIds'?: Array<number>;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTeamRequest
+     */
+    'courseId': number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreateTeamResponse
+ */
+export interface CreateTeamResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTeamResponse
+     */
+    'teamId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CreateUserRequest
+ */
+export interface CreateUserRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'password'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'role'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateUserResponse
+ */
+export interface CreateUserResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateUserResponse
+     */
+    'userId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DashboardViewModel
+ */
+export interface DashboardViewModel {
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'organizacoesPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'consultoresPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByYear>}
+     * @memberof DashboardViewModel
+     */
+    'cidadesAtendidasPorAno'?: Array<ChartDataByYear>;
+    /**
+     * 
+     * @type {Array<ChartDataByString>}
+     * @memberof DashboardViewModel
+     */
+    'rankingCausas'?: Array<ChartDataByString>;
+    /**
+     * 
+     * @type {Array<ChartDataByString>}
+     * @memberof DashboardViewModel
+     */
+    'rankingTemasProjeto'?: Array<ChartDataByString>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DashboardViewModel
+     */
+    'mapaCidades'?: Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteCourseResponse
+ */
+export interface DeleteCourseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteCourseResponse
+     */
+    'courseId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DeletePersonTeamResponse
+ */
+export interface DeletePersonTeamResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeletePersonTeamResponse
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteProjectProgramResponse
+ */
+export interface DeleteProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteProjectProgramResponse
+     */
+    'projectProgramId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteProjectThemeResponse
+ */
+export interface DeleteProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteProjectTypeResponse
+ */
+export interface DeleteProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteReportResponse
+ */
+export interface DeleteReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteReportResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DonationViewModel
+ */
+export interface DonationViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof DonationViewModel
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DonationViewModel
+     */
+    'value'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DonationViewModel
+     */
+    'donationDate'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DonationViewModel
+     */
+    'doadorNome'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DonationViewModel
+     */
+    'destinoNome'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditCourseRequest
+ */
+export interface EditCourseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditCourseRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditCourseResponse
+ */
+export interface EditCourseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditCourseResponse
+     */
+    'courseId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EditPersonTeamRequest
+ */
+export interface EditPersonTeamRequest {
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof EditPersonTeamRequest
+     */
+    'memberTypes': Array<MemberType>;
+}
+/**
+ * 
+ * @export
+ * @interface EditPersonTeamResponse
+ */
+export interface EditPersonTeamResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditPersonTeamResponse
+     */
+    'success'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectProgramRequest
+ */
+export interface EditProjectProgramRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectProgramRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof EditProjectProgramRequest
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof EditProjectProgramRequest
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramRequest
+     */
+    'projectDocumentId'?: number | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditProjectProgramResponse
+ */
+export interface EditProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectProgramResponse
+     */
+    'projectProgramId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectThemeRequest
+ */
+export interface EditProjectThemeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectThemeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectThemeResponse
+ */
+export interface EditProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectTypeRequest
+ */
+export interface EditProjectTypeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditProjectTypeRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface EditProjectTypeResponse
+ */
+export interface EditProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportFieldRequest
+ */
+export interface EditReportFieldRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof EditReportFieldRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFieldRequest
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportFieldRequest
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditReportFilterQuestionRequest
+ */
+export interface EditReportFilterQuestionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'defaultOperator': string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportFilterQuestionRequest
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditReportRelationRequest
+ */
+export interface EditReportRelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'fromEntity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'path': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'joinType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRelationRequest
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportRelationRequest
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportRequest
+ */
+export interface EditReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportRequest
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportRequest
+     */
+    'rootEntity': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EditReportRequest
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<EditReportRelationRequest>}
+     * @memberof EditReportRequest
+     */
+    'relations'?: Array<EditReportRelationRequest>;
+    /**
+     * 
+     * @type {Array<EditReportFieldRequest>}
+     * @memberof EditReportRequest
+     */
+    'fields'?: Array<EditReportFieldRequest>;
+    /**
+     * 
+     * @type {Array<EditReportFilterQuestionRequest>}
+     * @memberof EditReportRequest
+     */
+    'filterQuestions'?: Array<EditReportFilterQuestionRequest>;
+    /**
+     * 
+     * @type {Array<EditReportSortRequest>}
+     * @memberof EditReportRequest
+     */
+    'sorts'?: Array<EditReportSortRequest>;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportResponse
+ */
+export interface EditReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportResponse
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface EditReportSortRequest
+ */
+export interface EditReportSortRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportSortRequest
+     */
+    'entity': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditReportSortRequest
+     */
+    'fieldPath': string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof EditReportSortRequest
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditReportSortRequest
+     */
+    'priority'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface EditTeamRequest
+ */
+export interface EditTeamRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof EditTeamRequest
+     */
+    'projectProgramIds'?: Array<number> | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditTeamRequest
+     */
+    'courseId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EditTeamRequest
+     */
+    'year'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditTeamRequest
+     */
+    'semester'?: string | null;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof EditTeamRequest
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof EditTeamRequest
+     */
+    'eventType'?: EventType;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EventType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type EventType = typeof EventType[keyof typeof EventType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const FieldDataType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8
+} as const;
+
+export type FieldDataType = typeof FieldDataType[keyof typeof FieldDataType];
+
+
+/**
+ * 
+ * @export
+ * @interface Filter
+ */
+export interface Filter {
+    /**
+     * 
+     * @type {string}
+     * @memberof Filter
+     */
+    'propertyName'?: string;
+    /**
+     * 
+     * @type {Op}
+     * @memberof Filter
+     */
+    'operation'?: Op;
+    /**
+     * 
+     * @type {any}
+     * @memberof Filter
+     */
+    'value'?: any;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ForgotPasswordRequest
+ */
+export interface ForgotPasswordRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgotPasswordRequest
+     */
+    'email'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ForgotPasswordResponse
+ */
+export interface ForgotPasswordResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgotPasswordResponse
+     */
+    'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetBeneficiaryOscResponse
+ */
+export interface GetBeneficiaryOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryOscResponse
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryOscResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryOscResponse
+     */
+    'corporateName'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetBeneficiaryResponse
+ */
+export interface GetBeneficiaryResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetBeneficiaryResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBeneficiaryResponse
+     */
+    'beneficiaryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBeneficiaryResponse
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {Array<GetBeneficiaryOscResponse>}
+     * @memberof GetBeneficiaryResponse
+     */
+    'oscs'?: Array<GetBeneficiaryOscResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface GetBusinessCaseOriginResponse
+ */
+export interface GetBusinessCaseOriginResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseOriginResponse
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseOriginResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetBusinessCaseResponse
+ */
+export interface GetBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetBusinessCaseResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetBusinessCaseResponse
+     */
+    'businessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetBusinessCaseResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<GetBusinessCaseOriginResponse>}
+     * @memberof GetBusinessCaseResponse
+     */
+    'origins'?: Array<GetBusinessCaseOriginResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface GetCourseByIdViewModel
+ */
+export interface GetCourseByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseByIdViewModel
+     */
+    'courseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseByIdViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetCourseByIdViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseByIdViewModel
+     */
+    'teamsCount'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseByIdViewModel
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseByIdViewModel
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetCourseByIdViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCourseByIdViewModel
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {Array<TeamViewModel>}
+     * @memberof GetCourseByIdViewModel
+     */
+    'teams'?: Array<TeamViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface GetOriginBusinessCaseOscResponse
+ */
+export interface GetOriginBusinessCaseOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseOscResponse
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseOscResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseOscResponse
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetOriginBusinessCaseResponse
+ */
+export interface GetOriginBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {Array<GetOriginBusinessCaseOscResponse>}
+     * @memberof GetOriginBusinessCaseResponse
+     */
+    'oscs'?: Array<GetOriginBusinessCaseOscResponse> | null;
+}
+/**
+ * 
+ * @export
+ * @interface GetOscBeneficiaryResponse
+ */
+export interface GetOscBeneficiaryResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscBeneficiaryResponse
+     */
+    'beneficiaryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscBeneficiaryResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetOscOriginBusinessCaseResponse
+ */
+export interface GetOscOriginBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscOriginBusinessCaseResponse
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscOriginBusinessCaseResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetOscResponse
+ */
+export interface GetOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetOscResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetOscResponse
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'corporateName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'objective'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'zipCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetOscResponse
+     */
+    'oscPrimaryDocumment'?: string | null;
+    /**
+     * 
+     * @type {Array<GetOscBeneficiaryResponse>}
+     * @memberof GetOscResponse
+     */
+    'beneficiaries'?: Array<GetOscBeneficiaryResponse>;
+    /**
+     * 
+     * @type {Array<GetOscOriginBusinessCaseResponse>}
+     * @memberof GetOscResponse
+     */
+    'originsBusinessCases'?: Array<GetOscOriginBusinessCaseResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface GetProjectDocumentResponse
+ */
+export interface GetProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectDocumentResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'fileName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectDocumentResponse
+     */
+    'contentType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectDocumentResponse
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectDocumentResponse
+     */
+    'hasFile'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetProjectProgramByIdViewModel
+ */
+export interface GetProjectProgramByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'odsTypes'?: Array<OdsType>;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectThemeName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectTypeName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'oscCnpj'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'projectDocumentId'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectProgramByIdViewModel
+     */
+    'isDeleted'?: boolean;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetProjectThemeByIdViewModel
+ */
+export interface GetProjectThemeByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectThemeByIdViewModel
+     */
+    'updatedAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetProjectTypeByIdViewModel
+ */
+export interface GetProjectTypeByIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'createdBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetProjectTypeByIdViewModel
+     */
+    'updatedAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetReportFieldResponse
+ */
+export interface GetReportFieldResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof GetReportFieldResponse
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFieldResponse
+     */
+    'formatHint'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportFieldResponse
+     */
+    'displayOrder'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportFilterQuestionResponse
+ */
+export interface GetReportFilterQuestionResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'defaultOperator'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'isRequired'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'isDateBase'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportFilterQuestionResponse
+     */
+    'enumOptionsJson'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportRelationResponse
+ */
+export interface GetReportRelationResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'fromEntity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'joinType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportRelationResponse
+     */
+    'alias'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportRelationResponse
+     */
+    'isCollection'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface GetReportResponse
+ */
+export interface GetReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportResponse
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {ReportStatus}
+     * @memberof GetReportResponse
+     */
+    'status'?: ReportStatus;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReportResponse
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {Array<GetReportRelationResponse>}
+     * @memberof GetReportResponse
+     */
+    'relations'?: Array<GetReportRelationResponse>;
+    /**
+     * 
+     * @type {Array<GetReportFieldResponse>}
+     * @memberof GetReportResponse
+     */
+    'fields'?: Array<GetReportFieldResponse>;
+    /**
+     * 
+     * @type {Array<GetReportFilterQuestionResponse>}
+     * @memberof GetReportResponse
+     */
+    'filterQuestions'?: Array<GetReportFilterQuestionResponse>;
+    /**
+     * 
+     * @type {Array<GetReportSortResponse>}
+     * @memberof GetReportResponse
+     */
+    'sorts'?: Array<GetReportSortResponse>;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetReportSortResponse
+ */
+export interface GetReportSortResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportSortResponse
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReportSortResponse
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {SortDirection}
+     * @memberof GetReportSortResponse
+     */
+    'direction'?: SortDirection;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReportSortResponse
+     */
+    'priority'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface GetTeamByIdResponse
+ */
+export interface GetTeamByIdResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof GetTeamByIdResponse
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof GetTeamByIdResponse
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'courseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'courseName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'projectProgramsCount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'personTeamsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetTeamByIdResponse
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTeamByIdResponse
+     */
+    'updatedAt'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetTeamByIdResponse
+     */
+    'updatedBy'?: number | null;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ListBeneficiaryRequest
+ */
+export interface ListBeneficiaryRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBeneficiaryRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBeneficiaryRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListBeneficiaryRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListBeneficiaryRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListBeneficiaryViewModel
+ */
+export interface ListBeneficiaryViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBeneficiaryViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<BeneficiaryViewModel>}
+     * @memberof ListBeneficiaryViewModel
+     */
+    'items'?: Array<BeneficiaryViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListBusinessCaseRequest
+ */
+export interface ListBusinessCaseRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBusinessCaseRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBusinessCaseRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListBusinessCaseRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListBusinessCaseRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListBusinessCaseViewModel
+ */
+export interface ListBusinessCaseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListBusinessCaseViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<BusinessCaseViewModel>}
+     * @memberof ListBusinessCaseViewModel
+     */
+    'items'?: Array<BusinessCaseViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListCompaniesRequest
+ */
+export interface ListCompaniesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCompaniesRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCompaniesRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListCompaniesRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListCompaniesViewModel
+ */
+export interface ListCompaniesViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCompaniesViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<CompanyViewModel>}
+     * @memberof ListCompaniesViewModel
+     */
+    'items'?: Array<CompanyViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListCourseRequest
+ */
+export interface ListCourseRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCourseRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCourseRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListCourseRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListCourseRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListCourseViewModel
+ */
+export interface ListCourseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListCourseViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<CourseViewModel>}
+     * @memberof ListCourseViewModel
+     */
+    'items'?: Array<CourseViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListDonationsRequest
+ */
+export interface ListDonationsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDonationsRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDonationsRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListDonationsRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListDonationsViewModel
+ */
+export interface ListDonationsViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListDonationsViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<DonationViewModel>}
+     * @memberof ListDonationsViewModel
+     */
+    'items'?: Array<DonationViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListOriginBusinessCaseRequest
+ */
+export interface ListOriginBusinessCaseRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginBusinessCaseRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginBusinessCaseRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListOriginBusinessCaseRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListOriginBusinessCaseViewModel
+ */
+export interface ListOriginBusinessCaseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginBusinessCaseViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<OriginBusinessCaseViewModel>}
+     * @memberof ListOriginBusinessCaseViewModel
+     */
+    'items'?: Array<OriginBusinessCaseViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListOriginsBusinessCaseByBusinessCaseIdRequest
+ */
+export interface ListOriginsBusinessCaseByBusinessCaseIdRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'businessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListOriginsBusinessCaseByBusinessCaseIdViewModel
+ */
+export interface ListOriginsBusinessCaseByBusinessCaseIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<OriginBusinessCaseByBusinessCaseIdViewModel>}
+     * @memberof ListOriginsBusinessCaseByBusinessCaseIdViewModel
+     */
+    'items'?: Array<OriginBusinessCaseByBusinessCaseIdViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListOscRequest
+ */
+export interface ListOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListOscRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'beneficiaryId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscRequest
+     */
+    'originBusinessCaseId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListOscRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListOscViewModel
+ */
+export interface ListOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListOscViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<OscViewModel>}
+     * @memberof ListOscViewModel
+     */
+    'items'?: Array<OscViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonCompanyViewModel
+ */
+export interface ListPersonCompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonCompanyViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonCompanyViewModel>}
+     * @memberof ListPersonCompanyViewModel
+     */
+    'items'?: Array<PersonCompanyViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonOscRequest
+ */
+export interface ListPersonOscRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonOscRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonOscViewModel
+ */
+export interface ListPersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonOscViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonOscViewModel>}
+     * @memberof ListPersonOscViewModel
+     */
+    'items'?: Array<PersonOscViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonRequest
+ */
+export interface ListPersonRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonTeamRequest
+ */
+export interface ListPersonTeamRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamRequest
+     */
+    'teamId'?: number | null;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListPersonTeamRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListPersonTeamRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonTeamViewModel
+ */
+export interface ListPersonTeamViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonTeamViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonTeamDto>}
+     * @memberof ListPersonTeamViewModel
+     */
+    'items'?: Array<PersonTeamDto>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPersonViewModel
+ */
+export interface ListPersonViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPersonViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<PersonListItemViewModel>}
+     * @memberof ListPersonViewModel
+     */
+    'items'?: Array<PersonListItemViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectDocumentsResponse
+ */
+export interface ListProjectDocumentsResponse {
+    /**
+     * 
+     * @type {Array<ProjectDocumentListItem>}
+     * @memberof ListProjectDocumentsResponse
+     */
+    'items'?: Array<ProjectDocumentListItem>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectProgramRequest
+ */
+export interface ListProjectProgramRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectProgramRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectProgramViewModel
+ */
+export interface ListProjectProgramViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectProgramViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectProgramListItemViewModel>}
+     * @memberof ListProjectProgramViewModel
+     */
+    'items'?: Array<ProjectProgramListItemViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectThemeRequest
+ */
+export interface ListProjectThemeRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectThemeRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListProjectThemeRequest
+     */
+    'includeDeleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListProjectThemeRequest
+     */
+    'onlyDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectThemeViewModel
+ */
+export interface ListProjectThemeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectThemeViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectThemeViewModel>}
+     * @memberof ListProjectThemeViewModel
+     */
+    'items'?: Array<ProjectThemeViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectTypeRequest
+ */
+export interface ListProjectTypeRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListProjectTypeRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListProjectTypeRequest
+     */
+    'includeDeleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListProjectTypeRequest
+     */
+    'onlyDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ListProjectTypeViewModel
+ */
+export interface ListProjectTypeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListProjectTypeViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ProjectTypeViewModel>}
+     * @memberof ListProjectTypeViewModel
+     */
+    'items'?: Array<ProjectTypeViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListReportItemResponse
+ */
+export interface ListReportItemResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportItemResponse
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {ReportStatus}
+     * @memberof ListReportItemResponse
+     */
+    'status'?: ReportStatus;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListReportItemResponse
+     */
+    'readerCanExecute'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListReportItemResponse
+     */
+    'updatedAt'?: string;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ListReportsRequest
+ */
+export interface ListReportsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListReportsRequest
+     */
+    'filters'?: Array<Filter> | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListReportsResponse
+ */
+export interface ListReportsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListReportsResponse
+     */
+    'totalCount'?: number;
+    /**
+     * 
+     * @type {Array<ListReportItemResponse>}
+     * @memberof ListReportsResponse
+     */
+    'items'?: Array<ListReportItemResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface ListTeamItemViewModel
+ */
+export interface ListTeamItemViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'finish'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'year'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'semester'?: string;
+    /**
+     * 
+     * @type {ModalityType}
+     * @memberof ListTeamItemViewModel
+     */
+    'modalityType'?: ModalityType;
+    /**
+     * 
+     * @type {EventType}
+     * @memberof ListTeamItemViewModel
+     */
+    'eventType'?: EventType;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'projectPrograms'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'courseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamItemViewModel
+     */
+    'courseName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamItemViewModel
+     */
+    'personTeamsCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListTeamItemViewModel
+     */
+    'isDeleted'?: boolean;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ListTeamRequest
+ */
+export interface ListTeamRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListTeamRequest
+     */
+    'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListTeamRequest
+     */
+    'statusFilter'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListTeamViewModel
+ */
+export interface ListTeamViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListTeamViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<ListTeamItemViewModel>}
+     * @memberof ListTeamViewModel
+     */
+    'items'?: Array<ListTeamItemViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface ListUserRequest
+ */
+export interface ListUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListUserRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListUserRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof ListUserRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface ListUserViewModel
+ */
+export interface ListUserViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ListUserViewModel
+     */
+    'totalItems'?: number;
+    /**
+     * 
+     * @type {Array<UserViewModel>}
+     * @memberof ListUserViewModel
+     */
+    'items'?: Array<UserViewModel>;
+}
+/**
+ * 
+ * @export
+ * @interface LoginResponse
+ */
+export interface LoginResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponse
+     */
+    'accessToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponse
+     */
+    'refreshToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponse
+     */
+    'expiresIn'?: string;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const MemberType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7
+} as const;
+
+export type MemberType = typeof MemberType[keyof typeof MemberType];
+
+
+/**
+ * 
+ * @export
+ * @interface MetadataEntityDto
+ */
+export interface MetadataEntityDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataEntityDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataEntityDto
+     */
+    'label'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MetadataFieldDto
+ */
+export interface MetadataFieldDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataFieldDto
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataFieldDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {FieldDataType}
+     * @memberof MetadataFieldDto
+     */
+    'dataType'?: FieldDataType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MetadataFieldDto
+     */
+    'isArray'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MetadataFieldDto
+     */
+    'allowedOperators'?: Array<string>;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface MetadataRelationDto
+ */
+export interface MetadataRelationDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'entity'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRelationDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MetadataRelationDto
+     */
+    'isCollection'?: boolean;
+    /**
+     * 
+     * @type {Array<MetadataFieldDto>}
+     * @memberof MetadataRelationDto
+     */
+    'fields'?: Array<MetadataFieldDto>;
+    /**
+     * 
+     * @type {Array<MetadataRelationDto>}
+     * @memberof MetadataRelationDto
+     */
+    'relations'?: Array<MetadataRelationDto>;
+}
+/**
+ * 
+ * @export
+ * @interface MetadataRootDto
+ */
+export interface MetadataRootDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRootDto
+     */
+    'root'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MetadataRootDto
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {Array<MetadataFieldDto>}
+     * @memberof MetadataRootDto
+     */
+    'fields'?: Array<MetadataFieldDto>;
+    /**
+     * 
+     * @type {Array<MetadataRelationDto>}
+     * @memberof MetadataRootDto
+     */
+    'relations'?: Array<MetadataRelationDto>;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ModalityType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ModalityType = typeof ModalityType[keyof typeof ModalityType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const OdsType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8,
+    NUMBER_9: 9,
+    NUMBER_10: 10,
+    NUMBER_11: 11,
+    NUMBER_12: 12,
+    NUMBER_13: 13,
+    NUMBER_14: 14,
+    NUMBER_15: 15,
+    NUMBER_16: 16,
+    NUMBER_17: 17
+} as const;
+
+export type OdsType = typeof OdsType[keyof typeof OdsType];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Op = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
+    NUMBER_6: 6,
+    NUMBER_7: 7,
+    NUMBER_8: 8,
+    NUMBER_9: 9,
+    NUMBER_10: 10,
+    NUMBER_11: 11,
+    NUMBER_12: 12,
+    NUMBER_13: 13,
+    NUMBER_14: 14,
+    NUMBER_15: 15
+} as const;
+
+export type Op = typeof Op[keyof typeof Op];
+
+
+/**
+ * 
+ * @export
+ * @interface OriginBusinessCaseByBusinessCaseIdViewModel
+ */
+export interface OriginBusinessCaseByBusinessCaseIdViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'businessCaseId'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OriginBusinessCaseByBusinessCaseIdViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface OriginBusinessCaseViewModel
+ */
+export interface OriginBusinessCaseViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof OriginBusinessCaseViewModel
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof OriginBusinessCaseViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OriginBusinessCaseViewModel
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface OscViewModel
+ */
+export interface OscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof OscViewModel
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'objective'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'corporateName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'neighborhood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'city'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'state'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'webUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'socialMedia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'zipCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OscViewModel
+     */
+    'oscPrimaryDocumment'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof OscViewModel
+     */
+    'beneficiariesCount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OscViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PaginationRequest
+ */
+export interface PaginationRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationRequest
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {Array<Filter>}
+     * @memberof PaginationRequest
+     */
+    'filters'?: Array<Filter>;
+}
+/**
+ * 
+ * @export
+ * @interface PersonCompanyViewModel
+ */
+export interface PersonCompanyViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonCompanyViewModel
+     */
+    'personCompanyId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonCompanyViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompanyViewModel
+     */
+    'primaryPhone'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface PersonListItemViewModel
+ */
+export interface PersonListItemViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonListItemViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonListItemViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonListItemViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonListItemViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonListItemViewModel
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonListItemViewModel
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PersonOscViewModel
+ */
+export interface PersonOscViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personOscId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonOscViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonOscViewModel
+     */
+    'primaryPhone'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface PersonTeamDetailDto
+ */
+export interface PersonTeamDetailDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'personName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof PersonTeamDetailDto
+     */
+    'memberTypes'?: Array<MemberType>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDetailDto
+     */
+    'updatedAt'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDetailDto
+     */
+    'updatedBy'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface PersonTeamDto
+ */
+export interface PersonTeamDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDto
+     */
+    'personName'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonTeamDto
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonTeamDto
+     */
+    'teamName'?: string;
+    /**
+     * 
+     * @type {Array<MemberType>}
+     * @memberof PersonTeamDto
+     */
+    'memberTypes'?: Array<MemberType>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonTeamDto
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PersonViewModel
+ */
+export interface PersonViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonViewModel
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'secondaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'secondaryEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'education1'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'education2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'professionalActivity'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonViewModel
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ProblemDetails
+ */
+export interface ProblemDetails {
+    [key: string]: any;
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'type'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'title'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProblemDetails
+     */
+    'status'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'detail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProblemDetails
+     */
+    'instance'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ProjectDecisionType = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+
+export type ProjectDecisionType = typeof ProjectDecisionType[keyof typeof ProjectDecisionType];
+
+
+/**
+ * 
+ * @export
+ * @interface ProjectDocumentListItem
+ */
+export interface ProjectDocumentListItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectDocumentListItem
+     */
+    'projectDocumentId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'fileName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDocumentListItem
+     */
+    'createdAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectProgramListItemViewModel
+ */
+export interface ProjectProgramListItemViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectProgramId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {ProjectDecisionType}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'decision'?: ProjectDecisionType;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectThemeName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'projectTypeName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'teamId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'teamName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'oscCnpj'?: string | null;
+    /**
+     * 
+     * @type {Array<OdsType>}
+     * @memberof ProjectProgramListItemViewModel
+     */
+    'odsTypes'?: Array<OdsType>;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface ProjectThemeViewModel
+ */
+export interface ProjectThemeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectThemeViewModel
+     */
+    'projectThemeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectThemeViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectThemeViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectTypeViewModel
+ */
+export interface ProjectTypeViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectTypeViewModel
+     */
+    'projectTypeId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectTypeViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectTypeViewModel
+     */
+    'isDeleted'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PublishReportResponse
+ */
+export interface PublishReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof PublishReportResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface ReportExecutionColumn
+ */
+export interface ReportExecutionColumn {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'fieldPath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'label'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionColumn
+     */
+    'dataType'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReportExecutionResult
+ */
+export interface ReportExecutionResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionResult
+     */
+    'reportName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportExecutionResult
+     */
+    'rootEntity'?: string;
+    /**
+     * 
+     * @type {Array<ReportExecutionColumn>}
+     * @memberof ReportExecutionResult
+     */
+    'columns'?: Array<ReportExecutionColumn>;
+    /**
+     * 
+     * @type {Array<{ [key: string]: any; }>}
+     * @memberof ReportExecutionResult
+     */
+    'rows'?: Array<{ [key: string]: any; }>;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ReportStatus = {
+    NUMBER_0: 0,
+    NUMBER_1: 1
+} as const;
+
+export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
+
+
+/**
+ * 
+ * @export
+ * @interface ResetPasswordRequest
+ */
+export interface ResetPasswordRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResetPasswordRequest
+     */
+    'userId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResetPasswordRequest
+     */
+    'token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResetPasswordRequest
+     */
+    'newPassword'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ResetPasswordResponse
+ */
+export interface ResetPasswordResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof ResetPasswordResponse
+     */
+    'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RestoreProjectProgramResponse
+ */
+export interface RestoreProjectProgramResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof RestoreProjectProgramResponse
+     */
+    'projectProgramId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface RestoreProjectThemeResponse
+ */
+export interface RestoreProjectThemeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof RestoreProjectThemeResponse
+     */
+    'projectThemeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface RestoreProjectTypeResponse
+ */
+export interface RestoreProjectTypeResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof RestoreProjectTypeResponse
+     */
+    'projectTypeId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface RunReportRequest
+ */
+export interface RunReportRequest {
+    /**
+     * 
+     * @type {{ [key: string]: string | null; }}
+     * @memberof RunReportRequest
+     */
+    'answers'?: { [key: string]: string | null; };
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const SortDirection = {
+    NUMBER_0: 0,
+    NUMBER_1: 1
+} as const;
+
+export type SortDirection = typeof SortDirection[keyof typeof SortDirection];
+
+
+/**
+ * 
+ * @export
+ * @interface TeamViewModel
+ */
+export interface TeamViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof TeamViewModel
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamViewModel
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamViewModel
+     */
+    'lessonTime'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamViewModel
+     */
+    'start'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamViewModel
+     */
+    'finish'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UnpublishReportResponse
+ */
+export interface UnpublishReportResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UnpublishReportResponse
+     */
+    'id'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateBeneficiaryInOscResponse
+ */
+export interface UpdateBeneficiaryInOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateBeneficiaryInOscResponse
+     */
+    'beneficiaryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryInOscResponse
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateBeneficiaryRequest
+ */
+export interface UpdateBeneficiaryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryRequest
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateBeneficiaryResponse
+ */
+export interface UpdateBeneficiaryResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateBeneficiaryResponse
+     */
+    'beneficiaryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBeneficiaryResponse
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateBusinessCaseRequest
+ */
+export interface UpdateBusinessCaseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBusinessCaseRequest
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateBusinessCaseResponse
+ */
+export interface UpdateBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateBusinessCaseResponse
+     */
+    'businessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateBusinessCaseResponse
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateCompanyCommand
+ */
+export interface UpdateCompanyCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'cnpj'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'companyName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'corporateReason'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'fieldOfActivity'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'zipCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'address'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'neighborhood'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'state'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'website'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCompanyCommand
+     */
+    'socialMedia'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateDonationCommand
+ */
+export interface UpdateDonationCommand {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'value'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDonationCommand
+     */
+    'donationDate'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'oscId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'courseId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateDonationCommand
+     */
+    'teamId'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOriginBusinessCaseInOscResponse
+ */
+export interface UpdateOriginBusinessCaseInOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateOriginBusinessCaseInOscResponse
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseInOscResponse
+     */
+    'name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOriginBusinessCaseRequest
+ */
+export interface UpdateOriginBusinessCaseRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseRequest
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseRequest
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOriginBusinessCaseResponse
+ */
+export interface UpdateOriginBusinessCaseResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateOriginBusinessCaseResponse
+     */
+    'originBusinessCaseId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOriginBusinessCaseResponse
+     */
+    'notes'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOscRequest
+ */
+export interface UpdateOscRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'corporateName'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'objective'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'address'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'neighborhood'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'state'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'webUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'socialMedia'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'zipCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscRequest
+     */
+    'oscPrimaryDocumment'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof UpdateOscRequest
+     */
+    'beneficiaryIds'?: Array<number> | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof UpdateOscRequest
+     */
+    'originBusinessCaseIds'?: Array<number> | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOscResponse
+ */
+export interface UpdateOscResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateOscResponse
+     */
+    'oscId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'corporateName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'objective'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'address'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'neighborhood'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'city'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'state'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'webUrl'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'socialMedia'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'zipCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOscResponse
+     */
+    'oscPrimaryDocumment'?: string | null;
+    /**
+     * 
+     * @type {Array<UpdateBeneficiaryInOscResponse>}
+     * @memberof UpdateOscResponse
+     */
+    'beneficiaries'?: Array<UpdateBeneficiaryInOscResponse> | null;
+    /**
+     * 
+     * @type {Array<UpdateOriginBusinessCaseInOscResponse>}
+     * @memberof UpdateOscResponse
+     */
+    'originsBusinessCases'?: Array<UpdateOriginBusinessCaseInOscResponse> | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdatePersonRequest
+ */
+export interface UpdatePersonRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'personalDocumment'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'secondaryEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'secondaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'education1'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'education2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonRequest
+     */
+    'professionalActivity'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdatePersonRequest
+     */
+    'isActive'?: boolean | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdatePersonResponse
+ */
+export interface UpdatePersonResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdatePersonResponse
+     */
+    'personId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'personalDocumment'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'secondaryEmail'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'primaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'secondaryPhone'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'education1'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'education2'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePersonResponse
+     */
+    'professionalActivity'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdatePersonResponse
+     */
+    'isActive'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateProjectDocumentResponse
+ */
+export interface UpdateProjectDocumentResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateProjectDocumentResponse
+     */
+    'projectDocumentId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateUserRequest
+ */
+export interface UpdateUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateUserRequest
+     */
+    'userId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'password'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateUserRequest
+     */
+    'isActive'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserRequest
+     */
+    'role'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateUserResponse
+ */
+export interface UpdateUserResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateUserResponse
+     */
+    'userId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserResponse
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserResponse
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserResponse
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateUserResponse
+     */
+    'isActive'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUserResponse
+     */
+    'role'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserLogin
+ */
+export interface UserLogin {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserLogin
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserLogin
+     */
+    'password'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserToken
+ */
+export interface UserToken {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserToken
+     */
+    'accessToken'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserToken
+     */
+    'expiresIn'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserToken
+     */
+    'refresfToken'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserViewModel
+ */
+export interface UserViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserViewModel
+     */
+    'userId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
+    'role'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
+    'phoneNumber'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserViewModel
+     */
+    'isActive'?: boolean;
+}
+
+/**
+ * AuthApi - axios parameter creator
+ * @export
+ */
+export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {ForgotPasswordRequest} [forgotPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        forgotPassword: async (forgotPasswordRequest?: ForgotPasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/auth/forgot-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(forgotPasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UserLogin} [userLogin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login: async (userLogin?: UserLogin, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/auth/Login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userLogin, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {LoginResponse} [loginResponse] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshToken: async (loginResponse?: LoginResponse, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/auth/RefreshToken`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(loginResponse, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ResetPasswordRequest} [resetPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resetPassword: async (resetPasswordRequest?: ResetPasswordRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/auth/reset-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(resetPasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuthApi - functional programming interface
+ * @export
+ */
+export const AuthApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {ForgotPasswordRequest} [forgotPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async forgotPassword(forgotPasswordRequest?: ForgotPasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ForgotPasswordResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.forgotPassword(forgotPasswordRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.forgotPassword']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {UserLogin} [userLogin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async login(userLogin?: UserLogin, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.login(userLogin, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.login']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {LoginResponse} [loginResponse] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async refreshToken(loginResponse?: LoginResponse, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(loginResponse, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.refreshToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ResetPasswordRequest} [resetPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resetPassword(resetPasswordRequest?: ResetPasswordRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResetPasswordResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resetPassword(resetPasswordRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.resetPassword']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AuthApi - factory interface
+ * @export
+ */
+export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuthApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {ForgotPasswordRequest} [forgotPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        forgotPassword(forgotPasswordRequest?: ForgotPasswordRequest, options?: any): AxiosPromise<ForgotPasswordResponse> {
+            return localVarFp.forgotPassword(forgotPasswordRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UserLogin} [userLogin] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login(userLogin?: UserLogin, options?: any): AxiosPromise<UserToken> {
+            return localVarFp.login(userLogin, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {LoginResponse} [loginResponse] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshToken(loginResponse?: LoginResponse, options?: any): AxiosPromise<void> {
+            return localVarFp.refreshToken(loginResponse, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ResetPasswordRequest} [resetPasswordRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resetPassword(resetPasswordRequest?: ResetPasswordRequest, options?: any): AxiosPromise<ResetPasswordResponse> {
+            return localVarFp.resetPassword(resetPasswordRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AuthApi - object-oriented interface
+ * @export
+ * @class AuthApi
+ * @extends {BaseAPI}
+ */
+export class AuthApi extends BaseAPI {
+    /**
+     * 
+     * @param {ForgotPasswordRequest} [forgotPasswordRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public forgotPassword(forgotPasswordRequest?: ForgotPasswordRequest, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).forgotPassword(forgotPasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UserLogin} [userLogin] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public login(userLogin?: UserLogin, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).login(userLogin, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {LoginResponse} [loginResponse] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public refreshToken(loginResponse?: LoginResponse, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).refreshToken(loginResponse, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ResetPasswordRequest} [resetPasswordRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public resetPassword(resetPasswordRequest?: ResetPasswordRequest, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).resetPassword(resetPasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * BeneficiariesApi - axios parameter creator
+ * @export
+ */
+export const BeneficiariesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateBeneficiaryRequest} [createBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBeneficiary: async (createBeneficiaryRequest?: CreateBeneficiaryRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/beneficiary/CreateBeneficiary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createBeneficiaryRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteBeneficiary: async (beneficiaryId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'beneficiaryId' is not null or undefined
+            assertParamExists('deleteBeneficiary', 'beneficiaryId', beneficiaryId)
+            const localVarPath = `/api/beneficiary/{beneficiaryId}`
+                .replace(`{${"beneficiaryId"}}`, encodeURIComponent(String(beneficiaryId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBeneficiary: async (beneficiaryId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'beneficiaryId' is not null or undefined
+            assertParamExists('getBeneficiary', 'beneficiaryId', beneficiaryId)
+            const localVarPath = `/api/beneficiaries/{beneficiaryId}`
+                .replace(`{${"beneficiaryId"}}`, encodeURIComponent(String(beneficiaryId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListBeneficiaryRequest} [listBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listBeneficiary: async (listBeneficiaryRequest?: ListBeneficiaryRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/beneficiary/ListBeneficiary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listBeneficiaryRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {UpdateBeneficiaryRequest} [updateBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateBeneficiary: async (beneficiaryId: number, updateBeneficiaryRequest?: UpdateBeneficiaryRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'beneficiaryId' is not null or undefined
+            assertParamExists('updateBeneficiary', 'beneficiaryId', beneficiaryId)
+            const localVarPath = `/api/beneficiaries/{beneficiaryId}`
+                .replace(`{${"beneficiaryId"}}`, encodeURIComponent(String(beneficiaryId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateBeneficiaryRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * BeneficiariesApi - functional programming interface
+ * @export
+ */
+export const BeneficiariesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = BeneficiariesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateBeneficiaryRequest} [createBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createBeneficiary(createBeneficiaryRequest?: CreateBeneficiaryRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateBeneficiaryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createBeneficiary(createBeneficiaryRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BeneficiariesApi.createBeneficiary']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteBeneficiary(beneficiaryId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteBeneficiary(beneficiaryId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BeneficiariesApi.deleteBeneficiary']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBeneficiary(beneficiaryId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBeneficiaryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBeneficiary(beneficiaryId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BeneficiariesApi.getBeneficiary']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListBeneficiaryRequest} [listBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listBeneficiary(listBeneficiaryRequest?: ListBeneficiaryRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListBeneficiaryViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listBeneficiary(listBeneficiaryRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BeneficiariesApi.listBeneficiary']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {UpdateBeneficiaryRequest} [updateBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateBeneficiary(beneficiaryId: number, updateBeneficiaryRequest?: UpdateBeneficiaryRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateBeneficiaryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateBeneficiary(beneficiaryId, updateBeneficiaryRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BeneficiariesApi.updateBeneficiary']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * BeneficiariesApi - factory interface
+ * @export
+ */
+export const BeneficiariesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = BeneficiariesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateBeneficiaryRequest} [createBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBeneficiary(createBeneficiaryRequest?: CreateBeneficiaryRequest, options?: any): AxiosPromise<CreateBeneficiaryResponse> {
+            return localVarFp.createBeneficiary(createBeneficiaryRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteBeneficiary(beneficiaryId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteBeneficiary(beneficiaryId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBeneficiary(beneficiaryId: number, options?: any): AxiosPromise<GetBeneficiaryResponse> {
+            return localVarFp.getBeneficiary(beneficiaryId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListBeneficiaryRequest} [listBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listBeneficiary(listBeneficiaryRequest?: ListBeneficiaryRequest, options?: any): AxiosPromise<ListBeneficiaryViewModel> {
+            return localVarFp.listBeneficiary(listBeneficiaryRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} beneficiaryId 
+         * @param {UpdateBeneficiaryRequest} [updateBeneficiaryRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateBeneficiary(beneficiaryId: number, updateBeneficiaryRequest?: UpdateBeneficiaryRequest, options?: any): AxiosPromise<UpdateBeneficiaryResponse> {
+            return localVarFp.updateBeneficiary(beneficiaryId, updateBeneficiaryRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * BeneficiariesApi - object-oriented interface
+ * @export
+ * @class BeneficiariesApi
+ * @extends {BaseAPI}
+ */
+export class BeneficiariesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateBeneficiaryRequest} [createBeneficiaryRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BeneficiariesApi
+     */
+    public createBeneficiary(createBeneficiaryRequest?: CreateBeneficiaryRequest, options?: RawAxiosRequestConfig) {
+        return BeneficiariesApiFp(this.configuration).createBeneficiary(createBeneficiaryRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} beneficiaryId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BeneficiariesApi
+     */
+    public deleteBeneficiary(beneficiaryId: number, options?: RawAxiosRequestConfig) {
+        return BeneficiariesApiFp(this.configuration).deleteBeneficiary(beneficiaryId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} beneficiaryId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BeneficiariesApi
+     */
+    public getBeneficiary(beneficiaryId: number, options?: RawAxiosRequestConfig) {
+        return BeneficiariesApiFp(this.configuration).getBeneficiary(beneficiaryId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListBeneficiaryRequest} [listBeneficiaryRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BeneficiariesApi
+     */
+    public listBeneficiary(listBeneficiaryRequest?: ListBeneficiaryRequest, options?: RawAxiosRequestConfig) {
+        return BeneficiariesApiFp(this.configuration).listBeneficiary(listBeneficiaryRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} beneficiaryId 
+     * @param {UpdateBeneficiaryRequest} [updateBeneficiaryRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BeneficiariesApi
+     */
+    public updateBeneficiary(beneficiaryId: number, updateBeneficiaryRequest?: UpdateBeneficiaryRequest, options?: RawAxiosRequestConfig) {
+        return BeneficiariesApiFp(this.configuration).updateBeneficiary(beneficiaryId, updateBeneficiaryRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * BusinessCasesApi - axios parameter creator
+ * @export
+ */
+export const BusinessCasesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateBusinessCaseRequest} [createBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBusinessCase: async (createBusinessCaseRequest?: CreateBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/businesscase/CreateBusinessCase`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteBusinessCase: async (businessCaseId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'businessCaseId' is not null or undefined
+            assertParamExists('deleteBusinessCase', 'businessCaseId', businessCaseId)
+            const localVarPath = `/api/businesscase/{businessCaseId}`
+                .replace(`{${"businessCaseId"}}`, encodeURIComponent(String(businessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBusinessCase: async (businessCaseId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'businessCaseId' is not null or undefined
+            assertParamExists('getBusinessCase', 'businessCaseId', businessCaseId)
+            const localVarPath = `/api/businesscases/{businessCaseId}`
+                .replace(`{${"businessCaseId"}}`, encodeURIComponent(String(businessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListBusinessCaseRequest} [listBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listBusinessCase: async (listBusinessCaseRequest?: ListBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/businesscase/ListBusinessCase`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {UpdateBusinessCaseRequest} [updateBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateBusinessCase: async (businessCaseId: number, updateBusinessCaseRequest?: UpdateBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'businessCaseId' is not null or undefined
+            assertParamExists('updateBusinessCase', 'businessCaseId', businessCaseId)
+            const localVarPath = `/api/businesscases/{businessCaseId}`
+                .replace(`{${"businessCaseId"}}`, encodeURIComponent(String(businessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * BusinessCasesApi - functional programming interface
+ * @export
+ */
+export const BusinessCasesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = BusinessCasesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateBusinessCaseRequest} [createBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createBusinessCase(createBusinessCaseRequest?: CreateBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createBusinessCase(createBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BusinessCasesApi.createBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteBusinessCase(businessCaseId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteBusinessCase(businessCaseId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BusinessCasesApi.deleteBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBusinessCase(businessCaseId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBusinessCase(businessCaseId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BusinessCasesApi.getBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListBusinessCaseRequest} [listBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listBusinessCase(listBusinessCaseRequest?: ListBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListBusinessCaseViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listBusinessCase(listBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BusinessCasesApi.listBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {UpdateBusinessCaseRequest} [updateBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateBusinessCase(businessCaseId: number, updateBusinessCaseRequest?: UpdateBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateBusinessCase(businessCaseId, updateBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BusinessCasesApi.updateBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * BusinessCasesApi - factory interface
+ * @export
+ */
+export const BusinessCasesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = BusinessCasesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateBusinessCaseRequest} [createBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createBusinessCase(createBusinessCaseRequest?: CreateBusinessCaseRequest, options?: any): AxiosPromise<CreateBusinessCaseResponse> {
+            return localVarFp.createBusinessCase(createBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteBusinessCase(businessCaseId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteBusinessCase(businessCaseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBusinessCase(businessCaseId: number, options?: any): AxiosPromise<GetBusinessCaseResponse> {
+            return localVarFp.getBusinessCase(businessCaseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListBusinessCaseRequest} [listBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listBusinessCase(listBusinessCaseRequest?: ListBusinessCaseRequest, options?: any): AxiosPromise<ListBusinessCaseViewModel> {
+            return localVarFp.listBusinessCase(listBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} businessCaseId 
+         * @param {UpdateBusinessCaseRequest} [updateBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateBusinessCase(businessCaseId: number, updateBusinessCaseRequest?: UpdateBusinessCaseRequest, options?: any): AxiosPromise<UpdateBusinessCaseResponse> {
+            return localVarFp.updateBusinessCase(businessCaseId, updateBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * BusinessCasesApi - object-oriented interface
+ * @export
+ * @class BusinessCasesApi
+ * @extends {BaseAPI}
+ */
+export class BusinessCasesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateBusinessCaseRequest} [createBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BusinessCasesApi
+     */
+    public createBusinessCase(createBusinessCaseRequest?: CreateBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return BusinessCasesApiFp(this.configuration).createBusinessCase(createBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} businessCaseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BusinessCasesApi
+     */
+    public deleteBusinessCase(businessCaseId: number, options?: RawAxiosRequestConfig) {
+        return BusinessCasesApiFp(this.configuration).deleteBusinessCase(businessCaseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} businessCaseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BusinessCasesApi
+     */
+    public getBusinessCase(businessCaseId: number, options?: RawAxiosRequestConfig) {
+        return BusinessCasesApiFp(this.configuration).getBusinessCase(businessCaseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListBusinessCaseRequest} [listBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BusinessCasesApi
+     */
+    public listBusinessCase(listBusinessCaseRequest?: ListBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return BusinessCasesApiFp(this.configuration).listBusinessCase(listBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} businessCaseId 
+     * @param {UpdateBusinessCaseRequest} [updateBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BusinessCasesApi
+     */
+    public updateBusinessCase(businessCaseId: number, updateBusinessCaseRequest?: UpdateBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return BusinessCasesApiFp(this.configuration).updateBusinessCase(businessCaseId, updateBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * CompanyApi - axios parameter creator
+ * @export
+ */
+export const CompanyApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjActivatePatch: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjActivatePatch', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}/activate`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjDelete: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjDelete', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjPut: async (cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('apiCompaniesCnpjPut', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateCompanyCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesPost: async (createCompanyCommand?: CreateCompanyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/companies`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createCompanyCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesSearchPost: async (listCompaniesRequest?: ListCompaniesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/companies/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listCompaniesRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompanyByCnpj: async (cnpj: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cnpj' is not null or undefined
+            assertParamExists('getCompanyByCnpj', 'cnpj', cnpj)
+            const localVarPath = `/api/companies/{cnpj}`
+                .replace(`{${"cnpj"}}`, encodeURIComponent(String(cnpj)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CompanyApi - functional programming interface
+ * @export
+ */
+export const CompanyApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CompanyApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjActivatePatch(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjActivatePatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjDelete(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesCnpjPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesPost(createCompanyCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCompaniesViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompaniesSearchPost(listCompaniesRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.apiCompaniesSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCompanyByCnpj(cnpj, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompanyApi.getCompanyByCnpj']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CompanyApi - factory interface
+ * @export
+ */
+export const CompanyApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CompanyApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjActivatePatch(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjDelete(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjDelete(cnpj, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateCompanyCommand} [createCompanyCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiCompaniesPost(createCompanyCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListCompaniesRequest} [listCompaniesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: any): AxiosPromise<ListCompaniesViewModel> {
+            return localVarFp.apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} cnpj 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCompanyByCnpj(cnpj: string, options?: any): AxiosPromise<void> {
+            return localVarFp.getCompanyByCnpj(cnpj, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CompanyApi - object-oriented interface
+ * @export
+ * @class CompanyApi
+ * @extends {BaseAPI}
+ */
+export class CompanyApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjActivatePatch(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjActivatePatch(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjDelete(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjDelete(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {UpdateCompanyCommand} [updateCompanyCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesCnpjPut(cnpj: string, updateCompanyCommand?: UpdateCompanyCommand, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesCnpjPut(cnpj, updateCompanyCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateCompanyCommand} [createCompanyCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesPost(createCompanyCommand?: CreateCompanyCommand, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesPost(createCompanyCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListCompaniesRequest} [listCompaniesRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public apiCompaniesSearchPost(listCompaniesRequest?: ListCompaniesRequest, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).apiCompaniesSearchPost(listCompaniesRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} cnpj 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompanyApi
+     */
+    public getCompanyByCnpj(cnpj: string, options?: RawAxiosRequestConfig) {
+        return CompanyApiFp(this.configuration).getCompanyByCnpj(cnpj, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * CoursesApi - axios parameter creator
+ * @export
+ */
+export const CoursesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateCourseRequest} [createCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCourse: async (createCourseRequest?: CreateCourseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/courses`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createCourseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteCourse: async (courseId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseId' is not null or undefined
+            assertParamExists('deleteCourse', 'courseId', courseId)
+            const localVarPath = `/api/courses/{courseId}`
+                .replace(`{${"courseId"}}`, encodeURIComponent(String(courseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {EditCourseRequest} [editCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editCourse: async (courseId: number, editCourseRequest?: EditCourseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseId' is not null or undefined
+            assertParamExists('editCourse', 'courseId', courseId)
+            const localVarPath = `/api/courses/{courseId}`
+                .replace(`{${"courseId"}}`, encodeURIComponent(String(courseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editCourseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getCourseById', 'id', id)
+            const localVarPath = `/api/courses/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListCourseRequest} [listCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listCourse: async (listCourseRequest?: ListCourseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/courses/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listCourseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CoursesApi - functional programming interface
+ * @export
+ */
+export const CoursesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CoursesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateCourseRequest} [createCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCourse(createCourseRequest?: CreateCourseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateCourseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCourse(createCourseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CoursesApi.createCourse']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteCourse(courseId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteCourseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCourse(courseId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CoursesApi.deleteCourse']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {EditCourseRequest} [editCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editCourse(courseId: number, editCourseRequest?: EditCourseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditCourseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editCourse(courseId, editCourseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CoursesApi.editCourse']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCourseById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetCourseByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CoursesApi.getCourseById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListCourseRequest} [listCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listCourse(listCourseRequest?: ListCourseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCourseViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCourse(listCourseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CoursesApi.listCourse']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CoursesApi - factory interface
+ * @export
+ */
+export const CoursesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CoursesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateCourseRequest} [createCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCourse(createCourseRequest?: CreateCourseRequest, options?: any): AxiosPromise<CreateCourseResponse> {
+            return localVarFp.createCourse(createCourseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteCourse(courseId: number, options?: any): AxiosPromise<DeleteCourseResponse> {
+            return localVarFp.deleteCourse(courseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} courseId 
+         * @param {EditCourseRequest} [editCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editCourse(courseId: number, editCourseRequest?: EditCourseRequest, options?: any): AxiosPromise<EditCourseResponse> {
+            return localVarFp.editCourse(courseId, editCourseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseById(id: number, options?: any): AxiosPromise<GetCourseByIdViewModel> {
+            return localVarFp.getCourseById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListCourseRequest} [listCourseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listCourse(listCourseRequest?: ListCourseRequest, options?: any): AxiosPromise<ListCourseViewModel> {
+            return localVarFp.listCourse(listCourseRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CoursesApi - object-oriented interface
+ * @export
+ * @class CoursesApi
+ * @extends {BaseAPI}
+ */
+export class CoursesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateCourseRequest} [createCourseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CoursesApi
+     */
+    public createCourse(createCourseRequest?: CreateCourseRequest, options?: RawAxiosRequestConfig) {
+        return CoursesApiFp(this.configuration).createCourse(createCourseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} courseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CoursesApi
+     */
+    public deleteCourse(courseId: number, options?: RawAxiosRequestConfig) {
+        return CoursesApiFp(this.configuration).deleteCourse(courseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} courseId 
+     * @param {EditCourseRequest} [editCourseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CoursesApi
+     */
+    public editCourse(courseId: number, editCourseRequest?: EditCourseRequest, options?: RawAxiosRequestConfig) {
+        return CoursesApiFp(this.configuration).editCourse(courseId, editCourseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CoursesApi
+     */
+    public getCourseById(id: number, options?: RawAxiosRequestConfig) {
+        return CoursesApiFp(this.configuration).getCourseById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListCourseRequest} [listCourseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CoursesApi
+     */
+    public listCourse(listCourseRequest?: ListCourseRequest, options?: RawAxiosRequestConfig) {
+        return CoursesApiFp(this.configuration).listCourse(listCourseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * DashboardApi - axios parameter creator
+ * @export
+ */
+export const DashboardApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDashboardStats: async (courseId?: number, startDate?: string, endDate?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/dashboard/stats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (courseId !== undefined) {
+                localVarQueryParameter['courseId'] = courseId;
+            }
+
+            if (startDate !== undefined) {
+                localVarQueryParameter['startDate'] = (startDate as any instanceof Date) ?
+                    (startDate as any).toISOString() :
+                    startDate;
+            }
+
+            if (endDate !== undefined) {
+                localVarQueryParameter['endDate'] = (endDate as any instanceof Date) ?
+                    (endDate as any).toISOString() :
+                    endDate;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DashboardApi - functional programming interface
+ * @export
+ */
+export const DashboardApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DashboardApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDashboardStats(courseId, startDate, endDate, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardApi.getDashboardStats']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DashboardApi - factory interface
+ * @export
+ */
+export const DashboardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DashboardApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [courseId] 
+         * @param {string} [startDate] 
+         * @param {string} [endDate] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: any): AxiosPromise<DashboardViewModel> {
+            return localVarFp.getDashboardStats(courseId, startDate, endDate, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DashboardApi - object-oriented interface
+ * @export
+ * @class DashboardApi
+ * @extends {BaseAPI}
+ */
+export class DashboardApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} [courseId] 
+     * @param {string} [startDate] 
+     * @param {string} [endDate] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardApi
+     */
+    public getDashboardStats(courseId?: number, startDate?: string, endDate?: string, options?: RawAxiosRequestConfig) {
+        return DashboardApiFp(this.configuration).getDashboardStats(courseId, startDate, endDate, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * DonationApi - axios parameter creator
+ * @export
+ */
+export const DonationApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiDonationsIdDelete', 'id', id)
+            const localVarPath = `/api/donations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdPut: async (id: number, updateDonationCommand?: UpdateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiDonationsIdPut', 'id', id)
+            const localVarPath = `/api/donations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateDonationCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateDonationCommand} [createDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsPost: async (createDonationCommand?: CreateDonationCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/donations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createDonationCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsSearchPost: async (listDonationsRequest?: ListDonationsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/donations/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listDonationsRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDonationById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getDonationById', 'id', id)
+            const localVarPath = `/api/donations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DonationApi - functional programming interface
+ * @export
+ */
+export const DonationApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DonationApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsIdPut(id, updateDonationCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateDonationCommand} [createDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsPost(createDonationCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDonationsViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiDonationsSearchPost(listDonationsRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.apiDonationsSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDonationById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDonationById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DonationApi.getDonationById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DonationApi - factory interface
+ * @export
+ */
+export const DonationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DonationApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdDelete(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdateDonationCommand} [updateDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateDonationCommand} [createDonationCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: any): AxiosPromise<void> {
+            return localVarFp.apiDonationsPost(createDonationCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListDonationsRequest} [listDonationsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: any): AxiosPromise<ListDonationsViewModel> {
+            return localVarFp.apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDonationById(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.getDonationById(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DonationApi - object-oriented interface
+ * @export
+ * @class DonationApi
+ * @extends {BaseAPI}
+ */
+export class DonationApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsIdDelete(id: number, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {UpdateDonationCommand} [updateDonationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsIdPut(id: number, updateDonationCommand?: UpdateDonationCommand, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsIdPut(id, updateDonationCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateDonationCommand} [createDonationCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsPost(createDonationCommand?: CreateDonationCommand, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsPost(createDonationCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListDonationsRequest} [listDonationsRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public apiDonationsSearchPost(listDonationsRequest?: ListDonationsRequest, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).apiDonationsSearchPost(listDonationsRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DonationApi
+     */
+    public getDonationById(id: number, options?: RawAxiosRequestConfig) {
+        return DonationApiFp(this.configuration).getDonationById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * OriginsBusinessCasesApi - axios parameter creator
+ * @export
+ */
+export const OriginsBusinessCasesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateOriginBusinessCaseRequest} [createOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createOriginBusinessCase: async (createOriginBusinessCaseRequest?: CreateOriginBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/origins-business-cases/CreateOriginBusinessCase`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createOriginBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOriginBusinessCase: async (originBusinessCaseId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'originBusinessCaseId' is not null or undefined
+            assertParamExists('deleteOriginBusinessCase', 'originBusinessCaseId', originBusinessCaseId)
+            const localVarPath = `/api/origins-business-cases/{originBusinessCaseId}`
+                .replace(`{${"originBusinessCaseId"}}`, encodeURIComponent(String(originBusinessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOriginBusinessCase: async (originBusinessCaseId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'originBusinessCaseId' is not null or undefined
+            assertParamExists('getOriginBusinessCase', 'originBusinessCaseId', originBusinessCaseId)
+            const localVarPath = `/api/origins-business-cases/{originBusinessCaseId}`
+                .replace(`{${"originBusinessCaseId"}}`, encodeURIComponent(String(originBusinessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListOriginBusinessCaseRequest} [listOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginBusinessCase: async (listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/origins-business-cases/ListOriginBusinessCase`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listOriginBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginsBusinessCaseByBusinessCaseId: async (listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/origins-business-cases/ListOriginsBusinessCaseByBusinessCaseId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listOriginsBusinessCaseByBusinessCaseIdRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOriginBusinessCase: async (originBusinessCaseId: number, updateOriginBusinessCaseRequest?: UpdateOriginBusinessCaseRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'originBusinessCaseId' is not null or undefined
+            assertParamExists('updateOriginBusinessCase', 'originBusinessCaseId', originBusinessCaseId)
+            const localVarPath = `/api/origins-business-cases/{originBusinessCaseId}`
+                .replace(`{${"originBusinessCaseId"}}`, encodeURIComponent(String(originBusinessCaseId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateOriginBusinessCaseRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OriginsBusinessCasesApi - functional programming interface
+ * @export
+ */
+export const OriginsBusinessCasesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OriginsBusinessCasesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateOriginBusinessCaseRequest} [createOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createOriginBusinessCase(createOriginBusinessCaseRequest?: CreateOriginBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateOriginBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createOriginBusinessCase(createOriginBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.createOriginBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteOriginBusinessCase(originBusinessCaseId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOriginBusinessCase(originBusinessCaseId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.deleteOriginBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getOriginBusinessCase(originBusinessCaseId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOriginBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOriginBusinessCase(originBusinessCaseId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.getOriginBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListOriginBusinessCaseRequest} [listOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listOriginBusinessCase(listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOriginBusinessCaseViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listOriginBusinessCase(listOriginBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.listOriginBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOriginsBusinessCaseByBusinessCaseIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateOriginBusinessCase(originBusinessCaseId: number, updateOriginBusinessCaseRequest?: UpdateOriginBusinessCaseRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateOriginBusinessCaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateOriginBusinessCase(originBusinessCaseId, updateOriginBusinessCaseRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OriginsBusinessCasesApi.updateOriginBusinessCase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * OriginsBusinessCasesApi - factory interface
+ * @export
+ */
+export const OriginsBusinessCasesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OriginsBusinessCasesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateOriginBusinessCaseRequest} [createOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createOriginBusinessCase(createOriginBusinessCaseRequest?: CreateOriginBusinessCaseRequest, options?: any): AxiosPromise<CreateOriginBusinessCaseResponse> {
+            return localVarFp.createOriginBusinessCase(createOriginBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOriginBusinessCase(originBusinessCaseId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteOriginBusinessCase(originBusinessCaseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOriginBusinessCase(originBusinessCaseId: number, options?: any): AxiosPromise<GetOriginBusinessCaseResponse> {
+            return localVarFp.getOriginBusinessCase(originBusinessCaseId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListOriginBusinessCaseRequest} [listOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginBusinessCase(listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options?: any): AxiosPromise<ListOriginBusinessCaseViewModel> {
+            return localVarFp.listOriginBusinessCase(listOriginBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: any): AxiosPromise<ListOriginsBusinessCaseByBusinessCaseIdViewModel> {
+            return localVarFp.listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} originBusinessCaseId 
+         * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOriginBusinessCase(originBusinessCaseId: number, updateOriginBusinessCaseRequest?: UpdateOriginBusinessCaseRequest, options?: any): AxiosPromise<UpdateOriginBusinessCaseResponse> {
+            return localVarFp.updateOriginBusinessCase(originBusinessCaseId, updateOriginBusinessCaseRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OriginsBusinessCasesApi - object-oriented interface
+ * @export
+ * @class OriginsBusinessCasesApi
+ * @extends {BaseAPI}
+ */
+export class OriginsBusinessCasesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateOriginBusinessCaseRequest} [createOriginBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public createOriginBusinessCase(createOriginBusinessCaseRequest?: CreateOriginBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).createOriginBusinessCase(createOriginBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} originBusinessCaseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public deleteOriginBusinessCase(originBusinessCaseId: number, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).deleteOriginBusinessCase(originBusinessCaseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} originBusinessCaseId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public getOriginBusinessCase(originBusinessCaseId: number, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).getOriginBusinessCase(originBusinessCaseId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListOriginBusinessCaseRequest} [listOriginBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public listOriginBusinessCase(listOriginBusinessCaseRequest?: ListOriginBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).listOriginBusinessCase(listOriginBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListOriginsBusinessCaseByBusinessCaseIdRequest} [listOriginsBusinessCaseByBusinessCaseIdRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest?: ListOriginsBusinessCaseByBusinessCaseIdRequest, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).listOriginsBusinessCaseByBusinessCaseId(listOriginsBusinessCaseByBusinessCaseIdRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} originBusinessCaseId 
+     * @param {UpdateOriginBusinessCaseRequest} [updateOriginBusinessCaseRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OriginsBusinessCasesApi
+     */
+    public updateOriginBusinessCase(originBusinessCaseId: number, updateOriginBusinessCaseRequest?: UpdateOriginBusinessCaseRequest, options?: RawAxiosRequestConfig) {
+        return OriginsBusinessCasesApiFp(this.configuration).updateOriginBusinessCase(originBusinessCaseId, updateOriginBusinessCaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * OscsApi - axios parameter creator
+ * @export
+ */
+export const OscsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateOscRequest} [createOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createOsc: async (createOscRequest?: CreateOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/osc/CreateOsc`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOsc: async (oscId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('deleteOsc', 'oscId', oscId)
+            const localVarPath = `/api/osc/{oscId}`
+                .replace(`{${"oscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOsc: async (oscId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('getOsc', 'oscId', oscId)
+            const localVarPath = `/api/oscs/{oscId}`
+                .replace(`{${"oscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListOscRequest} [listOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOsc: async (listOscRequest?: ListOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/osc/ListOsc`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {UpdateOscRequest} [updateOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOsc: async (oscId: number, updateOscRequest?: UpdateOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('updateOsc', 'oscId', oscId)
+            const localVarPath = `/api/oscs/{oscId}`
+                .replace(`{${"oscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OscsApi - functional programming interface
+ * @export
+ */
+export const OscsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OscsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateOscRequest} [createOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createOsc(createOscRequest?: CreateOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createOsc(createOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OscsApi.createOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteOsc(oscId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOsc(oscId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OscsApi.deleteOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getOsc(oscId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOsc(oscId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OscsApi.getOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListOscRequest} [listOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listOsc(listOscRequest?: ListOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListOscViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listOsc(listOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OscsApi.listOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {UpdateOscRequest} [updateOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateOsc(oscId: number, updateOscRequest?: UpdateOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateOsc(oscId, updateOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OscsApi.updateOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * OscsApi - factory interface
+ * @export
+ */
+export const OscsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OscsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateOscRequest} [createOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createOsc(createOscRequest?: CreateOscRequest, options?: any): AxiosPromise<CreateOscResponse> {
+            return localVarFp.createOsc(createOscRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOsc(oscId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteOsc(oscId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOsc(oscId: number, options?: any): AxiosPromise<GetOscResponse> {
+            return localVarFp.getOsc(oscId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListOscRequest} [listOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listOsc(listOscRequest?: ListOscRequest, options?: any): AxiosPromise<ListOscViewModel> {
+            return localVarFp.listOsc(listOscRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {UpdateOscRequest} [updateOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOsc(oscId: number, updateOscRequest?: UpdateOscRequest, options?: any): AxiosPromise<UpdateOscResponse> {
+            return localVarFp.updateOsc(oscId, updateOscRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OscsApi - object-oriented interface
+ * @export
+ * @class OscsApi
+ * @extends {BaseAPI}
+ */
+export class OscsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateOscRequest} [createOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OscsApi
+     */
+    public createOsc(createOscRequest?: CreateOscRequest, options?: RawAxiosRequestConfig) {
+        return OscsApiFp(this.configuration).createOsc(createOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OscsApi
+     */
+    public deleteOsc(oscId: number, options?: RawAxiosRequestConfig) {
+        return OscsApiFp(this.configuration).deleteOsc(oscId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OscsApi
+     */
+    public getOsc(oscId: number, options?: RawAxiosRequestConfig) {
+        return OscsApiFp(this.configuration).getOsc(oscId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListOscRequest} [listOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OscsApi
+     */
+    public listOsc(listOscRequest?: ListOscRequest, options?: RawAxiosRequestConfig) {
+        return OscsApiFp(this.configuration).listOsc(listOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {UpdateOscRequest} [updateOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OscsApi
+     */
+    public updateOsc(oscId: number, updateOscRequest?: UpdateOscRequest, options?: RawAxiosRequestConfig) {
+        return OscsApiFp(this.configuration).updateOsc(oscId, updateOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonCompanyApi - axios parameter creator
+ * @export
+ */
+export const PersonCompanyApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonCompany: async (companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'companyId' is not null or undefined
+            assertParamExists('createPersonCompany', 'companyId', companyId)
+            const localVarPath = `/api/persons-company/{CompanyId}/create`
+                .replace(`{${"CompanyId"}}`, encodeURIComponent(String(companyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonCompanyRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonCompany: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePersonCompany', 'id', id)
+            const localVarPath = `/api/persons-company/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonCompany: async (companyId: number, paginationRequest?: PaginationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'companyId' is not null or undefined
+            assertParamExists('listPersonCompany', 'companyId', companyId)
+            const localVarPath = `/api/persons-company/{CompanyId}/search`
+                .replace(`{${"CompanyId"}}`, encodeURIComponent(String(companyId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(paginationRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonCompanyApi - functional programming interface
+ * @export
+ */
+export const PersonCompanyApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonCompanyApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonCompanyResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonCompany(companyId, createPersonCompanyRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.createPersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonCompany(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonCompany(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.deletePersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonCompanyViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonCompany(companyId, paginationRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonCompanyApi.listPersonCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonCompanyApi - factory interface
+ * @export
+ */
+export const PersonCompanyApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonCompanyApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: any): AxiosPromise<CreatePersonCompanyResponse> {
+            return localVarFp.createPersonCompany(companyId, createPersonCompanyRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonCompany(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePersonCompany(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} companyId 
+         * @param {PaginationRequest} [paginationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: any): AxiosPromise<ListPersonCompanyViewModel> {
+            return localVarFp.listPersonCompany(companyId, paginationRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonCompanyApi - object-oriented interface
+ * @export
+ * @class PersonCompanyApi
+ * @extends {BaseAPI}
+ */
+export class PersonCompanyApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} companyId 
+     * @param {CreatePersonCompanyRequest} [createPersonCompanyRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public createPersonCompany(companyId: number, createPersonCompanyRequest?: CreatePersonCompanyRequest, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).createPersonCompany(companyId, createPersonCompanyRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public deletePersonCompany(id: number, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).deletePersonCompany(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} companyId 
+     * @param {PaginationRequest} [paginationRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonCompanyApi
+     */
+    public listPersonCompany(companyId: number, paginationRequest?: PaginationRequest, options?: RawAxiosRequestConfig) {
+        return PersonCompanyApiFp(this.configuration).listPersonCompany(companyId, paginationRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonOscApi - axios parameter creator
+ * @export
+ */
+export const PersonOscApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc: async (oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('createPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/create`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc: async (personOscId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personOscId' is not null or undefined
+            assertParamExists('deletePersonOsc', 'personOscId', personOscId)
+            const localVarPath = `/api/person-osc/{personOscId}`
+                .replace(`{${"personOscId"}}`, encodeURIComponent(String(personOscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc: async (oscId: number, listPersonOscRequest?: ListPersonOscRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oscId' is not null or undefined
+            assertParamExists('listPersonOsc', 'oscId', oscId)
+            const localVarPath = `/api/persons-osc/{OscId}/list`
+                .replace(`{${"OscId"}}`, encodeURIComponent(String(oscId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonOscRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonOscApi - functional programming interface
+ * @export
+ */
+export const PersonOscApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonOscApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonOscResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonOsc(oscId, createPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.createPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonOsc(personOscId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.deletePersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonOscViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonOsc(oscId, listPersonOscRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonOscApi.listPersonOsc']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonOscApi - factory interface
+ * @export
+ */
+export const PersonOscApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonOscApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: any): AxiosPromise<CreatePersonOscResponse> {
+            return localVarFp.createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personOscId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonOsc(personOscId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePersonOsc(personOscId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} oscId 
+         * @param {ListPersonOscRequest} [listPersonOscRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: any): AxiosPromise<ListPersonOscViewModel> {
+            return localVarFp.listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonOscApi - object-oriented interface
+ * @export
+ * @class PersonOscApi
+ * @extends {BaseAPI}
+ */
+export class PersonOscApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {CreatePersonOscRequest} [createPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public createPersonOsc(oscId: number, createPersonOscRequest?: CreatePersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).createPersonOsc(oscId, createPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personOscId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public deletePersonOsc(personOscId: number, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).deletePersonOsc(personOscId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} oscId 
+     * @param {ListPersonOscRequest} [listPersonOscRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonOscApi
+     */
+    public listPersonOsc(oscId: number, listPersonOscRequest?: ListPersonOscRequest, options?: RawAxiosRequestConfig) {
+        return PersonOscApiFp(this.configuration).listPersonOsc(oscId, listPersonOscRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonTeamsApi - axios parameter creator
+ * @export
+ */
+export const PersonTeamsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonTeam: async (teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('createPersonTeam', 'teamId', teamId)
+            const localVarPath = `/api/teams/{teamId}/personteams`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonTeam: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePersonTeam', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editPersonTeam: async (id: number, editPersonTeamRequest?: EditPersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('editPersonTeam', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonTeamById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getPersonTeamById', 'id', id)
+            const localVarPath = `/api/personteams/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeams: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/personteams`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeamsByTeam: async (teamId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('listPersonTeamsByTeam', 'teamId', teamId)
+            const localVarPath = `/api/personteams/byteam/{teamId}`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPersonTeams: async (listPersonTeamRequest?: ListPersonTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/personteams/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonTeamsApi - functional programming interface
+ * @export
+ */
+export const PersonTeamsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonTeamsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPersonTeam(teamId, createPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.createPersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePersonTeam(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeletePersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePersonTeam(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.deletePersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditPersonTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editPersonTeam(id, editPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.editPersonTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPersonTeamById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonTeamDetailDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPersonTeamById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.getPersonTeamById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonTeams(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PersonTeamDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonTeams(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.listPersonTeams']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPersonTeamsByTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PersonTeamDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPersonTeamsByTeam(teamId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.listPersonTeamsByTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonTeamViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.searchPersonTeams(listPersonTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonTeamsApi.searchPersonTeams']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonTeamsApi - factory interface
+ * @export
+ */
+export const PersonTeamsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonTeamsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: any): AxiosPromise<CreatePersonTeamResponse> {
+            return localVarFp.createPersonTeam(teamId, createPersonTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePersonTeam(id: number, options?: any): AxiosPromise<DeletePersonTeamResponse> {
+            return localVarFp.deletePersonTeam(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: any): AxiosPromise<EditPersonTeamResponse> {
+            return localVarFp.editPersonTeam(id, editPersonTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPersonTeamById(id: number, options?: any): AxiosPromise<PersonTeamDetailDto> {
+            return localVarFp.getPersonTeamById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeams(options?: any): AxiosPromise<Array<PersonTeamDto>> {
+            return localVarFp.listPersonTeams(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPersonTeamsByTeam(teamId: number, options?: any): AxiosPromise<Array<PersonTeamDto>> {
+            return localVarFp.listPersonTeamsByTeam(teamId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: any): AxiosPromise<ListPersonTeamViewModel> {
+            return localVarFp.searchPersonTeams(listPersonTeamRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonTeamsApi - object-oriented interface
+ * @export
+ * @class PersonTeamsApi
+ * @extends {BaseAPI}
+ */
+export class PersonTeamsApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {CreatePersonTeamRequest} [createPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public createPersonTeam(teamId: number, createPersonTeamRequest?: CreatePersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).createPersonTeam(teamId, createPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public deletePersonTeam(id: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).deletePersonTeam(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {EditPersonTeamRequest} [editPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public editPersonTeam(id: number, editPersonTeamRequest?: EditPersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).editPersonTeam(id, editPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public getPersonTeamById(id: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).getPersonTeamById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public listPersonTeams(options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).listPersonTeams(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public listPersonTeamsByTeam(teamId: number, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).listPersonTeamsByTeam(teamId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListPersonTeamRequest} [listPersonTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonTeamsApi
+     */
+    public searchPersonTeams(listPersonTeamRequest?: ListPersonTeamRequest, options?: RawAxiosRequestConfig) {
+        return PersonTeamsApiFp(this.configuration).searchPersonTeams(listPersonTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PersonsApi - axios parameter creator
+ * @export
+ */
+export const PersonsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreatePersonRequest} [createPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPerson: async (createPersonRequest?: CreatePersonRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/persons`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPersonRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePerson: async (personId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personId' is not null or undefined
+            assertParamExists('deletePerson', 'personId', personId)
+            const localVarPath = `/api/persons/{personId}`
+                .replace(`{${"personId"}}`, encodeURIComponent(String(personId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson: async (personId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personId' is not null or undefined
+            assertParamExists('getPerson', 'personId', personId)
+            const localVarPath = `/api/persons/{personId}`
+                .replace(`{${"personId"}}`, encodeURIComponent(String(personId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListPersonRequest} [listPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPerson: async (listPersonRequest?: ListPersonRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/persons/ListPerson`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listPersonRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {UpdatePersonRequest} [updatePersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePerson: async (personId: number, updatePersonRequest?: UpdatePersonRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personId' is not null or undefined
+            assertParamExists('updatePerson', 'personId', personId)
+            const localVarPath = `/api/persons/{personId}`
+                .replace(`{${"personId"}}`, encodeURIComponent(String(personId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updatePersonRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PersonsApi - functional programming interface
+ * @export
+ */
+export const PersonsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PersonsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreatePersonRequest} [createPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createPerson(createPersonRequest?: CreatePersonRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePersonResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPerson(createPersonRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonsApi.createPerson']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePerson(personId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePerson(personId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonsApi.deletePerson']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPerson(personId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPerson(personId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonsApi.getPerson']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListPersonRequest} [listPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listPerson(listPersonRequest?: ListPersonRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPersonViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listPerson(listPersonRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonsApi.listPerson']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {UpdatePersonRequest} [updatePersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updatePerson(personId: number, updatePersonRequest?: UpdatePersonRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdatePersonResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePerson(personId, updatePersonRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PersonsApi.updatePerson']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PersonsApi - factory interface
+ * @export
+ */
+export const PersonsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PersonsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreatePersonRequest} [createPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createPerson(createPersonRequest?: CreatePersonRequest, options?: any): AxiosPromise<CreatePersonResponse> {
+            return localVarFp.createPerson(createPersonRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePerson(personId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deletePerson(personId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson(personId: number, options?: any): AxiosPromise<PersonViewModel> {
+            return localVarFp.getPerson(personId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListPersonRequest} [listPersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listPerson(listPersonRequest?: ListPersonRequest, options?: any): AxiosPromise<ListPersonViewModel> {
+            return localVarFp.listPerson(listPersonRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} personId 
+         * @param {UpdatePersonRequest} [updatePersonRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePerson(personId: number, updatePersonRequest?: UpdatePersonRequest, options?: any): AxiosPromise<UpdatePersonResponse> {
+            return localVarFp.updatePerson(personId, updatePersonRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PersonsApi - object-oriented interface
+ * @export
+ * @class PersonsApi
+ * @extends {BaseAPI}
+ */
+export class PersonsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreatePersonRequest} [createPersonRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonsApi
+     */
+    public createPerson(createPersonRequest?: CreatePersonRequest, options?: RawAxiosRequestConfig) {
+        return PersonsApiFp(this.configuration).createPerson(createPersonRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonsApi
+     */
+    public deletePerson(personId: number, options?: RawAxiosRequestConfig) {
+        return PersonsApiFp(this.configuration).deletePerson(personId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonsApi
+     */
+    public getPerson(personId: number, options?: RawAxiosRequestConfig) {
+        return PersonsApiFp(this.configuration).getPerson(personId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListPersonRequest} [listPersonRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonsApi
+     */
+    public listPerson(listPersonRequest?: ListPersonRequest, options?: RawAxiosRequestConfig) {
+        return PersonsApiFp(this.configuration).listPerson(listPersonRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} personId 
+     * @param {UpdatePersonRequest} [updatePersonRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonsApi
+     */
+    public updatePerson(personId: number, updatePersonRequest?: UpdatePersonRequest, options?: RawAxiosRequestConfig) {
+        return PersonsApiFp(this.configuration).updatePerson(personId, updatePersonRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectDocumentsApi - axios parameter creator
+ * @export
+ */
+export const ProjectDocumentsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectDocument: async (projectProgramId?: number, name?: string, description?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectdocuments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            if (projectProgramId !== undefined) { 
+                localVarFormParams.append('ProjectProgramId', projectProgramId as any);
+            }
+    
+            if (name !== undefined) { 
+                localVarFormParams.append('Name', name as any);
+            }
+    
+            if (description !== undefined) { 
+                localVarFormParams.append('Description', description as any);
+            }
+    
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('downloadProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}/download`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectDocument: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectDocuments: async (projectProgramId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectdocuments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (projectProgramId !== undefined) {
+                localVarQueryParameter['ProjectProgramId'] = projectProgramId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectDocument: async (id: number, name?: string, description?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateProjectDocument', 'id', id)
+            const localVarPath = `/api/projectdocuments/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            if (name !== undefined) { 
+                localVarFormParams.append('Name', name as any);
+            }
+    
+            if (description !== undefined) { 
+                localVarFormParams.append('Description', description as any);
+            }
+    
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectDocumentsApi - functional programming interface
+ * @export
+ */
+export const ProjectDocumentsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectDocumentsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectDocument(projectProgramId, name, description, file, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.createProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.deleteProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async downloadProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.downloadProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectDocument(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.getProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectDocuments(projectProgramId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectDocumentsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectDocuments(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.listProjectDocuments']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateProjectDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProjectDocument(id, name, description, file, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectDocumentsApi.updateProjectDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectDocumentsApi - factory interface
+ * @export
+ */
+export const ProjectDocumentsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectDocumentsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: any): AxiosPromise<CreateProjectDocumentResponse> {
+            return localVarFp.createProjectDocument(projectProgramId, name, description, file, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectDocument(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadProjectDocument(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.downloadProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectDocument(id: number, options?: any): AxiosPromise<GetProjectDocumentResponse> {
+            return localVarFp.getProjectDocument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [projectProgramId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectDocuments(projectProgramId?: number, options?: any): AxiosPromise<ListProjectDocumentsResponse> {
+            return localVarFp.listProjectDocuments(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {File} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: any): AxiosPromise<UpdateProjectDocumentResponse> {
+            return localVarFp.updateProjectDocument(id, name, description, file, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectDocumentsApi - object-oriented interface
+ * @export
+ * @class ProjectDocumentsApi
+ * @extends {BaseAPI}
+ */
+export class ProjectDocumentsApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} [projectProgramId] 
+     * @param {string} [name] 
+     * @param {string} [description] 
+     * @param {File} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public createProjectDocument(projectProgramId?: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).createProjectDocument(projectProgramId, name, description, file, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public deleteProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).deleteProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public downloadProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).downloadProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public getProjectDocument(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).getProjectDocument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [projectProgramId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public listProjectDocuments(projectProgramId?: number, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).listProjectDocuments(projectProgramId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} [name] 
+     * @param {string} [description] 
+     * @param {File} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectDocumentsApi
+     */
+    public updateProjectDocument(id: number, name?: string, description?: string, file?: File, options?: RawAxiosRequestConfig) {
+        return ProjectDocumentsApiFp(this.configuration).updateProjectDocument(id, name, description, file, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectProgramsApi - axios parameter creator
+ * @export
+ */
+export const ProjectProgramsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectProgram: async (createProjectProgramRequest?: CreateProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectprograms`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectProgram: async (projectProgramId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('deleteProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectProgram: async (projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('editProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectProgramById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectProgramById', 'id', id)
+            const localVarPath = `/api/projectprograms/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectProgram: async (listProjectProgramRequest?: ListProjectProgramRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectprograms/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectProgramRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectProgram: async (projectProgramId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectProgramId' is not null or undefined
+            assertParamExists('restoreProjectProgram', 'projectProgramId', projectProgramId)
+            const localVarPath = `/api/projectprograms/{projectProgramId}/restore`
+                .replace(`{${"projectProgramId"}}`, encodeURIComponent(String(projectProgramId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectProgramsApi - functional programming interface
+ * @export
+ */
+export const ProjectProgramsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectProgramsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectProgram(createProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.createProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectProgram(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.deleteProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectProgram(projectProgramId, editProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.editProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectProgramById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectProgramByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectProgramById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.getProjectProgramById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectProgramViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectProgram(listProjectProgramRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.listProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restoreProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RestoreProjectProgramResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreProjectProgram(projectProgramId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectProgramsApi.restoreProjectProgram']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectProgramsApi - factory interface
+ * @export
+ */
+export const ProjectProgramsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectProgramsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: any): AxiosPromise<CreateProjectProgramResponse> {
+            return localVarFp.createProjectProgram(createProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectProgram(projectProgramId: number, options?: any): AxiosPromise<DeleteProjectProgramResponse> {
+            return localVarFp.deleteProjectProgram(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: any): AxiosPromise<EditProjectProgramResponse> {
+            return localVarFp.editProjectProgram(projectProgramId, editProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectProgramById(id: number, options?: any): AxiosPromise<GetProjectProgramByIdViewModel> {
+            return localVarFp.getProjectProgramById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: any): AxiosPromise<ListProjectProgramViewModel> {
+            return localVarFp.listProjectProgram(listProjectProgramRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectProgramId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectProgram(projectProgramId: number, options?: any): AxiosPromise<RestoreProjectProgramResponse> {
+            return localVarFp.restoreProjectProgram(projectProgramId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectProgramsApi - object-oriented interface
+ * @export
+ * @class ProjectProgramsApi
+ * @extends {BaseAPI}
+ */
+export class ProjectProgramsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectProgramRequest} [createProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public createProjectProgram(createProjectProgramRequest?: CreateProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).createProjectProgram(createProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public deleteProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).deleteProjectProgram(projectProgramId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {EditProjectProgramRequest} [editProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public editProjectProgram(projectProgramId: number, editProjectProgramRequest?: EditProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).editProjectProgram(projectProgramId, editProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public getProjectProgramById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).getProjectProgramById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectProgramRequest} [listProjectProgramRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public listProjectProgram(listProjectProgramRequest?: ListProjectProgramRequest, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).listProjectProgram(listProjectProgramRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectProgramId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectProgramsApi
+     */
+    public restoreProjectProgram(projectProgramId: number, options?: RawAxiosRequestConfig) {
+        return ProjectProgramsApiFp(this.configuration).restoreProjectProgram(projectProgramId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectThemesApi - axios parameter creator
+ * @export
+ */
+export const ProjectThemesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectTheme: async (createProjectThemeRequest?: CreateProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectthemes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectTheme: async (projectThemeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectThemeId' is not null or undefined
+            assertParamExists('deleteProjectTheme', 'projectThemeId', projectThemeId)
+            const localVarPath = `/api/projectthemes/{projectThemeId}`
+                .replace(`{${"projectThemeId"}}`, encodeURIComponent(String(projectThemeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectTheme: async (projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectThemeId' is not null or undefined
+            assertParamExists('editProjectTheme', 'projectThemeId', projectThemeId)
+            const localVarPath = `/api/projectthemes/{projectThemeId}`
+                .replace(`{${"projectThemeId"}}`, encodeURIComponent(String(projectThemeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectThemeById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectThemeById', 'id', id)
+            const localVarPath = `/api/projectthemes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectTheme: async (listProjectThemeRequest?: ListProjectThemeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projectthemes/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectThemeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectTheme: async (projectThemeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectThemeId' is not null or undefined
+            assertParamExists('restoreProjectTheme', 'projectThemeId', projectThemeId)
+            const localVarPath = `/api/projectthemes/{projectThemeId}/restore`
+                .replace(`{${"projectThemeId"}}`, encodeURIComponent(String(projectThemeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectThemesApi - functional programming interface
+ * @export
+ */
+export const ProjectThemesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectThemesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectTheme(createProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.createProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectTheme(projectThemeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.deleteProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectTheme(projectThemeId, editProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.editProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectThemeById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectThemeByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectThemeById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.getProjectThemeById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectThemeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectTheme(listProjectThemeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.listProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restoreProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RestoreProjectThemeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreProjectTheme(projectThemeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectThemesApi.restoreProjectTheme']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectThemesApi - factory interface
+ * @export
+ */
+export const ProjectThemesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectThemesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: any): AxiosPromise<CreateProjectThemeResponse> {
+            return localVarFp.createProjectTheme(createProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectTheme(projectThemeId: number, options?: any): AxiosPromise<DeleteProjectThemeResponse> {
+            return localVarFp.deleteProjectTheme(projectThemeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: any): AxiosPromise<EditProjectThemeResponse> {
+            return localVarFp.editProjectTheme(projectThemeId, editProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectThemeById(id: number, options?: any): AxiosPromise<GetProjectThemeByIdViewModel> {
+            return localVarFp.getProjectThemeById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: any): AxiosPromise<ListProjectThemeViewModel> {
+            return localVarFp.listProjectTheme(listProjectThemeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectThemeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectTheme(projectThemeId: number, options?: any): AxiosPromise<RestoreProjectThemeResponse> {
+            return localVarFp.restoreProjectTheme(projectThemeId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectThemesApi - object-oriented interface
+ * @export
+ * @class ProjectThemesApi
+ * @extends {BaseAPI}
+ */
+export class ProjectThemesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectThemeRequest} [createProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public createProjectTheme(createProjectThemeRequest?: CreateProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).createProjectTheme(createProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectThemeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public deleteProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).deleteProjectTheme(projectThemeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectThemeId 
+     * @param {EditProjectThemeRequest} [editProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public editProjectTheme(projectThemeId: number, editProjectThemeRequest?: EditProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).editProjectTheme(projectThemeId, editProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public getProjectThemeById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).getProjectThemeById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectThemeRequest} [listProjectThemeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public listProjectTheme(listProjectThemeRequest?: ListProjectThemeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).listProjectTheme(listProjectThemeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectThemeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectThemesApi
+     */
+    public restoreProjectTheme(projectThemeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectThemesApiFp(this.configuration).restoreProjectTheme(projectThemeId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ProjectTypesApi - axios parameter creator
+ * @export
+ */
+export const ProjectTypesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectType: async (createProjectTypeRequest?: CreateProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projecttypes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectType: async (projectTypeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectTypeId' is not null or undefined
+            assertParamExists('deleteProjectType', 'projectTypeId', projectTypeId)
+            const localVarPath = `/api/projecttypes/{projectTypeId}`
+                .replace(`{${"projectTypeId"}}`, encodeURIComponent(String(projectTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectType: async (projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectTypeId' is not null or undefined
+            assertParamExists('editProjectType', 'projectTypeId', projectTypeId)
+            const localVarPath = `/api/projecttypes/{projectTypeId}`
+                .replace(`{${"projectTypeId"}}`, encodeURIComponent(String(projectTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectTypeById: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getProjectTypeById', 'id', id)
+            const localVarPath = `/api/projecttypes/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectType: async (listProjectTypeRequest?: ListProjectTypeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/projecttypes/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listProjectTypeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectType: async (projectTypeId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectTypeId' is not null or undefined
+            assertParamExists('restoreProjectType', 'projectTypeId', projectTypeId)
+            const localVarPath = `/api/projecttypes/{projectTypeId}/restore`
+                .replace(`{${"projectTypeId"}}`, encodeURIComponent(String(projectTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectTypesApi - functional programming interface
+ * @export
+ */
+export const ProjectTypesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectTypesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProjectType(createProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.createProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProjectType(projectTypeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProjectType(projectTypeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.deleteProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editProjectType(projectTypeId, editProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.editProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProjectTypeById(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetProjectTypeByIdViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProjectTypeById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.getProjectTypeById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListProjectTypeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjectType(listProjectTypeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.listProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restoreProjectType(projectTypeId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RestoreProjectTypeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreProjectType(projectTypeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProjectTypesApi.restoreProjectType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ProjectTypesApi - factory interface
+ * @export
+ */
+export const ProjectTypesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectTypesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: any): AxiosPromise<CreateProjectTypeResponse> {
+            return localVarFp.createProjectType(createProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProjectType(projectTypeId: number, options?: any): AxiosPromise<DeleteProjectTypeResponse> {
+            return localVarFp.deleteProjectType(projectTypeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: any): AxiosPromise<EditProjectTypeResponse> {
+            return localVarFp.editProjectType(projectTypeId, editProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProjectTypeById(id: number, options?: any): AxiosPromise<GetProjectTypeByIdViewModel> {
+            return localVarFp.getProjectTypeById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: any): AxiosPromise<ListProjectTypeViewModel> {
+            return localVarFp.listProjectType(listProjectTypeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} projectTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreProjectType(projectTypeId: number, options?: any): AxiosPromise<RestoreProjectTypeResponse> {
+            return localVarFp.restoreProjectType(projectTypeId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectTypesApi - object-oriented interface
+ * @export
+ * @class ProjectTypesApi
+ * @extends {BaseAPI}
+ */
+export class ProjectTypesApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateProjectTypeRequest} [createProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public createProjectType(createProjectTypeRequest?: CreateProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).createProjectType(createProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectTypeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public deleteProjectType(projectTypeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).deleteProjectType(projectTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectTypeId 
+     * @param {EditProjectTypeRequest} [editProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public editProjectType(projectTypeId: number, editProjectTypeRequest?: EditProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).editProjectType(projectTypeId, editProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public getProjectTypeById(id: number, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).getProjectTypeById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListProjectTypeRequest} [listProjectTypeRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public listProjectType(listProjectTypeRequest?: ListProjectTypeRequest, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).listProjectType(listProjectTypeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} projectTypeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectTypesApi
+     */
+    public restoreProjectType(projectTypeId: number, options?: RawAxiosRequestConfig) {
+        return ProjectTypesApiFp(this.configuration).restoreProjectType(projectTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ReportsApi - axios parameter creator
+ * @export
+ */
+export const ReportsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/entities`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesRootFieldsGet: async (root: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'root' is not null or undefined
+            assertParamExists('apiReportMetadataEntitiesRootFieldsGet', 'root', root)
+            const localVarPath = `/api/report/metadata/entities/{root}/fields`
+                .replace(`{${"root"}}`, encodeURIComponent(String(root)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEnumsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/enums`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataOperatorsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/metadata/operators`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportsIdRunPost: async (id: number, runReportRequest?: RunReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiReportsIdRunPost', 'id', id)
+            const localVarPath = `/api/reports/{id}/run`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(runReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createReport: async (createReportRequest?: CreateReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/CreateReport`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteReport', 'id', id)
+            const localVarPath = `/api/report/DeleteReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editReport: async (editReportRequest?: EditReportRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/EditReport`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editReportRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getReport', 'id', id)
+            const localVarPath = `/api/report/GetReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReports: async (listReportsRequest?: ListReportsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/report/ListReports`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listReportsRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        publishReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('publishReport', 'id', id)
+            const localVarPath = `/api/report/PublishReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unpublishReport: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('unpublishReport', 'id', id)
+            const localVarPath = `/api/report/UnpublishReport/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ReportsApi - functional programming interface
+ * @export
+ */
+export const ReportsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ReportsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEntitiesGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MetadataEntityDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEntitiesGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEntitiesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEntitiesRootFieldsGet(root: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MetadataRootDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEntitiesRootFieldsGet(root, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEntitiesRootFieldsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataEnumsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataEnumsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataEnumsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportMetadataOperatorsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportMetadataOperatorsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportMetadataOperatorsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReportExecutionResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiReportsIdRunPost(id, runReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.apiReportsIdRunPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createReport(createReportRequest?: CreateReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(createReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.createReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.deleteReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editReport(editReportRequest?: EditReportRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EditReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editReport(editReportRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.editReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.getReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listReports(listReportsRequest?: ListReportsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListReportsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listReports(listReportsRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.listReports']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async publishReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PublishReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publishReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.publishReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async unpublishReport(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnpublishReportResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.unpublishReport(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.unpublishReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ReportsApi - factory interface
+ * @export
+ */
+export const ReportsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ReportsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesGet(options?: any): AxiosPromise<Array<MetadataEntityDto>> {
+            return localVarFp.apiReportMetadataEntitiesGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} root 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEntitiesRootFieldsGet(root: string, options?: any): AxiosPromise<MetadataRootDto> {
+            return localVarFp.apiReportMetadataEntitiesRootFieldsGet(root, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataEnumsGet(options?: any): AxiosPromise<void> {
+            return localVarFp.apiReportMetadataEnumsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportMetadataOperatorsGet(options?: any): AxiosPromise<void> {
+            return localVarFp.apiReportMetadataOperatorsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {RunReportRequest} [runReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: any): AxiosPromise<ReportExecutionResult> {
+            return localVarFp.apiReportsIdRunPost(id, runReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateReportRequest} [createReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createReport(createReportRequest?: CreateReportRequest, options?: any): AxiosPromise<CreateReportResponse> {
+            return localVarFp.createReport(createReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteReport(id: number, options?: any): AxiosPromise<DeleteReportResponse> {
+            return localVarFp.deleteReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {EditReportRequest} [editReportRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editReport(editReportRequest?: EditReportRequest, options?: any): AxiosPromise<EditReportResponse> {
+            return localVarFp.editReport(editReportRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReport(id: number, options?: any): AxiosPromise<GetReportResponse> {
+            return localVarFp.getReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListReportsRequest} [listReportsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReports(listReportsRequest?: ListReportsRequest, options?: any): AxiosPromise<ListReportsResponse> {
+            return localVarFp.listReports(listReportsRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        publishReport(id: number, options?: any): AxiosPromise<PublishReportResponse> {
+            return localVarFp.publishReport(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unpublishReport(id: number, options?: any): AxiosPromise<UnpublishReportResponse> {
+            return localVarFp.unpublishReport(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ReportsApi - object-oriented interface
+ * @export
+ * @class ReportsApi
+ * @extends {BaseAPI}
+ */
+export class ReportsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEntitiesGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEntitiesGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} root 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEntitiesRootFieldsGet(root: string, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEntitiesRootFieldsGet(root, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataEnumsGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataEnumsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportMetadataOperatorsGet(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportMetadataOperatorsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {RunReportRequest} [runReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public apiReportsIdRunPost(id: number, runReportRequest?: RunReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).apiReportsIdRunPost(id, runReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CreateReportRequest} [createReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public createReport(createReportRequest?: CreateReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).createReport(createReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public deleteReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).deleteReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {EditReportRequest} [editReportRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public editReport(editReportRequest?: EditReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).editReport(editReportRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public getReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).getReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListReportsRequest} [listReportsRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public listReports(listReportsRequest?: ListReportsRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).listReports(listReportsRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public publishReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).publishReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public unpublishReport(id: number, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).unpublishReport(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TeamsApi - axios parameter creator
+ * @export
+ */
+export const TeamsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateTeamRequest} [createTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTeam: async (createTeamRequest?: CreateTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/teams/CreateTeam`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTeam: async (teamId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('deleteTeam', 'teamId', teamId)
+            const localVarPath = `/api/teams/{teamId}`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {EditTeamRequest} [editTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editTeam: async (teamId: number, editTeamRequest?: EditTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('editTeam', 'teamId', teamId)
+            const localVarPath = `/api/teams/{teamId}`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeamById: async (teamId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('getTeamById', 'teamId', teamId)
+            const localVarPath = `/api/teams/{teamId}`
+                .replace(`{${"teamId"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListTeamRequest} [listTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTeam: async (listTeamRequest?: ListTeamRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/teams/ListTeam`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listTeamRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TeamsApi - functional programming interface
+ * @export
+ */
+export const TeamsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TeamsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateTeamRequest} [createTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createTeam(createTeamRequest?: CreateTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateTeamResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTeam(createTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.createTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTeam(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTeam(teamId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.deleteTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {EditTeamRequest} [editTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editTeam(teamId, editTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.editTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTeamById(teamId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTeamByIdResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTeamById(teamId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.getTeamById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListTeamRequest} [listTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listTeam(listTeamRequest?: ListTeamRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTeamViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listTeam(listTeamRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.listTeam']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TeamsApi - factory interface
+ * @export
+ */
+export const TeamsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TeamsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateTeamRequest} [createTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTeam(createTeamRequest?: CreateTeamRequest, options?: any): AxiosPromise<CreateTeamResponse> {
+            return localVarFp.createTeam(createTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTeam(teamId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteTeam(teamId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {EditTeamRequest} [editTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.editTeam(teamId, editTeamRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} teamId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeamById(teamId: number, options?: any): AxiosPromise<GetTeamByIdResponse> {
+            return localVarFp.getTeamById(teamId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListTeamRequest} [listTeamRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listTeam(listTeamRequest?: ListTeamRequest, options?: any): AxiosPromise<ListTeamViewModel> {
+            return localVarFp.listTeam(listTeamRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TeamsApi - object-oriented interface
+ * @export
+ * @class TeamsApi
+ * @extends {BaseAPI}
+ */
+export class TeamsApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateTeamRequest} [createTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public createTeam(createTeamRequest?: CreateTeamRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).createTeam(createTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public deleteTeam(teamId: number, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).deleteTeam(teamId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {EditTeamRequest} [editTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public editTeam(teamId: number, editTeamRequest?: EditTeamRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).editTeam(teamId, editTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} teamId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public getTeamById(teamId: number, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).getTeamById(teamId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListTeamRequest} [listTeamRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public listTeam(listTeamRequest?: ListTeamRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).listTeam(listTeamRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * UsersApi - axios parameter creator
+ * @export
+ */
+export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateUserRequest} [createUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser: async (createUserRequest?: CreateUserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/users/CreateUser`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('deleteUser', 'userId', userId)
+            const localVarPath = `/api/users/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserById: async (userId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('getUserById', 'userId', userId)
+            const localVarPath = `/api/users/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ListUserRequest} [listUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUser: async (listUserRequest?: ListUserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/users/ListUser`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(listUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {UpdateUserRequest} [updateUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser: async (userId: number, updateUserRequest?: UpdateUserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('updateUser', 'userId', userId)
+            const localVarPath = `/api/users/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UsersApi - functional programming interface
+ * @export
+ */
+export const UsersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUserRequest} [createUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createUser(createUserRequest?: CreateUserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(createUserRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.createUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteUser(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(userId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.deleteUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserById(userId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(userId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.getUserById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ListUserRequest} [listUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listUser(listUserRequest?: ListUserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListUserViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listUser(listUserRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.listUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {UpdateUserRequest} [updateUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateUser(userId: number, updateUserRequest?: UpdateUserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(userId, updateUserRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.updateUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * UsersApi - factory interface
+ * @export
+ */
+export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UsersApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUserRequest} [createUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser(createUserRequest?: CreateUserRequest, options?: any): AxiosPromise<CreateUserResponse> {
+            return localVarFp.createUser(createUserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser(userId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteUser(userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserById(userId: number, options?: any): AxiosPromise<UserViewModel> {
+            return localVarFp.getUserById(userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ListUserRequest} [listUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUser(listUserRequest?: ListUserRequest, options?: any): AxiosPromise<ListUserViewModel> {
+            return localVarFp.listUser(listUserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} userId 
+         * @param {UpdateUserRequest} [updateUserRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser(userId: number, updateUserRequest?: UpdateUserRequest, options?: any): AxiosPromise<UpdateUserResponse> {
+            return localVarFp.updateUser(userId, updateUserRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UsersApi - object-oriented interface
+ * @export
+ * @class UsersApi
+ * @extends {BaseAPI}
+ */
+export class UsersApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateUserRequest} [createUserRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public createUser(createUserRequest?: CreateUserRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).createUser(createUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public deleteUser(userId: number, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).deleteUser(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public getUserById(userId: number, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserById(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ListUserRequest} [listUserRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public listUser(listUserRequest?: ListUserRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).listUser(listUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} userId 
+     * @param {UpdateUserRequest} [updateUserRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public updateUser(userId: number, updateUserRequest?: UpdateUserRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUser(userId, updateUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 

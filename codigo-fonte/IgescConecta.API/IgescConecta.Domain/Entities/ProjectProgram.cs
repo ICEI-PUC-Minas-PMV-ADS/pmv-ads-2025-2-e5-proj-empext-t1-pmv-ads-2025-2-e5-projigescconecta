@@ -1,11 +1,7 @@
 ﻿using IgescConecta.Domain.Enums;
 using IgescConecta.Domain.Shared;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IgescConecta.Domain.Entities
 {
@@ -18,29 +14,25 @@ namespace IgescConecta.Domain.Entities
         public ProjectDecisionType Decision { get; set; }
 
         public int ProjectThemeId { get; set; }
-
         public int ProjectTypeId { get; set; }
-
         public int TeamId { get; set; }
-
         public int OscId { get; set; }
+        public int? ProjectDocumentId { get; set; }
 
-        public int ProjectDocumentId { get; set; }
-
-        [ForeignKey("ProjectTypeId")]
+        [ForeignKey(nameof(ProjectThemeId))]
         public ProjectTheme ProjectTheme { get; set; }
 
-        [ForeignKey("ProjectThemeId")]
+        [ForeignKey(nameof(ProjectTypeId))]
         public ProjectType ProjectType { get; set; }
 
-        [ForeignKey("TeamId")]
+        [ForeignKey(nameof(TeamId))]
         public Team Team { get; set; }
 
-        [ForeignKey("OscId")]
+        [ForeignKey(nameof(OscId))]
         public Osc Osc { get; set; }
 
-        [ForeignKey("ProjectDocumentId")]
-        public ProjectDocument ProjectDocument { get; set; }
-
+        //Relação abaixo está errada e será descontinuada... Por enquanto manter ela sem informação
+        [ForeignKey(nameof(ProjectDocumentId))]
+        public ProjectDocument? ProjectDocument { get; set; }
     }
 }

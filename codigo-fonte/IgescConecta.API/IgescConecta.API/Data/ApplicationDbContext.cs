@@ -1,13 +1,14 @@
 ﻿using IgescConecta.Domain.Entities;
 using IgescConecta.Domain.Primitives;
 using IgescConecta.Domain.Shared;
+using IgescConecta.Domain.Entities.Reporting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Linq.Expressions;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -46,6 +47,11 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectDocument> ProjectDocuments { get; set; }
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<ReportRelation> ReportRelations { get; set; }
+        public DbSet<ReportField> ReportFields { get; set; }
+        public DbSet<ReportFilterQuestion> ReportFilterQuestions { get; set; }
+        public DbSet<ReportSort> ReportSorts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -87,6 +93,7 @@ namespace IgescConecta.API.Data
             builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
             builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
@@ -108,13 +115,14 @@ namespace IgescConecta.API.Data
         {
             if (DisableAuditing) return;
 
-            var entries = ChangeTracker.Entries()
-                .Where(x => x.Entity is BaseEntity || x.Entity is User)
-                .ToList();
-
             var softDeleteEntries = ChangeTracker
                 .Entries<ISoftDeletable>()
-                .Where(e => e.State == EntityState.Deleted);
+                .Where(e => e.State == EntityState.Deleted)
+                .Where(e => e.Entity is not Report
+                         && e.Entity is not ReportRelation
+                         && e.Entity is not ReportField
+                         && e.Entity is not ReportFilterQuestion
+                         && e.Entity is not ReportSort);
 
             foreach (var entityEntry in softDeleteEntries)
             {
@@ -122,20 +130,22 @@ namespace IgescConecta.API.Data
                 entityEntry.Property(nameof(ISoftDeletable.IsDeleted)).CurrentValue = true;
             }
 
-            UpdateTimestamps(entries);
+            var entriesToTimestamp = ChangeTracker.Entries()
+                .Where(x => x.Entity is BaseEntity || x.Entity is User)
+                .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified)
+                .ToList();
+
+            UpdateTimestamps(entriesToTimestamp);
         }
 
         private void UpdateTimestamps(List<EntityEntry> entries)
         {
-            var filtred = entries.Where(x =>
-                x.State == EntityState.Added || x.State == EntityState.Modified);
-
             var currentUserIdStr = _contextAccessor?.HttpContext?.User
                 .FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             int.TryParse(currentUserIdStr, out var currentUserId);
 
-            foreach (var entry in filtred)
+            foreach (var entry in entries)
             {
                 if (entry.Entity is User user)
                 {

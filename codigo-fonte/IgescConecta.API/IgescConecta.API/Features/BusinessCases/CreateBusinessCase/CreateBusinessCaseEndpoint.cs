@@ -25,7 +25,17 @@ namespace IgescConecta.API.Features.BusinessCases.CreateBusinessCase
                 Name = request.Name,
                 OriginsBusinessCasesIds = request.OriginsBusinessCasesIds
             });
-            return result.IsSuccess ? Ok(new CreateBusinessCaseResponse(result.Value)) : BadRequest(result.Error);
+
+            if(!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            var createResponse = new CreateBusinessCaseResponse
+            {
+                Id = result.Value,
+                Name = request.Name
+            };
+
+            return Ok(createResponse);
         }
     }
 
@@ -38,11 +48,8 @@ namespace IgescConecta.API.Features.BusinessCases.CreateBusinessCase
 
     public class CreateBusinessCaseResponse
     {
-        public int BusinessCaseId { get; set; }
+        public int Id { get; set; }
 
-        public CreateBusinessCaseResponse(int businessCaseId)
-        {
-            BusinessCaseId = businessCaseId;
-        }
+        public string Name { get; set; }
     }
 }

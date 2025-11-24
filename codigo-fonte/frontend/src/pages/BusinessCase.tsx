@@ -1,30 +1,23 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Container,
     Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     CircularProgress,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Grid,
-    SelectChangeEvent,
     Typography,
     Stack,
     Divider,
     TextField,
-    Autocomplete
+    FormGroup,
+    FormControlLabel,
+    Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
@@ -32,29 +25,34 @@ import TitleAndButtons from '@/components/TitleAndButtons';
 import { toast } from 'react-toastify';
 import {
     BusinessCasesApi,
-    OriginsBusinessCasesApi,
     CreateBusinessCaseRequest,
     UpdateBusinessCaseRequest,
     ListBusinessCaseRequest,
     Filter,
-    Op,
+    UsersApi
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { AccessTime } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { useNavigate } from 'react-router-dom';
 import DialogPadronized from '@/components/DialogPadronized';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('pt-br');
+
+const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
 
 interface BusinessCase {
     businessCaseId?: number;
     name?: string;
     originsBusinessCases?: number;
     origins?: OriginBusinessCase[];
+    isDeleted?: boolean;
 }
 
 interface OriginBusinessCase {
@@ -81,27 +79,33 @@ const BusinessCase: React.FC = () => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [businessCaseToDelete, setBusinessCaseToDelete] = useState<BusinessCase | null>(null);
 
+    const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+    const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+    const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
     const businessCaseApi = new BusinessCasesApi(apiConfig);
+    const userApi = new UsersApi(apiConfig);
+
     const navigate = useNavigate();
 
     const handleDirect = (businessCase: BusinessCase) => {
-        if (!businessCase.businessCaseId) 
+        if (!businessCase.businessCaseId)
             return;
 
-        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`,{
-            state: {name: businessCase.name}
+        navigate(`/business-case/${businessCase.businessCaseId}/origin-business-case`, {
+            state: { name: businessCase.name }
         });
     };
 
     const dialogTitle = () => {
-        return isVisualizing ? 'Visualizar Grupo de Causas' : selectedBusinessCase ? 'Editar Grupo de Causas' : 'Adicionar Grupo de Causas';
+        return isVisualizing ? `Visualizar Grupo de Causas` : updateBusinessCase ? `Editar Grupo de Causas` : 'Adicionar Grupo de Causas';
     }
 
     useEffect(() => {
         fetchBusinessCases();
     }, [page, rowsPerPage]);
 
-    const fetchBusinessCases = async (customFilters?: Filter[]) => {
+    const fetchBusinessCases = async (customFilters?: Filter[], statusFilter?: string) => {
         try {
             setLoading(true);
             setBusinessCase([]);
@@ -112,6 +116,7 @@ const BusinessCase: React.FC = () => {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
+                statusFilter: statusFilter,
             };
 
             const { data } = await businessCaseApi.listBusinessCase(listBusinessCaseRequest);
@@ -149,12 +154,13 @@ const BusinessCase: React.FC = () => {
             });
         }
         setPage(0);
-        fetchBusinessCases(filters);
+        fetchBusinessCases(filters, statusFilter);
     }
 
     const handleClearFilters = () => {
         setPage(0);
         setFilterBusinessCaseName('');
+        setStatusFilter(undefined);
         fetchBusinessCases([]);
     }
 
@@ -200,6 +206,14 @@ const BusinessCase: React.FC = () => {
     const handleView = async (businessCase: BusinessCase) => {
         try {
             const { data } = await businessCaseApi.getBusinessCase(businessCase.businessCaseId!);
+
+            const userId = data.updatedBy || data.createdBy;
+            const date = data.updatedAt || data.createdAt;
+
+            const { data: userData } = await userApi.getUserById(userId!);
+
+            setUserUpdatedName(userData.name);
+            setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
             setSelectedBusinessCase(data);
             setIsVisualizing(true);
             setOpenModal(true);
@@ -234,7 +248,7 @@ const BusinessCase: React.FC = () => {
     const handleSave = async () => {
         const businessCaseForm = updateBusinessCase || createBusinessCase;
 
-        if (!validateBusinessCaseForm(businessCaseForm))
+        if (validateBusinessCaseForm(businessCaseForm) !== null)
             return;
 
         if (updateBusinessCase) {
@@ -275,17 +289,18 @@ const BusinessCase: React.FC = () => {
         }
     }
 
-    const validateBusinessCaseForm = (businessCase: any): boolean => {
+    const validateBusinessCaseForm = (businessCase: any): string | null => {
         const requiredFields = ['name'];
 
         for (const field of requiredFields) {
             if (!businessCase[field] || businessCase[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -299,6 +314,11 @@ const BusinessCase: React.FC = () => {
         { label: 'ID', field: 'businessCaseId' },
         { label: 'Nome', field: 'name' },
         { label: 'Causas', field: 'originsBusinessCases' },
+        {
+            label: 'Status',
+            field: 'isDeleted',
+            render: (value) => (value ? 'Inativo' : 'Ativo')
+        }
     ];
 
     return (
@@ -311,7 +331,7 @@ const BusinessCase: React.FC = () => {
                     px: { xs: 2, sm: 3 },
                     maxWidth: '100%',
                     overflowX: 'hidden',
-                    }}
+                }}
             >
                 <Paper
                     elevation={0}
@@ -358,109 +378,110 @@ const BusinessCase: React.FC = () => {
                                     Busca de Grupo de Causas
                                 </Typography>
 
-                                {filterBusinessCaseName && (
-                                    <Chip
-                                        label="Busca ativa"
-                                        size="small"
-                                        sx={{
-                                            ml: 1,
-                                            bgcolor: alpha('#1E4EC4', 0.1),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            fontSize: '0.75rem',
-                                        }}
-                                    />
-                                )}
+                                {(
+                                    filterBusinessCaseName ||
+                                    statusFilter
+                                ) && (
+                                        <Chip
+                                            label="Busca ativa"
+                                            size="small"
+                                            sx={{
+                                                ml: 1,
+                                                bgcolor: alpha('#1E4EC4', 0.1),
+                                                color: '#1E4EC4',
+                                                fontWeight: 600,
+                                                fontSize: '0.75rem',
+                                            }}
+                                        />
+                                    )}
                             </Box>
 
-                            <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                                    <TextField
-                                        label="Nome do Grupo de Causas"
-                                        value={filterBusinessCaseName}
-                                        onChange={(e) => setFilterBusinessCaseName(e.target.value)}
-                                        placeholder="Digite o nome..."
-                                        fullWidth
-                                        size="small"
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: 1.5,
-                                                backgroundColor: 'white',
-                                                '&:hover fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#1E4EC4',
-                                            },
-                                        }}
-                                    />
-                                </Grid>
+                            <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                                <TextField
+                                    label="Nome do Grupo de Causas"
+                                    value={filterBusinessCaseName}
+                                    onChange={(e) => setFilterBusinessCaseName(e.target.value)}
+                                    placeholder="Digite o nome..."
+                                    fullWidth
+                                    size="small"
+                                    sx={FIELD_STYLE}
+                                />
 
-                                <Grid
-                                    size={{ xs: 12, sm: 6, md: 8 }}
+                                <FormGroup row sx={{ mb: 2 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'Inactive'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                                                }
+                                            />
+                                        }
+                                        label="Somente Inativos"
+                                    />
+
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'all'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                                                }
+                                            />
+                                        }
+                                        label="Incluir Inativos"
+                                    />
+                                </FormGroup>
+
+                                <Button
+                                    variant="contained"
+                                    startIcon={<SearchIcon />}
+                                    onClick={handleSearch}
                                     sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                                        gap: 1.5,
-                                        mt: { xs: 1.5, sm: 0 },
+                                        bgcolor: '#1E4EC4',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                        '&:hover': {
+                                            bgcolor: '#1640a8',
+                                            boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                            transform: 'translateY(-1px)',
+                                        },
+                                        transition: 'all 0.2s ease',
                                     }}
                                 >
-                                    <Button
-                                        variant="contained"
-                                        startIcon={<SearchIcon />}
-                                        onClick={handleSearch}
-                                        sx={{
-                                            bgcolor: '#1E4EC4',
-                                            color: 'white',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                            '&:hover': {
-                                                bgcolor: '#1640a8',
-                                                boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                                transform: 'translateY(-1px)',
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Buscar
-                                    </Button>
+                                    Buscar
+                                </Button>
 
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={<ClearIcon />}
-                                        onClick={handleClearFilters}
-                                        sx={{
-                                            borderColor: alpha('#1E4EC4', 0.3),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            '&:hover': {
-                                                borderColor: '#1E4EC4',
-                                                bgcolor: alpha('#1E4EC4', 0.05),
-                                                borderWidth: 1.5,
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Limpar Filtros
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<ClearIcon />}
+                                    onClick={handleClearFilters}
+                                    sx={{
+                                        borderColor: alpha('#1E4EC4', 0.3),
+                                        color: '#1E4EC4',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        '&:hover': {
+                                            borderColor: '#1E4EC4',
+                                            bgcolor: alpha('#1E4EC4', 0.05),
+                                            borderWidth: 1.5,
+                                        },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    Limpar Filtros
+                                </Button>
+                            </Stack>
                         </Paper>
 
                         {/* Tabela */}
@@ -513,147 +534,175 @@ const BusinessCase: React.FC = () => {
                             maxWidth="sm"
                             title={dialogTitle()}
                             content={isVisualizing && selectedBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes de Grupo de Causas</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedBusinessCase.businessCaseId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedBusinessCase.name}</Typography>
-                                        </Box>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    <TextField
+                                        label="Nome"
+                                        value={selectedBusinessCase.name || ''}
+                                        fullWidth
+                                        variant="outlined"
+                                        slotProps={{
+                                            input: { readOnly: true },
+                                        }}
+                                        sx={{ pointerEvents: 'none' }}
+                                    />
 
-                                        {/* OriginBusinessCase */}
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                <strong>Causas</strong>
+                                    {/* Chips de Causas */}
+                                    <Box>
+                                        <Typography variant="subtitle1">
+                                            <strong>Causas</strong>
+                                        </Typography>
+                                        <Divider sx={{ mb: 2 }} />
+
+                                        {selectedBusinessCase.origins && selectedBusinessCase.origins.length > 0 ? (
+                                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                {selectedBusinessCase.origins.map((b) => (
+                                                    <Chip
+                                                        key={b.originBusinessCaseId}
+                                                        label={b.name}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        sx={{ fontWeight: 500 }}
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        ) : (
+                                            <Typography color="text.secondary" mt={1}>
+                                                Nenhuma Causa.
                                             </Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            {selectedBusinessCase.origins && selectedBusinessCase.origins.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1}>
-                                                    {selectedBusinessCase.origins.map((b) => (
-                                                        <Chip
-                                                            key={b.originBusinessCaseId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                            sx={{ fontWeight: 500 }}
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary">Nenhuma causa associada.</Typography>
-                                            )}
-                                        </Box>
+                                        )}
                                     </Box>
-                                ) : updateBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                        {/* Campos de texto editáveis */}
-                                        <TextField
-                                            label="Nome"
-                                            value={updateBusinessCase.name || ''}
-                                            onChange={(e) => setUpdateBusinessCase({ ...updateBusinessCase, name: e.target.value })}
-                                            fullWidth
-                                        />
+                                </Box>
+                            ) : updateBusinessCase ? (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    {/* Campos de texto editáveis */}
+                                    <TextField
+                                        label="Nome*"
+                                        value={updateBusinessCase.name || ''}
+                                        onChange={(e) => setUpdateBusinessCase({ ...updateBusinessCase, name: e.target.value })}
+                                        fullWidth
+                                    />
 
-                                        {/* Chips de OriginBusinessCase */}
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                <strong>Causas</strong>
-                                            </Typography>
-                                            <Divider sx={{ mb: 2 }} />
+                                    {/* Chips de OriginBusinessCase */}
+                                    <Box>
+                                        <Typography variant="subtitle1">
+                                            <strong>Causas</strong>
+                                        </Typography>
+                                        <Divider sx={{ mb: 2 }} />
 
-                                            {updateBusinessCase.origins && updateBusinessCase.origins.length > 0 ? (
-                                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                                    {updateBusinessCase.origins.map((b) => (
-                                                        <Chip
-                                                            key={b.originBusinessCaseId}
-                                                            label={b.name}
-                                                            color="primary"
-                                                            variant="outlined"
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Typography color="text.secondary" mt={1}>Nenhuma Causa.</Typography>
-                                            )}
-                                        </Box>
+                                        {updateBusinessCase.origins && updateBusinessCase.origins.length > 0 ? (
+                                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                                {updateBusinessCase.origins.map((b) => (
+                                                    <Chip
+                                                        key={b.originBusinessCaseId}
+                                                        label={b.name}
+                                                        color="primary"
+                                                        variant="outlined"
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        ) : (
+                                            <Typography color="text.secondary" mt={1}>Nenhuma Causa.</Typography>
+                                        )}
                                     </Box>
-                                ) : createBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
-                                        {/* Campos de texto editáveis */}
-                                        <TextField
-                                            label="Nome"
-                                            value={createBusinessCase.name || ''}
-                                            onChange={(e) => setCreateBusinessCase({ ...createBusinessCase, name: e.target.value })}
-                                            fullWidth
-                                        />
-                                    </Box>) :
-                                    (
-                                        <Typography>Nenhum dado encontrado.</Typography>
-                                    )}
+                                </Box>
+                            ) : createBusinessCase ? (
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                    {/* Campos de texto editáveis */}
+                                    <TextField
+                                        label="Nome*"
+                                        value={createBusinessCase.name || ''}
+                                        onChange={(e) => setCreateBusinessCase({ ...createBusinessCase, name: e.target.value })}
+                                        fullWidth
+                                    />
+                                </Box>) :
+                                (
+                                    <Typography>Nenhum dado encontrado.</Typography>
+                                )}
+                            footerContent={isVisualizing ? (
+                                <>
+                                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                                        {userUpdatedName?.[0] || '?'}
+                                    </Avatar>
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {userUpdatedName || '—'}
+                                        </Typography>
+                                    </Box>
+
+                                    <AccessTime fontSize="small" color="action" />
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                                        </Typography>
+                                    </Box>
+                                </>) : null}
                             actions={isVisualizing ? (
+                                <Button
+                                    variant="contained"
+                                    startIcon={<ArrowBackIcon />}
+                                    onClick={handleCloseModal}
+                                    sx={{
+                                        bgcolor: '#6b7280',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        px: 3,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    Voltar
+                                </Button>
+                            ) : (
+                                <>
                                     <Button
-                                        variant="contained"
-                                        startIcon={<ArrowBackIcon />}
                                         onClick={handleCloseModal}
+                                        disabled={modalLoading}
                                         sx={{
-                                            bgcolor: '#6b7280',
+                                            color: '#6b7280',
+                                            fontWeight: 600,
+                                            px: 3,
+                                            py: 1,
+                                            borderRadius: 1.5,
+                                            textTransform: 'none',
+                                            '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                                        }}
+                                    >
+                                        Cancelar
+                                    </Button>
+                                    <Button
+                                        onClick={handleSave}
+                                        variant="contained"
+                                        disabled={modalLoading}
+                                        startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                                        sx={{
+                                            bgcolor: '#1E4EC4',
                                             color: 'white',
                                             fontWeight: 600,
                                             px: 3,
                                             py: 1,
                                             borderRadius: 1.5,
                                             textTransform: 'none',
-                                            '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                                            boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                            '&:hover': {
+                                                bgcolor: '#1640a8',
+                                                boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                                transform: 'translateY(-1px)',
+                                            },
+                                            '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
                                             transition: 'all 0.2s ease',
                                         }}
                                     >
-                                        Voltar
+                                        Salvar
                                     </Button>
-                                ) : (
-                                    <>
-                                        <Button
-                                            onClick={handleCloseModal}
-                                            disabled={modalLoading}
-                                            sx={{
-                                                color: '#6b7280',
-                                                fontWeight: 600,
-                                                px: 3,
-                                                py: 1,
-                                                borderRadius: 1.5,
-                                                textTransform: 'none',
-                                                '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
-                                            }}
-                                        >
-                                            Cancelar
-                                        </Button>
-                                        <Button
-                                            onClick={handleSave}
-                                            variant="contained"
-                                            disabled={modalLoading}
-                                            startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                                            sx={{
-                                                bgcolor: '#1E4EC4',
-                                                color: 'white',
-                                                fontWeight: 600,
-                                                px: 3,
-                                                py: 1,
-                                                borderRadius: 1.5,
-                                                textTransform: 'none',
-                                                boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                                '&:hover': {
-                                                    bgcolor: '#1640a8',
-                                                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                                    transform: 'translateY(-1px)',
-                                                },
-                                                '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
-                                                transition: 'all 0.2s ease',
-                                            }}
-                                        >
-                                            Salvar
-                                        </Button>
-                                    </>
-                                )}
+                                </>
+                            )}
                         />
                     </Box>
                 </Paper>

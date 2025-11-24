@@ -1,30 +1,22 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Container,
     Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     CircularProgress,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Grid,
-    SelectChangeEvent,
-    Typography,
     Stack,
-    Divider,
+    Typography,
     TextField,
-    Autocomplete
+    FormGroup,
+    FormControlLabel,
+    Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
@@ -34,27 +26,32 @@ import {
     OriginsBusinessCasesApi,
     CreateOriginBusinessCaseRequest,
     UpdateOriginBusinessCaseRequest,
-    ListOriginBusinessCaseRequest,
     Filter,
-    Op,
+    UsersApi,
     ListOriginsBusinessCaseByBusinessCaseIdRequest
 } from '../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { AccessTime } from '@mui/icons-material';
+import Avatar from '@mui/material/Avatar';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import DialogPadronized from '@/components/DialogPadronized';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('pt-br');
+
+const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
 
 interface OriginBusinessCase {
     originBusinessCaseId?: number;
     name?: string;
     notes?: string;
     businessCaseId?: number;
+    isDeleted?: boolean;
 }
 
 const OriginBusinessCase: React.FC = () => {
@@ -78,7 +75,13 @@ const OriginBusinessCase: React.FC = () => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [originBusinessCaseToDelete, setOriginBusinessCaseToDelete] = useState<OriginBusinessCase | null>(null);
 
+    const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+    const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+    const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
+
     const originBusinessCasesApi = new OriginsBusinessCasesApi(apiConfig);
+    const userApi = new UsersApi(apiConfig);
     const navigate = useNavigate();
     const locationName = useLocation();
 
@@ -92,7 +95,7 @@ const OriginBusinessCase: React.FC = () => {
         fetchOriginBusinessCases();
     }, [page, rowsPerPage]);
 
-    const fetchOriginBusinessCases = async (customFilters?: Filter[]) => {
+    const fetchOriginBusinessCases = async (customFilters?: Filter[], statusFilter?: string) => {
         try {
             setLoading(true);
             setOriginBusinessCase([]);
@@ -103,7 +106,8 @@ const OriginBusinessCase: React.FC = () => {
                 pageNumber: page + 1,
                 pageSize: rowsPerPage,
                 filters: filters.length > 0 ? filters : undefined,
-                businessCaseId: Number(businessCaseId!)
+                businessCaseId: Number(businessCaseId!),
+                statusFilter: statusFilter,
             };
 
             const { data } = await originBusinessCasesApi.listOriginsBusinessCaseByBusinessCaseId(listOriginBusinessCaseRequest);
@@ -143,12 +147,13 @@ const OriginBusinessCase: React.FC = () => {
             });
         }
         setPage(0);
-        fetchOriginBusinessCases(filters);
+        fetchOriginBusinessCases(filters, statusFilter);
     }
 
     const handleClearFilters = () => {
         setPage(0);
         setFilterOriginBusinessCaseName('');
+        setStatusFilter(undefined);
         fetchOriginBusinessCases([]);
     }
 
@@ -194,6 +199,15 @@ const OriginBusinessCase: React.FC = () => {
     const handleViewOriginBusinessCase = async (originBusinessCase: OriginBusinessCase) => {
         try {
             const { data } = await originBusinessCasesApi.getOriginBusinessCase(originBusinessCase.originBusinessCaseId!);
+
+            const userId = data.updatedBy || data.createdBy;
+            const date = data.updatedAt || data.createdAt;
+
+            const { data: userData } = await userApi.getUserById(userId!);
+
+            setUserUpdatedName(userData.name);
+            setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
+
             setSelectedOriginBusinessCase(data);
             setIsVisualizing(true);
             setOpenModal(true);
@@ -230,7 +244,7 @@ const OriginBusinessCase: React.FC = () => {
     const handleSave = async () => {
         const originBusinessCaseForm = updateOriginBusinessCase || createOriginBusinessCase;
 
-        if (!validateBeneficiaryForm(originBusinessCaseForm))
+        if (validateBeneficiaryForm(originBusinessCaseForm) !== null)
             return;
 
         if (updateOriginBusinessCase) {
@@ -273,17 +287,18 @@ const OriginBusinessCase: React.FC = () => {
         }
     }
 
-    const validateBeneficiaryForm = (originBusinessCase: any): boolean => {
+    const validateBeneficiaryForm = (originBusinessCase: any): string | null => {
         const requiredFields = ['name', 'notes'];
 
         for (const field of requiredFields) {
             if (!originBusinessCase[field] || originBusinessCase[field].toString().trim() === '') {
-                toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-                return false;
+                const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+                toast.error(message)
+                return message;
             }
         }
 
-        return true;
+        return null;
     }
 
     const formatFieldName = (field: string): string => {
@@ -298,6 +313,11 @@ const OriginBusinessCase: React.FC = () => {
         { label: 'ID', field: 'originBusinessCaseId' },
         { label: 'Nome', field: 'name' },
         { label: 'Observações', field: 'notes' },
+        {
+            label: 'Status',
+            field: 'isDeleted',
+            render: (value) => (value ? 'Inativo' : 'Ativo')
+        }
     ];
 
     return (
@@ -344,8 +364,8 @@ const OriginBusinessCase: React.FC = () => {
                         </Button>
 
                         <div style={{ marginBottom: '1rem' }}>
-                        <span style={{ color: '#555' }}>Grupo de Causas</span> ›
-                        <span style={{ color: '#555' }}> Grupo: {name} </span>
+                            <span style={{ color: '#555' }}>Grupo de Causas</span> ›
+                            <span style={{ color: '#555' }}> Grupo: {name} </span>
                         </div>
 
                         <TitleAndButtons title="Lista de Causas" onAdd={handleAdd} addLabel="Nova Causa" />
@@ -382,109 +402,109 @@ const OriginBusinessCase: React.FC = () => {
                                     Busca de Causa
                                 </Typography>
 
-                                {filterOriginBusinessCaseName && (
-                                    <Chip
-                                        label="Busca ativa"
-                                        size="small"
-                                        sx={{
-                                            ml: 1,
-                                            bgcolor: alpha('#1E4EC4', 0.1),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            fontSize: '0.75rem',
-                                        }}
-                                    />
-                                )}
+                                {(
+                                    filterOriginBusinessCaseName ||
+                                    statusFilter
+                                ) && (
+                                        <Chip
+                                            label="Busca ativa"
+                                            size="small"
+                                            sx={{
+                                                ml: 1,
+                                                bgcolor: alpha('#1E4EC4', 0.1),
+                                                color: '#1E4EC4',
+                                                fontWeight: 600,
+                                                fontSize: '0.75rem',
+                                            }}
+                                        />
+                                    )}
                             </Box>
 
-                            <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                                    <TextField
-                                        label="Nome do Causa"
-                                        value={filterOriginBusinessCaseName}
-                                        onChange={(e) => setFilterOriginBusinessCaseName(e.target.value)}
-                                        placeholder="Digite o nome..."
-                                        fullWidth
-                                        size="small"
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: 1.5,
-                                                backgroundColor: 'white',
-                                                '&:hover fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#1E4EC4',
-                                                    borderWidth: 2,
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#1E4EC4',
-                                            },
-                                        }}
+                            <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                                <TextField
+                                    label="Nome do Causa"
+                                    value={filterOriginBusinessCaseName}
+                                    onChange={(e) => setFilterOriginBusinessCaseName(e.target.value)}
+                                    placeholder="Digite o nome..."
+                                    fullWidth
+                                    size="small"
+                                    sx={FIELD_STYLE}
+                                />
+                                <FormGroup row sx={{ mb: 2 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'Inactive'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                                                }
+                                            />
+                                        }
+                                        label="Somente Inativos"
                                     />
-                                </Grid>
 
-                                <Grid
-                                    size={{ xs: 12, sm: 6, md: 8 }}
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={statusFilter === 'all'}
+                                                onChange={() =>
+                                                    setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                                                }
+                                            />
+                                        }
+                                        label="Incluir Inativos"
+                                    />
+                                </FormGroup>
+
+                                <Button
+                                    variant="contained"
+                                    startIcon={<SearchIcon />}
+                                    onClick={handleSearch}
                                     sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                                        gap: 1.5,
-                                        mt: { xs: 1.5, sm: 0 },
+                                        bgcolor: '#1E4EC4',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                                        '&:hover': {
+                                            bgcolor: '#1640a8',
+                                            boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                                            transform: 'translateY(-1px)',
+                                        },
+                                        transition: 'all 0.2s ease',
                                     }}
                                 >
-                                    <Button
-                                        variant="contained"
-                                        startIcon={<SearchIcon />}
-                                        onClick={handleSearch}
-                                        sx={{
-                                            bgcolor: '#1E4EC4',
-                                            color: 'white',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                                            '&:hover': {
-                                                bgcolor: '#1640a8',
-                                                boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                                                transform: 'translateY(-1px)',
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Buscar
-                                    </Button>
+                                    Buscar
+                                </Button>
 
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={<ClearIcon />}
-                                        onClick={handleClearFilters}
-                                        sx={{
-                                            borderColor: alpha('#1E4EC4', 0.3),
-                                            color: '#1E4EC4',
-                                            fontWeight: 600,
-                                            px: 4,
-                                            py: 1,
-                                            borderRadius: 1.5,
-                                            textTransform: 'none',
-                                            fontSize: '0.95rem',
-                                            '&:hover': {
-                                                borderColor: '#1E4EC4',
-                                                bgcolor: alpha('#1E4EC4', 0.05),
-                                                borderWidth: 1.5,
-                                            },
-                                            transition: 'all 0.2s ease',
-                                        }}
-                                    >
-                                        Limpar Filtros
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<ClearIcon />}
+                                    onClick={handleClearFilters}
+                                    sx={{
+                                        borderColor: alpha('#1E4EC4', 0.3),
+                                        color: '#1E4EC4',
+                                        fontWeight: 600,
+                                        px: 4,
+                                        py: 1,
+                                        borderRadius: 1.5,
+                                        textTransform: 'none',
+                                        fontSize: '0.95rem',
+                                        '&:hover': {
+                                            borderColor: '#1E4EC4',
+                                            bgcolor: alpha('#1E4EC4', 0.05),
+                                            borderWidth: 1.5,
+                                        },
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >
+                                    Limpar Filtros
+                                </Button>
+                            </Stack>
                         </Paper>
 
                         {/* Tabela */}
@@ -538,52 +558,118 @@ const OriginBusinessCase: React.FC = () => {
                             title={dialogTitle()}
                             content={
                                 isVisualizing && selectedOriginBusinessCase ? (
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {/* Dados principais */}
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
+                                        {/* Campos de texto editáveis */}
+                                        <TextField
+                                            label="Nome"
+                                            value={selectedOriginBusinessCase.name || ''}
+                                            fullWidth
+                                            variant='outlined'
+                                            slotProps={{
+                                                input: { readOnly: true }
+                                            }}
+                                            sx={{ pointerEvents: 'none' }}
+                                        />
                                         <Box>
-                                            <Typography variant="h6" gutterBottom>Detalhes da Causa</Typography>
-                                            <Divider sx={{ mb: 2 }} />
-                                            <Typography><strong>ID:</strong> {selectedOriginBusinessCase.originBusinessCaseId}</Typography>
-                                            <Typography><strong>Nome:</strong> {selectedOriginBusinessCase.name}</Typography>
-                                            <Typography><strong>Observações:</strong> {selectedOriginBusinessCase.notes}</Typography>
+                                            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                                                <strong>Observações</strong>
+                                            </Typography>
+                                            <Paper
+                                                variant="outlined"
+                                                sx={{
+                                                    p: 2,
+                                                    bgcolor: '#f9fafb',
+                                                    borderRadius: 1.5,
+                                                    minHeight: 80,
+                                                    maxHeight: 300,
+                                                    overflowY: 'auto',
+                                                }}
+                                            >
+                                                <Typography
+                                                    color="text.primary"
+                                                    sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                                                >
+                                                    {selectedOriginBusinessCase.notes || 'Nenhuma observação registrada.'}
+                                                </Typography>
+                                            </Paper>
                                         </Box>
                                     </Box>
                                 ) : updateOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={updateOriginBusinessCase.name || ''}
                                             onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={updateOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setUpdateOriginBusinessCase({ ...updateOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setUpdateOriginBusinessCase({
+                                                    ...updateOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant='outlined'
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>
                                 ) : createOriginBusinessCase ? (
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 2 }}>
                                         {/* Campos de texto editáveis */}
                                         <TextField
-                                            label="Nome"
+                                            label="Nome*"
                                             value={createOriginBusinessCase.name || ''}
                                             onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, name: e.target.value })}
                                             fullWidth
                                         />
                                         <TextField
-                                            label="Observações"
+                                            label="Observações*"
                                             value={createOriginBusinessCase.notes || ''}
-                                            onChange={(e) => setCreateOriginBusinessCase({ ...createOriginBusinessCase, notes: e.target.value })}
+                                            onChange={(e) =>
+                                                setCreateOriginBusinessCase({
+                                                    ...createOriginBusinessCase,
+                                                    notes: e.target.value,
+                                                })
+                                            }
                                             fullWidth
+                                            variant="outlined"
+                                            multiline
+                                            minRows={3}
+                                            maxRows={8}
                                         />
                                     </Box>) :
                                     (
                                         <Typography>Nenhum dado encontrado.</Typography>
                                     )
                             }
+                            footerContent={isVisualizing ? (
+                                <>
+                                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                                        {userUpdatedName?.[0] || '?'}
+                                    </Avatar>
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {userUpdatedName || '—'}
+                                        </Typography>
+                                    </Box>
+
+                                    <AccessTime fontSize="small" color="action" />
+
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                                        <Typography variant="body2" fontWeight={600}>
+                                            {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                                        </Typography>
+                                    </Box>
+                                </>) : null}
                             actions={
                                 isVisualizing ? (
                                     <Button
@@ -649,7 +735,7 @@ const OriginBusinessCase: React.FC = () => {
                                     </>
                                 )
                             }
-                        /> 
+                        />
                     </Box>
                 </Paper>
             </Container>

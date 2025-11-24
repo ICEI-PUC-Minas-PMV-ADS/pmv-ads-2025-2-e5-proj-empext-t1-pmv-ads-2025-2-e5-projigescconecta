@@ -23,6 +23,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useNavigate, useLocation } from 'react-router-dom';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'; 
+import PaletteRoundedIcon from '@mui/icons-material/PaletteRounded';  
+import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 
 const IGESC_COLORS = {
   AZUL_CLARO: '#1E4EC4',
@@ -37,12 +41,16 @@ const menuItems = [
   { path: '/home', label: 'Início', icon: <HomeIcon /> },
   { path: '/course', label: 'Programas', icon: <SchoolIcon /> },
   { path: '/team', label: 'Turmas', icon: <GroupIcon /> },
-  { path: '/osc', label: 'OSC', icon: <PublicIcon /> },
-  { path: '/beneficiary', label: 'Público', icon: <GroupsIcon /> },
+  { path: '/osc', label: 'OSCs', icon: <PublicIcon /> },
+  { path: '/beneficiary', label: 'Públicos', icon: <GroupsIcon /> },
   { path: '/business-case', label: 'Grupo de Causas', icon: <Diversity2Icon /> },
+  { path: '/project-type', label: 'Tipos de Projeto', icon: <CategoryRoundedIcon /> },
+  { path: '/project-theme', label: 'Temas de Projeto', icon: <PaletteRoundedIcon /> },
+  { path: '/project-program', label: 'Projetos', icon: <AccountTreeRoundedIcon /> },
   { path: '/person', label: 'Pessoas', icon: <PeopleAltIcon /> },
-  { path: '/company', label: 'Empresa', icon: <BusinessIcon /> },
+  { path: '/company', label: 'Empresas', icon: <BusinessIcon /> },
   { path: '/donation', label: 'Doações', icon: <VolunteerActivismIcon /> },
+  { path: '/report', label: 'Gerador de Relatórios', icon: <SummarizeOutlinedIcon /> },
   { path: '/user', label: 'Usuários', icon: <PeopleAltIcon /> },
 ];
 

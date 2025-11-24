@@ -1,12 +1,15 @@
 using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IgescConecta.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace IgescConecta.API.Features.Teams.EditTeam
 {
     [ApiAuthorize]
-    [Route("/api/teams")]
     [ApiController]
+    [Route("api/teams")]
     [ApiExplorerSettings(GroupName = "Teams")]
     public class EditTeamEndpoint : ControllerBase
     {
@@ -17,48 +20,66 @@ namespace IgescConecta.API.Features.Teams.EditTeam
             _mediator = mediator;
         }
 
-        [HttpPut("{teamId}", Name = "EditTeam")]
-        public async Task<ActionResult<EditTeamResponse>> EditTeam(int teamId, [FromBody] EditTeamRequest request)
+        [HttpPut("{teamId}", Name="EditTeam")]
+        public async Task<IActionResult> EditTeam(int teamId, EditTeamRequest request)
         {
-            var result = await _mediator.Send(new EditTeamCommand
+            var command = new EditTeamCommand
             {
                 TeamId = teamId,
                 Name = request.Name,
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
-                PersonTeamsIds = request.PersonTeamsIds,
-                ProjectProgramId = request.ProjectProgramId,
+                Year = request.Year,
+                Semester = request.Semester,
+                ModalityType = request.ModalityType,
+                EventType = request.EventType,
+                ProjectProgramIds = request.ProjectProgramIds,
                 CourseId = request.CourseId
-            });
-
-            if (!result.IsSuccess)
-                return BadRequest(result.Error);
-
-            var editResponse = new EditTeamResponse
-            {
-                TeamId = teamId,
-                Name = result.Value.Name
             };
 
-            return Ok(editResponse);
+            var result = await _mediator.Send(command);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error.Errors);
+            }
+
+            return Ok(new
+            {
+                result.Value.Id,
+                result.Value.Name,
+                result.Value.LessonTime,
+                result.Value.Start,
+                result.Value.Finish,
+                result.Value.Year,
+                result.Value.Semester,
+                ModalityType = result.Value.ModalityType,
+                EventType = result.Value.EventType,
+                PersonTeamsCount = result.Value.PersonTeams.Count,
+                ProjectPrograms = result.Value.ProjectPrograms.Select(pp => new
+                {
+                    Id = pp.Id,
+                    Name = pp.Name
+                }).ToList(),
+                CourseId = result.Value.CourseId,
+                CourseName = result.Value.Course?.Name
+            });
         }
     }
 
     public class EditTeamRequest
     {
+        [Required(ErrorMessage = "O nome da turma é obrigatório quando fornecido.")]
         public string? Name { get; set; }
         public string? LessonTime { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? Finish { get; set; }
-        public List<int>? PersonTeamsIds { get; set; }
-        public int? ProjectProgramId { get; set; }
+        public List<int>? ProjectProgramIds { get; set; }
         public int? CourseId { get; set; }
-    }
-
-    public class EditTeamResponse
-    {
-        public int TeamId { get; set; }
-        public string? Name { get; set; }
+        public int? Year { get; set; }
+        public string? Semester { get; set; }
+        public ModalityType? ModalityType { get; set; }
+        public EventType? EventType { get; set; }
     }
 }

@@ -1,31 +1,27 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-  SelectChangeEvent,
   Typography,
   Stack,
   Divider,
   TextField,
-  Autocomplete
+  Autocomplete,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import AccessTime from '@mui/icons-material/AccessTime';
+import Avatar from '@mui/material/Avatar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
@@ -38,7 +34,7 @@ import {
   UpdateOscRequest,
   ListOscRequest,
   Filter,
-  Op,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { alpha } from '@mui/material/styles';
@@ -49,8 +45,14 @@ import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { PatternFormat } from 'react-number-format';
 import { fetchZipCode, SimplifyResponse } from '@/services/cep';
 import DialogPadronized from '@/components/DialogPadronized';
+import { useNavigate } from 'react-router-dom';
+import { UploadCsvModal } from '@/components/UploadCsvModal';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('pt-br');
+
+const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
 
 interface Osc {
   oscId?: number;
@@ -70,6 +72,7 @@ interface Osc {
   beneficiariesCount?: number;
   beneficiaries?: Beneficiary[];
   originsBusinessCases?: OriginBusinessCase[];
+  isDeleted?: boolean;
 }
 
 interface Beneficiary {
@@ -80,6 +83,24 @@ interface Beneficiary {
 interface OriginBusinessCase {
   originBusinessCaseId?: number;
   name?: string;
+}
+
+interface OscCsvRow {
+  name: string;
+  objective: string;
+  corporateName: string;
+  address: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  phoneNumber: string;
+  email?: string;
+  webUrl?: string;
+  socialMedia?: string;
+  zipCode: string;
+  oscPrimaryDocumment?: string;
+  beneficiariesIds?: string | number[];
+  originsBusinessCasesIds?: string | number[];
 }
 
 const Osc: React.FC = () => {
@@ -97,26 +118,53 @@ const Osc: React.FC = () => {
   const [selectedOsc, setSelectedOsc] = useState<Osc | null>(null);
 
   const [selectedBeneficiary, setSelectedBeneficiary] = useState<Beneficiary | null>(null);
+  const [selectedBeneficiaryFilter, setSelectedBeneficiaryFilter] = useState<Beneficiary | null>(null);
+  const [selectedOriginBusinessCaseFilter, setSelectedOriginBusinessCaseFilter] = useState<OriginBusinessCase | null>(null);
+
   const [beneficiaryResults, setBeneficiaryResults] = useState<Beneficiary[]>([]);
   const [beneficiaryLoading, setBeneficiaryLoading] = useState(false);
   const [inputBeneficiaryValue, setInputBeneficiaryValue] = useState('');
+  const [inputOriginBusinessCaseValue, setInputOriginBusinessCaseValue] = useState('');
+  const [inputBeneficiaryValueFilter, setInputBeneficiaryValueFilter] = useState('');
 
   const [selectedOriginBusinessCase, setSelectedOriginBusinessCase] = useState<OriginBusinessCase | null>(null);
   const [originBusinessCaseResults, setOriginBusinessCaseResults] = useState<OriginBusinessCase[]>([]);
   const [originBusinessCaseLoading, setOriginBusinessCaseLoading] = useState(false);
-  const [inputOriginBusinessCaseValue, setInputOriginBusinessCaseValue] = useState('');
+  const [inputOriginBusinessCaseValueFilter, setInputOriginBusinessCaseValueFilter] = useState('');
 
   const [filterOscName, setFilterOscName] = useState('');
+  const [filterOscPrimaryDocumment, setFilterOscPrimaryDocumment] = useState('');
+  const [filterCity, setFilterdCity] = useState('');
+  const [filterState, setFilterState] = useState('');
+  const [filterBeneficiaryId, setFilterBeneficiaryId] = useState<number | undefined>(undefined);
+  const [filterOriginBusinesCaseId, setFilterOriginBusinesCaseId] = useState<number | undefined>(undefined);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [oscToDelete, setOscToDelete] = useState<Osc | null>(null);
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
 
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
+
   const oscApi = new OscsApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
   const beneficiariesApi = new BeneficiariesApi(apiConfig);
   const originBusinessCaseApi = new OriginsBusinessCasesApi(apiConfig)
+  const navigate = useNavigate();
+
+  const handleDirect = (osc: Osc) => {
+    if (!osc.oscId)
+      return;
+
+    navigate(`/osc/${osc.oscId}/person-osc`, {
+      state: { name: osc.name }
+    });
+  };
 
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar OSC' : updateOsc ? 'Editar OSC' : 'Nova OSC';
@@ -125,6 +173,38 @@ const Osc: React.FC = () => {
   useEffect(() => {
     fetchOscs();
   }, [page, rowsPerPage]);
+
+  const handleUploadOsc = () => {
+    setUploadOpen(true);
+  }
+
+  const apiCreate = (data: OscCsvRow) => {
+    const beneficiariesIds = typeof data.beneficiariesIds === 'string'
+      ? data.beneficiariesIds.split(',').map(id => Number(id.trim())).filter(n => !isNaN(n))
+      : data.beneficiariesIds;
+
+    const originsBusinessCasesIds = typeof data.originsBusinessCasesIds === 'string'
+      ? data.originsBusinessCasesIds.split(',').map(id => Number(id.trim())).filter(n => !isNaN(n))
+      : data.originsBusinessCasesIds;
+
+    return oscApi.createOsc({
+      name: data.name,
+      objective: data.objective,
+      corporateName: data.corporateName,
+      address: data.address,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      state: data.state,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      webUrl: data.webUrl,
+      socialMedia: data.socialMedia,
+      zipCode: data.zipCode,
+      oscPrimaryDocumment: data.oscPrimaryDocumment,
+      beneficiariesIds,
+      originsBusinessCasesIds
+    });
+  };
 
   const fetchBeneficiaries = async (searchValue: string) => {
     try {
@@ -186,7 +266,7 @@ const Osc: React.FC = () => {
     }
   };
 
-  const fetchOscs = async (customFilters?: Filter[]) => {
+  const fetchOscs = async (customFilters?: Filter[], beneficiaryId?: number, originBusinessCaseId?: number, statusFilter?: string) => {
     try {
       setLoading(true);
       setOscs([]);
@@ -197,6 +277,9 @@ const Osc: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters.length > 0 ? filters : undefined,
+        beneficiaryId: beneficiaryId,
+        originBusinessCaseId: originBusinessCaseId,
+        statusFilter: statusFilter
       };
 
       const { data } = await oscApi.listOsc(listOscRequest);
@@ -209,6 +292,7 @@ const Osc: React.FC = () => {
       setOscs(
         (data.items ?? []).map((item) => ({
           ...item,
+          canDelete: !item.isDeleted
         }))
       );
 
@@ -235,13 +319,50 @@ const Osc: React.FC = () => {
         value: filterOscName.trim(),
       });
     }
+
+    if (filterCity && filterCity.trim() !== '') {
+      filters.push({
+        propertyName: 'city',
+        operation: 7,
+        value: filterCity.trim(),
+      });
+    }
+
+    if (filterState && filterState.trim() !== '') {
+      filters.push({
+        propertyName: 'state',
+        operation: 1,
+        value: filterState.trim(),
+      });
+    }
+
+    if (filterOscPrimaryDocumment && filterOscPrimaryDocumment.trim() !== '') {
+      filters.push({
+        propertyName: 'oscPrimaryDocumment',
+        operation: 1,
+        value: filterOscPrimaryDocumment.trim(),
+      });
+    }
+
+    const beneficiaryId = filterBeneficiaryId || undefined;
+    const originBusinessCaseId = filterOriginBusinesCaseId || undefined
+
     setPage(0);
-    fetchOscs(filters);
+    fetchOscs(filters, beneficiaryId, originBusinessCaseId, statusFilter);
   };
 
   const handleClearFilters = () => {
     setPage(0);
     setFilterOscName('');
+    setFilterOscPrimaryDocumment('');
+    setFilterState('');
+    setFilterdCity('');
+    setBeneficiaryResults([])
+    setInputBeneficiaryValue('')
+    setFilterBeneficiaryId(undefined);
+    setSelectedBeneficiaryFilter(null);
+    setSelectedOriginBusinessCaseFilter(null);
+    setStatusFilter(undefined);
     fetchOscs([]);
   };
 
@@ -304,6 +425,14 @@ const Osc: React.FC = () => {
     try {
       const oscId: number = osc.oscId!;
       const { data } = await oscApi.getOsc(oscId);
+
+      const userId = data.updatedBy || data.createdBy;
+      const date = data.updatedAt || data.createdAt;
+
+      const { data: userData } = await userApi.getUserById(userId!);
+
+      setUserUpdatedName(userData.name);
+      setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
       setOpenModal(true)
@@ -341,7 +470,7 @@ const Osc: React.FC = () => {
   const handleSave = async () => {
     const ocsForm = updateOsc || createOsc;
 
-    if (!validateOscForm(ocsForm))
+    if (validateOscForm(ocsForm) !== null)
       return
 
     if (updateOsc) {
@@ -411,34 +540,35 @@ const Osc: React.FC = () => {
     }
   }
 
-  const validateOscForm = (osc: any): boolean => {
+  const validateOscForm = (osc: any): string | null => {
     const requiredFields = [
       'name',
+      'phoneNumber',
       'corporateName',
       'objective',
-      'address',
-      'neighborhood',
-      'city',
+      'zipCode',
       'state',
-      'phoneNumber',
-      'zipCode'
+      'city',
+      'neighborhood',
+      'address',
     ];
 
     for (const field of requiredFields) {
       if (!osc[field] || osc[field].toString().trim() === '') {
-        toast.error(`O campo "${formatFieldName(field)}" é obrigatório!`);
-        return false;
+        const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+        toast.error(message);
+        return message;
       }
     }
 
-    return true;
+    return null;
   };
 
   const formatFieldName = (field: string): string => {
     const mapping: Record<string, string> = {
       name: 'Nome',
-      corporateName: 'Nome Corporativo',
-      oscPrimaryDocumment: 'Razão Social',
+      corporateName: 'Razão Social',
+      oscPrimaryDocumment: 'CNPJ',
       objective: 'Objetivo',
       address: 'Endereço',
       neighborhood: 'Bairro',
@@ -453,9 +583,10 @@ const Osc: React.FC = () => {
     return mapping[field] || field;
   };
 
-  const handleZipCodeLookup = async (zipCodeValue: string | undefined) => {
+  const handleZipCodeLookup = async (zipCodeValue: string | undefined, type: 'create' | 'update') => {
+    const setter = type === 'create' ? setCreateOsc : setUpdateOsc;
+
     if (!zipCodeValue) {
-      const setter = createOsc ? setCreateOsc : setUpdateOsc;
       setter(prev => ({
         ...prev,
         neighborhood: '', city: '', state: '', address: ''
@@ -469,27 +600,13 @@ const Osc: React.FC = () => {
     try {
       const dataResponse: SimplifyResponse = await fetchZipCode(zipCodeValue);
 
-      if (createOsc) {
-        setCreateOsc(prev => ({
-          ...prev,
-          neighborhood: dataResponse.neighborhood,
-          city: dataResponse.city,
-          state: dataResponse.state,
-          address: dataResponse.address
-        }));
-      }
-      else {
-        setUpdateOsc(prev => {
-          const newState = {
-            ...prev,
-            neighborhood: dataResponse.neighborhood,
-            city: dataResponse.city,
-            state: dataResponse.state,
-            address: dataResponse.address
-          }
-          return newState
-        });
-      }
+      setter(prev => ({
+        ...prev,
+        neighborhood: dataResponse.neighborhood || '',
+        city: dataResponse.city || '',
+        state: dataResponse.state || '',
+        address: dataResponse.address || '',
+      }));
 
     } catch (error) {
       let errorMessage = error instanceof Error ? error.message : 'Falha ao buscar CEP.';
@@ -502,11 +619,12 @@ const Osc: React.FC = () => {
       }
 
       setCepError(errorMessage)
-
-      const setter = createOsc ? setCreateOsc : setUpdateOsc;
       setter(prev => ({
         ...prev,
-        neighborhood: '', city: '', state: '', address: ''
+        neighborhood: '',
+        city: '',
+        state: '',
+        address: '',
       }));
     } finally {
       setIsLoadingCep(false);
@@ -537,7 +655,30 @@ const Osc: React.FC = () => {
     },
     { label: 'Objetivo', field: 'objective' },
     { label: 'Público Atendido', field: 'beneficiariesCount' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      render: (value) => (value ? 'Inativo' : 'Ativo')
+    }
   ];
+
+  const headerTranslations = {
+    name: 'Nome da OSC*',
+    objective: 'Objetivo*',
+    corporateName: 'Razão Social*',
+    zipCode: 'CEP*',
+    address: 'Endereço*',
+    neighborhood: 'Bairro*',
+    city: 'Cidade*',
+    state: 'Estado*',
+    phoneNumber: 'Número de Telefone*',
+    email: 'Email',
+    webUrl: 'Website',
+    socialMedia: 'Mídia Social',
+    oscPrimaryDocumment: 'CNPJ',
+    beneficiariesIds: 'Id de Público',
+    originsBusinessCasesIds: 'Id de Causa',
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -562,9 +703,7 @@ const Osc: React.FC = () => {
           }}
         >
           <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-            <TitleAndButtons title="Lista de Osc's" onAdd={handleAdd} addLabel="Nova OSC" />
-
-            {/* Filtro por nome de OSC */}
+            <TitleAndButtons title="Lista de Osc's" onAdd={handleAdd} addLabel="Nova OSC" onImportCsv={handleUploadOsc} importLabel='Importar OSC' />
             <Paper
               elevation={0}
               sx={{
@@ -576,129 +715,215 @@ const Osc: React.FC = () => {
                 borderRadius: 2,
               }}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  mb: 2.5,
-                }}
-              >
-                <SearchIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
+              {/* Cabeçalho */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
+                <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
                 <Typography
                   variant="h6"
-                  sx={{
-                    color: '#1a1a2e',
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                  }}
+                  sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
                 >
-                  Busca de OSC
+                  Filtros
                 </Typography>
 
-                {filterOscName && (
-                  <Chip
-                    label="Busca ativa"
-                    size="small"
-                    sx={{
-                      ml: 1,
-                      bgcolor: alpha('#1E4EC4', 0.1),
-                      color: '#1E4EC4',
-                      fontWeight: 600,
-                      fontSize: '0.75rem',
-                    }}
-                  />
-                )}
+                {(filterOscName ||
+                  filterCity ||
+                  filterState ||
+                  filterOscPrimaryDocumment ||
+                  filterBeneficiaryId ||
+                  filterOriginBusinesCaseId ||
+                  statusFilter) && (
+                    <Chip
+                      label="Filtros ativos"
+                      size="small"
+                      sx={{
+                        ml: 1,
+                        bgcolor: alpha('#1E4EC4', 0.1),
+                        color: '#1E4EC4',
+                        fontWeight: 600,
+                        fontSize: '0.75rem',
+                      }}
+                    />
+                  )}
               </Box>
 
-              <Grid container spacing={{ xs: 2, md: 2.5 }}>
-                <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                  <TextField
-                    label="Nome da OSC"
-                    value={filterOscName}
-                    onChange={(e) => setFilterOscName(e.target.value)}
-                    placeholder="Digite o nome..."
-                    fullWidth
-                    size="small"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 1.5,
-                        backgroundColor: 'white',
-                        '&:hover fieldset': {
-                          borderColor: '#1E4EC4',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#1E4EC4',
-                          borderWidth: 2,
-                        },
-                      },
-                      '& .MuiInputLabel-root.Mui-focused': {
-                        color: '#1E4EC4',
-                      },
-                    }}
-                  />
-                </Grid>
+              {/* Linha 1 */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                <TextField
+                  label="Nome da OSC"
+                  value={filterOscName}
+                  onChange={(e) => setFilterOscName(e.target.value)}
+                  placeholder="Digite o nome..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="CNPJ"
+                  value={filterOscPrimaryDocumment}
+                  onChange={(e) => setFilterOscPrimaryDocumment(e.target.value)}
+                  placeholder="Digite o CNPJ..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="Cidade"
+                  value={filterCity}
+                  onChange={(e) => setFilterdCity(e.target.value)}
+                  placeholder="Digite a cidade..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+                <TextField
+                  label="UF"
+                  value={filterState}
+                  onChange={(e) => setFilterState(e.target.value)}
+                  placeholder="Digite o UF..."
+                  size="small"
+                  sx={FIELD_STYLE}
+                />
+              </Stack>
 
-                <Grid
-                  size={{ xs: 12, sm: 6, md: 8 }}
+              {/* Linha 2 */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+                <Autocomplete
+                  options={beneficiaryResults}
+                  getOptionLabel={(option) => option.name ?? ''}
+                  loading={beneficiaryLoading}
+                  value={selectedBeneficiaryFilter}
+                  onChange={(event, newValue) => {
+                    setSelectedBeneficiaryFilter(newValue);
+                    setFilterBeneficiaryId(newValue?.beneficiaryId ?? undefined);
+                  }}
+                  inputValue={inputBeneficiaryValueFilter}
+                  onInputChange={(event, newInputValue, reason) => {
+                    setInputBeneficiaryValueFilter(newInputValue);
+                    if (reason === 'input') fetchBeneficiaries(newInputValue);
+                  }}
+                  onOpen={() => fetchBeneficiaries('')}
+                  isOptionEqualToValue={(option, value) =>
+                    option.beneficiaryId === value.beneficiaryId
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Público"
+                      size="small"
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {beneficiaryLoading ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
+                      }}
+                    />
+                  )}
+                  sx={FIELD_STYLE}
+                />
+
+                <Autocomplete
+                  options={originBusinessCaseResults}
+                  getOptionLabel={(option) => option.name ?? ''}
+                  loading={originBusinessCaseLoading}
+                  value={selectedOriginBusinessCaseFilter}
+                  onChange={(event, newValue) => {
+                    setSelectedOriginBusinessCaseFilter(newValue);
+                    setFilterOriginBusinesCaseId(newValue?.originBusinessCaseId ?? undefined);
+                  }}
+                  inputValue={inputOriginBusinessCaseValueFilter}
+                  onInputChange={(event, newInputValue, reason) => {
+                    setInputOriginBusinessCaseValueFilter(newInputValue);
+                    if (reason === 'input') fetchOriginBusinessCase(newInputValue);
+                  }}
+                  onOpen={() => fetchOriginBusinessCase('')}
+                  isOptionEqualToValue={(option, value) =>
+                    option.originBusinessCaseId === value.originBusinessCaseId
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Causa"
+                      size="small"
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {originBusinessCaseLoading ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {params.InputProps.endAdornment}
+                          </>
+                        ),
+                      }}
+                    />
+                  )}
+                  sx={FIELD_STYLE}
+                />
+              </Stack>
+
+              {/* Botões de Busca, Limpar e Filtrar Inativos */}
+              <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
+                <FormGroup row sx={{ mb: 2 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'Inactive'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        }
+                      />
+                    }
+                    label="Somente Inativos"
+                  />
+
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'all'}
+                        onChange={() =>
+                          setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
+                        }
+                      />
+                    }
+                    label="Incluir Inativos"
+                  />
+                </FormGroup>
+
+                <Button
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                  onClick={handleSearch}
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                    gap: 1.5,
-                    mt: { xs: 1.5, sm: 0 },
+                    bgcolor: '#1E4EC4',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    startIcon={<SearchIcon />}
-                    onClick={handleSearch}
-                    sx={{
-                      bgcolor: '#1E4EC4',
-                      color: 'white',
-                      fontWeight: 600,
-                      px: 4,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      fontSize: '0.95rem',
-                      boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                      '&:hover': {
-                        bgcolor: '#1640a8',
-                        boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
-                        transform: 'translateY(-1px)',
-                      },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Buscar
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    startIcon={<ClearIcon />}
-                    onClick={handleClearFilters}
-                    sx={{
-                      borderColor: alpha('#1E4EC4', 0.3),
-                      color: '#1E4EC4',
-                      fontWeight: 600,
-                      px: 4,
-                      py: 1,
-                      borderRadius: 1.5,
-                      textTransform: 'none',
-                      fontSize: '0.95rem',
-                      '&:hover': {
-                        borderColor: '#1E4EC4',
-                        bgcolor: alpha('#1E4EC4', 0.05),
-                        borderWidth: 1.5,
-                      },
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    Limpar Filtros
-                  </Button>
-                </Grid>
-              </Grid>
+                  Buscar
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  sx={{
+                    borderColor: alpha('#1E4EC4', 0.3),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
+              </Stack>
             </Paper>
 
             {/* Tabela */}
@@ -726,6 +951,7 @@ const Osc: React.FC = () => {
                   onEdit={handleUpdateOsc}
                   onView={handleView}
                   onDelete={handleDelete}
+                  onPersonOsc={handleDirect}
                 />
               )}
             </Box>
@@ -742,6 +968,19 @@ const Osc: React.FC = () => {
               cancelLabel='Cancelar'
               danger
             />
+
+            {/* Upload Excel Modal */}
+            {isUploadOpen && (
+              <UploadCsvModal<OscCsvRow>
+                title='Importar OSC'
+                onClose={() => setUploadOpen(false)}
+                apiCreate={apiCreate}
+                expectedHeaders={['name', 'objective', 'corporateName', 'address', 'neighborhood', 'city', 'state', 'phoneNumber', 'email', 'webUrl', 'socialMedia', 'zipCode', 'oscPrimaryDocumment', 'beneficiariesIds', 'originsBusinessCasesIds']}
+                headerTranslations={headerTranslations}
+                validateFields={validateOscForm}
+                onFinish={() => fetchOscs()}
+              />
+            )}
 
             {/* Modal */}
             <DialogPadronized
@@ -836,14 +1075,14 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       {/* Campos de texto editáveis */}
                       <TextField
-                        label="Nome"
+                        label="Nome*"
                         value={updateOsc.name || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, name: e.target.value })}
                         fullWidth
                       />
                       <PatternFormat
                         customInput={TextField}
-                        label="Telefone"
+                        label="Telefone*"
                         fullWidth
                         value={updateOsc.phoneNumber || ''}
                         onValueChange={(values) =>
@@ -855,7 +1094,7 @@ const Osc: React.FC = () => {
                     </Box>
 
                     <TextField
-                      label="Razão Social"
+                      label="Razão Social*"
                       value={updateOsc.corporateName || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, corporateName: e.target.value })}
                       fullWidth
@@ -896,22 +1135,26 @@ const Osc: React.FC = () => {
                     />
 
                     <TextField
-                      label="Objetivo"
+                      label="Objetivo*"
                       value={updateOsc.objective || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, objective: e.target.value })}
                       fullWidth
+                      variant='outlined'
+                      multiline
+                      minRows={3}
+                      maxRows={8}
                     />
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <PatternFormat
                         customInput={TextField}
-                        label="CEP"
+                        label="CEP*"
                         fullWidth
                         value={updateOsc.zipCode || ''}
                         onValueChange={(values) =>
                           setUpdateOsc({ ...updateOsc, zipCode: values.value })
                         }
-                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode)}
+                        onBlur={() => handleZipCodeLookup(updateOsc.zipCode, 'update')}
                         format="#####-###"
                         mask="_"
                         error={!!cepError}
@@ -919,7 +1162,7 @@ const Osc: React.FC = () => {
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="UF"
+                        label="UF*"
                         value={updateOsc.state || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, state: e.target.value })}
                         fullWidth
@@ -928,13 +1171,13 @@ const Osc: React.FC = () => {
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <TextField
-                        label="Cidade"
+                        label="Cidade*"
                         value={updateOsc.city || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, city: e.target.value })}
                         fullWidth
                       />
                       <TextField
-                        label="Bairro"
+                        label="Bairro*"
                         value={updateOsc.neighborhood || ''}
                         onChange={(e) => setUpdateOsc({ ...updateOsc, neighborhood: e.target.value })}
                         fullWidth
@@ -942,7 +1185,7 @@ const Osc: React.FC = () => {
                     </Box>
 
                     <TextField
-                      label="Endereço"
+                      label="Endereço*"
                       value={updateOsc.address || ''}
                       onChange={(e) => setUpdateOsc({ ...updateOsc, address: e.target.value })}
                       fullWidth
@@ -1083,14 +1326,14 @@ const Osc: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       {/* Campos de texto editáveis */}
                       <TextField
-                        label="Nome"
+                        label="Nome*"
                         value={createOsc.name || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, name: e.target.value })}
                         fullWidth
                       />
                       <PatternFormat
                         customInput={TextField}
-                        label="Telefone"
+                        label="Telefone*"
                         fullWidth
                         value={createOsc.phoneNumber || ''}
                         onValueChange={(values) =>
@@ -1101,7 +1344,7 @@ const Osc: React.FC = () => {
                       />
                     </Box>
                     <TextField
-                      label="Razão Social"
+                      label="Razão Social*"
                       value={createOsc.corporateName || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, corporateName: e.target.value })}
                       fullWidth
@@ -1138,53 +1381,75 @@ const Osc: React.FC = () => {
                       mask="_"
                     />
                     <TextField
-                      label="Objetivo"
+                      label="Objetivo*"
                       value={createOsc.objective || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, objective: e.target.value })}
                       fullWidth
+                      variant='outlined'
+                      multiline
+                      minRows={3}
+                      maxRows={8}
+
                     />
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <PatternFormat
                         customInput={TextField}
-                        label="CEP"
+                        label="CEP*"
                         fullWidth
                         value={createOsc.zipCode || ''}
                         onValueChange={(values) =>
                           setCreateOsc({ ...createOsc, zipCode: values.value })
                         }
-                        onBlur={() => handleZipCodeLookup(createOsc.zipCode)}
+                        onBlur={() => handleZipCodeLookup(createOsc.zipCode, 'create')}
                         format="#####-###"
                         mask="_"
                         error={!!cepError}
                         helperText={cepError || ''}
+                        InputProps={{
+                          endAdornment: (
+                            <>
+                              {isLoadingCep && (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: 'text.secondary', mr: 1 }}
+                                  aria-label="Carregando CEP"
+                                />
+                              )}
+                            </>
+                          ),
+                        }}
                         disabled={isLoadingCep}
                       />
                       <TextField
-                        label="UF"
+                        label="UF*"
                         value={createOsc.state || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, state: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                     </Box>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <TextField
-                        label="Cidade"
+                        label="Cidade*"
                         value={createOsc.city || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, city: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                       <TextField
-                        label="Bairro"
+                        label="Bairro*"
                         value={createOsc.neighborhood || ''}
                         onChange={(e) => setCreateOsc({ ...createOsc, neighborhood: e.target.value })}
                         fullWidth
+                        disabled={isLoadingCep}
                       />
                     </Box>
                     <TextField
-                      label="Endereço"
+                      label="Endereço*"
                       value={createOsc.address || ''}
                       onChange={(e) => setCreateOsc({ ...createOsc, address: e.target.value })}
                       fullWidth
+                      disabled={isLoadingCep}
                     />
 
                     {/* Público editáveis */}
@@ -1194,9 +1459,10 @@ const Osc: React.FC = () => {
 
                       <Autocomplete
                         options={beneficiaryResults}
-                        getOptionLabel={(option) => option.name || ''}
+                        getOptionLabel={(option) => option.name ?? ''}
+                        loading={beneficiaryLoading}
                         value={selectedBeneficiary}
-                        onChange={(_, value) => {
+                        onChange={(event, value) => {
                           if (value && !createOsc.beneficiaries?.some(b => b.beneficiaryId === value.beneficiaryId)) {
                             setCreateOsc({
                               ...createOsc,
@@ -1321,6 +1587,28 @@ const Osc: React.FC = () => {
                     <Typography>Nenhum dado encontrado.</Typography>
                   )
               }
+              footerContent={isVisualizing ? (
+                <>
+                  <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                    {userUpdatedName?.[0] || '?'}
+                  </Avatar>
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {userUpdatedName || '—'}
+                    </Typography>
+                  </Box>
+
+                  <AccessTime fontSize="small" color="action" />
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                    </Typography>
+                  </Box>
+                </>) : null}
               actions={
                 isVisualizing ? (
                   <Button
@@ -1361,7 +1649,7 @@ const Osc: React.FC = () => {
                     <Button
                       onClick={handleSave}
                       variant="contained"
-                      disabled={modalLoading}
+                      disabled={modalLoading || isLoadingCep}
                       startIcon={modalLoading ? <CircularProgress size={20} /> : null}
                       sx={{
                         bgcolor: '#1E4EC4',
@@ -1386,7 +1674,7 @@ const Osc: React.FC = () => {
                   </>
                 )
               }
-            /> 
+            />
           </Box>
         </Paper>
       </Container>

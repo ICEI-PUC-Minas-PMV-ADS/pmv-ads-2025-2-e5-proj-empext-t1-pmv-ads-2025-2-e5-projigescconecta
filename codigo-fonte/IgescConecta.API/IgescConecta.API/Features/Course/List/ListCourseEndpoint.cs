@@ -20,7 +20,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         [HttpPost("search", Name = "ListCourse")]
         public async Task<ActionResult<ListCourseViewModel>> ListCourse([FromBody] ListCourseRequest request)
         {
-            var result = await _mediator.Send(new ListCourseQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListCourseQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
 
@@ -43,5 +43,6 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

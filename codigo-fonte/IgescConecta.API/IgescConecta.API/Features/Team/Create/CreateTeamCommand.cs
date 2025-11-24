@@ -1,6 +1,7 @@
 using IgescConecta.API.Common.Validation;
 using IgescConecta.API.Data;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 {
     public class CreateTeamCommand : IRequest<Result<int, ValidationFailed>>
     {
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         public string? LessonTime { get; set; }
 
@@ -16,8 +17,12 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public DateTime? Finish { get; set; }
 
-        public List<int> PersonTeamsIds { get; set; } = [];
-        public int? ProjectProgramId { get; set; }
+        public required int Year { get; set; }
+        public required string Semester { get; set; }
+        public required ModalityType ModalityType { get; set; }
+        public required EventType EventType { get; set; }
+
+        public List<int> ProjectProgramsIds { get; set; } = [];
         public int CourseId { get; set; }
     }
 
@@ -32,6 +37,22 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
 
         public async Task<Result<int, ValidationFailed>> Handle(CreateTeamCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(request.Name))
+                return new ValidationFailed(new[] { "O nome da turma é obrigatório." });
+
+            if (request.Year <= 0)
+                return new ValidationFailed(new[] { "O ano é obrigatório e deve ser maior que zero." });
+
+            if (string.IsNullOrWhiteSpace(request.Semester))
+                return new ValidationFailed(new[] { "O semestre é obrigatório." });
+
+            // Validação de enum obrigatório
+            if (!Enum.IsDefined(typeof(ModalityType), request.ModalityType))
+                return new ValidationFailed(new[] { "A modalidade é obrigatória e deve ser válida." });
+
+            if (!Enum.IsDefined(typeof(EventType), request.EventType))
+                return new ValidationFailed(new[] { "O tipo de evento é obrigatório e deve ser válido." });
+                
             var courseExists = await _context.Courses
             .AnyAsync(c => c.Id == request.CourseId, cancellationToken);
 
@@ -43,27 +64,18 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 return new ValidationFailed(new[] { "A data de início deve ser anterior à data de término." });
             }
 
-            if (request.ProjectProgramId.HasValue)
+            if (request.ProjectProgramsIds.Any())
             {
-                var programExists = await _context.ProjectPrograms
-                    .AnyAsync(p => p.Id == request.ProjectProgramId, cancellationToken);
-
-                if (!programExists)
-                    return new ValidationFailed(new[] { $"Programa com ID {request.ProjectProgramId} não encontrado." });
-            }
-
-            if (request.PersonTeamsIds.Any())
-            {
-                var personsExist = await _context.Persons
-                    .Where(p => request.PersonTeamsIds.Contains(p.Id))
+                var programsExist = await _context.ProjectPrograms
+                    .Where(p => request.ProjectProgramsIds.Contains(p.Id))
                     .Select(p => p.Id)
                     .ToListAsync(cancellationToken);
 
-                var invalidIds = request.PersonTeamsIds.Except(personsExist).ToList();
+                var invalidIds = request.ProjectProgramsIds.Except(programsExist).ToList();
 
                 if (invalidIds.Any())
                 {
-                    return new ValidationFailed(new[] { $"Pessoas com IDs {string.Join(", ", invalidIds)} não encontradas." });
+                    return new ValidationFailed(new[] { $"Projetos com IDs {string.Join(", ", invalidIds)} não encontrados." });
                 }
             }
 
@@ -73,30 +85,23 @@ namespace IgescConecta.API.Features.Teams.CreateTeam
                 LessonTime = request.LessonTime,
                 Start = request.Start,
                 Finish = request.Finish,
-                ProjectProgramId = request.ProjectProgramId,
+                Year = request.Year,
+                Semester = request.Semester,
+                ModalityType = request.ModalityType,
+                EventType = request.EventType,
                 CourseId = request.CourseId
             };
 
+            if (request.ProjectProgramsIds.Any())
+            {
+                var programs = await _context.ProjectPrograms.Where(p => request.ProjectProgramsIds.Contains(p.Id)).ToListAsync(cancellationToken);
+                team.ProjectPrograms = programs;
+            }
+
             try
             {
-                // Salva o Team primeiro para gerar o Id
                 await _context.Teams.AddAsync(team, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-
-                //Adiciona os PersonTeams com TeamId garantido
-                if (request.PersonTeamsIds.Any())
-                {
-                    foreach (var personId in request.PersonTeamsIds)
-                    {
-                        team.PersonTeams.Add(new PersonTeam
-                        {
-                            TeamId = team.Id,
-                            PersonId = personId
-                        });
-                    }
-
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
 
                 return team.Id;
             }

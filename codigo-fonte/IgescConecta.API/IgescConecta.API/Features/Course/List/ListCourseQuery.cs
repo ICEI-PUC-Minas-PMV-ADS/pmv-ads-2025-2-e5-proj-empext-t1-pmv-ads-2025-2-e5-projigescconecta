@@ -16,6 +16,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public int CourseId { get; set; }
         public string? Name { get; set; }
         public int TeamsCount { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public class GetCourseByIdViewModel
@@ -53,9 +54,12 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
     public class ListCourseQuery : PaginationRequest, IRequest<ListCourseViewModel>
     {
-        public ListCourseQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public string? StatusFilter { get; set; }
+
+        public ListCourseQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -70,24 +74,39 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
         public async Task<ListCourseViewModel> Handle(ListCourseQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters);
+            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters ?? new List<Filter>());
+            var query = _context.Courses
+                .AsQueryable()
+                .Where(expr);
 
-            var query = _context.Courses.AsQueryable();
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(c => c.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
 
             var result = await query
-                .Where(expr)
                 .Select(c => new CourseViewModel
                 {
                     CourseId = c.Id,
                     Name = c.Name,
-                    TeamsCount = c.Teams.Count
+                    TeamsCount = c.Teams.Count,
+                    IsDeleted = c.IsDeleted
                 })
                 .OrderByDescending(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var totalRecords = await _context.Courses.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListCourseViewModel
             {
@@ -109,6 +128,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public async Task<GetCourseByIdViewModel> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
             var course = await _context.Courses
+                .IgnoreQueryFilters()
                 .Where(c => c.Id == request.Id)
                 .Select(c => new GetCourseByIdViewModel
                 {
@@ -121,13 +141,13 @@ namespace IgescConecta.API.Features.Courses.ListCourse
                     UpdatedAt = c.UpdatedAt,
                     TeamsCount = c.Teams.Count(),
                     Teams = c.Teams.Select(t => new TeamViewModel
-                    {
-                        Id = t.Id,
-                        Name = t.Name,
-                        LessonTime = t.LessonTime,
-                        Start = t.Start,
-                        Finish = t.Finish
-                    }).ToList()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    LessonTime = t.LessonTime,
+                    Start = t.Start,
+                    Finish = t.Finish
+                }).ToList()
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 

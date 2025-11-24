@@ -25,7 +25,17 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
                 Name = request.Name,
                 Notes = request.Notes
             });
-            return result.IsSuccess ? Ok(new CreateBeneficiaryResponse(result.Value)) : BadRequest(result.Error);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            var createResponse = new CreateBeneficiaryResponse
+            {
+                Id = result.Value,
+                Name = request.Name,
+            };
+
+            return Ok(createResponse);
         }
     }
 
@@ -38,10 +48,8 @@ namespace IgescConecta.API.Features.Beneficiares.CreateBeneficiary
 
     public class CreateBeneficiaryResponse
     {
-        public int BeneficiaryId { get; set; }
-        public CreateBeneficiaryResponse(int beneficiaryId)
-        {
-            BeneficiaryId = beneficiaryId;
-        }
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

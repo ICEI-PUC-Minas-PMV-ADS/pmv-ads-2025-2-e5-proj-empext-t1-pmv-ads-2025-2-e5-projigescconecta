@@ -12,16 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocumentation();
 
-// DbContext (Azure SQL via DefaultConnection)
 builder.Services.AddDbContextIgesc(builder.Configuration);
 
 builder.Services.AddIdentity();
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddReportingMetadata();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddSingleton(_ => TimeProvider.System);
 builder.Services.AddDataProtection();
-
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var jwtIssuer = jwtSection.GetValue<string>("JwtIssuer")
@@ -50,7 +49,6 @@ builder.Services
 
 builder.Services.Configure<FrontendOptions>(builder.Configuration.GetSection("Frontend"));
 
-// ---------- CORS ----------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", builder =>
@@ -74,23 +72,6 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
 }
 
-app.MapMethods("/api/{**any}", new[] { "OPTIONS" }, (HttpContext ctx) =>
-{
-    var reqHeaders = ctx.Request.Headers["Access-Control-Request-Headers"];
-    if (!StringValues.IsNullOrEmpty(reqHeaders))
-        ctx.Response.Headers.Append("Access-Control-Allow-Headers", reqHeaders);
-
-    var reqMethod = ctx.Request.Headers["Access-Control-Request-Method"];
-    if (!StringValues.IsNullOrEmpty(reqMethod))
-        ctx.Response.Headers.Append("Access-Control-Allow-Methods", reqMethod);
-
-    return Results.Ok();
-})
-.RequireCors("Frontend");
-
-
-
-// ---------- Swagger com feature flag ----------
 var enableSwagger = app.Configuration.GetValue("Swagger:Enabled", true);
 if (enableSwagger)
 {

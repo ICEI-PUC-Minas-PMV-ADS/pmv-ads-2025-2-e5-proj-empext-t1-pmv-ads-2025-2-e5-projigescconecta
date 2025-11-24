@@ -1,11 +1,14 @@
+using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Features.Companies.CreateCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IgescConecta.API.Features.Companies.CreateCompany
 {
+    [ApiAuthorize]
+    [Route("/api/companies")]
     [ApiController]
-    [Route("api/companies")]
+    [ApiExplorerSettings(GroupName = "Company")]
     public class CreateCompanyEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;

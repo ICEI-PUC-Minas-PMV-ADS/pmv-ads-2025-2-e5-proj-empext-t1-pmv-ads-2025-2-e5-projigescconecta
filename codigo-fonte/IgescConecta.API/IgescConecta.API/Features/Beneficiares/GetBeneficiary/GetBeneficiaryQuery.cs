@@ -28,6 +28,7 @@ namespace IgescConecta.API.Features.Beneficiares.GetBeneficiary
         public async Task<Result<Beneficiary, ValidationFailed>> Handle(GetBeneficiaryQuery request, CancellationToken cancellationToken)
         {
             var beneficiary = await _context.Beneficiaries.Where(b => b.Id == request.BeneficiaryId)
+                .IgnoreQueryFilters()
                 .Include(b => b.Oscs)
                 .FirstOrDefaultAsync();
 
