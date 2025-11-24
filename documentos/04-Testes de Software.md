@@ -9087,7 +9087,6 @@ Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td
 ## ETAPA 4
 
 <details>
-<details>
   <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
 
   <table>
