@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "https://igesc-temp-azavgcbwcuckbvf0.brazilsouth-01.azurewebsites.net/".replace(/\/+$/, "");
+export const BASE_PATH = "https://igescconecta-auf0gxfucdege6g7.brazilsouth-01.azurewebsites.net/".replace(/\/+$/, "");
 
 /**
  *
