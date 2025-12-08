@@ -1,21 +1,11 @@
-# Etapa 1 - Apresentação da proposta da Solução
+# Apresentação da Solução
 
-[Apresentacao  IGESC Conecta.pptx](https://github.com/user-attachments/files/22453990/Apresentacao.IGESC.Conecta.pptx)
+## Apresentação do Projeto IGESC Conecta
 
-[Apresentação IGESC Conecta.pdf](https://github.com/user-attachments/files/22454005/Apresentacao.IGESC.Conecta.pdf)
+https://github.com/user-attachments/assets/b6b965c8-ad36-4020-b104-77e83f703be1
 
+Assista online ou faça o download da apresentação completa do projeto!
 
-# Etapa 5 - Apresentação da Solução
-- Apresentação para Mostra de Extensão Eixo 5 ADS:
-  * descrição do cliente,
-  * objetivo da aplicação,
-  * telas principais,
-  * pontos positivos e desafios da experiência extensionista,
-  * conclusão da equipe.
-  
-- Vídeo de apresentação da solução:
-  * tamanho do arquivo limitado a 90Mb;
-  * taxa de FPS limitada a 30 quadros por segundo;
-  * resolução HD (720p) ou Full HD (1080p);
-  * formato mp4.
-
+[![Assistir Apresentação](https://img.shields.io/badge/Assistir-Apresenta%C3%A7%C3%A3o-red?logo=youtube&style=for-the-badge)](https://youtu.be/0PiRlGNqSn0)
+[![Download Vídeo](https://img.shields.io/badge/Download-Vídeo-green?logo=google-drive&style=for-the-badge)](https://drive.google.com/file/d/1lu8dkRM1ZI3br1vsnnXw6_SSqkznhVFI/view?usp=sharing)
+[![Download PDF](https://img.shields.io/badge/Download-PDF-red?logo=adobe-acrobat-reader&style=for-the-badge)](https://github.com/user-attachments/files/22454005/Apresentacao.IGESC.Conecta.pdf)
