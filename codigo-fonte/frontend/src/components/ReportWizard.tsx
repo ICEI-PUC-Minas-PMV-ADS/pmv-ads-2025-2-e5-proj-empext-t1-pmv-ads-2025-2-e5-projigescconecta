@@ -1,4 +1,3 @@
-// src/components/ReportWizard.tsx
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
@@ -162,151 +161,159 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
   }
 
   const bootstrap = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // 1. Carrega lista de entidades
-    const meta = await reportsApi.apiReportMetadataEntitiesGet();
-    setEntities(meta.data || []);
+      const meta = await reportsApi.apiReportMetadataEntitiesGet();
+      setEntities(meta.data || []);
 
-    // 2. Se for criação, só limpa e sai
-    if (!reportId) {
-      setName('');
-      setDescription('');
-      setRootEntity('');
-      setReaderCanExecute(false);
-      setRootMeta(null);
-      setEntityFields({});
-      setRelations([]);
-      setFields([]);
-      setFilters([]);
-      setSorts([]);
-      setActiveStep(0);
-      return;
-    }
-
-    // 3. Carrega o relatório
-    const { data } = await reportsApi.getReport(reportId);
-
-    setName(data.name ?? '');
-    setDescription(data.description ?? '');
-    const r = data.rootEntity ?? '';
-    setRootEntity(r);
-    setReaderCanExecute(!!data.readerCanExecute);
-
-    // 4. Carrega metadado da raiz
-    let rootMetaResp: { data?: MetadataRootDto | null } | null = null;
-
-    if (r) {
-      rootMetaResp = await reportsApi.apiReportMetadataEntitiesRootFieldsGet(r);
-      const rootMetaData = rootMetaResp.data ?? null;
-
-      setRootMeta(rootMetaData);
-
-      const rootFields = rootMetaData?.fields ?? [];
-      setEntityFields({ root: rootFields });
-    }
-
-    // 5. Dados do relatório
-    const rel = data.relations ?? [];
-    const flds = data.fields ?? [];
-    const flt = data.filterQuestions ?? [];
-    const srt = data.sorts ?? [];
-
-    // 6. Carrega campos das entidades relacionadas
-    if (rootMetaResp?.data?.relations?.length) {
-      for (const relItem of rel) {
-        if (!relItem.path) continue;
-
-        const metaRel = rootMetaResp.data.relations.find(
-          (x: MetadataRelationDto) => x.path === relItem.path
-        );
-        if (!metaRel?.entity) continue;
-
-        const resp = await reportsApi.apiReportMetadataEntitiesRootFieldsGet(
-          metaRel.entity
-        );
-        const fields = resp?.data?.fields ?? [];
-
-        setEntityFields(prev => ({
-          ...prev,
-          [relItem.path]: fields,
-        }));
+      if (!reportId) {
+        setName('');
+        setDescription('');
+        setRootEntity('');
+        setReaderCanExecute(false);
+        setRootMeta(null);
+        setEntityFields({});
+        setRelations([]);
+        setFields([]);
+        setFilters([]);
+        setSorts([]);
+        setActiveStep(0);
+        return;
       }
+
+      const { data } = await reportsApi.getReport(reportId);
+
+      setName(data.name ?? '');
+      setDescription(data.description ?? '');
+      const r = data.rootEntity ?? '';
+      setRootEntity(r);
+      setReaderCanExecute(!!data.readerCanExecute);
+
+      const tempEntityFields: Record<string, MetadataFieldDto[]> = {};
+      const entityToPathMap: Record<string, string> = {}; 
+      entityToPathMap[r] = 'root';
+
+      let rootMetaResp: { data?: MetadataRootDto | null } | null = null;
+
+      if (r) {
+        rootMetaResp = await reportsApi.apiReportMetadataEntitiesRootFieldsGet(r);
+        const rootMetaData = rootMetaResp.data ?? null;
+        setRootMeta(rootMetaData);
+        tempEntityFields['root'] = rootMetaData?.fields ?? [];
+      }
+
+      const rel = data.relations ?? [];
+      const flds = data.fields ?? [];
+      const flt = data.filterQuestions ?? [];
+      const srt = data.sorts ?? [];
+
+      if (rootMetaResp?.data?.relations) {
+        for (const relItem of rel) {
+          if (!relItem.path) continue;
+
+          const metaRel = rootMetaResp.data.relations.find(
+            (x: MetadataRelationDto) => x.path === relItem.path
+          );
+
+          if (metaRel?.entity) {
+            entityToPathMap[metaRel.entity] = relItem.path;
+
+            try {
+              if (!tempEntityFields[relItem.path]) {
+                const resp = await reportsApi.apiReportMetadataEntitiesRootFieldsGet(metaRel.entity);
+                tempEntityFields[relItem.path] = resp?.data?.fields ?? [];
+              }
+            } catch (e) {
+              console.error(e);
+            }
+          }
+        }
+      }
+
+      setEntityFields(tempEntityFields);
+
+      setRelations(
+        rel.map((x: any) => {
+          const metaRel = rootMetaResp?.data?.relations?.find(m => m.path === x.path);
+          return {
+            path: x.path,
+            entity: x.entity,
+            label: x.alias || metaRel?.label || x.entity, 
+            isCollection: x.isCollection,
+            joinType: x.joinType,
+            alias: x.alias ?? '',
+          };
+        })
+      );
+
+      const findFieldMeta = (entityKey: string, fieldName: string) => {
+        const available = tempEntityFields[entityKey] || [];
+        return available.find(f => f.path === fieldName || f.path.toLowerCase() === fieldName.toLowerCase());
+      };
+
+      setFields(
+        flds.map((f: any) => {
+          const backendEntity = f.entity || r;
+          const uiEntity = entityToPathMap[backendEntity] || 'root';
+          const fieldName = f.fieldPath;
+          const meta = findFieldMeta(uiEntity, fieldName);
+
+          return {
+            entity: uiEntity,
+            name: fieldName,
+            fullPath: f.fieldPath,
+            label: f.label || meta?.label || fieldName,
+            dataType: f.dataType,
+          };
+        })
+      );
+
+      setFilters(
+        flt.map((x: any) => {
+          const backendEntity = x.entity || r;
+          const uiEntity = entityToPathMap[backendEntity] || 'root';
+          const fieldName = x.fieldPath;
+          const meta = findFieldMeta(uiEntity, fieldName);
+
+          return {
+            entity: uiEntity,
+            field: fieldName,
+            fullPath: x.fieldPath,
+            op: x.defaultOperator,
+            label: x.label || meta?.label || fieldName,
+            dataType: x.dataType,
+          };
+        })
+      );
+
+      setSorts(
+        srt.map((x: any) => {
+          const backendEntity = x.entity || r;
+          const uiEntity = entityToPathMap[backendEntity] || 'root';
+          const fieldName = x.fieldPath;
+          const meta = findFieldMeta(uiEntity, fieldName);
+          const directionStr: SortDir = x.direction === 1 ? 'DESC' : 'ASC';
+
+          return {
+            entity: uiEntity,
+            field: fieldName,
+            fullPath: x.fieldPath,
+            direction: directionStr,
+            label: meta?.label || fieldName,
+            dataType: meta?.dataType || '',
+          };
+        })
+      );
+
+      setActiveStep(0);
+    } catch (err) {
+      toast.error('Falha ao carregar dados do relatório.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // 7. Seta relações
-    setRelations(
-      rel.map((x: any) => ({
-        path: x.path,
-        entity: x.entity,
-        label: x.alias || x.entity,
-        isCollection: x.isCollection,
-        joinType: x.joinType,
-        alias: x.alias ?? '',
-      }))
-    );
-
-    // Helper pra separar entidade/campo caso venha com ponto
-    const mapFieldToEntity = (fp: string) => {
-      if (!fp.includes('.')) return { entity: 'root', field: fp };
-      const [entity, ...rest] = fp.split('.');
-      return { entity, field: rest.join('.') };
-    };
-
-    // 8. Campos
-    setFields(
-      flds.map((f: any) => {
-        const { entity, field } = mapFieldToEntity(f.fieldPath);
-        return {
-          entity,
-          name: field,
-          fullPath: f.fieldPath,
-          label: f.label,
-          dataType: f.dataType,
-        };
-      })
-    );
-
-    // 9. Filtros
-    setFilters(
-      flt.map((x: any) => {
-        const { entity, field } = mapFieldToEntity(x.fieldPath);
-        return {
-          entity,
-          field,
-          fullPath: x.fieldPath,
-          op: x.defaultOperator,
-          label: x.label,
-          dataType: x.dataType,
-        };
-      })
-    );
-
-    // 10. Ordenações
-    setSorts(
-      srt.map((x: any) => {
-        const { entity, field } = mapFieldToEntity(x.fieldPath);
-        return {
-          entity,
-          field,
-          fullPath: x.fieldPath,
-          direction: x.direction,
-          label: '',
-          dataType: '',
-        };
-      })
-    );
-
-    setActiveStep(0);
-  } catch (err) {
-    toast.error('Falha ao carregar dados do relatório.');
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
   const handleChangeRoot = async (e: SelectChangeEvent<string>) => {
     const value = e.target.value as string;
     setRootEntity(value);
@@ -375,7 +382,13 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
     ]);
 
   const updateField = (idx: number, patch: Partial<WizardField>) =>
-    setFields(prev => prev.map((f, i) => (i === idx ? { ...f, ...patch } : f)));
+    setFields(prev =>
+      prev.map((f, i) =>
+        i === idx
+          ? { ...f, ...patch, entity: patch.entity ?? f.entity }
+          : f
+      )
+    );
 
   const removeField = (idx: number) =>
     setFields(prev => prev.filter((_, i) => i !== idx));
@@ -399,7 +412,13 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
   };
 
   const updateFilter = (idx: number, patch: Partial<WizardFilter>) =>
-    setFilters(prev => prev.map((f, i) => (i === idx ? { ...f, ...patch } : f)));
+    setFilters(prev =>
+      prev.map((f, i) =>
+        i === idx
+          ? { ...f, ...patch, entity: patch.entity ?? f.entity }
+          : f
+      )
+    );
 
   const removeFilter = (idx: number) =>
     setFilters(prev => prev.filter((_, i) => i !== idx));
@@ -423,7 +442,13 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
   };
 
   const updateSort = (idx: number, patch: Partial<WizardSort>) =>
-    setSorts(prev => prev.map((s, i) => (i === idx ? { ...s, ...patch } : s)));
+    setSorts(prev =>
+      prev.map((s, i) =>
+        i === idx
+          ? { ...s, ...patch, entity: patch.entity ?? s.entity }
+          : s
+      )
+    );
 
   const removeSort = (idx: number) =>
     setSorts(prev => prev.filter((_, i) => i !== idx));
@@ -435,6 +460,12 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
   };
 
   const handleBack = () => setActiveStep(s => Math.max(s - 1, 0));
+
+  const getEntityNameFromPath = (path: string) => {
+    if (path === 'root') return rootEntity;
+    const rel = relations.find(r => r.path === path);
+    return rel ? rel.entity : path;
+  };
 
   const handleSave = async () => {
     if (!reportId) {
@@ -464,14 +495,16 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
           isCollection: r.isCollection,
         })),
         fields: fields.map((f, index) => ({
-          fieldPath: f.fullPath,
+          entity: getEntityNameFromPath(f.entity),
+          fieldPath: f.name,
           label: f.label || '',
           dataType: f.dataType,
           formatHint: null,
           displayOrder: index,
         })),
         filterQuestions: filters.map((f, index) => ({
-          fieldPath: f.fullPath,
+          entity: getEntityNameFromPath(f.entity),
+          fieldPath: f.field,
           defaultOperator: f.op,
           dataType: f.dataType,
           isRequired: false,
@@ -481,7 +514,8 @@ export default function ReportWizard({ open, reportId, onClose }: WizardProps) {
           value: normalizeFilterValue(f),
         })),
         sorts: sorts.map((s, index) => ({
-          fieldPath: s.fullPath,
+          entity: getEntityNameFromPath(s.entity),
+          fieldPath: s.field,
           direction: s.direction === 'ASC' ? 0 : 1,
           priority: index + 1,
         })),

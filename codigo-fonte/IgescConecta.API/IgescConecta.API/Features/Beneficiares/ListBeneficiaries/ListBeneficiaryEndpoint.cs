@@ -20,7 +20,7 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
         [HttpPost("ListBeneficiary", Name = "ListBeneficiary")]
         public async Task<ActionResult<ListBeneficiaryViewModel>> ListBeneficiaries(ListBeneficiaryRequest request)
         {
-            var result = await _mediator.Send(new ListBeneficiaryQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListBeneficiaryQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
     }
@@ -30,5 +30,6 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

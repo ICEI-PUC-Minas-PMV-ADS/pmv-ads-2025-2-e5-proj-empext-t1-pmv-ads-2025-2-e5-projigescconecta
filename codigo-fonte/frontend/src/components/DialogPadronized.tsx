@@ -6,6 +6,7 @@ import {
   DialogActions,
   Typography,
   alpha,
+  Box
 } from '@mui/material';
 
 interface DialogPadronizedProps {
@@ -14,6 +15,7 @@ interface DialogPadronizedProps {
   title: string;
   content: ReactNode;
   actions: ReactNode;
+  footerContent?: ReactNode;
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fullWidth?: boolean;
 }
@@ -24,6 +26,7 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
   title,
   content,
   actions,
+  footerContent,
   maxWidth = 'sm',
   fullWidth = true,
 }) => {
@@ -53,7 +56,7 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
         </Typography>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 3, mt: 2}}>{content}</DialogContent>
+      <DialogContent sx={{ p: 3, mt: 2 }}>{content}</DialogContent>
 
       <DialogActions
         sx={{
@@ -62,9 +65,17 @@ const DialogPadronized: React.FC<DialogPadronizedProps> = ({
           bgcolor: alpha('#1E4EC4', 0.03),
           borderColor: alpha('#1E4EC4', 0.1),
           gap: 1.5,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        {actions}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2.5 }}>
+          {footerContent}
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          {actions}
+        </Box>
       </DialogActions>
     </Dialog>
   );

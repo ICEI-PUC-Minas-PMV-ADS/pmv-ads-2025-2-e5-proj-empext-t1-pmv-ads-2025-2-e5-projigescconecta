@@ -20,15 +20,20 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
         public string Notes { get; set; }
 
         public int BusinessCaseId { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     public class ListOriginsBusinessCaseByBusinessCaseIdQuery : PaginationRequest, IRequest<ListOriginsBusinessCaseByBusinessCaseIdViewModel>
     {
         public int BusinessCaseId { get; set; }
 
-        public ListOriginsBusinessCaseByBusinessCaseIdQuery(int pageNumber, int pageSize, List<Filter> filters, int businessCaseId) : base(pageNumber, pageSize, filters)
+        public string? StatusFilter { get; set; }
+
+        public ListOriginsBusinessCaseByBusinessCaseIdQuery(int pageNumber, int pageSize, List<Filter> filters, int businessCaseId, string? statusFilter) : base(pageNumber, pageSize, filters)
         {
             BusinessCaseId = businessCaseId;
+            StatusFilter = statusFilter;
         }
     }
 
@@ -48,12 +53,28 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.ListOriginsBusinessCase
                 .AsQueryable()
                 .Where(obc => obc.BusinessCaseId == request.BusinessCaseId)
                 .Where(expr);
-            var result = await query.Where(expr).Select(osc => new OriginBusinessCaseByBusinessCaseIdViewModel
+
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(o => o.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
+
+            var result = await query.Select(osc => new OriginBusinessCaseByBusinessCaseIdViewModel
             {
                 Name = osc.Name,
                 Notes = osc.Notes,
                 OriginBusinessCaseId = osc.Id,
                 BusinessCaseId = osc.BusinessCaseId,
+                IsDeleted = osc.IsDeleted
             })
                 .OrderByDescending(x => x.OriginBusinessCaseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)

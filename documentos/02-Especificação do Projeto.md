@@ -62,7 +62,7 @@ Técnica de priorização aplicada: MoSCoW, mapeada para ALTA (MUST), MÉDIA (SH
 |RF-010| Manter Usuários (perfis: Administrador, Editor, Consulta) | ALTA |
 |RF-011| Manter Doações (doador = Pessoa ou Empresa; data, valor; destino = Turma/OSC/nenhum) | MÉDIA |
 |RF-012| Anexar documentos PDFs (1-5) dentro de Projeto, com download/abertura em aba do navegador | MÉDIA |
-|RF-013| Geração de planilhas Excel a partir de consultas (modelo a definir na especificação técnica) | MÉDIA |
+|RF-013| Gerador de Relatórios com geração de documentos em PDF e planilhas Excel (CSV) | MÉDIA |
 |RF-014| Importar dados via CSV (modelo a definir na especificação técnica) | MÉDIA |
 |RF-015| Controle de acesso por perfil (somente usuários do IGESC operam o sistema) | ALTA |
 |RF-016| Auditoria mínima (registrar quem criou/alterou) | BAIXA |

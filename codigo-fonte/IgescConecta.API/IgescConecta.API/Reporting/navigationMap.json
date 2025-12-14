@@ -1,0 +1,76 @@
+{
+    "User": {
+        "CreatedByUser": "CreatedByUser",
+        "UpdatedByUser": "UpdatedByUser"
+    },
+    "Team": {
+        "Course": "Course",
+        "PersonTeams": "PersonTeams",
+        "PersonTeam": "PersonTeams",
+        "PersonOscs": "PersonOscs",
+        "PersonOsc": "PersonOscs",
+        "ProjectPrograms": "ProjectPrograms",
+        "ProjectProgram": "ProjectPrograms"
+    },
+    "Course": {
+        "Teams": "Teams",
+        "Team": "Teams"
+    },
+    "Person": {
+        "Teams": "Teams",
+        "Team": "Teams",
+        "Oscs": "Oscs",
+        "Osc": "Oscs",
+        "Companies": "Companies",
+        "Company": "Companies"
+    },
+    "Osc": {
+        "OriginsBusinessCases": "OriginsBusinessCases",
+        "OriginsBusinessCase": "OriginsBusinessCases",
+        "Beneficiaries": "Beneficiaries",
+        "Beneficiary": "Beneficiaries"
+    },
+    "Beneficiary": {
+        "Oscs": "Oscs",
+        "Osc": "Oscs"
+    },
+    "BusinessCase": {
+        "OriginBusinessCase": "Origins"
+    },
+    "OriginBusinessCase": {
+        "Oscs": "Oscs",
+        "Osc": "Oscs",
+        "BusinessCase": "BusinessCase"
+    },
+    "PersonTeam": {
+        "Person": "Person",
+        "Team": "Team",
+        "Osc": "PersonOsc.Osc"
+    },
+    "PersonOsc": {
+        "Person": "Person",
+        "Osc": "Osc"
+    },
+    "PersonCompany": {
+        "Person": "Person",
+        "Company": "Company"
+    },
+    "Company": {
+        "Donations": "Donations",
+        "Donation": "Donations"
+    },
+    "Donation": {
+        "Person": "Person",
+        "Company": "Company",
+        "Osc": "Osc",
+        "Course": "Course",
+        "Team": "Team"
+    },
+    "ProjectProgram": {
+        "ProjectType": "ProjectType",
+        "ProjectTheme": "ProjectTheme",
+        "Team": "Team",
+        "Osc": "Osc",
+        "ProjectDocument": "ProjectDocument"
+    }
+}

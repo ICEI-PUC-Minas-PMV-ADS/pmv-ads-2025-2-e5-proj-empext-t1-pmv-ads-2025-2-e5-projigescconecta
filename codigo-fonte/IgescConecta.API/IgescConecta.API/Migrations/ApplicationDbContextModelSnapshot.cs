@@ -141,6 +141,10 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(254)
+                        .HasColumnType("character varying(254)");
+
                     b.Property<string>("FieldOfActivity")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
@@ -594,14 +598,39 @@ namespace IgescConecta.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("FileData")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("ProjectProgramId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -610,6 +639,8 @@ namespace IgescConecta.API.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectProgramId");
 
                     b.ToTable("ProjectDocuments");
                 });
@@ -818,6 +849,10 @@ namespace IgescConecta.API.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Entity")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FieldPath")
                         .IsRequired()
                         .HasMaxLength(400)
@@ -872,6 +907,10 @@ namespace IgescConecta.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Entity")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("EnumOptionsJson")
                         .HasColumnType("text");
@@ -985,6 +1024,10 @@ namespace IgescConecta.API.Migrations
 
                     b.Property<int>("Direction")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Entity")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FieldPath")
                         .IsRequired()
@@ -1434,6 +1477,17 @@ namespace IgescConecta.API.Migrations
                     b.Navigation("PersonOsc");
 
                     b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("IgescConecta.Domain.Entities.ProjectDocument", b =>
+                {
+                    b.HasOne("IgescConecta.Domain.Entities.ProjectProgram", "ProjectProgram")
+                        .WithMany()
+                        .HasForeignKey("ProjectProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectProgram");
                 });
 
             modelBuilder.Entity("IgescConecta.Domain.Entities.ProjectProgram", b =>

@@ -1,20 +1,9 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   Button,
-  ButtonGroup,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-  SelectChangeEvent,
   Typography,
   Stack,
   Divider,
@@ -28,10 +17,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
 import AccessTime from '@mui/icons-material/AccessTime';
 import Avatar from '@mui/material/Avatar';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import 'dayjs/locale/pt-br';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
@@ -44,7 +34,6 @@ import {
   UpdateOscRequest,
   ListOscRequest,
   Filter,
-  Op,
   UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
@@ -59,6 +48,8 @@ import DialogPadronized from '@/components/DialogPadronized';
 import { useNavigate } from 'react-router-dom';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('pt-br');
 
 const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
@@ -301,6 +292,7 @@ const Osc: React.FC = () => {
       setOscs(
         (data.items ?? []).map((item) => ({
           ...item,
+          canDelete: !item.isDeleted
         }))
       );
 
@@ -354,8 +346,6 @@ const Osc: React.FC = () => {
 
     const beneficiaryId = filterBeneficiaryId || undefined;
     const originBusinessCaseId = filterOriginBusinesCaseId || undefined
-
-    console.log(statusFilter)
 
     setPage(0);
     fetchOscs(filters, beneficiaryId, originBusinessCaseId, statusFilter);
@@ -442,7 +432,7 @@ const Osc: React.FC = () => {
       const { data: userData } = await userApi.getUserById(userId!);
 
       setUserUpdatedName(userData.name);
-      setAuditDate(date ? dayjs(date) : undefined);
+      setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
       setOpenModal(true)
@@ -688,7 +678,6 @@ const Osc: React.FC = () => {
     oscPrimaryDocumment: 'CNPJ',
     beneficiariesIds: 'Id de Público',
     originsBusinessCasesIds: 'Id de Causa',
-    isDeleted: 'Ativo'
   }
 
   return (
@@ -741,7 +730,8 @@ const Osc: React.FC = () => {
                   filterState ||
                   filterOscPrimaryDocumment ||
                   filterBeneficiaryId ||
-                  filterOriginBusinesCaseId) && (
+                  filterOriginBusinesCaseId ||
+                  statusFilter) && (
                     <Chip
                       label="Filtros ativos"
                       size="small"
@@ -875,48 +865,6 @@ const Osc: React.FC = () => {
 
               {/* Botões de Busca, Limpar e Filtrar Inativos */}
               <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
-                {/*<ButtonGroup
-                  sx={{
-                    mb: 2,
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: '0px 4px 12px rgba(0,0,0,0.08)',
-                    '& .MuiButton-root': {
-                      px: 3,
-                      py: 1.2,
-                      fontWeight: 600,
-                      textTransform: 'none',
-                      borderColor: 'transparent !important',
-                      transition: 'all 0.3s ease',
-                    },
-                    '& .MuiButton-outlined': {
-                      backgroundColor: '#ffffff',
-                    },
-                    '& .MuiButton-contained': {
-                      background: 'linear-gradient(135deg, #1E4EC4, #3A6BDB)',
-                      color: '#ffffff',
-                    },
-                  }}
-                >
-                  <Button
-                    variant={statusFilter === 'Inactive' ? 'contained' : 'outlined'}
-                    onClick={() =>
-                      setStatusFilter(prev => (prev === 'Inactive' ? undefined : 'Inactive'))
-                    }
-                  >
-                    Inativos
-                  </Button>
-
-                  <Button
-                    variant={statusFilter === 'all' ? 'contained' : 'outlined'}
-                    onClick={() =>
-                      setStatusFilter(prev => (prev === 'all' ? undefined : 'all'))
-                    }
-                  >
-                    Todos
-                  </Button>
-                </ButtonGroup>*/}
-
                 <FormGroup row sx={{ mb: 2 }}>
                   <FormControlLabel
                     control={
@@ -1120,30 +1068,6 @@ const Osc: React.FC = () => {
                           Nenhuma causa associada.
                         </Typography>
                       )}
-
-                      <Divider sx={{ mt: 4 }} />
-
-                      <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
-                            {userUpdatedName?.[0] || '?'}
-                          </Avatar>
-                          <Box>
-                            <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
-                            <Typography variant="body2" fontWeight={600}>{userUpdatedName || '—'}</Typography>
-                          </Box>
-                        </Stack>
-
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <AccessTime fontSize="small" color="action" />
-                          <Box>
-                            <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
-                            <Typography variant="body2" fontWeight={600}>
-                              {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                      </Stack>
                     </Box>
                   </Box>
                 ) : updateOsc ? (
@@ -1663,6 +1587,28 @@ const Osc: React.FC = () => {
                     <Typography>Nenhum dado encontrado.</Typography>
                   )
               }
+              footerContent={isVisualizing ? (
+                <>
+                  <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                    {userUpdatedName?.[0] || '?'}
+                  </Avatar>
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado por</Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {userUpdatedName || '—'}
+                    </Typography>
+                  </Box>
+
+                  <AccessTime fontSize="small" color="action" />
+
+                  <Box>
+                    <Typography variant="caption" color="text.secondary">Atualizado em</Typography>
+                    <Typography variant="body2" fontWeight={600}>
+                      {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                    </Typography>
+                  </Box>
+                </>) : null}
               actions={
                 isVisualizing ? (
                   <Button
