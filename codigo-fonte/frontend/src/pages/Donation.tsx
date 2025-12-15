@@ -409,7 +409,7 @@ const DonationPage: React.FC = () => {
               </Box>
 
               <Grid container spacing={2.5} alignItems="center">
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                {/* <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <TextField
                     label="Nome do Doador"
                     value={filterDoador}
@@ -428,7 +428,7 @@ const DonationPage: React.FC = () => {
                     fullWidth
                     size="small"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <DatePicker
                     label="Data Início"

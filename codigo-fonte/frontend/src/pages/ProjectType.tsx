@@ -15,6 +15,7 @@ import {
   Chip,
   FormControlLabel,
   Switch,
+  Stack,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -45,7 +46,6 @@ interface ProjectTypeRow {
 }
 
 const ProjectType: React.FC = () => {
-
   const [search, setSearch] = useState('');
   const [rows, setRows] = useState<ProjectTypeRow[]>([]);
   const [page, setPage] = useState(0);
@@ -302,7 +302,11 @@ const ProjectType: React.FC = () => {
             p: { xs: 2, sm: 3, md: 4 },
           }}
         >
-          <TitleAndButtons title="Listar Tipos do Projeto" onAdd={handleAdd} addLabel="Novo Tipo do Projeto" />
+          <TitleAndButtons
+            title="Listar Tipos do Projeto"
+            onAdd={handleAdd}
+            addLabel="Novo Tipo do Projeto"
+          />
 
           <Paper
             elevation={0}
@@ -317,14 +321,23 @@ const ProjectType: React.FC = () => {
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
               <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-              <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
+              <Typography
+                variant="h6"
+                sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
+              >
                 Filtro de Busca
               </Typography>
               {(search || includeDeleted || onlyDeleted) && (
                 <Chip
                   label="Filtros ativos"
                   size="small"
-                  sx={{ ml: 1, bgcolor: alpha('#1E4EC4', 0.1), color: '#1E4EC4', fontWeight: 600, fontSize: '0.75rem' }}
+                  sx={{
+                    ml: 1,
+                    bgcolor: alpha('#1E4EC4', 0.1),
+                    color: '#1E4EC4',
+                    fontWeight: 600,
+                    fontSize: '0.75rem',
+                  }}
                 />
               )}
             </Box>
@@ -336,14 +349,22 @@ const ProjectType: React.FC = () => {
                 value={search}
                 size="small"
                 onChange={(e) => setSearch(e.target.value)}
-                onKeyUp={(e) => { if (e.key === 'Enter') handleSearch(); }}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter') handleSearch();
+                }}
               />
+            </Box>
+            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center" sx={{ marginTop: 2 }}>
               <FormControlLabel
-                control={<Switch checked={includeDeleted} onChange={(_, v) => setIncludeDeleted(v)} />}
+                control={
+                  <Switch checked={includeDeleted} onChange={(_, v) => setIncludeDeleted(v)} />
+                }
                 label="Incluir excluídos"
               />
               <FormControlLabel
-                control={<Switch checked={onlyDeleted} onChange={(_, v) => handleOnlyDeletedToggle(v)} />}
+                control={
+                  <Switch checked={onlyDeleted} onChange={(_, v) => handleOnlyDeletedToggle(v)} />
+                }
                 label="Somente excluídos"
               />
               <Button
@@ -354,9 +375,17 @@ const ProjectType: React.FC = () => {
                   bgcolor: '#1E4EC4',
                   color: 'white',
                   fontWeight: 600,
-                  px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
                   boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                  '&:hover': { bgcolor: '#1640a8', boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)', transform: 'translateY(-1px)' },
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
                   transition: 'all 0.2s ease',
                 }}
               >
@@ -367,20 +396,37 @@ const ProjectType: React.FC = () => {
                 startIcon={<ClearIcon />}
                 onClick={handleClearFilters}
                 sx={{
-                  borderColor: alpha('#1E4EC4', 0.3), color: '#1E4EC4', fontWeight: 600,
-                  px: 4, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem',
-                  '&:hover': { borderColor: '#1E4EC4', bgcolor: alpha('#1E4EC4', 0.05), borderWidth: 1.5 },
+                  borderColor: alpha('#1E4EC4', 0.3),
+                  color: '#1E4EC4',
+                  fontWeight: 600,
+                  px: 4,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    borderColor: '#1E4EC4',
+                    bgcolor: alpha('#1E4EC4', 0.05),
+                    borderWidth: 1.5,
+                  },
                   transition: 'all 0.2s ease',
                 }}
               >
                 Limpar Filtros
               </Button>
-            </Box>
+            </Stack>
           </Paper>
 
           <Box sx={{ flexGrow: 1 }}>
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
                 <CircularProgress />
               </Box>
             ) : (
@@ -395,7 +441,7 @@ const ProjectType: React.FC = () => {
                 onView={handleView}
                 onEdit={handleEdit}
                 onDelete={openDelete}
-                onRestore={openRestore} 
+                onRestore={openRestore}
                 noDataMessage={noDataMessage}
               />
             )}
@@ -418,7 +464,9 @@ const ProjectType: React.FC = () => {
             variant="outlined"
             value={nameField}
             onChange={(e) => setNameField(e.target.value)}
-            onKeyUp={(e) => { if (e.key === 'Enter') handleSave(); }}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') handleSave();
+            }}
             slotProps={{ input: { readOnly: isVisualizing } }}
             sx={isVisualizing ? { pointerEvents: 'none' } : {}}
           />
@@ -429,15 +477,35 @@ const ProjectType: React.FC = () => {
               variant="contained"
               startIcon={<ArrowBackIcon />}
               onClick={handleCloseModal}
-              sx={{ bgcolor: '#6b7280', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none',
-                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' }, transition: 'all 0.2s ease' }}
+              sx={{
+                bgcolor: '#6b7280',
+                color: 'white',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 1.5,
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                transition: 'all 0.2s ease',
+              }}
             >
               Voltar
             </Button>
           ) : (
             <>
-              <Button onClick={handleCloseModal} disabled={modalLoading} sx={{ color: '#6b7280', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none',
-                '&:hover': { bgcolor: alpha('#6b7280', 0.1) } }}>
+              <Button
+                onClick={handleCloseModal}
+                disabled={modalLoading}
+                sx={{
+                  color: '#6b7280',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                }}
+              >
                 Cancelar
               </Button>
               <Button
@@ -445,10 +513,23 @@ const ProjectType: React.FC = () => {
                 variant="contained"
                 disabled={modalLoading}
                 startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none',
+                sx={{
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
                   boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
-                  '&:hover': { bgcolor: '#1640a8', boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)', transform: 'translateY(-1px)' },
-                  '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) }, transition: 'all 0.2s ease' }}
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                  transition: 'all 0.2s ease',
+                }}
               >
                 Salvar
               </Button>
@@ -459,10 +540,14 @@ const ProjectType: React.FC = () => {
 
       <ConfirmDialog
         open={confirmDialog.open}
-        title={confirmDialog.mode === 'delete' ? 'Excluir Tipo do Projeto' : 'Restaurar Tipo do Projeto'}
-        message={confirmDialog.mode === 'delete'
-          ? 'Tem certeza que deseja excluir o Tipo do Projeto'
-          : 'Tem certeza que deseja restaurar o Tipo do Projeto'}
+        title={
+          confirmDialog.mode === 'delete' ? 'Excluir Tipo do Projeto' : 'Restaurar Tipo do Projeto'
+        }
+        message={
+          confirmDialog.mode === 'delete'
+            ? 'Tem certeza que deseja excluir o Tipo do Projeto'
+            : 'Tem certeza que deseja restaurar o Tipo do Projeto'
+        }
         highlightText={confirmDialog.row?.name}
         confirmLabel={confirmDialog.mode === 'delete' ? 'Excluir' : 'Restaurar'}
         cancelLabel="Cancelar"

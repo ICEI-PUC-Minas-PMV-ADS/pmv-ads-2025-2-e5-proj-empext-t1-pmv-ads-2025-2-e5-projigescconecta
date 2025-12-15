@@ -104,8 +104,8 @@ const MemberTypeLabels: Record<MemberType, string> = {
 const PERSON_TEAM_CSV_HEADERS: (keyof PersonTeamCsvRow)[] = ['personId', 'memberTypes'];
 
 const headerTranslations: Record<keyof PersonTeamCsvRow, string> = {
-  personId: 'ID da Pessoa',
-  memberTypes: 'Funções (separadas por ";")',
+  personId: 'ID da Pessoa*',
+  memberTypes: 'Funções (separadas por ";")*',
 };
 
 const memberTypeByNormalizedLabel: Record<string, MemberType> = Object.entries(

@@ -229,7 +229,7 @@ const CompanyPage: React.FC = () => {
       localFilters.push({ propertyName: 'City', operation: Op.NUMBER_7, value: filterCidade });
     }
     if (filterUf) {
-      localFilters.push({ propertyName: 'State', operation: Op.NUMBER_0, value: filterUf });
+      localFilters.push({ propertyName: 'State', operation: Op.NUMBER_7, value: filterUf });
     }
 
     if (statusFilter === undefined) {
@@ -459,7 +459,7 @@ const CompanyPage: React.FC = () => {
     nome: 'Nome Fantasia*',
     razaoSocial: 'Razão Social*',
     areaAtuacao: 'Área de Atuação',
-    cep: 'UF',
+    cep: 'CEP',
     endereco: 'Endereço',
     bairro: 'Bairro',
     cidade: 'Cidade',

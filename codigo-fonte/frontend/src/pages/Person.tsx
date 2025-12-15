@@ -39,6 +39,7 @@ import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 import { PatternFormat } from 'react-number-format';
+import { mask } from 'remask';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const digits = (s: string) => (s || '').replace(/\D/g, '');
@@ -156,12 +157,20 @@ const PersonPage: React.FC = () => {
     !secEmailError &&
     !secPhoneError;
 
+  const formatPhoneMask = (phone: string) =>
+    mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
+
   const columns: Column<PersonRow>[] = [
     { label: 'Id', field: 'personId', align: 'center' },
     { label: 'Nome', field: 'name', align: 'center' },
     { label: 'CPF', field: 'personalDocumment', align: 'center' },
     { label: 'E-mail', field: 'email', align: 'center' },
-    { label: 'Telefone', field: 'primaryPhone', align: 'center' },
+    {
+      label: 'Telefone',
+      field: 'primaryPhone',
+      align: 'center',
+      render: (value) => formatPhoneMask(value as string),
+    },
     {
       label: 'Status',
       field: 'isActive',
@@ -251,15 +260,15 @@ const PersonPage: React.FC = () => {
   ];
 
   const headerTranslations: Record<string, string> = {
-    name: 'Nome completo',
-    personalDocumment: 'CPF (apenas números)',
-    email: 'E-mail',
-    secondaryEmail: 'Segundo e-mail (opcional)',
-    primaryPhone: 'Telefone principal (apenas números)',
-    secondaryPhone: 'Segundo telefone (opcional)',
-    education1: 'Formação (opcional)',
-    education2: 'Formação 2 (opcional)',
-    professionalActivity: 'Atuação Profissional (opcional)',
+    name: 'Nome completo*',
+    personalDocumment: 'CPF*',
+    email: 'E-mail*',
+    secondaryEmail: 'Segundo e-mail',
+    primaryPhone: 'Telefone principal*',
+    secondaryPhone: 'Segundo telefone',
+    education1: 'Formação',
+    education2: 'Formação 2',
+    professionalActivity: 'Atuação Profissional',
   };
 
   const handleUploadPerson = () => {
@@ -760,7 +769,7 @@ const PersonPage: React.FC = () => {
                     margin="dense"
                     label="Telefone principal*"
                     format="(##) #####-####"
-                        mask="_"
+                    mask="_"
                     fullWidth
                     variant="outlined"
                     value={primaryPhone}
