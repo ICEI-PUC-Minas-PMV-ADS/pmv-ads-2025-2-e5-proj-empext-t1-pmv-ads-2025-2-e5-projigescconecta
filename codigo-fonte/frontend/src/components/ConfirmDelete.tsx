@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Typography,
-  Button,
-} from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import DialogPadronized from './DialogPadronized';
 
@@ -52,18 +49,14 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <>
           <Button
             onClick={onClose}
-            variant="outlined"
             sx={{
-              borderColor: alpha('#1E4EC4', 0.3),
-              color: '#1E4EC4',
+              color: '#6b7280',
               fontWeight: 600,
-              textTransform: 'none',
               px: 3,
-              borderRadius: 2,
-              '&:hover': {
-                borderColor: '#1E4EC4',
-                bgcolor: alpha('#1E4EC4', 0.05),
-              },
+              py: 1,
+              borderRadius: 1.5,
+              textTransform: 'none',
+              '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
             }}
           >
             {cancelLabel}
