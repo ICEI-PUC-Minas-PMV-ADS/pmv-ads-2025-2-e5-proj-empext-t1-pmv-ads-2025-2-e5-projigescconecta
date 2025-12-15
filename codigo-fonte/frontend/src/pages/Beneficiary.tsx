@@ -223,7 +223,7 @@ const Beneficiary: React.FC = () => {
 
             const { data: userData } = await userApi.getUserById(userId!);
 
-            setUserUpdatedName(userData.name);
+            setUserUpdatedName(userData.name || 'Usuário desconhecido');
             setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
             setSelectedBeneficiary(data);
             setIsVisualizing(true);
@@ -331,6 +331,7 @@ const Beneficiary: React.FC = () => {
         {
             label: 'Status',
             field: 'isDeleted',
+            align: 'center',
             render: (value) => (value ? 'Inativo' : 'Ativo')
         }
 

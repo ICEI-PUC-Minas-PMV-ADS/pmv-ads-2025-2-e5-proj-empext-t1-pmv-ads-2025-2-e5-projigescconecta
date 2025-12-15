@@ -353,8 +353,8 @@ const Team: React.FC = () => {
 
   const columns: Column<Team>[] = [
     { label: 'ID', field: 'teamId', align: 'center' },
-    { label: 'Nome', field: 'name', align: 'center' },
-    { label: 'Programa', field: 'courseName', align: 'center' },
+    { label: 'Nome', field: 'name', align: 'left' },
+    { label: 'Programa', field: 'courseName', align: 'left' },
 
     {
       label: 'Modalidade',

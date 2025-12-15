@@ -70,6 +70,7 @@ const columns: Column<Course>[] = [
   {
     label: 'Status',
     field: 'isDeleted',
+    align: 'center',
     render: (value) => (value ? 'Inativo' : 'Ativo'),
   },
 ];
@@ -139,7 +140,7 @@ const Course: React.FC = () => {
       ? 'Visualizar Programa'
       : editingCourse
         ? 'Editar Programa'
-        : 'Adicionar Programa';
+        : 'Novo Programa';
   };
 
   const fetchCourses = async (noFilter?: any, statusFilterParam?: string) => {
@@ -590,7 +591,7 @@ const Course: React.FC = () => {
             <TextField
               autoFocus
               margin="dense"
-              label="Nome do Programa"
+              label="Nome do Programa*"
               type="text"
               fullWidth
               variant="outlined"

@@ -40,6 +40,7 @@ import { Chip, Paper } from '@mui/material';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { useNavigate } from 'react-router-dom';
 import DialogPadronized from '@/components/DialogPadronized';
+import { extractErrorMessage } from '@/utils/error';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -212,7 +213,7 @@ const BusinessCase: React.FC = () => {
 
             const { data: userData } = await userApi.getUserById(userId!);
 
-            setUserUpdatedName(userData.name);
+            setUserUpdatedName(userData.name || 'Usuário desconhecido');
             setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
             setSelectedBusinessCase(data);
             setIsVisualizing(true);
@@ -238,7 +239,7 @@ const BusinessCase: React.FC = () => {
             fetchBusinessCases();
         } catch (error) {
             console.error('Erro ao deletar Grupo de Causas:', error);
-            toast.error(error?.response?.data?.errors?.[0]);
+            toast.error(extractErrorMessage(error));
         } finally {
             setOpenDeleteModal(false);
             setBusinessCaseToDelete(null);
@@ -317,6 +318,7 @@ const BusinessCase: React.FC = () => {
         {
             label: 'Status',
             field: 'isDeleted',
+            align: 'center',
             render: (value) => (value ? 'Inativo' : 'Ativo')
         }
     ];

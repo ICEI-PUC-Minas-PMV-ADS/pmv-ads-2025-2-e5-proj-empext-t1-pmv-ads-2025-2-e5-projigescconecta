@@ -499,45 +499,67 @@ const UserPage: React.FC = () => {
                   </Box>
                 ) : (
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={{ xs: 12 }}>
                       <TextField
-                        label="Nome"
+                        autoFocus={!isViewing}
+                        margin="dense"
+                        label="Nome*"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
                         value={formName}
                         onChange={(e) => setFormName(e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ readOnly: isViewing }}
+                        slotProps={{
+                          input: {
+                            readOnly: isViewing,
+                          },
+                        }}
+                        sx={isViewing ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid size={{ xs: 12 }}>
                       <TextField
-                        label="E-mail"
+                        margin="dense"
+                        label="E-mail*"
+                        type="email"
+                        fullWidth
+                        variant="outlined"
                         value={formEmail}
                         onChange={(e) => setFormEmail(e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ readOnly: isViewing }}
+                        slotProps={{
+                          input: {
+                            readOnly: isViewing,
+                          },
+                        }}
+                        sx={isViewing ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={{ xs: 12 }}>
                       <TextField
-                        label="Telefone"
+                        margin="dense"
+                        label="Telefone*"
+                        type="tel"
+                        fullWidth
+                        variant="outlined"
                         value={formPhone}
                         onChange={(e) => setFormPhone(e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ readOnly: isViewing }}
+                        slotProps={{
+                          input: {
+                            readOnly: isViewing,
+                          },
+                        }}
+                        sx={isViewing ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth size="small">
+                    <Grid size={{ xs: 12 }}>
+                      <FormControl fullWidth variant="outlined" margin="dense">
                         <InputLabel id="role-label">Tipo</InputLabel>
                         <Select
                           labelId="role-label"
-                          label="Tipo"
+                          label="Tipo*"
                           value={formRoleLabel}
                           onChange={(e) =>
                             setFormRoleLabel(
@@ -545,6 +567,7 @@ const UserPage: React.FC = () => {
                             )
                           }
                           disabled={isViewing}
+                          sx={isViewing ? { pointerEvents: 'none' } : {}}
                         >
                           <MenuItem value="Administrador">Administrador</MenuItem>
                           <MenuItem value="Editor">Editor</MenuItem>

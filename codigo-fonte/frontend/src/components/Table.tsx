@@ -124,7 +124,7 @@ function Table<T extends { [key: string]: any }>({
   onOriginBusinessCase,
   onTeam,
   onPersonOsc,
-  onReport,   
+  onReport,
   onProjectDocument,
   noDataMessage,
 }: TableProps<T>) {
@@ -143,15 +143,14 @@ function Table<T extends { [key: string]: any }>({
   };
 
   const hasActions =
-  onView ||
-  onEdit ||
-  onDelete ||
-  onOriginBusinessCase ||
-  onTeam ||
-  onPersonOsc ||
-  onReport ||
-  onProjectDocument;
-
+    onView ||
+    onEdit ||
+    onDelete ||
+    onOriginBusinessCase ||
+    onTeam ||
+    onPersonOsc ||
+    onReport ||
+    onProjectDocument;
 
   return (
     <Box>
@@ -293,7 +292,7 @@ function Table<T extends { [key: string]: any }>({
                             Visualizar
                           </Button>
                         )}
-                        {onEdit && (
+                        {onEdit && row.isDeleted !== true && (
                           <Button
                             size="small"
                             variant="outlined"
@@ -320,7 +319,7 @@ function Table<T extends { [key: string]: any }>({
                             Editar
                           </Button>
                         )}
-                        {onDelete && (
+                        {onDelete && row.isDeleted !== true && (
                           <Button
                             size="small"
                             variant="outlined"
