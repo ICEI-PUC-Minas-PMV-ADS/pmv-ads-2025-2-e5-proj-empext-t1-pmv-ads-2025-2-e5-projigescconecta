@@ -58,6 +58,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
   const [results, setResults] = useState<UploadResult[]>([]);
   const [processing, setProcessing] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const reverseTranslations = Object.entries(headerTranslations).reduce(
     (acc, [eng, pt]) => ({ ...acc, [pt]: eng }),
@@ -84,6 +85,45 @@ export function UploadCsvModal<T extends Record<string, any>>({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
     setFile(selectedFile);
+  };
+
+  const handleBoxClick = () => {
+    document.getElementById('csv-file-input')?.click();
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const droppedFile = files[0];
+      // Verificar se é um arquivo CSV
+      if (droppedFile.type === 'text/csv' || droppedFile.name.toLowerCase().endsWith('.csv')) {
+        setFile(droppedFile);
+      } else {
+        alert('Por favor, selecione apenas arquivos CSV.');
+      }
+    }
   };
 
   const handleDownloadTemplate = () => {
@@ -439,50 +479,272 @@ export function UploadCsvModal<T extends Record<string, any>>({
                 Baixar Planilha Modelo
               </Button>
 
-              {/* Instruções */}
-              <Typography variant="body2" sx={{ color: '#6b7280', lineHeight: 1.6 }}>
-                1. Baixe a planilha modelo • 2. Preencha com seus dados • 3. Salve como CSV
-              </Typography>
-            </Box>
-
-            {/* Seleção de Arquivo */}
-            <Button
-              variant="outlined"
-              startIcon={<DownloadIcon />}
-              component="label"
-              fullWidth
-              sx={{
-                py: 4,
-                borderStyle: 'dashed',
-                borderWidth: 2,
-                borderColor: file ? '#1E4EC4' : '#d1d5db',
-                bgcolor: file ? alpha('#1E4EC4', 0.05) : 'transparent',
-                color: file ? '#1E4EC4' : '#6b7280',
-                fontWeight: 600,
-                textTransform: 'none',
-                width: '80%',
-                '&:hover': {
-                  borderColor: '#1E4EC4',
+              {/* Guia de Instruções e Formatos */}
+              <Box
+                sx={{
+                  p: 2.5,
                   bgcolor: alpha('#1E4EC4', 0.05),
-                },
-              }}
-            >
-              {file ? (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                    {file.name}
-                  </Typography>
-                  <Chip
-                    label="✓"
-                    size="small"
-                    sx={{ bgcolor: '#10b981', color: 'white', fontSize: '0.75rem' }}
-                  />
+                  borderRadius: 2,
+                  border: `1px solid ${alpha('#1E4EC4', 0.2)}`,
+                  mb: 2,
+                  width: '100%',
+                  textAlign: 'left',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: '#1E4EC4',
+                    mb: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                >
+                  <InfoIcon sx={{ fontSize: 16 }} />
+                  Como importar
+                </Typography>
+
+                {/* Instruções */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 600, color: '#1E4EC4', minWidth: 20 }}
+                    >
+                      1.
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#374151', lineHeight: 1.6, flex: 1 }}>
+                      Baixe a planilha modelo acima
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 600, color: '#1E4EC4', minWidth: 20 }}
+                    >
+                      2.
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#374151', lineHeight: 1.6, flex: 1 }}>
+                      Preencha os dados respeitando as colunas
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 600, color: '#1E4EC4', minWidth: 20 }}
+                    >
+                      3.
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#374151', lineHeight: 1.6, flex: 1 }}>
+                      Exporte como CSV UTF-8 usando:
+                    </Typography>
+                  </Box>
+
+                  {/* Formatos Suportados */}
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, ml: 4.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Chip
+                        label="✓"
+                        size="small"
+                        sx={{
+                          bgcolor: '#10b981',
+                          color: 'white',
+                          fontSize: '0.65rem',
+                          height: 20,
+                          minWidth: 20,
+                        }}
+                      />
+                      <Typography variant="body2" sx={{ color: '#374151', fontWeight: 500 }}>
+                        Excel 2016+
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                        → Salvar como → CSV UTF-8
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Chip
+                        label="✓"
+                        size="small"
+                        sx={{
+                          bgcolor: '#10b981',
+                          color: 'white',
+                          fontSize: '0.65rem',
+                          height: 20,
+                          minWidth: 20,
+                        }}
+                      />
+                      <Typography variant="body2" sx={{ color: '#374151', fontWeight: 500 }}>
+                        Google Sheets
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                        → Arquivo → Baixar → Valores separados por vírgulas (.csv)
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
-              ) : (
-                'Clique para selecionar arquivo CSV'
-              )}
-              <input type="file" accept=".csv" hidden onChange={handleFileChange} />
-            </Button>
+              </Box>
+
+              {/* Seleção de Arquivo */}
+              <Box
+                onClick={handleBoxClick}
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                sx={{
+                  width: '100%',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  border: `2px dashed ${isDragOver ? '#1E4EC4' : file ? '#10b981' : '#d1d5db'}`,
+                  borderRadius: 2,
+                  bgcolor: isDragOver
+                    ? alpha('#1E4EC4', 0.08)
+                    : file
+                      ? alpha('#10b981', 0.05)
+                      : alpha('#f9fafb', 0.5),
+                  py: 4,
+                  px: 3,
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  '&:hover': {
+                    borderColor: file ? '#10b981' : '#1E4EC4',
+                    bgcolor: file ? alpha('#10b981', 0.08) : alpha('#1E4EC4', 0.05),
+                    transform: 'translateY(-2px)',
+                    boxShadow: `0 4px 12px ${alpha(file ? '#10b981' : '#1E4EC4', 0.15)}`,
+                  },
+                }}
+              >
+                <input
+                  id="csv-file-input"
+                  type="file"
+                  accept=".csv"
+                  hidden
+                  onChange={handleFileChange}
+                />
+
+                {isDragOver ? (
+                  <>
+                    <CloudUploadIcon
+                      sx={{
+                        fontSize: 48,
+                        color: '#1E4EC4',
+                        animation: 'pulse 1.5s ease-in-out infinite',
+                        '@keyframes pulse': {
+                          '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+                          '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+                        },
+                      }}
+                    />
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: 600, color: '#1E4EC4', textAlign: 'center' }}
+                    >
+                      Solte o arquivo aqui
+                    </Typography>
+                  </>
+                ) : file ? (
+                  <>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: '50%',
+                        bgcolor: alpha('#10b981', 0.1),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <CloudUploadIcon sx={{ fontSize: 32, color: '#10b981' }} />
+                    </Box>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 600,
+                          color: '#111827',
+                          mb: 0.5,
+                          wordBreak: 'break-all',
+                        }}
+                      >
+                        {file.name}
+                      </Typography>
+                      <Chip
+                        label="Arquivo carregado"
+                        size="small"
+                        icon={
+                          <Box component="span" sx={{ fontSize: '0.75rem' }}>
+                            ✓
+                          </Box>
+                        }
+                        sx={{
+                          bgcolor: '#10b981',
+                          color: 'white',
+                          fontSize: '0.75rem',
+                          fontWeight: 600,
+                          height: 24,
+                        }}
+                      />
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: '50%',
+                        bgcolor: alpha('#1E4EC4', 0.08),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      <CloudUploadIcon sx={{ fontSize: 32, color: '#1E4EC4' }} />
+                    </Box>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: 600,
+                          color: '#374151',
+                          mb: 0.5,
+                        }}
+                      >
+                        Clique para selecionar arquivo
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontSize: '0.875rem',
+                          color: '#9ca3af',
+                        }}
+                      >
+                        ou arraste e solte aqui
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        fontSize: '0.75rem',
+                        color: '#9ca3af',
+                        mt: 0.5,
+                      }}
+                    >
+                      Apenas arquivos CSV
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            </Box>
           </Box>
         ) : (
           <Box sx={{ py: 1 }}>
