@@ -70,6 +70,7 @@ const columns: Column<Course>[] = [
   {
     label: 'Status',
     field: 'isDeleted',
+    align: 'center',
     render: (value) => (value ? 'Inativo' : 'Ativo'),
   },
 ];

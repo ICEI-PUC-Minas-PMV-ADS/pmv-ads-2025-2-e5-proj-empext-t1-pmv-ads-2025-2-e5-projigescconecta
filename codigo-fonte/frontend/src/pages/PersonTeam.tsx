@@ -250,6 +250,7 @@ const PersonTeam: React.FC = () => {
     {
       label: 'Status',
       field: 'isDeleted',
+      align: 'center',
       render: (value) => (value ? 'Inativo' : 'Ativo'),
     },
   ];

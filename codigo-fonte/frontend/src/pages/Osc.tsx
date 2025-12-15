@@ -431,7 +431,7 @@ const Osc: React.FC = () => {
 
       const { data: userData } = await userApi.getUserById(userId!);
 
-      setUserUpdatedName(userData.name);
+      setUserUpdatedName(userData.name || 'Usuário desconhecido');
       setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
@@ -658,6 +658,7 @@ const Osc: React.FC = () => {
     {
       label: 'Status',
       field: 'isDeleted',
+      align: 'center',
       render: (value) => (value ? 'Inativo' : 'Ativo')
     }
   ];
