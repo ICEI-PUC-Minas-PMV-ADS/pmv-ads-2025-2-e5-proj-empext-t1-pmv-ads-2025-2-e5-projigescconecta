@@ -1,12 +1,28 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Box, Container, Button,
-  CircularProgress, Grid, Typography, Divider, TextField, Chip, Paper,
-  alpha, FormControl, RadioGroup, FormControlLabel, Radio,
+  Box,
+  Container,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+  Divider,
+  TextField,
+  Chip,
+  Paper,
+  alpha,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Stack,
+  FormGroup,
+  Switch,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
@@ -23,6 +39,7 @@ import {
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
+import { PatternFormat } from 'react-number-format';
 
 interface CompanyFullDetails {
   id?: number;
@@ -60,7 +77,7 @@ interface CompanyFormData {
   ativa: boolean;
 }
 
-interface CompanyCsvRow{
+interface CompanyCsvRow {
   cnpj: string;
   nome: string;
   razaoSocial: string;
@@ -80,11 +97,11 @@ const formatCepMask = (cep: string) => mask(cep ?? '', ['99999-999']);
 const formatPhoneMask = (phone: string) => mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
 
 const columns: Column<any>[] = [
-  { label: 'ID/CNPJ', field: 'cnpj' },
-  { label: 'Nome', field: 'nome' },
-  { label: 'Razão Social', field: 'razaoSocial' },
-  { label: 'Telefone', field: 'telefone' },
-  { label: 'Status', field: 'statusComponent' },
+  { label: 'ID/CNPJ', field: 'cnpj', align: 'center' },
+  { label: 'Nome', field: 'nome', align: 'left' },
+  { label: 'Razão Social', field: 'razaoSocial', align: 'left' },
+  { label: 'Telefone', field: 'telefone', align: 'center' },
+  { label: 'Status', field: 'status', align: 'center' },
 ];
 
 const CompanyPage: React.FC = () => {
@@ -92,13 +109,13 @@ const CompanyPage: React.FC = () => {
 
   const [companies, setCompanies] = useState<any[]>([]);
   const [editingData, setEditingData] = useState<Partial<CompanyFormData> | null>(null);
-  
+
   const [filterNome, setFilterNome] = useState('');
   const [filterAreaAtuacao, setFilterAreaAtuacao] = useState('');
   const [filterCnpj, setFilterCnpj] = useState('');
   const [filterCidade, setFilterCidade] = useState('');
   const [filterUf, setFilterUf] = useState('');
-  const [statusFilter, setStatusFilter] = useState('ativas');
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
 
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -108,32 +125,36 @@ const CompanyPage: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isVisualizing, setIsVisualizing] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openReactivateModal, setOpenReactivateModal] = useState(false);
   const [companyToAction, setCompanyToAction] = useState<CompanyViewModel | null>(null);
   const [isUploadOpen, setUploadOpen] = useState(false);
 
   const isCreating = editingData ? !('id' in editingData) : false;
-  const dialogTitle = isVisualizing ? 'Visualizar Empresa' : isCreating ? 'Nova Empresa' : 'Editar Empresa';
+  const dialogTitle = isVisualizing
+    ? 'Visualizar Empresa'
+    : isCreating
+      ? 'Nova Empresa'
+      : 'Editar Empresa';
   const isReadOnlyMode = isVisualizing;
 
-  const handleUploadCompany = () =>{
+  const handleUploadCompany = () => {
     setUploadOpen(true);
-  }
+  };
 
-  const apiCreate = (data: CompanyCsvRow) => companyApi.apiCompaniesPost({
-    cnpj: data.cnpj,
-    companyName: data.nome,
-    corporateReason: data.razaoSocial,
-    fieldOfActivity: data.areaAtuacao,
-    zipCode: data.cep,
-    address: data.endereco,
-    neighborhood: data.bairro,
-    city: data.cidade,
-    state: data.uf,
-    phoneNumber: data.telefone,
-    website: data.site,
-    socialMedia: data.redesSociais,
-  })
+  const apiCreate = (data: CompanyCsvRow) =>
+    companyApi.apiCompaniesPost({
+      cnpj: data.cnpj,
+      companyName: data.nome,
+      corporateReason: data.razaoSocial,
+      fieldOfActivity: data.areaAtuacao,
+      zipCode: data.cep,
+      address: data.endereco,
+      neighborhood: data.bairro,
+      city: data.cidade,
+      state: data.uf,
+      phoneNumber: data.telefone,
+      website: data.site,
+      socialMedia: data.redesSociais,
+    });
 
   const mapApiDataToFormData = (data: CompanyFullDetails): CompanyFormData => ({
     id: data.id,
@@ -162,24 +183,17 @@ const CompanyPage: React.FC = () => {
         filters: filtersToUse.length > 0 ? filtersToUse : undefined,
       });
 
-      const formattedItems = (response.data.items ?? []).map(item => ({
+      const formattedItems = (response.data.items ?? []).map((item) => ({
         ...item,
         cnpj: formatCnpjMask(item.cnpj!),
         telefone: formatPhoneMask(item.telefone!),
-        statusComponent: (
-          <Chip
-            label={item.ativa ? 'Ativa' : 'Inativa'}
-            size="small"
-            color={item.ativa ? 'success' : 'error'}
-            variant="outlined"
-          />
-        )
+        status: item.ativa ? 'Ativo' : 'Inativo',
       }));
 
       setCompanies(formattedItems);
       setTotalCount(response.data.totalItems ?? 0);
     } catch (err: any) {
-      console.error("Erro detalhado da API:", err.response || err);
+      console.error('Erro detalhado da API:', err.response || err);
       toast.error('Erro ao buscar empresas.');
     } finally {
       setLoading(false);
@@ -188,7 +202,7 @@ const CompanyPage: React.FC = () => {
 
   const buildFilters = (forceClear = false) => {
     const localFilters: Filter[] = [];
-    
+
     if (forceClear) {
       localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
       return localFilters;
@@ -198,10 +212,18 @@ const CompanyPage: React.FC = () => {
       localFilters.push({ propertyName: 'CompanyName', operation: Op.NUMBER_7, value: filterNome });
     }
     if (filterAreaAtuacao) {
-      localFilters.push({ propertyName: 'FieldOfActivity', operation: Op.NUMBER_7, value: filterAreaAtuacao });
+      localFilters.push({
+        propertyName: 'FieldOfActivity',
+        operation: Op.NUMBER_7,
+        value: filterAreaAtuacao,
+      });
     }
     if (filterCnpj) {
-      localFilters.push({ propertyName: 'CNPJ', operation: Op.NUMBER_7, value: filterCnpj.replace(/\D/g, '') });
+      localFilters.push({
+        propertyName: 'CNPJ',
+        operation: Op.NUMBER_7,
+        value: filterCnpj.replace(/\D/g, ''),
+      });
     }
     if (filterCidade) {
       localFilters.push({ propertyName: 'City', operation: Op.NUMBER_7, value: filterCidade });
@@ -210,19 +232,19 @@ const CompanyPage: React.FC = () => {
       localFilters.push({ propertyName: 'State', operation: Op.NUMBER_0, value: filterUf });
     }
 
-    if (statusFilter === 'ativas') {
+    if (statusFilter === undefined) {
       localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
-    } else if (statusFilter === 'inativas') {
+    } else if (statusFilter === 'Inactive') {
       localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: false });
     }
 
     return localFilters;
-  }
+  };
 
   useEffect(() => {
     const filters = buildFilters();
     fetchCompanies(filters);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage, statusFilter]);
 
   const handleSearch = () => {
@@ -237,10 +259,10 @@ const CompanyPage: React.FC = () => {
     setFilterCnpj('');
     setFilterCidade('');
     setFilterUf('');
-    setStatusFilter('ativas');
-    
+    setStatusFilter(undefined);
+
     if (page !== 0) {
-        setPage(0);
+      setPage(0);
     }
     const filters = buildFilters(true);
     fetchCompanies(filters);
@@ -248,8 +270,20 @@ const CompanyPage: React.FC = () => {
 
   const handleAdd = () => {
     setEditingData({
-      cnpj: '', nome: '', razaoSocial: '', areaAtuacao: '', cep: '', endereco: '', bairro: '',
-      cidade: '', uf: '', telefone: '', email: '', site: '', redesSociais: '', ativa: true,
+      cnpj: '',
+      nome: '',
+      razaoSocial: '',
+      areaAtuacao: '',
+      cep: '',
+      endereco: '',
+      bairro: '',
+      cidade: '',
+      uf: '',
+      telefone: '',
+      email: '',
+      site: '',
+      redesSociais: '',
+      ativa: true,
     });
     setIsVisualizing(false);
     setOpenModal(true);
@@ -259,7 +293,7 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
+      const response = (await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''))) as any;
       const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(false);
@@ -275,7 +309,7 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, '')) as any;
+      const response = (await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''))) as any;
       const companyData = response.data as CompanyFullDetails;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(true);
@@ -289,11 +323,7 @@ const CompanyPage: React.FC = () => {
 
   const handleToggleActive = (company: CompanyViewModel) => {
     setCompanyToAction(company);
-    if (company.ativa) {
-      setOpenDeleteModal(true);
-    } else {
-      setOpenReactivateModal(true);
-    }
+    setOpenDeleteModal(true);
   };
 
   const confirmInactivate = async () => {
@@ -304,26 +334,10 @@ const CompanyPage: React.FC = () => {
       toast.success(`Empresa ${companyToAction.nome} inativada com sucesso!`);
       handleSearch();
     } catch (err: any) {
-      toast.error(err?.response?.data?.title || 'Erro ao inativar empresa.');
+      toast.error(err?.response?.data?.title || 'Erro ao excluir empresa.');
     } finally {
       setModalLoading(false);
       setOpenDeleteModal(false);
-      setCompanyToAction(null);
-    }
-  };
-
-  const confirmReactivate = async () => {
-    if (!companyToAction?.cnpj) return;
-    try {
-      setModalLoading(true);
-      await companyApi.apiCompaniesCnpjActivatePatch(companyToAction.cnpj.replace(/\D/g, ''));
-      toast.success(`Empresa ${companyToAction.nome} reativada com sucesso!`);
-      handleSearch();
-    } catch (err: any) {
-      toast.error(err?.response?.data?.title || 'Erro ao reativar empresa.');
-    } finally {
-      setModalLoading(false);
-      setOpenReactivateModal(false);
       setCompanyToAction(null);
     }
   };
@@ -333,9 +347,9 @@ const CompanyPage: React.FC = () => {
 
     if (!data) return;
 
-    if(validateCompanyForm(data) !== null){
-      console.log(data)
-      return
+    if (validateCompanyForm(data) !== null) {
+      console.log(data);
+      return;
     }
 
     const cnpjDigits = data.cnpj!.replace(/\D/g, '');
@@ -375,27 +389,27 @@ const CompanyPage: React.FC = () => {
   };
 
   const validateCompanyForm = (company: any): string | null => {
-    const requiredFields = ['cnpj', 'razaoSocial', 'nome']
+    const requiredFields = ['cnpj', 'razaoSocial', 'nome'];
 
-    for(const field of requiredFields){
-      if(!company || !company[field] || company[field].toString().trim() === ''){
-        const message = (`O campo "${formatFieldName(field)}" é obrigatório!`);
+    for (const field of requiredFields) {
+      if (!company || !company[field] || company[field].toString().trim() === '') {
+        const message = `O campo "${formatFieldName(field)}" é obrigatório!`;
         toast.error(message);
         return message;
       }
     }
 
     return null;
-  }
+  };
 
   const formatFieldName = (field: string): string => {
     const mapping: Record<string, string> = {
       cnpj: 'CNPJ',
       nome: 'Nome Fantasia',
-      razaoSocial: 'Razão Social'
+      razaoSocial: 'Razão Social',
     };
     return mapping[field] || field;
-  }
+  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -434,15 +448,15 @@ const CompanyPage: React.FC = () => {
     const value = e.target.value.toUpperCase().slice(0, 2);
     setEditingData((p) => (p ? { ...p, uf: value } : null));
   };
-  
+
   const handleFilterUfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase().slice(0, 2);
     setFilterUf(value);
   };
 
-  const headerTranslations ={
+  const headerTranslations = {
     cnpj: 'CPNJ*',
-    nome: 'Nome Fantasia*' ,
+    nome: 'Nome Fantasia*',
     razaoSocial: 'Razão Social*',
     areaAtuacao: 'Área de Atuação',
     cep: 'UF',
@@ -453,14 +467,32 @@ const CompanyPage: React.FC = () => {
     telefone: 'Telefone',
     site: 'Website',
     redesSociais: 'Mídia Social',
-  }
+  };
 
   return (
-    <Container maxWidth="xl" sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}>
-      <Paper elevation={0} sx={{ backgroundColor: '#ffffff', borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: alpha('#1E4EC4', 0.1) }}>
+    <Container
+      maxWidth="xl"
+      sx={{ minHeight: '100vh', py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3 } }}
+    >
+      <Paper
+        elevation={0}
+        sx={{
+          backgroundColor: '#ffffff',
+          borderRadius: 3,
+          overflow: 'hidden',
+          border: '1px solid',
+          borderColor: alpha('#1E4EC4', 0.1),
+        }}
+      >
         <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-          <TitleAndButtons title="Lista de Empresas" onAdd={handleAdd} addLabel="Nova Empresa" onImportCsv={handleUploadCompany} importLabel='Importar Empresa'/>
-          
+          <TitleAndButtons
+            title="Lista de Empresas"
+            onAdd={handleAdd}
+            addLabel="Nova Empresa"
+            onImportCsv={handleUploadCompany}
+            importLabel="Importar Empresa"
+          />
+
           <Paper
             elevation={0}
             sx={{
@@ -474,13 +506,16 @@ const CompanyPage: React.FC = () => {
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
               <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
-              <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
+              <Typography
+                variant="h6"
+                sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}
+              >
                 Filtro de Busca
               </Typography>
             </Box>
-            
+
             <Grid container spacing={2.5} alignItems="center">
-              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   label="Nome da Empresa"
                   value={filterNome}
@@ -490,17 +525,7 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
-                <TextField
-                  label="Área de Atuação"
-                  value={filterAreaAtuacao}
-                  onChange={(e) => setFilterAreaAtuacao(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  fullWidth
-                  size="small"
-                />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   label="CNPJ"
                   value={filterCnpj}
@@ -510,7 +535,32 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <TextField
+                  label="Área de Atuação"
+                  value={filterAreaAtuacao}
+                  onChange={(e) => setFilterAreaAtuacao(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 1 }}>
+                <TextField
+                  label="UF"
+                  value={filterUf}
+                  onChange={handleFilterUfChange}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  slotProps={{
+                    htmlInput: {
+                      maxLength: 2,
+                    },
+                  }}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <TextField
                   label="Cidade"
                   value={filterCidade}
@@ -520,48 +570,94 @@ const CompanyPage: React.FC = () => {
                   size="small"
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 4, md: 3 }}>
-                <TextField
-                  label="UF"
-                  value={filterUf}
-                  onChange={handleFilterUfChange}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  inputProps={{ maxLength: 2 }}
-                  fullWidth
-                  size="small"
-                />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 8, md: 9 }}>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    name="status-filter"
-                    value={statusFilter}
-                    onChange={(e) => {
-                      setStatusFilter(e.target.value);
-                      setPage(0);
-                    }}
-                  >
-                    <FormControlLabel value="ativas" control={<Radio size="small" />} label="Ativas" />
-                    <FormControlLabel value="inativas" control={<Radio size="small" />} label="Inativas" />
-                    <FormControlLabel value="todas" control={<Radio size="small" />} label="Todas" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1.5, mt: 1 }}>
-                <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearch} sx={{ bgcolor: '#1E4EC4', color: 'white', fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem' }}>
-                  Buscar
-                </Button>
-                <Button variant="outlined" startIcon={<ClearIcon />} onClick={handleClearFilters} sx={{ color: '#1E4EC4', borderColor: alpha('#1E4EC4', 0.3), fontWeight: 600, px: 3, py: 1, borderRadius: 1.5, textTransform: 'none', fontSize: '0.95rem', '&:hover': { borderColor: '#1E4EC4', bgcolor: alpha('#1E4EC4', 0.05), borderWidth: 1.5 } }}>
-                  Limpar Filtros
-                </Button>
-              </Grid>
             </Grid>
+            <Stack
+              direction="row"
+              spacing={2}
+              flexWrap="wrap"
+              alignItems="center"
+              sx={{ marginTop: 3 }}
+            >
+              <FormGroup row sx={{ mb: 2 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'Inactive'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                      }
+                    />
+                  }
+                  label="Somente Inativos"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'all'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                      }
+                    />
+                  }
+                  label="Incluir Inativos"
+                />
+              </FormGroup>
+              {/* Botões */}
+              <Button
+                variant="contained"
+                startIcon={<SearchIcon />}
+                onClick={handleSearch}
+                sx={{
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                }}
+              >
+                Buscar
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ClearIcon />}
+                onClick={handleClearFilters}
+                sx={{
+                  color: '#1E4EC4',
+                  borderColor: alpha('#1E4EC4', 0.3),
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    borderColor: '#1E4EC4',
+                    bgcolor: alpha('#1E4EC4', 0.05),
+                    borderWidth: 1.5,
+                  },
+                }}
+              >
+                Limpar Filtros
+              </Button>
+            </Stack>
           </Paper>
 
           <Box sx={{ flexGrow: 1, mt: 3 }}>
             {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}><CircularProgress sx={{ color: '#1E4EC4' }} /></Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+              >
+                <CircularProgress sx={{ color: '#1E4EC4' }} />
+              </Box>
             ) : (
               <Table
                 columns={columns}
@@ -583,31 +679,33 @@ const CompanyPage: React.FC = () => {
             open={openDeleteModal}
             onClose={() => setOpenDeleteModal(false)}
             onConfirm={confirmInactivate}
-            title="Confirmar Inativação"
-            message="Deseja realmente INATIVAR esta Empresa?"
+            title="Excluir Empresa"
+            message="Tem certeza que deseja excluir a empresa"
             highlightText={companyToAction?.nome}
-            confirmLabel="Inativar"
+            confirmLabel="Excluir"
             cancelLabel="Cancelar"
             danger
           />
 
-          <ConfirmDialog
-            open={openReactivateModal}
-            onClose={() => setOpenReactivateModal(false)}
-            onConfirm={confirmReactivate}
-            title="Confirmar Reativação"
-            message="Deseja realmente REATIVAR esta Empresa?"
-            highlightText={companyToAction?.nome}
-            confirmLabel="Reativar"
-            cancelLabel="Cancelar"
-          />
-
-          {isUploadOpen &&(
+          {isUploadOpen && (
             <UploadCsvModal<CompanyCsvRow>
-              title='Importar Empresa'
+              title="Importar Empresa"
               onClose={() => setUploadOpen(false)}
               apiCreate={apiCreate}
-              expectedHeaders={['cnpj', 'nome', 'razaoSocial', 'areaAtuacao', 'cep', 'endereco', 'bairro', 'cidade', 'uf', 'telefone', 'site', 'redesSociais']}
+              expectedHeaders={[
+                'cnpj',
+                'nome',
+                'razaoSocial',
+                'areaAtuacao',
+                'cep',
+                'endereco',
+                'bairro',
+                'cidade',
+                'uf',
+                'telefone',
+                'site',
+                'redesSociais',
+              ]}
               headerTranslations={headerTranslations}
               validateFields={validateCompanyForm}
               onFinish={handleSearch}
@@ -621,7 +719,10 @@ const CompanyPage: React.FC = () => {
             title={dialogTitle}
             content={
               editingData && (
-                <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+                <Box
+                  component="form"
+                  sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}
+                >
                   <Grid container spacing={2}>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
@@ -630,165 +731,303 @@ const CompanyPage: React.FC = () => {
                         value={formatCnpjMask(editingData.cnpj || '')}
                         onChange={handleCnpjChange}
                         fullWidth
-                        disabled={!isCreating}
-                        size="small"
-                        inputProps={{ readOnly: !isCreating }}
+                        variant="outlined"
+                        margin="dense"
+                        slotProps={{
+                          input: {
+                            readOnly: !isCreating,
+                          },
+                        }}
+                        sx={!isCreating ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Razão Social *"
                         name="razaoSocial"
                         value={editingData.razaoSocial || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Nome Fantasia *"
                         name="nome"
                         value={editingData.nome || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Área de Atuação"
                         name="areaAtuacao"
                         value={editingData.areaAtuacao || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
-                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Divider sx={{ my: 1 }} />
+                    </Grid>
                     <Grid size={{ xs: 12, md: 9 }}>
                       <TextField
+                        margin="dense"
                         label="Endereço"
                         name="endereco"
                         value={editingData.endereco || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 3 }}>
                       <TextField
+                        margin="dense"
                         label="CEP"
                         name="cep"
                         value={editingData.cep || ''}
                         onChange={handleCepChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
                         inputProps={{ maxLength: 9 }}
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
+                        margin="dense"
                         label="Bairro"
                         name="bairro"
                         value={editingData.bairro || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
+                        margin="dense"
                         label="Cidade"
                         name="cidade"
                         value={editingData.cidade || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                       <TextField
+                        margin="dense"
                         label="UF"
                         name="uf"
                         value={editingData.uf || ''}
                         onChange={handleUfChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
-                        inputProps={{ maxLength: 2 }}
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                          htmlInput: {
+                            maxLength: 2,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
-                    <Grid size={{ xs: 12 }}><Divider sx={{ my: 1 }} /></Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Divider sx={{ my: 1 }} />
+                    </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
-                      <TextField
+                      <PatternFormat
+                        customInput={TextField}
+                        margin="dense"
+                        format="(##) #####-####"
+                        mask="_"
                         label="Telefone"
                         name="telefone"
                         value={editingData.telefone || ''}
                         onChange={handlePhoneChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
-                        inputProps={{ maxLength: 15 }}
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Email"
                         name="email"
                         value={editingData.email || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Site"
                         name="site"
                         value={editingData.site || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
+                        margin="dense"
                         label="Redes Sociais"
                         name="redesSociais"
                         value={editingData.redesSociais || ''}
                         onChange={handleValueChange}
                         fullWidth
-                        disabled={isReadOnlyMode}
-                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                          input: {
+                            readOnly: isReadOnlyMode,
+                          },
+                        }}
+                        sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
                   </Grid>
                 </Box>
               )
             }
-            actions= {
+            actions={
               isReadOnlyMode ? (
-                <Button onClick={handleCloseModal}>Voltar</Button>
+                <Button
+                  variant="contained"
+                  startIcon={<ArrowBackIcon />}
+                  onClick={handleCloseModal}
+                  sx={{
+                    bgcolor: '#6b7280',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Voltar
+                </Button>
               ) : (
                 <>
-                  <Button onClick={handleCloseModal} disabled={modalLoading}>Cancelar</Button>
-                  <Button onClick={handleSave} variant="contained" disabled={modalLoading}>
-                    {modalLoading ? <CircularProgress size={24} /> : (isCreating ? 'Criar' : 'Atualizar')}
+                  <Button
+                    onClick={handleCloseModal}
+                    disabled={modalLoading}
+                    sx={{
+                      color: '#6b7280',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    onClick={handleSave}
+                    variant="contained"
+                    disabled={modalLoading}
+                    startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                    sx={{
+                      bgcolor: '#1E4EC4',
+                      color: 'white',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                      '&:hover': {
+                        bgcolor: '#1640a8',
+                        boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                        transform: 'translateY(-1px)',
+                      },
+                      '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    {isCreating ? 'Salvar' : 'Atualizar'}
                   </Button>
                 </>
               )
             }
-          /> 
+          />
         </Box>
       </Paper>
     </Container>
