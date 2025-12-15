@@ -559,7 +559,7 @@ export function UploadCsvModal<T extends Record<string, any>>({
                         }}
                       />
                       <Typography variant="body2" sx={{ color: '#374151', fontWeight: 500 }}>
-                        Excel 2016+
+                        Excel 2019+
                       </Typography>
                       <Typography variant="body2" sx={{ color: '#9ca3af', fontSize: '0.75rem' }}>
                         → Salvar como → CSV UTF-8
