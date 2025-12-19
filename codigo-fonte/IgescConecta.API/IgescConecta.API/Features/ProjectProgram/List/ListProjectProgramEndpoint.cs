@@ -21,7 +21,7 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
         [HttpPost("search", Name = "ListProjectProgram")]
         public async Task<ActionResult<ListProjectProgramViewModel>> List([FromBody] ListProjectProgramRequest request)
         {
-            var result = await _mediator.Send(new ListProjectProgramQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListProjectProgramQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
     }
@@ -31,5 +31,6 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

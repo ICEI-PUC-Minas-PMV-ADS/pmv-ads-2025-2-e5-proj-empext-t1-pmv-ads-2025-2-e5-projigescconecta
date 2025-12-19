@@ -27,7 +27,7 @@ namespace IgescConecta.API.Features.ProjectThemes.ListProjectTheme
         public DateTime UpdatedAt { get; set; }
     }
 
-    public class GetProjectThemeByIdQuery : IRequest<GetProjectThemeByIdViewModel>
+    public class GetProjectThemeByIdQuery : IRequest<GetProjectThemeByIdViewModel?>
     {
         public int Id { get; }
         public GetProjectThemeByIdQuery(int id) => Id = id;
@@ -35,14 +35,12 @@ namespace IgescConecta.API.Features.ProjectThemes.ListProjectTheme
 
     public class ListProjectThemeQuery : PaginationRequest, IRequest<ListProjectThemeViewModel>
     {
-        public bool IncludeDeleted { get; }
-        public bool OnlyDeleted { get; }
+        public string? StatusFilter { get; set; }
 
-        public ListProjectThemeQuery(int pageNumber, int pageSize, List<Filter> filters, bool includeDeleted, bool onlyDeleted)
+        public ListProjectThemeQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
-            IncludeDeleted = includeDeleted;
-            OnlyDeleted = onlyDeleted;
+            StatusFilter = statusFilter;
         }
     }
 
@@ -51,24 +49,34 @@ namespace IgescConecta.API.Features.ProjectThemes.ListProjectTheme
     {
         private readonly ApplicationDbContext _context;
 
-        public ListProjectThemeQueryHandler(ApplicationDbContext context) => _context = context;
+        public ListProjectThemeQueryHandler(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<ListProjectThemeViewModel> Handle(ListProjectThemeQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<ProjectTheme>(request.Filters);
-            var query = _context.ProjectThemes.AsQueryable();
+            var expr = ExpressionBuilder.GetExpression<ProjectTheme>(request.Filters ?? new List<Filter>());
+            var query = _context.ProjectThemes
+                .AsNoTracking()
+                .AsQueryable()
+                .Where(expr);
 
-            if (request.OnlyDeleted)
+            if (!string.IsNullOrEmpty(request.StatusFilter))
             {
-                query = query.Where(x => x.IsDeleted);
-            }
-            else if (!request.IncludeDeleted)
-            {
-                query = query.Where(x => !x.IsDeleted);
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(x => x.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
             }
 
-            var items = await query
-                .Where(expr)
+            var result = await query
                 .Select(x => new ProjectThemeViewModel
                 {
                     ProjectThemeId = x.Id,
@@ -80,25 +88,26 @@ namespace IgescConecta.API.Features.ProjectThemes.ListProjectTheme
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var total = await query.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListProjectThemeViewModel
             {
-                Items = items,
-                TotalItems = total
+                Items = result,
+                TotalItems = totalRecords
             };
         }
     }
 
     internal sealed class GetProjectThemeByIdQueryHandler
-        : IRequestHandler<GetProjectThemeByIdQuery, GetProjectThemeByIdViewModel>
+        : IRequestHandler<GetProjectThemeByIdQuery, GetProjectThemeByIdViewModel?>
     {
         private readonly ApplicationDbContext _context;
         public GetProjectThemeByIdQueryHandler(ApplicationDbContext context) => _context = context;
 
-        public async Task<GetProjectThemeByIdViewModel> Handle(GetProjectThemeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetProjectThemeByIdViewModel?> Handle(GetProjectThemeByIdQuery request, CancellationToken cancellationToken)
         {
             var vm = await _context.ProjectThemes
+                .IgnoreQueryFilters()
                 .Where(x => x.Id == request.Id)
                 .Select(x => new GetProjectThemeByIdViewModel
                 {

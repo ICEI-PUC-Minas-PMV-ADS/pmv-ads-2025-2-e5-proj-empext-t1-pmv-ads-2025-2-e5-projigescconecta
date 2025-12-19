@@ -46,6 +46,7 @@ namespace IgescConecta.API.Features.ProjectPrograms.GetById
         {
             var p = await _context.ProjectPrograms
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .Include(x => x.ProjectTheme)
                 .Include(x => x.ProjectType)
                 .Include(x => x.Team)
