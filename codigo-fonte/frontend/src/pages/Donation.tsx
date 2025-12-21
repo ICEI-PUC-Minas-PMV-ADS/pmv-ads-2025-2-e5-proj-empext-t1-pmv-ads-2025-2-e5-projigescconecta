@@ -15,10 +15,17 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Stack,
+  Avatar,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Chip,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
@@ -36,6 +43,7 @@ import {
   OscsApi,
   CoursesApi,
   TeamsApi,
+  UsersApi,
   type CreateDonationCommand,
   type UpdateDonationCommand,
   type DonationViewModel,
@@ -60,6 +68,9 @@ interface DonationFullDetails {
   oscId?: number | null;
   courseId?: number | null;
   teamId?: number | null;
+  updatedBy?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 const columns: Column<any>[] = [
@@ -68,6 +79,20 @@ const columns: Column<any>[] = [
   { label: 'Data', field: 'donationDate' },
   { label: 'Doador', field: 'doadorNome' },
   { label: 'Destino', field: 'destinoNome' },
+  {
+    label: 'Status',
+    field: 'isDeleted',
+    align: 'center',
+    render: (value) => (
+      <Chip
+        label={value ? 'Inativo' : 'Ativo'}
+        size="small"
+        color={value ? 'error' : 'success'}
+        variant="outlined"
+        sx={{ fontWeight: 600 }}
+      />
+    ),
+  },
 ];
 
 type DoadorType = 'Pessoa' | 'Empresa';
@@ -80,6 +105,7 @@ const DonationPage: React.FC = () => {
   const oscsApi = useMemo(() => new OscsApi(apiConfig), []);
   const coursesApi = useMemo(() => new CoursesApi(apiConfig), []);
   const teamsApi = useMemo(() => new TeamsApi(apiConfig), []);
+  const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
   const [donations, setDonations] = useState<any[]>([]);
   const [editingData, setEditingData] = useState<Partial<DonationFullDetails> | null>(null);
@@ -88,6 +114,9 @@ const DonationPage: React.FC = () => {
   const [filterDestino, setFilterDestino] = useState('');
   const [filterStartDate, setFilterStartDate] = useState<Dayjs | null>(null);
   const [filterEndDate, setFilterEndDate] = useState<Dayjs | null>(null);
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const [loading, setLoading] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -139,13 +168,14 @@ const DonationPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchDonations = async (filtersToUse: Filter[]) => {
+  const fetchDonations = async (filtersToUse: Filter[], statusFilterParam?: string) => {
     try {
       setLoading(true);
       const response = await donationApi.apiDonationsSearchPost({
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filtersToUse.length > 0 ? filtersToUse : undefined,
+        statusFilter: statusFilterParam,
       });
 
       const items = response.data.items ?? [];
@@ -206,14 +236,14 @@ const DonationPage: React.FC = () => {
 
   useEffect(() => {
     const filters = buildFilters();
-    fetchDonations(filters);
+    fetchDonations(filters, statusFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage]);
 
   const handleSearch = () => {
     setPage(0);
     const filters = buildFilters();
-    fetchDonations(filters);
+    fetchDonations(filters, statusFilter);
   };
 
   const handleClearFilters = () => {
@@ -221,10 +251,11 @@ const DonationPage: React.FC = () => {
     setFilterDestino('');
     setFilterStartDate(null);
     setFilterEndDate(null);
+    setStatusFilter(undefined);
 
     if (page !== 0) setPage(0);
     const filters = buildFilters(true);
-    fetchDonations(filters);
+    fetchDonations(filters, undefined);
   };
 
   const handleAdd = () => {
@@ -259,6 +290,23 @@ const DonationPage: React.FC = () => {
       setModalLoading(true);
       const response = (await donationApi.getDonationById(donation.id)) as any;
       const data = response.data as DonationFullDetails;
+
+      const userId = data.updatedBy;
+      const date = data.updatedAt || data.createdAt;
+
+      if (userId) {
+        try {
+          const { data: userData } = await userApi.getUserById(userId);
+          setUserUpdatedName(userData.name || null);
+        } catch {
+          setUserUpdatedName(null);
+        }
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setEditingData({ ...data, donationDate: dayjs(data.donationDate).format('YYYY-MM-DD') });
       setUiDoadorTipo(data.personId ? 'Pessoa' : 'Empresa');
       setUiDestinoTipo(data.oscId ? 'OSC' : data.teamId ? 'Team' : 'Nenhum');
@@ -367,6 +415,8 @@ const DonationPage: React.FC = () => {
     setOpenModal(false);
     setEditingData(null);
     setIsVisualizing(false);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
   };
 
   return (
@@ -451,6 +501,31 @@ const DonationPage: React.FC = () => {
                   size={{ xs: 12 }}
                   sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1.5, mt: 1 }}
                 >
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={statusFilter === 'Inactive'}
+                          onChange={() =>
+                            setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                          }
+                        />
+                      }
+                      label="Somente Inativos"
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={statusFilter === 'all'}
+                          onChange={() =>
+                            setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                          }
+                        />
+                      }
+                      label="Incluir Inativos"
+                    />
+                  </FormGroup>
                   <Button
                     variant="contained"
                     startIcon={<SearchIcon />}
@@ -690,6 +765,40 @@ const DonationPage: React.FC = () => {
                             ))}
                           </Select>
                         </FormControl>
+                      </>
+                    )}
+
+                    {isVisualizing && (
+                      <>
+                        <Divider sx={{ mt: 4 }} />
+
+                        <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                              {userUpdatedName?.[0] || '?'}
+                            </Avatar>
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado por
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {userUpdatedName || '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <AccessTime fontSize="small" color="action" />
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado em
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
                       </>
                     )}
                   </Box>

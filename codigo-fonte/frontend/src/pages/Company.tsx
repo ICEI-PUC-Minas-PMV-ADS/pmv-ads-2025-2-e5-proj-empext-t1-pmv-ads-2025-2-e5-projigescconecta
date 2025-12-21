@@ -16,6 +16,7 @@ import {
   FormControlLabel,
   Radio,
   Stack,
+  Avatar,
   FormGroup,
   Switch,
 } from '@mui/material';
@@ -23,6 +24,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
@@ -33,13 +35,18 @@ import {
   type CreateCompanyCommand,
   type UpdateCompanyCommand,
   type Filter,
+  type ListCompaniesRequest,
   Op,
   type CompanyViewModel,
+  UsersApi,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 import { PatternFormat } from 'react-number-format';
+import dayjs, { Dayjs } from 'dayjs';
+
+dayjs.locale('pt-br');
 
 interface CompanyFullDetails {
   id?: number;
@@ -57,6 +64,11 @@ interface CompanyFullDetails {
   site?: string;
   redesSociais?: string;
   ativa?: boolean;
+
+  createdBy?: number;
+  createdAt?: string;
+  updatedBy?: number;
+  updatedAt?: string;
 }
 
 interface CompanyFormData {
@@ -96,18 +108,36 @@ const formatCnpjMask = (cnpj: string) => mask(cnpj ?? '', ['99.999.999/9999-99']
 const formatCepMask = (cep: string) => mask(cep ?? '', ['99999-999']);
 const formatPhoneMask = (phone: string) => mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
 
-const columns: Column<any>[] = [
+type CompanyRow = CompanyViewModel & {
+  status: string;
+};
+
+const columns: Column<CompanyRow>[] = [
   { label: 'ID/CNPJ', field: 'cnpj', align: 'center' },
   { label: 'Nome', field: 'nome', align: 'left' },
   { label: 'Razão Social', field: 'razaoSocial', align: 'left' },
   { label: 'Telefone', field: 'telefone', align: 'center' },
-  { label: 'Status', field: 'status', align: 'center' },
+  {
+    label: 'Status',
+    field: 'status',
+    align: 'center',
+    render: (value) => (
+      <Chip
+        label={value === 'Inativo' ? 'Inativo' : 'Ativo'}
+        size="small"
+        color={value === 'Inativo' ? 'error' : 'success'}
+        variant="outlined"
+        sx={{ fontWeight: 600 }}
+      />
+    ),
+  },
 ];
 
 const CompanyPage: React.FC = () => {
   const companyApi = useMemo(() => new CompanyApi(apiConfig), []);
+  const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
-  const [companies, setCompanies] = useState<any[]>([]);
+  const [companies, setCompanies] = useState<CompanyRow[]>([]);
   const [editingData, setEditingData] = useState<Partial<CompanyFormData> | null>(null);
 
   const [filterNome, setFilterNome] = useState('');
@@ -127,6 +157,9 @@ const CompanyPage: React.FC = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [companyToAction, setCompanyToAction] = useState<CompanyViewModel | null>(null);
   const [isUploadOpen, setUploadOpen] = useState(false);
+
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const isCreating = editingData ? !('id' in editingData) : false;
   const dialogTitle = isVisualizing
@@ -174,83 +207,76 @@ const CompanyPage: React.FC = () => {
     ativa: data.ativa ?? false,
   });
 
-  const fetchCompanies = async (filtersToUse: Filter[]) => {
+  const fetchCompanies = async (customFilters?: Filter[], statusFilterParam?: string) => {
     try {
       setLoading(true);
-      const response = await companyApi.apiCompaniesSearchPost({
+      setCompanies([]);
+
+      const filters: Filter[] = customFilters ?? [];
+
+      if (!customFilters) {
+        if (filterNome) {
+          filters.push({ propertyName: 'CompanyName', operation: Op.NUMBER_7, value: filterNome });
+        }
+        if (filterAreaAtuacao) {
+          filters.push({
+            propertyName: 'FieldOfActivity',
+            operation: Op.NUMBER_7,
+            value: filterAreaAtuacao,
+          });
+        }
+        if (filterCnpj) {
+          filters.push({
+            propertyName: 'CNPJ',
+            operation: Op.NUMBER_7,
+            value: filterCnpj.replace(/\D/g, ''),
+          });
+        }
+        if (filterCidade) {
+          filters.push({ propertyName: 'City', operation: Op.NUMBER_7, value: filterCidade });
+        }
+        if (filterUf) {
+          filters.push({ propertyName: 'State', operation: Op.NUMBER_7, value: filterUf });
+        }
+      }
+
+      const request: ListCompaniesRequest = {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
-        filters: filtersToUse.length > 0 ? filtersToUse : undefined,
-      });
+        filters: filters.length > 0 ? filters : undefined,
+        statusFilter: statusFilterParam,
+      };
 
-      const formattedItems = (response.data.items ?? []).map((item) => ({
+      const response = await companyApi.apiCompaniesSearchPost(request);
+
+      const formattedItems: CompanyRow[] = (response.data.items ?? []).map((item) => ({
         ...item,
-        cnpj: formatCnpjMask(item.cnpj!),
-        telefone: formatPhoneMask(item.telefone!),
+        cnpj: formatCnpjMask(item.cnpj ?? ''),
+        telefone: formatPhoneMask(item.telefone ?? ''),
+        isDeleted: item.ativa === false ? true : false,
         status: item.ativa ? 'Ativo' : 'Inativo',
       }));
 
       setCompanies(formattedItems);
       setTotalCount(response.data.totalItems ?? 0);
-    } catch (err: any) {
-      console.error('Erro detalhado da API:', err.response || err);
+    } catch (err: unknown) {
+      console.error('Erro detalhado da API:', err);
       toast.error('Erro ao buscar empresas.');
+      setCompanies([]);
+      setTotalCount(0);
     } finally {
       setLoading(false);
     }
   };
 
-  const buildFilters = (forceClear = false) => {
-    const localFilters: Filter[] = [];
-
-    if (forceClear) {
-      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
-      return localFilters;
-    }
-
-    if (filterNome) {
-      localFilters.push({ propertyName: 'CompanyName', operation: Op.NUMBER_7, value: filterNome });
-    }
-    if (filterAreaAtuacao) {
-      localFilters.push({
-        propertyName: 'FieldOfActivity',
-        operation: Op.NUMBER_7,
-        value: filterAreaAtuacao,
-      });
-    }
-    if (filterCnpj) {
-      localFilters.push({
-        propertyName: 'CNPJ',
-        operation: Op.NUMBER_7,
-        value: filterCnpj.replace(/\D/g, ''),
-      });
-    }
-    if (filterCidade) {
-      localFilters.push({ propertyName: 'City', operation: Op.NUMBER_7, value: filterCidade });
-    }
-    if (filterUf) {
-      localFilters.push({ propertyName: 'State', operation: Op.NUMBER_7, value: filterUf });
-    }
-
-    if (statusFilter === undefined) {
-      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: true });
-    } else if (statusFilter === 'Inactive') {
-      localFilters.push({ propertyName: 'IsActive', operation: Op.NUMBER_0, value: false });
-    }
-
-    return localFilters;
-  };
-
   useEffect(() => {
-    const filters = buildFilters();
-    fetchCompanies(filters);
+    fetchCompanies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, statusFilter]);
+  }, [page, rowsPerPage]);
 
   const handleSearch = () => {
     setPage(0);
-    const filters = buildFilters();
-    fetchCompanies(filters);
+    fetchCompanies(undefined, statusFilter);
   };
 
   const handleClearFilters = () => {
@@ -261,14 +287,18 @@ const CompanyPage: React.FC = () => {
     setFilterUf('');
     setStatusFilter(undefined);
 
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
+
     if (page !== 0) {
       setPage(0);
     }
-    const filters = buildFilters(true);
-    fetchCompanies(filters);
+    fetchCompanies([]);
   };
 
   const handleAdd = () => {
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
     setEditingData({
       cnpj: '',
       nome: '',
@@ -293,8 +323,13 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = (await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''))) as any;
-      const companyData = response.data as CompanyFullDetails;
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
+
+      const response = (await companyApi.getCompanyByCnpj(
+        company.cnpj.replace(/\D/g, '')
+      )) as unknown as { data: CompanyFullDetails };
+      const companyData = response.data;
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(false);
       setOpenModal(true);
@@ -309,8 +344,27 @@ const CompanyPage: React.FC = () => {
     if (!company.cnpj) return;
     try {
       setModalLoading(true);
-      const response = (await companyApi.getCompanyByCnpj(company.cnpj.replace(/\D/g, ''))) as any;
-      const companyData = response.data as CompanyFullDetails;
+      const response = (await companyApi.getCompanyByCnpj(
+        company.cnpj.replace(/\D/g, '')
+      )) as unknown as { data: CompanyFullDetails };
+      const companyData = response.data;
+
+      const userId = companyData.updatedBy;
+      const date = companyData.updatedAt || companyData.createdAt;
+
+      if (userId) {
+        try {
+          const { data: userData } = await userApi.getUserById(userId);
+          setUserUpdatedName(userData.name || null);
+        } catch {
+          setUserUpdatedName(null);
+        }
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setEditingData(mapApiDataToFormData(companyData));
       setIsVisualizing(true);
       setOpenModal(true);
@@ -415,6 +469,8 @@ const CompanyPage: React.FC = () => {
     setOpenModal(false);
     setEditingData(null);
     setIsVisualizing(false);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
   };
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -659,7 +715,7 @@ const CompanyPage: React.FC = () => {
                 <CircularProgress sx={{ color: '#1E4EC4' }} />
               </Box>
             ) : (
-              <Table
+              <Table<CompanyRow>
                 columns={columns}
                 data={companies}
                 page={page}
@@ -958,6 +1014,40 @@ const CompanyPage: React.FC = () => {
                         sx={isReadOnlyMode ? { pointerEvents: 'none' } : {}}
                       />
                     </Grid>
+
+                    {isReadOnlyMode && (
+                      <Grid size={{ xs: 12 }}>
+                        <Divider sx={{ mt: 4 }} />
+
+                        <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                              {userUpdatedName?.[0] || '?'}
+                            </Avatar>
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado por
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {userUpdatedName || '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <AccessTime fontSize="small" color="action" />
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado em
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      </Grid>
+                    )}
                   </Grid>
                 </Box>
               )

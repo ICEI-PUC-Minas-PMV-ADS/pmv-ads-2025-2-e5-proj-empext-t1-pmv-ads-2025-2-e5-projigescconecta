@@ -217,7 +217,7 @@ const Team: React.FC = () => {
     return isVisualizing ? 'Visualizar Turma' : editingTeam ? 'Editar Turma' : 'Nova Turma';
   };
 
-  const fetchTeams = async (customFilters?: Filter[], statusFilterParam?: string) => {
+  const fetchTeams = async (customFilters?: Filter[], statusFilterParam?: string | null) => {
     try {
       setLoading(true);
       setTeams([]);
@@ -286,7 +286,12 @@ const Team: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters.length > 0 ? filters : undefined,
-        statusFilter: statusFilterParam,
+        statusFilter:
+          statusFilterParam === undefined
+            ? statusFilter
+            : statusFilterParam === null
+              ? undefined
+              : statusFilterParam,
       };
 
       const { data } = await teamsApi.listTeam(listTeamRequest);
@@ -382,7 +387,15 @@ const Team: React.FC = () => {
       label: 'Status',
       field: 'isDeleted',
       align: 'center',
-      render: (value) => (value ? 'Inativo' : 'Ativo'),
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
     },
   ];
 
@@ -401,7 +414,7 @@ const Team: React.FC = () => {
     setFilterTotalParticipants('');
     setStatusFilter(undefined);
     setPage(0);
-    fetchTeams([]);
+    fetchTeams([], null);
   };
 
   const handleAdd = () => {

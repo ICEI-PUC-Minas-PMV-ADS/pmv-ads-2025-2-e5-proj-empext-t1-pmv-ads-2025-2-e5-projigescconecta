@@ -659,9 +659,17 @@ const Osc: React.FC = () => {
       label: 'Status',
       field: 'isDeleted',
       align: 'center',
-      render: (value) => (value ? 'Inativo' : 'Ativo')
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
     }
-  ];
+];
 
   const headerTranslations = {
     name: 'Nome da OSC*',

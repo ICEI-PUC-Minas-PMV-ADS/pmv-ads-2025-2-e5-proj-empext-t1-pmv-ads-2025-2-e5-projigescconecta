@@ -19,11 +19,14 @@ import {
   Select,
   MenuItem,
   FormGroup,
+  Divider,
+  Avatar,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AccessTime from '@mui/icons-material/AccessTime';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import Table, { Column } from '../components/Table';
 import DialogPadronized from '@/components/DialogPadronized';
@@ -39,9 +42,11 @@ import {
   ProjectTypesApi,
   ProjectThemesApi,
   OscsApi,
+  UsersApi,
 } from '../api';
 import { apiConfig } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
+import dayjs, { Dayjs } from 'dayjs';
 
 type ListItem = {
   projectProgramId: number;
@@ -97,6 +102,7 @@ const ODS_OPTIONS: OptOds[] = [
 const ProjectProgram: React.FC = () => {
   const api = new ProjectProgramsApi(apiConfig);
   const navigate = useNavigate();
+  const userApi = new UsersApi(apiConfig);
 
   const [items, setItems] = useState<ListItemWithLabel[]>([]);
   const [page, setPage] = useState(0);
@@ -112,8 +118,7 @@ const ProjectProgram: React.FC = () => {
   const [qTheme, setQTheme] = useState<ComboBasic | null>(null);
   const [qDecisionOpt, setQDecisionOpt] = useState<OptDecisao | null>(null);
   const [qOdsOpt, setQOdsOpt] = useState<OptOds | null>(null);
-  const [includeDeleted, setIncludeDeleted] = useState(false);
-  const [onlyDeleted, setOnlyDeleted] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
 
   const [oscOptions, setOscOptions] = useState<ComboOsc[]>([]);
   const [teamOptions, setTeamOptions] = useState<ComboBasic[]>([]);
@@ -125,6 +130,9 @@ const ProjectProgram: React.FC = () => {
   const [isVisualizing, setIsVisualizing] = useState(false);
   const [editing, setEditing] = useState<ListItemWithLabel | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
+
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const [projectName, setProjectName] = useState('');
   const [mDecisionOpt, setMDecisionOpt] = useState<OptDecisao | null>(null);
@@ -144,6 +152,20 @@ const ProjectProgram: React.FC = () => {
     { label: 'Turma', field: 'teamName' },
     { label: 'OSC', field: 'oscName' },
     { label: 'Decisão', field: 'decisionLabel' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      align: 'center',
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
+    },
   ];
 
   const hasAnyFilter =
@@ -154,8 +176,7 @@ const ProjectProgram: React.FC = () => {
     !!qTheme ||
     !!qDecisionOpt ||
     !!qOdsOpt ||
-    includeDeleted ||
-    onlyDeleted;
+    statusFilter !== undefined;
 
   const buildFilters = (): Filter[] => {
     const filters: Filter[] = [];
@@ -177,9 +198,6 @@ const ProjectProgram: React.FC = () => {
       });
     if (qOdsOpt)
       filters.push({ propertyName: 'OdsTypes', operation: CONTAINS, value: String(qOdsOpt.value) });
-    if (onlyDeleted) filters.push({ propertyName: 'IsDeleted', operation: EQUALS, value: 'true' });
-    else if (!includeDeleted)
-      filters.push({ propertyName: 'IsDeleted', operation: EQUALS, value: 'false' });
     return filters;
   };
 
@@ -189,13 +207,14 @@ const ProjectProgram: React.FC = () => {
     return DECISION_OPTIONS.find((o) => o.value === num);
   };
 
-  const fetchList = async () => {
+  const fetchList = async (statusFilterParam?: string) => {
     try {
       setLoading(true);
       const request: ListProjectProgramRequest = {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: buildFilters(),
+        statusFilter: statusFilterParam ?? statusFilter,
       };
       const { data } = await api.listProjectProgram(request);
       const raw = (data.items as unknown as ListItem[]) || [];
@@ -270,7 +289,7 @@ const ProjectProgram: React.FC = () => {
 
   const handleSearch = () => {
     setPage(0);
-    fetchList();
+    fetchList(statusFilter);
   };
 
   const handleClear = () => {
@@ -282,14 +301,15 @@ const ProjectProgram: React.FC = () => {
     setQTheme(null);
     setQDecisionOpt(null);
     setQOdsOpt(null);
-    setIncludeDeleted(false);
-    setOnlyDeleted(false);
-    fetchList();
+    setStatusFilter(undefined);
+    fetchList(undefined);
   };
 
   const handleAdd = () => {
     setEditing(null);
     setIsVisualizing(false);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
     setProjectName('');
     setMDecisionOpt(null);
     setMOsc(null);
@@ -304,6 +324,25 @@ const ProjectProgram: React.FC = () => {
   const handleView = async (row: ListItemWithLabel) => {
     try {
       const { data } = await api.getProjectProgramById(row.projectProgramId);
+
+      const audit = data as unknown as {
+        updatedBy?: number;
+        updatedAt?: string;
+        createdAt?: string;
+      };
+
+      const userId = audit.updatedBy;
+      const date = audit.updatedAt || audit.createdAt;
+
+      if (userId) {
+        const { data: userData } = await userApi.getUserById(userId);
+        setUserUpdatedName(userData.name || null);
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setIsVisualizing(true);
       setEditing(row);
       setProjectName(data.name || row.name || '');
@@ -327,6 +366,8 @@ const ProjectProgram: React.FC = () => {
     try {
       const { data } = await api.getProjectProgramById(row.projectProgramId);
       setIsVisualizing(false);
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
       setEditing(row);
       setProjectName(data.name || row.name || '');
       const dec = data?.decision ?? row.decision;
@@ -397,10 +438,10 @@ const ProjectProgram: React.FC = () => {
     if (qTheme) chips.push(`Tema: ${qTheme.name}`);
     if (qDecisionOpt) chips.push(`Decisão: ${qDecisionOpt.label}`);
     if (qOdsOpt) chips.push(qOdsOpt.label);
-    if (onlyDeleted) chips.push('Somente inativos');
-    else if (includeDeleted) chips.push('Incluir inativos');
+    if (statusFilter === 'Inactive') chips.push('Somente inativos');
+    else if (statusFilter === 'all') chips.push('Incluir inativos');
     return chips;
-  }, [qName, qOsc, qTeam, qType, qTheme, qDecisionOpt, qOdsOpt, includeDeleted, onlyDeleted]);
+  }, [qName, qOsc, qTeam, qType, qTheme, qDecisionOpt, qOdsOpt, statusFilter]);
 
   const validateModal = () => {
     if (!projectName.trim()) return 'Informe o nome do projeto.';
@@ -461,8 +502,9 @@ const ProjectProgram: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchList();
-  }, [page, rowsPerPage]);
+    fetchList(statusFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage, statusFilter]);
 
   const norm = (s: string) =>
     s
@@ -711,11 +753,10 @@ const ProjectProgram: React.FC = () => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={onlyDeleted}
-                    onChange={(e) => {
-                      setOnlyDeleted(e.target.checked);
-                      if (e.target.checked) setIncludeDeleted(false);
-                    }}
+                    checked={statusFilter === 'Inactive'}
+                    onChange={() =>
+                      setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                    }
                   />
                 }
                 label="Somente Inativos"
@@ -724,11 +765,8 @@ const ProjectProgram: React.FC = () => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={includeDeleted}
-                    onChange={(e) => {
-                      setIncludeDeleted(e.target.checked);
-                      if (e.target.checked) setOnlyDeleted(false);
-                    }}
+                    checked={statusFilter === 'all'}
+                    onChange={() => setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))}
                   />
                 }
                 label="Incluir Inativos"
@@ -1004,6 +1042,40 @@ const ProjectProgram: React.FC = () => {
                 )}
               </Box>
             </Grid>
+
+            {isVisualizing && (
+              <Grid size={{ xs: 12 }}>
+                <Divider sx={{ mt: 4 }} />
+
+                <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                      {userUpdatedName?.[0] || '?'}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado por
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {userUpdatedName || '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTime fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado em
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </Grid>
+            )}
           </Grid>
         }
         actions={

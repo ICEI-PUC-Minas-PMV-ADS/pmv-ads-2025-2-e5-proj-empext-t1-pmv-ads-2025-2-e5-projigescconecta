@@ -4,10 +4,6 @@ import {
   Container,
   TextField,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
   Paper,
   alpha,
@@ -18,28 +14,34 @@ import {
   FormControlLabel,
   Switch,
   Stack,
+  Avatar,
+  Divider,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 import {
   PersonsApi,
   ListPersonRequest as ListPersonRequest,
   CreatePersonRequest as CreatePersonRequest,
   UpdatePersonRequest as UpdatePersonRequest,
+  UsersApi,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
 import { PatternFormat } from 'react-number-format';
 import { mask } from 'remask';
+import dayjs, { Dayjs } from 'dayjs';
+
+dayjs.locale('pt-br');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const digits = (s: string) => (s || '').replace(/\D/g, '');
@@ -99,11 +101,12 @@ interface PersonRow {
   email?: string;
   personalDocumment?: string;
   primaryPhone?: string | null;
-  isActive?: boolean;
+  isDeleted?: boolean;
 }
 
 const PersonPage: React.FC = () => {
   const api = useMemo(() => new PersonsApi(apiConfig), []);
+  const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
   const [search, setSearch] = useState('');
   const [rows, setRows] = useState<PersonRow[]>([]);
@@ -131,8 +134,10 @@ const PersonPage: React.FC = () => {
   // CSV import state
   const [isUploadOpen, setUploadOpen] = useState(false);
 
-  // Status filter (commented for future implementation)
-  // const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  // Status filter
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const nameError = !!name && !(name.trim().split(/\s+/).length >= 2);
   const cpfError = !!cpf && !isValidCPF(cpf);
@@ -145,17 +150,6 @@ const PersonPage: React.FC = () => {
   const dialogTitle = () => {
     return isVisualizing ? 'Visualizar Pessoa' : editingId ? 'Editar Pessoa' : 'Nova Pessoa';
   };
-  const formValid =
-    name.trim().length > 0 &&
-    !nameError &&
-    cpf.trim().length > 0 &&
-    !cpfError &&
-    email.trim().length > 0 &&
-    !emailError &&
-    primaryPhone.trim().length > 0 &&
-    !phoneError &&
-    !secEmailError &&
-    !secPhoneError;
 
   const formatPhoneMask = (phone: string) =>
     mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
@@ -173,13 +167,21 @@ const PersonPage: React.FC = () => {
     },
     {
       label: 'Status',
-      field: 'isActive',
+      field: 'isDeleted',
       align: 'center',
-      render: (value) => (value ? 'Ativo' : 'Inativo'),
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
     },
   ];
 
-  const fetchPeople = async (/* statusFilterParam?: string */) => {
+  const fetchPeople = async (statusFilterParam?: string) => {
     try {
       setLoading(true);
       const req: ListPersonRequest = {
@@ -194,7 +196,7 @@ const PersonPage: React.FC = () => {
               } as any,
             ]
           : [],
-        // statusFilter: statusFilterParam, // Commented for future implementation
+        statusFilter: statusFilterParam,
       };
       const { data } = await api.listPerson(req);
       const items = (data as any)?.items || [];
@@ -205,7 +207,7 @@ const PersonPage: React.FC = () => {
           email: it.email,
           personalDocumment: it.personalDocumment,
           primaryPhone: it.primaryPhone,
-          isActive: it.isActive,
+          isDeleted: it.isDeleted,
         }))
       );
       setTotalCount((data as any)?.totalItems ?? items.length);
@@ -333,6 +335,24 @@ const PersonPage: React.FC = () => {
       setEducation1(d.education1 ?? '');
       setEducation2(d.education2 ?? '');
       setProfessionalActivity(d.professionalActivity ?? '');
+
+      if (d.updatedBy) {
+        try {
+          const userResp = await userApi.getUserById(d.updatedBy);
+          setUserUpdatedName(userResp.data.name || 'Desconhecido');
+        } catch {
+          setUserUpdatedName('Desconhecido');
+        }
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      if (d.updatedAt) {
+        setAuditDate(dayjs(d.updatedAt));
+      } else {
+        setAuditDate(undefined);
+      }
+
       setOpenModal(true);
     } catch {
       toast.error('Erro ao carregar detalhes.');
@@ -355,6 +375,8 @@ const PersonPage: React.FC = () => {
       setEducation1(d.education1 ?? '');
       setEducation2(d.education2 ?? '');
       setProfessionalActivity(d.professionalActivity ?? '');
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
       setOpenModal(true);
     } catch {
       toast.error('Erro ao carregar detalhes para edição.');
@@ -476,22 +498,26 @@ const PersonPage: React.FC = () => {
     setTimeout(() => {
       setEditingId(null);
       setIsVisualizing(false);
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
     }, 150);
   };
 
   const handleSearch = () => {
     setPage(0);
-    fetchPeople(/* statusFilter */);
+    fetchPeople(statusFilter);
   };
   const handleClearFilters = () => {
     setSearch('');
-    // setStatusFilter(undefined); // Commented for future implementation
+    setStatusFilter(undefined);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
     setPage(0);
-    fetchPeople();
+    fetchPeople(undefined);
   };
 
   useEffect(() => {
-    fetchPeople();
+    fetchPeople(statusFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage]);
 
@@ -538,7 +564,7 @@ const PersonPage: React.FC = () => {
               >
                 Filtro de Busca
               </Typography>
-              {search && (
+              {(search || statusFilter) && (
                 <Chip
                   label="Filtros ativos"
                   size="small"
@@ -564,10 +590,8 @@ const PersonPage: React.FC = () => {
               />
             </Box>
 
-            {/* Status filters (commented for future implementation) */}
-            {/*
-            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
-              <FormGroup row sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center" sx={{ mb: 2 }}>
+              <FormGroup row>
                 <FormControlLabel
                   control={
                     <Switch
@@ -592,7 +616,7 @@ const PersonPage: React.FC = () => {
                   label="Incluir Inativos"
                 />
               </FormGroup>
-            */}
+            </Stack>
 
             <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
               <Button
@@ -858,6 +882,40 @@ const PersonPage: React.FC = () => {
                     sx={isVisualizing ? { pointerEvents: 'none' } : {}}
                   />
                 </Grid>
+
+                {isVisualizing && (
+                  <Grid size={{ xs: 12 }}>
+                    <Divider sx={{ mt: 4 }} />
+
+                    <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                          {userUpdatedName?.[0] || '?'}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            Atualizado por
+                          </Typography>
+                          <Typography variant="body2" fontWeight={600}>
+                            {userUpdatedName || '—'}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <AccessTime fontSize="small" color="action" />
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            Atualizado em
+                          </Typography>
+                          <Typography variant="body2" fontWeight={600}>
+                            {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Stack>
+                  </Grid>
+                )}
               </Grid>
             }
             actions={

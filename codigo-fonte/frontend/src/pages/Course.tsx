@@ -143,7 +143,7 @@ const Course: React.FC = () => {
         : 'Novo Programa';
   };
 
-  const fetchCourses = async (noFilter?: any, statusFilterParam?: string) => {
+  const fetchCourses = async (noFilter?: any, statusFilterParam?: string | null) => {
     try {
       setLoading(true);
 
@@ -165,7 +165,12 @@ const Course: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: filters,
-        statusFilter: statusFilterParam,
+        statusFilter:
+          statusFilterParam === undefined
+            ? statusFilter
+            : statusFilterParam === null
+              ? undefined
+              : statusFilterParam,
       };
 
       const { data } = await courseApi.listCourse(listCourseRequest);
@@ -193,7 +198,7 @@ const Course: React.FC = () => {
     setPage(0);
     setSearch('');
     setStatusFilter(undefined);
-    fetchCourses([]);
+    fetchCourses([], null);
   };
 
   const handleSearch = () => {

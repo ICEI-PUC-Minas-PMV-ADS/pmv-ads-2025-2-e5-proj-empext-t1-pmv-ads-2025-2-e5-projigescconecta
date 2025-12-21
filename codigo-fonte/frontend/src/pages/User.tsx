@@ -18,6 +18,11 @@ import {
   alpha,
   CircularProgress,
   Grid,
+  Stack,
+  Avatar,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import Table, { Column } from '@/components/Table';
@@ -26,6 +31,7 @@ import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AccessTime from '@mui/icons-material/AccessTime';
 import {
   UsersApi,
   type CreateUserRequest,
@@ -38,6 +44,7 @@ import { apiConfig } from '@/services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DialogPadronized from '@/components/DialogPadronized';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface UserRow {
   userId?: number;
@@ -46,6 +53,9 @@ interface UserRow {
   role?: 'Admin' | 'Editor' | 'Viewer';
   phoneNumber?: string;
   isActive?: boolean;
+  updatedBy?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 const DEFAULT_PASSWORD = '123@Mudar';
@@ -102,6 +112,9 @@ const UserPage: React.FC = () => {
     'Leitor'
   );
   const [modalLoading, setModalLoading] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
 
   const [confirmDelete, setConfirmDelete] = useState<{
     open: boolean;
@@ -119,9 +132,23 @@ const UserPage: React.FC = () => {
     { label: 'Email', field: 'email' },
     { label: 'Tipo', field: 'role', align: 'center' },
     { label: 'Telefone', field: 'phoneNumber' },
+    {
+      label: 'Status',
+      field: 'isActive',
+      align: 'center',
+      render: (value) => (
+        <Chip
+          label={!value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={!value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
+    },
   ];
 
-  const fetchUsers = async (noFilter?: boolean) => {
+  const fetchUsers = async (noFilter?: boolean, statusFilterParam?: string) => {
     try {
       setLoading(true);
 
@@ -140,6 +167,7 @@ const UserPage: React.FC = () => {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters,
+        statusFilter: statusFilterParam,
       };
 
       const { data } = await api.listUser(req);
@@ -172,12 +200,13 @@ const UserPage: React.FC = () => {
   const handleClearFilters = () => {
     setSearch('');
     setPage(0);
-    fetchUsers(true);
+    setStatusFilter(undefined);
+    fetchUsers(true, undefined);
   };
 
   const handleSearch = () => {
     setPage(0);
-    fetchUsers();
+    fetchUsers(false, statusFilter);
   };
 
   const openCreate = () => {
@@ -225,6 +254,22 @@ const UserPage: React.FC = () => {
       const id = row.userId!;
       const { data } = await api.getUserById(id);
 
+      const userId = data.updatedBy;
+      const date = data.updatedAt;
+
+      if (userId) {
+        try {
+          const { data: userData } = await api.getUserById(Number(userId));
+          setUserUpdatedName(userData.name || null);
+        } catch {
+          setUserUpdatedName(null);
+        }
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setEditingUser(data);
       setFormName(data.name ?? '');
       setFormEmail(data.email ?? '');
@@ -258,6 +303,8 @@ const UserPage: React.FC = () => {
       setFormEmail('');
       setFormPhone('');
       setFormRoleLabel('Leitor');
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
     }, 300);
   };
 
@@ -347,7 +394,7 @@ const UserPage: React.FC = () => {
     isViewing ? 'Visualizar Usuário' : editingUser ? 'Editar Usuário' : 'Adicionar Usuário';
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsers(false, statusFilter);
   }, [page, rowsPerPage]);
 
   return (
@@ -415,6 +462,32 @@ const UserPage: React.FC = () => {
                   size="small"
                   onKeyUp={(e) => e.key === 'Enter' && handleSearch()}
                 />
+              </Box>
+              <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center" sx={{ mt: 3 }}>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'Inactive'}
+                        onChange={() =>
+                          setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                        }
+                      />
+                    }
+                    label="Somente Inativos"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={statusFilter === 'all'}
+                        onChange={() =>
+                          setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                        }
+                      />
+                    }
+                    label="Incluir Inativos"
+                  />
+                </FormGroup>
                 <Button
                   variant="contained"
                   startIcon={<SearchIcon />}
@@ -452,7 +525,7 @@ const UserPage: React.FC = () => {
                 >
                   Limpar Filtros
                 </Button>
-              </Box>
+              </Stack>
             </Paper>
 
             <Box sx={{ flexGrow: 1 }}>
@@ -575,6 +648,38 @@ const UserPage: React.FC = () => {
                         </Select>
                       </FormControl>
                     </Grid>
+
+                    {isViewing && (
+                      <Grid size={{ xs: 12 }}>
+                        <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                              {userUpdatedName?.[0] || '?'}
+                            </Avatar>
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado por
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {userUpdatedName || '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+
+                          <Stack direction="row" alignItems="center" spacing={1}>
+                            <AccessTime fontSize="small" color="action" />
+                            <Box>
+                              <Typography variant="caption" color="text.secondary">
+                                Atualizado em
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      </Grid>
+                    )}
                   </Grid>
                 )
               }

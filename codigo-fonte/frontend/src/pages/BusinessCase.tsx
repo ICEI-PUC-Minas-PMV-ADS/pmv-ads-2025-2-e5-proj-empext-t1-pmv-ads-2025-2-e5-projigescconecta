@@ -316,11 +316,19 @@ const BusinessCase: React.FC = () => {
         { label: 'Nome', field: 'name' },
         { label: 'Causas', field: 'originsBusinessCases' },
         {
-            label: 'Status',
-            field: 'isDeleted',
-            align: 'center',
-            render: (value) => (value ? 'Inativo' : 'Ativo')
-        }
+              label: 'Status',
+              field: 'isDeleted',
+              align: 'center',
+              render: (value) => (
+                <Chip
+                  label={value ? 'Inativo' : 'Ativo'}
+                  size="small"
+                  color={value ? 'error' : 'success'}
+                  variant="outlined"
+                  sx={{ fontWeight: 600 }}
+                />
+              ),
+            },
     ];
 
     return (
