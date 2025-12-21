@@ -24,9 +24,12 @@ namespace IgescConecta.API.Features.Companies.ListCompanies
 
     public class ListCompaniesQuery : PaginationRequest, IRequest<ListCompaniesViewModel>
     {
-        public ListCompaniesQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public string? StatusFilter { get; set; }
+
+        public ListCompaniesQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -44,26 +47,18 @@ namespace IgescConecta.API.Features.Companies.ListCompanies
             var query = _context.Companies.AsQueryable();
             var filters = request.Filters ?? new List<Filter>();
 
-            var statusFilter = filters.FirstOrDefault(f => f.PropertyName.Equals("IsActive", StringComparison.OrdinalIgnoreCase));
-
-            if (statusFilter != null)
+            if (!string.IsNullOrEmpty(request.StatusFilter))
             {
-                if (bool.TryParse(statusFilter.Value.ToString(), out bool isActive))
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (!isActive) 
-                    {
-                        query = query.IgnoreQueryFilters().Where(c => c.IsDeleted);
-                    }
-                    else 
-                    {
-                        query = query.Where(c => !c.IsDeleted);
-                    }
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(t => t.IsDeleted);
                 }
-                filters.Remove(statusFilter);
-            }
-            else 
-            {
-                query = query.IgnoreQueryFilters();
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
             }
 
             if (filters.Any())

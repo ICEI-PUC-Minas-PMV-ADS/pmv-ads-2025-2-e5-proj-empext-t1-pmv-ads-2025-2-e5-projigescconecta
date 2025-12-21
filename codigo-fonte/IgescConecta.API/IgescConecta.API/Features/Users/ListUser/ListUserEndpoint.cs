@@ -20,7 +20,7 @@ namespace IgescConecta.API.Features.Users.ListUser
         [HttpPost("ListUser", Name = "ListUser")]
         public async Task<ActionResult<ListUserViewModel>> ListUser(ListUserRequest request)
         {
-            var result = await _mediator.Send(new ListUserQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListUserQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
     }
@@ -30,5 +30,6 @@ namespace IgescConecta.API.Features.Users.ListUser
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

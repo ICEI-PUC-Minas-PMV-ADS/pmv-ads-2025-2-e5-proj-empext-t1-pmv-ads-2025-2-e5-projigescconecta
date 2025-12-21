@@ -11,12 +11,16 @@ import {
   Chip,
   FormControlLabel,
   Switch,
+  Grid,
   Stack,
+  Divider,
+  Avatar,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '../components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '../components/ConfirmDelete';
@@ -29,11 +33,13 @@ import {
   ListProjectThemeRequest,
   Filter,
   Op,
+  UsersApi,
 } from './../api';
 import { apiConfig } from '../services/auth';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DialogPadronized from '@/components/DialogPadronized';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface ProjectThemeRow {
   projectThemeId?: number;
@@ -66,7 +72,11 @@ const ProjectTheme: React.FC = () => {
     mode: 'delete' as 'delete' | 'restore',
   });
 
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
   const api = new ProjectThemesApi(apiConfig);
+  const userApi = new UsersApi(apiConfig);
 
   const dialogTitle = () => {
     return isVisualizing
@@ -79,6 +89,20 @@ const ProjectTheme: React.FC = () => {
   const columns: Column<ProjectThemeRow>[] = [
     { label: 'Id', field: 'projectThemeId' },
     { label: 'Nome do Tema do Projeto', field: 'name' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      align: 'center',
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
+    },
   ];
 
   const buildFilters = (): Filter[] => {
@@ -98,15 +122,21 @@ const ProjectTheme: React.FC = () => {
 
       const filters = noFilter ? [] : buildFilters();
 
+      const statusFilter: string | undefined = onlyDeleted
+        ? 'Inactive'
+        : includeDeleted
+          ? 'all'
+          : undefined;
+
       const body: ListProjectThemeRequest = {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters,
-        includeDeleted,
-        onlyDeleted,
+        statusFilter,
       };
 
       const { data } = await api.listProjectTheme(body);
+      console.log('Dados recebidos:', data);
 
       if (!data.items || data.items.length === 0) {
         setNoDataMessage('Nenhum Tema do Projeto encontrado');
@@ -161,6 +191,19 @@ const ProjectTheme: React.FC = () => {
     try {
       const id: number = row.projectThemeId!;
       const { data } = await api.getProjectThemeById(id);
+
+      const userId = data.updatedBy;
+      const date = data.updatedAt || data.createdAt;
+
+      if (userId) {
+        const { data: userData } = await userApi.getUserById(userId);
+        setUserUpdatedName(userData.name || null);
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setIsVisualizing(true);
       setNameField(data.name || '');
       setOpenModal(true);
@@ -263,11 +306,14 @@ const ProjectTheme: React.FC = () => {
       setEditingRow(null);
       setIsVisualizing(false);
       setNameField('');
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
     }, 300);
   };
 
   useEffect(() => {
     fetchList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage, includeDeleted, onlyDeleted]);
 
   const handleOnlyDeletedToggle = (value: boolean) => {
@@ -460,21 +506,59 @@ const ProjectTheme: React.FC = () => {
         maxWidth="sm"
         title={dialogTitle()}
         content={
-          <TextField
-            autoFocus={!isVisualizing}
-            margin="dense"
-            label="Nome do Tema do Projeto"
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={nameField}
-            onChange={(e) => setNameField(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter') handleSave();
-            }}
-            slotProps={{ input: { readOnly: isVisualizing } }}
-            sx={isVisualizing ? { pointerEvents: 'none' } : {}}
-          />
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                autoFocus={!isVisualizing}
+                margin="dense"
+                label="Nome do Tema do Projeto"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={nameField}
+                onChange={(e) => setNameField(e.target.value)}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter') handleSave();
+                }}
+                slotProps={{ input: { readOnly: isVisualizing } }}
+                sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+              />
+            </Grid>
+
+            {isVisualizing && (
+              <Grid size={{ xs: 12 }}>
+                <Divider sx={{ mt: 4 }} />
+
+                <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                      {userUpdatedName?.[0] || '?'}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado por
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {userUpdatedName || '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTime fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado em
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </Grid>
+            )}
+          </Grid>
         }
         actions={
           isVisualizing ? (

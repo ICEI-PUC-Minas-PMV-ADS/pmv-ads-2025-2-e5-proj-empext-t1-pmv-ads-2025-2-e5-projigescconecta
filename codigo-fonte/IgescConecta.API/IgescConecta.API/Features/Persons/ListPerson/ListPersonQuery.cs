@@ -18,11 +18,16 @@ namespace IgescConecta.API.Features.Persons.ListPerson
         public string PersonalDocumment { get; set; }
         public string? PrimaryPhone { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public class ListPersonQuery : PaginationRequest, IRequest<ListPersonViewModel>
     {
-        public ListPersonQuery(int pageNumber, int pageSize, List<Filter> filters) : base(pageNumber, pageSize, filters) { }
+        public string? StatusFilter { get; set; }
+        public ListPersonQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter) : base(pageNumber, pageSize, filters) 
+        {
+            StatusFilter = statusFilter;
+        }
     }
 
     internal sealed class ListPersonQueryHandler : IRequestHandler<ListPersonQuery, ListPersonViewModel>
@@ -34,6 +39,20 @@ namespace IgescConecta.API.Features.Persons.ListPerson
         {
             var expr = ExpressionBuilder.GetExpression<Person>(request.Filters);
             var query = _ctx.Persons.AsQueryable().Where(expr);
+
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(t => t.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
 
             var total = await query.CountAsync(cancellationToken);
 
@@ -48,7 +67,8 @@ namespace IgescConecta.API.Features.Persons.ListPerson
                     Email = p.Email,
                     PersonalDocumment = p.PersonalDocumment,
                     PrimaryPhone = p.PrimaryPhone,
-                    IsActive = p.IsActive
+                    IsActive = p.IsActive,
+                    IsDeleted = p.IsDeleted
                 })
                 .ToListAsync(cancellationToken);
 

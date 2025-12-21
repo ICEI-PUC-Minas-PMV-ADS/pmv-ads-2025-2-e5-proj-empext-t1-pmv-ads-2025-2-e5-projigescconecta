@@ -5711,6 +5711,9 @@
           },
           "destinoNome": {
             "type": "string"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -6954,6 +6957,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7030,6 +7037,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7248,6 +7259,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7341,6 +7356,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7378,11 +7397,9 @@
               "$ref": "#/components/schemas/Filter"
             }
           },
-          "includeDeleted": {
-            "type": "boolean"
-          },
-          "onlyDeleted": {
-            "type": "boolean"
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7420,11 +7437,9 @@
               "$ref": "#/components/schemas/Filter"
             }
           },
-          "includeDeleted": {
-            "type": "boolean"
-          },
-          "onlyDeleted": {
-            "type": "boolean"
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7636,6 +7651,10 @@
             "items": {
               "$ref": "#/components/schemas/Filter"
             }
+          },
+          "statusFilter": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7994,6 +8013,9 @@
           },
           "isActive": {
             "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -8144,6 +8166,17 @@
           },
           "isActive": {
             "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -9022,6 +9055,18 @@
             "type": "string"
           },
           "isActive": {
+            "type": "boolean"
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
             "type": "boolean"
           }
         },
