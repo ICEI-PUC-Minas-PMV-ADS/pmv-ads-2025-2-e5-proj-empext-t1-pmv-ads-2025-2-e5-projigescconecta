@@ -72,6 +72,11 @@ npm run format → formata o código com Prettier
 
 npm run generate-api -> gera integração com backend
 
+## Comandos Firebase
+firebase login -> faz login no Firebase
+firebase logout -> faz logout no Firebase
+firebase deploy --only hosting --project igesc-conecta -> faz o deploy do código no Firebase
+
 ## Estrutura do projeto
 ```
 src/

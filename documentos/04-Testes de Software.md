@@ -17,7 +17,7 @@ Apresente os casos de testes utilizados na realização da verificação e valid
   </tr>
   <tr>
     <td width="150"><strong>Descrição</strong></td>
-    <td>Este caso de teste verifica se um usuário pode fazer login com sucesso.</td>
+    <td>Este caso de teste verifica se um  pode fazer login com sucesso.</td>
   </tr>
   <tr>
     <td><strong>Responsável Caso de Teste </strong></td>
@@ -2395,6 +2395,2093 @@ Tentar Criar Doação sem Doador</th>
 
 </details>
 
+
+<details>
+  <summary><h2>👤 Usuários</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US01 - S<br>Criar Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a criação de usuário com Nome, E-mail, Telefone e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Usuários.<br>
+        2. Clicar em "Novo Usuário".<br>
+        3. Preencher Nome, E-mail, Telefone e Tipo (Administrador / Editor / Leitor).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Dados de teste</strong></td>
+      <td>
+        - <strong>Nome:</strong> Ana Paula Sousa<br>
+        - <strong>E-mail:</strong> ana.sousa@exemplo.org<br>
+        - <strong>Telefone:</strong> (11) 98888-7777<br>
+        - <strong>Tipo (Role):</strong> Editor
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US02 - S<br>Editar Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a edição de um usuário existente (alterar Nome, Telefone e/ou Tipo).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar um Usuário existente na listagem.<br>
+        2. Clicar em "Editar".<br>
+        3. Alterar um ou mais campos (por exemplo, Telefone e Tipo).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve atualizar as informações e exibí-las corretamente na listagem.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US03 - S<br>Remover Usuário</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a exclusão de um usuário existente com confirmação em modal.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Selecionar um Usuário existente na listagem.<br>
+        2. Clicar em "Remover".<br>
+        3. Confirmar a exclusão no modal exibido.<br>
+        4. Verificar a listagem atualizada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US04 - S<br>Listar Usuários</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a listagem de usuários com filtros por Nome, E-mail e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Sucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar a tela de Usuários.<br>
+        2. Visualizar a listagem de usuários cadastrados.<br>
+        3. Aplicar filtros por Nome, E-mail e/ou Tipo (Role).<br>
+        4. Verificar o resultado exibido.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir a lista corretamente, incluindo resultados filtrados conforme os critérios informados.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US05 - I01<br>Criar Usuário sem Nome</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório Nome.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo Nome vazio.<br>
+        3. Preencher E-mail, Telefone e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US06 - I02<br>Criar Usuário sem E-mail</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo E-mail vazio.<br>
+        3. Preencher Nome, Telefone e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US07 - I03<br>Criar Usuário com E-mail inválido</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica a validação de formato de E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Preencher Nome e Telefone.<br>
+        3. Informar E-mail com formato inválido (ex.: "ana.sousa@").<br>
+        4. Selecionar Tipo (Role) válido.<br>
+        5. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US08 - I04<br>Criar Usuário sem Telefone</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica se o sistema impede o cadastro sem o campo obrigatório Telefone (se Telefone for obrigatório no seu front; mantenha se aplicável).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Acessar "Novo Usuário".<br>
+        2. Deixar o campo Telefone vazio.<br>
+        3. Preencher Nome, E-mail e Tipo (Role).<br>
+        4. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório.</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <table>
+    <tr>
+      <th colspan="2" width="1000">CT-US09 - I05<br>Criar Usuário com E-mail já existente</th>
+    </tr>
+    <tr>
+      <td width="150"><strong>Descrição</strong></td>
+      <td>Verifica o bloqueio de duplicidade por E-mail.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável Caso de Teste</strong></td>
+      <td>Ricardo Teixeira</td>
+    </tr>
+    <tr>
+      <td><strong>Tipo do Teste</strong></td>
+      <td>Insucesso</td>
+    </tr>
+    <tr>
+      <td><strong>Requisitos associados</strong></td>
+      <td>RF-010</td>
+    </tr>
+    <tr>
+      <td><strong>Passos</strong></td>
+      <td>
+        1. Garantir que exista um usuário cadastrado com E-mail "ana.sousa@exemplo.org".<br>
+        2. Tentar criar outro usuário com o mesmo E-mail.<br>
+        3. Clicar em "Salvar".
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Critérios de êxito</strong></td>
+      <td>O sistema deve impedir o cadastro e exibir mensagem de que o E-mail já está em uso.</td>
+    </tr>
+  </table>
+
+</details>
+
+## Etapa 4
+<details>
+<summary><h2>🌱 Projetos</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O01 - S<br>Anexar Documentos no Projeto</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td> Este caso de teste verifica se o sistema permite anexar arquivos no projeto.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Novo Documento"<br>
+      4. Preencha o campo obrigatorio "Nome" e preferencialmente "Descrição".<br>
+      5. Clicar em "Selecionar Arquivo".<br>
+      6. Selecionar o arquivo desejado.<br>
+      7. Clicar em "Salvar".<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Dados de teste</strong></td>
+    
+      
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve inclir o documento no projeto.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O02 - S<br>Remover Documento do Projeto</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema permite excluir documentos do projeto.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Remover" no documento que deseja ser excluído.<br>
+      4. Clicar Novamente em "Remover" para confirmar exclusão.<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve remover o documento.</td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-O03 - I01<br>Adicionar documento sem nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Este caso de teste verifica se o sistema impede a inclusão de um documento sem preencher seu nome.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>João Victor</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-012</td>
+  </tr>
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Projetos.<br>
+      2. Clicar em "documentos" do projeto desejado.<br>
+      3. Clicar em "Novo Documento"<br>
+      4. Não preencher o nome. <br>
+      5. Clicar em "Salvar".<br>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Critérios de êxito</strong></td>
+    <td>O sistema deve exibir uma mensagem de erro informando ser necessário o nome do documento.</td>
+  </tr>
+  </table>
+</details>
+
+<details>
+<summary><h2>📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT01-S<br>Listar relatórios (sem filtros)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se o sistema lista corretamente os relatórios cadastrados, sem aplicação de filtros, exibindo paginação e informações principais (nome, entidade raiz, status, leitor executa).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013 </td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Usuário autenticado com perfil com acesso ao Gerador de Relatórios (Admin ou Editor).</li>
+        <li>Existem relatórios cadastrados na base (rascunho e publicado).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar o menu “Gerador de Relatórios”.</li>
+        <li>Garantir que os campos de filtro (Nome, Entidade Raiz, Status) estejam vazios.</li>
+        <li>Verificar a tabela de resultados exibida na tela.</li>
+        <li>Navegar para a próxima página (se houver) usando a paginação.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A lista exibe todos os relatórios cadastrados, respeitando a paginação configurada.</li>
+        <li>Para cada relatório, são exibidos: Nome, Entidade Raiz (rótulo), Status (Rascunho/Publicado) e coluna “Leitor executa?”.</li>
+        <li>A paginação permite navegar entre as páginas sem erros.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT02-S<br>Filtrar relatórios por Nome e limpar filtros</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Validar se o filtro por Nome funciona corretamente e se o botão “Limpar filtros” restaura a listagem padrão sem filtros aplicados.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existem relatórios com nomes distintos, incluindo um com o nome parcialmente conhecido (ex.: “Relatório Projetos”).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar a tela “Gerador de Relatórios”.</li>
+        <li>Digitar parte do nome de um relatório existente no campo “Nome”.</li>
+        <li>Clicar no botão “Buscar”.</li>
+        <li>Verificar os resultados exibidos.</li>
+        <li>Clicar no botão “Limpar filtros”.</li>
+        <li>Verificar novamente a listagem de relatórios.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Após clicar em “Buscar”, são exibidos apenas relatórios cujo Nome contém o texto informado.</li>
+        <li>A flag “Filtros ativos” aparece enquanto houver filtros aplicados.</li>
+        <li>Ao clicar em “Limpar filtros”, os campos de filtro são esvaziados e todos os relatórios voltam a aparecer na listagem.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT03-S<br>Filtrar relatórios por Nome e Entidade Raiz</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a combinação de filtros por Nome e Entidade Raiz e retorna apenas os relatórios correspondentes.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existem relatórios para pelo menos duas entidades raiz diferentes (ex.: Projetos, Pessoas).</li>
+        <li>Existem relatórios com nomes diferentes.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Acessar a tela “Gerador de Relatórios”.</li>
+        <li>Selecionar uma Entidade Raiz específica no filtro (ex.: Project).</li>
+        <li>Selecionar Status “Publicado”.</li>
+        <li>Clicar em “Buscar”.</li>
+        <li>Verificar se todos os resultados pertencem à Entidade Raiz e Status selecionados.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A listagem exibe apenas relatórios com Entidade Raiz igual à selecionada.</li>
+        <li>Todos os relatórios retornados possuem Status “Publicado”.</li>
+        <li>Não são exibidos relatórios de outras entidades nem em outro status.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT04-S<br>Cadastrar novo relatório (rascunho – dados gerais)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que o usuário consiga cadastrar um novo relatório em estado de rascunho, preenchendo apenas os dados gerais (Nome, Descrição, Entidade Raiz e permissão para leitor executar).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Usuário autenticado com permissão para criar relatórios.</li>
+        <li>Entidades de metadados configuradas e retornando na API (lista de entidades raiz).</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na tela “Gerador de Relatórios”, clicar em “Novo Relatório”.</li>
+        <li>No modal, preencher o campo “Nome*” com um valor válido.</li>
+        <li>Preencher opcionalmente o campo “Descrição”.</li>
+        <li>Selecionar uma Entidade Raiz válida.</li>
+        <li>Definir “Leitor pode executar?” como “Sim” ou “Não”.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal é fechado sem erros.</li>
+        <li>Uma mensagem de sucesso é exibida (“Relatório criado com sucesso”).</li>
+        <li>O novo relatório aparece na listagem em Status “Rascunho”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT05-I01<br>Validação ao salvar relatório sem Nome</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se o sistema impede o salvamento de um relatório quando o campo obrigatório “Nome” não é informado.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>A tela “Gerador de Relatórios” estar acessível.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Clicar em “Novo Relatório”.</li>
+        <li>Deixar o campo “Nome*” em branco.</li>
+        <li>Selecionar uma Entidade Raiz válida.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal não é fechado.</li>
+        <li>É exibida mensagem de erro no frontend: “O nome do relatório é obrigatório”.</li>
+        <li>Nenhuma requisição de criação/edição é enviada para a API.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT06-I02<br>Validação ao salvar relatório sem Entidade Raiz</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Confirmar que o sistema não permite salvar um relatório quando a Entidade Raiz não é selecionada.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Tela “Gerador de Relatórios” carregada.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Clicar em “Novo Relatório”.</li>
+        <li>Preencher o campo “Nome*” com um valor válido.</li>
+        <li>Não selecionar nenhuma Entidade Raiz.</li>
+        <li>Clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal permanece aberto.</li>
+        <li>É exibida mensagem de erro no frontend: “Selecione a entidade raiz”.</li>
+        <li>O backend não recebe requisição de criação/edição.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT07-S<br>Visualizar relatório existente (dados gerais e configuração)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a funcionalidade de “Visualizar” permite consultar os dados do relatório, incluindo a revisão da configuração (relacionamentos, campos, filtros e ordenações).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório previamente configurado, com relações, campos, filtros e ordenações.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório configurado.</li>
+        <li>Clicar na ação “Visualizar”.</li>
+        <li>No modal, clicar em “Visualizar configuração”.</li>
+        <li>Analisar os blocos de Revisão (Geral, Relacionamentos, Campos, Filtros e Ordenação).</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Os campos Nome, Descrição, Entidade Raiz e “Leitor pode executar?” são exibidos em modo somente leitura.</li>
+        <li>A Revisão da Configuração apresenta os relacionamentos, campos, filtros e ordenações cadastrados para o relatório.</li>
+        <li>Não é possível alterar nem salvar dados na tela de visualização.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT08-S<br>Editar dados gerais de relatório em rascunho</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que um relatório em Status “Rascunho” possa ter seus dados gerais alterados (Nome, Descrição, Entidade Raiz, Leitor executa).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Rascunho”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar um relatório em Rascunho.</li>
+        <li>Clicar na ação “Editar”.</li>
+        <li>Alterar o Nome e a Descrição do relatório.</li>
+        <li>Opcionalmente alterar a Entidade Raiz (se desejado pela regra de negócio).</li>
+        <li>Alterar o valor de “Leitor pode executar?”.</li>
+        <li>Clicar em “Salvar”.</li>
+        <li>Verificar se as mudanças foram efetuadas na listagem.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O modal é fechado com sucesso e uma mensagem de “Relatório atualizado com sucesso” é exibida.</li>
+        <li>Os novos valores aparecem na listagem (Nome, Status, etc.).</li>
+        <li>Ao reabrir o modal ou consultar o relatório via API, os dados gerais refletem as alterações realizadas.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT09-S<br>Abrir configuração para relatório em rascunho</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se a configuração de relatórios abre corretamente para um relatório em Status “Rascunho” e carrega metadados (entidade raiz, campos, relações).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Rascunho com Entidade Raiz já definida.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Localizar o relatório em Rascunho na listagem.</li>
+        <li>Clicar na ação para “Configurar relatório”.</li>
+        <li>Verificar se a configuração abre na etapa “Geral” com Nome, Descrição e Entidade Raiz carregados.</li>
+        <li>Navegar para as demais etapas (Relacionamentos, Campos, Filtros e Ordenação, Revisão), confirmando o carregamento dos metadados.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração é aberta sem erro para relatórios em Rascunho.</li>
+        <li>Os dados do relatório são carregados na etapa “Geral”.</li>
+        <li>As listas de entidades relacionadas e campos são carregadas conforme metadados configurados na API.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT10-I03<br>Bloquear abertura da configuração para relatório publicado</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que a configuração não seja aberta para um relatório em Status “Publicado”, exibindo mensagem orientando a despublicação antes da configuração.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar um relatório com Status “Publicado”.</li>
+        <li>Clicar na ação “Configurar relatório”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração não é aberta.</li>
+        <li>É exibida mensagem de aviso no frontend: “Para configurar esse relatório, favor despublicá-lo”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT11-S<br>Configurar relacionamentos, campos, filtros e ordenações e salvar</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Validar o fluxo completo das configurações válidas de relacionamentos, campos, filtros e ordenações, salvando com sucesso.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Relatório em Status “Rascunho” com Entidade Raiz já definida.</li>
+        <li>Metadados de relações e campos configurados na API.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Abrir a configuração para o relatório em Rascunho.</li>
+        <li>Na etapa “Geral”, conferir os dados e clicar em “Próximo”.</li>
+        <li>Na etapa “Relacionamentos”, adicionar pelo menos um relacionamento válido.</li>
+        <li>Na etapa “Campos”, adicionar pelo menos um campo da entidade raiz e/ou relacionada.</li>
+        <li>Na etapa “Filtros e ordenação”, adicionar pelo menos um filtro e uma ordenação válidos, respeitando prioridades distintas.</li>
+        <li>Na etapa “Revisão”, conferir os dados e clicar em “Salvar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A configuração é concluída sem erros e retorna mensagem de sucesso.</li>
+        <li>Ao reabrir a configuração, as informações salvas são carregadas corretamente em todas as etapas.</li>
+        <li>Na tela de visualização/revisão do relatório, os relacionamentos, campos, filtros e ordenações aparecem conforme configurados.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT12-I04<br>Impedir publicação de relatório sem configuração de campos (configuração não feita)</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que não seja possível publicar um relatório que ainda não foi configurado (sem Entidade Raiz definida no backend ou sem campos configurados).</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Rascunho criado somente pelos dados gerais, sem passar pela configuração.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho sem configuração de campos.</li>
+        <li>Clicar na ação “Publicar”.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>Ao detectar que o relatório não tem campos configurados, exibe a mensagem: “Falta efetuar a configuração do Relatório”.</li>
+        <li>Nenhuma mudança de Status ocorre.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT13-S<br>Publicar relatório configurado com sucesso</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se um relatório corretamente configurado pode ser publicado com sucesso, alterando seu Status para “Publicado”.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Relatório em Rascunho, totalmente configurado.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho configurado corretamente.</li>
+        <li>Clicar na ação “Publicar”.</li>
+        <li>Confirmar a operação na caixa de diálogo.</li>
+        <li>Atualizar a listagem e verificar o Status do relatório.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A operação de publicação é concluída com sucesso, exibindo mensagem de “Operação concluída”.</li>
+        <li>O Status do relatório passa a ser “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT14-S<br>Despublicar relatório para permitir nova configuração</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Verificar se um relatório publicado pode ser despublicado, retornando ao Status “Rascunho” e permitindo a reabertura da configuração.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir um relatório em Status “Publicado”.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Status “Publicado”.</li>
+        <li>Clicar na ação “Despublicar”.</li>
+        <li>Confirmar a operação de despublicação.</li>
+        <li>Verificar se o Status mudou para “Rascunho”.</li>
+        <li>Tentar novamente abrir a configuração para o relatório.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>A operação de despublicação é concluída com sucesso, com mensagem de “Operação concluída”.</li>
+        <li>O Status do relatório passa de “Publicado” para “Rascunho”.</li>
+        <li>Após despublicar, a configuração volta a ser acessível normalmente (sem mensagem de bloqueio).</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-RPT15-S<br>Excluir relatório e atualizar listagem</th>
+  </tr>
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>Garantir que a exclusão de um relatório funcione corretamente, removendo-o da base de dados e da listagem, com confirmação prévia do usuário.</td>
+  </tr>
+  <tr>
+    <td><strong>Responsável Caso de Teste</strong></td>
+    <td>Ricardo Teixeira</td>
+  </tr>
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-013</td>
+  </tr>
+  <tr>
+    <td><strong>Pré-condições</strong></td>
+    <td>
+      <ul>
+        <li>Existir pelo menos um relatório em Rascunho que possa ser excluído.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Procedimentos</strong></td>
+    <td>
+      <ol>
+        <li>Na listagem, localizar o relatório em Rascunho a ser excluído.</li>
+        <li>Clicar na ação “Excluir”.</li>
+        <li>Confirmar a exclusão no diálogo exibido.</li>
+        <li>Verificar a mensagem de retorno.</li>
+        <li>Observar a listagem após a operação.</li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Resultados Esperados</strong></td>
+    <td>
+      <ul>
+        <li>O sistema exibe mensagem de confirmação de exclusão antes da operação.</li>
+        <li>Após a confirmação, é exibida mensagem de sucesso (“Operação concluída” ou equivalente).</li>
+        <li>O relatório excluído não aparece mais na listagem.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+</details>
+
+<details> <summary><h2>📊 Dashboard</h2></summary>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-01 - S
+
+
+Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica o comportamento da tela ao ser acessada pela primeira vez, antes de o usuário selecionar um filtro.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Acessar a aplicação e realizar login.
+
+
+2. Clicar em "Dashboard" no menu.
+
+
+3. Verificar a área principal da tela. </td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-02 - S
+
+
+Gerar Indicadores (Com Dados)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica se os gráficos são carregados corretamente ao selecionar um Programa e um período válido que contenha dados.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 1. No filtro "Programa", selecionar um programa que possua turmas e alunos (ex: "Programa GESC Prossiga").
+
+
+2. No filtro "Período - Início", selecionar uma data antiga (ex: 01/01/2017).
+
+
+3. No filtro "Período - Fim", selecionar uma data futura (ex: 31/12/2028).
+
+
+4. Aguardar o carregamento. </td> </tr> <tr> <td><strong>Dados de teste</strong></td> <td> - <strong>Programa:</strong> Programa GESC Prossiga
+
+
+- <strong>Período:</strong> 2017 a 2028 </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve exibir os 5 gráficos (Organizações, Consultores, Cidades atendidas, Causas e Temas de projeto). Os gráficos devem conter barras indicando as quantidades corretas baseadas nos registros do banco de dados.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-03 - S
+
+
+Gerar Indicadores (Sem Dados no Período)</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica o comportamento dos gráficos quando o filtro é válido, mas não existem registros para aquele período específico.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 1. Selecionar um Programa válido.
+
+
+2. Alterar o "Período - Início" e "Fim" para um intervalo onde não houve turmas (ex: ano de 1990 ate 1991).
+
+
+3. Verificar a renderização. </td> </tr> <tr> <td><strong>Dados de teste</strong></td> <td> - <strong>Período:</strong> 01/01/1990 a 31/12/1991 </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>Os gráficos devem ser exibidos, mas vazios (sem barras) ou zerados, sem quebrar a aplicação.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-DASH-04 - I01
+
+
+Trocar de Programa</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Verifica se os dados são atualizados automaticamente ao trocar apenas o Programa no filtro.</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Pedro Roberto</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-Dashboard</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Estando com os gráficos carregados para o "Programa GESC Prossiga".
+
+
+2. Clicar no dropdown de Programa.
+
+
+3. Selecionar o "Programa Mais GESC". </td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>O sistema deve disparar uma nova requisição automaticamente e atualizar os gráficos com os números referentes ao novo programa selecionado.</td> </tr> </table>
+
+</details>
+
+<details> <summary><h2>📊 Executor Relatório</h2></summary>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-01 
+
+
+Executor Relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td> <td>Relatório descreve o que o executor busca filtrar</td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+1. Executor digita o que o foi selecionado como fonte de busca
+
+
+2. Clicar em "Executor" no painel.
+
+
+3. Visualisar relatório com os dados solicitados</td> </tr> <tr> <td><strong>Critérios de êxito</strong></td> <td>Usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> </table>
+
+   
+<table> <tr> <th colspan="2" width="1000">CT-RL-02 
+
+
+Exportar dados relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário exporta dados em PDF <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário clica em Exportar em PDF
+
+2. Usuário visualiza o relatório em PDF
+
+3. Usuário consegue salvar o documento em PDF
+   
+ <tr> <td><strong>Critérios de êxito</strong></td> <td>Sistema exibe o relatório em PDF e permite salvar.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-03 
+
+Exportar dados relatório</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário exporta dados em Excel <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">Sucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário clica em Exportar em Excel
+
+2. Usuário visualiza o relatório em Excel
+
+3. Usuário consegue salvar o documento em Excel
+   
+ <tr> <td><strong>Critérios de êxito</strong></td> <td>Sistema exibe o relatório em Excel e permite salvar.</td> </tr> </table>
+
+<table> <tr> <th colspan="2" width="1000">CT-RL-04 
+
+Não preencher dados obrigatorios</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário não consegue emitir relatório <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">insucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário não preenche os dados obrigatorios
+
+2. Dados em branco
+
+3. Usuário não consegue gerar relatório
+   
+ <tr> <td><strong>Critérios</strong></td> <td>O sistema não exibe o relatório.</td> </tr> </table>
+
+ <table> <tr> <th colspan="2" width="1000">CT-RL-05 
+
+Não preencher corretamente dados obrigatorios</th> </tr> <tr> <td width="150"><strong>Descrição</strong></td>Usuário não consegue emitir relatório <td></td> </tr> <tr> <td><strong>Responsável Caso de Teste</strong></td> <td width="430">Kênia Caires</td> </tr> <tr> <td><strong>Tipo do Teste</strong></td> <td width="430">InSucesso</td> </tr> <tr> <td><strong>Requisitos associados</strong></td> <td>RF-014</td> </tr> <tr> <td><strong>Passos</strong></td> <td> 
+
+1. Usuário não preenche os dados obrigatorios corretamente
+
+2. Aparece uma mensagem informando "dados digitados estão incorretos"
+
+3. Usuário não consegue gerar relatório
+   
+ <tr> <td><strong>Critérios</strong></td> <td>Sistema não exibe o relatório e sim uma mensagem informandos que os dados estão incorretos.</td> </tr> </table>
+
+</details>
+
+<details>
+  <summary> <h2>📩 Importação por CSV </h2> </summary>
+
+  <details>
+    <summary><h3>Cadastrar OSC</h3></summary>
+    
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-01 <br> Importar OSC corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de OSC quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher corretamente os dados conforme o modelo.<br>
+      5. Salvar como CSV e enviar ao sistema.<br>
+      6. Verificar pré-visualização dos dados.<br>
+      7. Confirmar a importação e validar mensagens de sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os dados, desde que estejam dentro do modelo padrão e com campos válidos.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação quando as colunas não estiverem de acordo com o modelo padrão.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Utilizar planilha CSV com colunas divergentes.<br>
+      4. Enviar a planilha ao sistema.<br>
+      5. Tentar gerar pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir alerta informando divergência de colunas e impedir qualquer processamento.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPOSC-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação quando o arquivo CSV estiver vazio, sem nenhum registro válido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar um CSV completamente vazio.<br>
+      4. Enviar para o sistema.<br>
+      5. Observar resposta do sistema.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir mensagem de alerta informando ausência de dados e impedir qualquer processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
+  <details>
+    <summary><h3>Cadastrar Integrantes da OSC</h3></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPINTOSC-01 <br> Importar integrantes da OSC usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os integrantes vinculados à OSC quando o CSV segue o modelo correto.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de OSCs.<br>
+      2. Abrir a seção de Integrantes.<br>
+      3. Baixar e preencher o modelo corretamente.<br>
+      4. Salvar como CSV e enviar ao sistema.<br>
+      5. Verificar pré-visualização.<br>
+      6. Confirmar importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os registros seguindo o modelo e vínculos válidos com a OSC.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPINTOSC-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação quando o arquivo CSV estiver vazio, sem registros de integrantes.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Abrir seção de integrantes da OSC.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar arquivo CSV vazio.<br>
+      4. Enviar ao sistema.<br>
+      5. Observar comportamento.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve alertar ausência de registros e impedir o processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
+  <details>
+    <summary><h3>Cadastrar Empresa</h3></summary>
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-01 <br> Importar empresas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de empresas quando o CSV segue o modelo padrão.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar modelo de planilha.<br>
+      4. Preencher registros seguindo o modelo.<br>
+      5. Enviar CSV ao sistema.<br>
+      6. Verificar pré-visualização.<br>
+      7. Confirmar importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>O sistema deve importar todos os registros válidos preenchidos conforme modelo.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir importações quando a planilha não segue as colunas corretas exigidas.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Selecionar arquivo CSV com colunas erradas.<br>
+      3. Enviar para o sistema.<br>
+      4. Tentar visualizar/importar.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>O sistema deve bloquear todo o processo e mostrar mensagem de divergência de colunas.</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPEMP-03 <br> Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação quando o arquivo CSV estiver vazio.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td>Felipe</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td>Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar tela de Empresas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Selecionar CSV vazio.<br>
+      4. Enviar ao sistema.<br>
+      5. Observar comportamento.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir mensagem de ausência de registros e impedir o processamento.
+    </td>
+  </tr>
+</table>
+
+  </details>
+
+
+  <details>
+    <summary><h3>Cadastrar Integrantes na Turma</h3></summary>
+    
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-01 <br> Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os integrantes da turma quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha com as colunas: Id da Pessoa e Função.<br>
+      4. Preencher corretamente os dados seguindo o padrão das colunas.<br>
+      5. Salvar como CSV e enviar para o sistema.<br>
+      6. Visualizar corretamente os dados carregados no modal de pré-visualização.<br>
+      7. Confirmar a importação e visualizar mensagens de sucesso para todos os itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve permitir a importação apenas se todas as colunas estiverem de acordo com o modelo.  
+      Se estiver tudo correto, e os vinculos forem válidos todos os integrantes devem ser adicionados com sucesso.
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-02 <br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>
+      O sistema deve bloquear a importação quando o arquivo CSV não contém as colunas corretas conforme o modelo padrão para integrantes de turma.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Criar ou selecionar uma planilha CSV que não utiliza as colunas do modelo (ex: nomes diferentes, colunas faltando ou colunas extras).<br>
+      4. Enviar o arquivo para o sistema.<br>
+      5. Tentar gerar a pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir um alerta informando que a planilha não contém as colunas corretas e impedir a importação.  
+      Nenhum dado deve ser processado, visualizado ou criado.
+    </td>
+  </tr>
+</table>
+
+
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPITM-03 <br> Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>
+      O sistema deve impedir a importação de uma pessoa sem vínculo com a OSC quando ela é cadastrada como participante, permitindo a criação apenas dos demais registros válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso Parcial</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-014</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Turmas e abrir a seção de integrantes.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha com as colunas: ID da Pessoa e Função.<br>
+      4. Preencher vários registros válidos seguindo exatamente o modelo.<br>
+      5. Incluir um registro contendo uma pessoa sem vínculo com a OSC, atribuindo a função de participante.<br>
+      6. Salvar a planilha como CSV e enviar para o sistema.<br>
+      7. Gerar a pré-visualização dos dados.<br>
+      8. Confirmar a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar corretamente todos os registros válidos.<br>
+      Para o registro da pessoa sem vínculo, deve exibir mensagem de insucesso indicando que não é permitido adicioná-la como participante.<br>
+      O processo deve ser concluído exibindo as linhas com sucesso e a linha com erro, sem impedir a importação dos demais registros.
+    </td>
+  </tr>
+</table>
+ 
+  </details>
+
+  <details>
+    <summary> <h3> Cadastrar Pessoas </h2> </summary>
+
+  <table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-01 <br> Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve importar corretamente os registros de pessoas quando o arquivo CSV segue exatamente o modelo padrão fornecido.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Sucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher corretamente os dados seguindo o padrão das colunas do modelo.<br>
+      5. Salvar como CSV e enviar para o sistema.<br>
+      6. Visualizar os dados carregados no modal de pré-visualização.<br>
+      7. Confirmar a importação e visualizar mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve permitir a importação apenas se todas as colunas estiverem de acordo com o modelo.  
+      Com os dados válidos, todos os registros devem ser adicionados com sucesso.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-02<br> Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve bloquear a importação quando o arquivo CSV não contém as colunas corretas conforme o modelo padrão para o cadastro de pessoas.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Criar ou selecionar uma planilha CSV que não utiliza as colunas do modelo (ex: nomes diferentes, colunas faltando ou colunas extras).<br>
+      4. Enviar o arquivo para o sistema.<br>
+      5. Tentar gerar a pré-visualização ou concluir a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve exibir um alerta informando que a planilha não contém as colunas corretas e impedir a importação.  
+      Nenhum dado deve ser processado, visualizado ou criado.
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="2" width="1000">CT-IMPPES-03 <br> Falha ao importar devido à ausência de campo obrigatório</th>
+  </tr>
+
+  <tr>
+    <td width="150"><strong>Descrição</strong></td>
+    <td>O sistema deve impedir a importação de registros em que o CPF não foi preenchido, permitindo apenas que os demais registros válidos sejam importados.</td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pelo Caso de Teste</strong></td>
+    <td width="430">Lucas Bebiano</td>
+  </tr>
+
+  <tr>
+    <td><strong>Tipo do Teste</strong></td>
+    <td width="430">Insucesso Parcial</td>
+  </tr>
+
+  <tr>
+    <td><strong>Requisitos associados</strong></td>
+    <td>RF-020</td>
+  </tr>
+
+  <tr>
+    <td><strong>Passos</strong></td>
+    <td>
+      1. Acessar a tela de Pessoas.<br>
+      2. Clicar em "Importar dados".<br>
+      3. Baixar o modelo de planilha disponibilizado.<br>
+      4. Preencher vários registros válidos seguindo o modelo.<br>
+      5. Incluir um registro em que o CPF não esteja preenchido.<br>
+      6. Salvar a planilha como CSV e enviar para o sistema.<br>
+      7. Gerar a pré-visualização dos dados.<br>
+      8. Confirmar a importação.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Critérios</strong></td>
+    <td>
+      O sistema deve importar todos os registros válidos.  
+      Para o registro sem CPF, deve exibir mensagem de insucesso indicando que o CPF é obrigatório.  
+      A importação deve ser concluída exibindo as linhas com sucesso e a linha com erro, sem bloquear os demais registros.
+    </td>
+  </tr>
+</table>
+    
+  </details>
+  
+</details>
+
 # Evidências de Testes de Software
 
 Apresente imagens e/ou vídeos que comprovam que um determinado teste foi executado, e o resultado esperado foi obtido. Normalmente são screenshots de telas, ou vídeos do software em funcionamento.
@@ -2403,6 +4490,8 @@ Apresente imagens e/ou vídeos que comprovam que um determinado teste foi execut
 Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, utilizando casos de teste, tanto de sucesso quanto de insucesso, elaborados por ele. Todos os testes devem ser evidenciados.
 
 ## ETAPA 2
+<details>
+<summary><h2>💻 Fluxo de Acesso</h2></summary>
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
@@ -2596,6 +4685,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 </table>
 
 <img width="1560" height="580" alt="Captura de tela 2025-09-21 192326" src="https://github.com/user-attachments/assets/bd2896aa-2e1a-4113-bf76-cc9efd8b02e1" />
+</details>
 
 ## Etapa 3
 
@@ -3272,7 +5362,7 @@ Cada funcionalidade desenvolvida deve ser testada pelo próprio desenvolvedor, u
 
 <details>
 
-<summary><h2>🧍‍♂️🧍‍♂️Pessoas</h2></summary>
+<summary><h2>Testes: 🧍‍♂️🧍‍♂️Pessoas</h2></summary>
 
 <table>
   
@@ -3888,15 +5978,1545 @@ Teste: Pedro Roberto</td>     <td><strong>Data do Teste</strong></td>     <td wi
 
 </td>   </tr> </table> </details>
 
+<details>
+  <summary><h2>Testes: 👤 Usuários</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US01<br>Criar Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Criação realizada com sucesso. Registro visível na listagem com Nome, E-mail, Telefone e Role corretos.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1320" height="631" alt="image" src="https://github.com/user-attachments/assets/76fa891f-95bd-4a8d-a932-9e3f32060328" />
+        <img width="1331" height="629" alt="image" src="https://github.com/user-attachments/assets/ffb4ae04-55d7-4ca3-9f3f-dba4cc6f23e2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US02<br>Editar Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar e exibir as informações editadas corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição concluída (ex.: Telefone e Role). Listagem refletiu os novos valores.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1334" height="629" alt="image" src="https://github.com/user-attachments/assets/d359c4a0-03bc-49c7-9590-4c330e50f940" />
+        <img width="1338" height="632" alt="image" src="https://github.com/user-attachments/assets/c0c60723-e2f6-41ac-a7bf-2c4c4bd40460" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US03<br>Remover Usuário</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão confirmada no modal. Item não aparece mais na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="635" alt="image" src="https://github.com/user-attachments/assets/f2c28013-fd8a-4869-a343-25c89f651e35" />
+        <img width="1321" height="625" alt="image" src="https://github.com/user-attachments/assets/83cf4473-dc32-4388-bf45-15d52e2c05a6" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US04<br>Listar Usuários</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista corretamente e respeitar filtros por Nome, E-mail e Tipo (Role).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtros funcionando como esperado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="627" alt="image" src="https://github.com/user-attachments/assets/fe967cde-e979-4538-9210-286e88f08284" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US05 - I01<br>Criar Usuário sem Nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação impedindo salvar sem Nome.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1336" height="637" alt="image" src="https://github.com/user-attachments/assets/0bc89c2a-cf36-4f36-9c44-b9a64a8ae207" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US06 - I02<br>Criar Usuário sem E-mail</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação exibida corretamente para E-mail vazio.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="636" alt="image" src="https://github.com/user-attachments/assets/33446665-951b-4c39-9573-394571a86167" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US07 - I03<br>Criar Usuário com E-mail inválido</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação de formato de E-mail funcionando.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="637" alt="image" src="https://github.com/user-attachments/assets/bc853d24-bb74-4a76-93fa-bb95cc886f42" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US08 - I04<br>Criar Usuário sem Telefone</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório (se aplicável).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Sistema bloqueia salvar sem Telefone (conforme regra do front).</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="632" alt="image" src="https://github.com/user-attachments/assets/ff89db5a-5113-42ff-8209-da1ee99b28e2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-US09 - I05<br>Criar Usuário com E-mail já existente</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de E-mail já utilizado.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Realizado em grupo<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Regra de unicidade de E-mail funcionando corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="637" alt="image" src="https://github.com/user-attachments/assets/451c2da7-0a67-4f9b-a866-417465ae393d" />
+      </td>
+    </tr>
+  </table>
+
+</details>
+
+## Etapa 4
+
+<details>
+<summary><h2>Testes: 🌱 Projetos</h2></summary>  
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O01 - S<br>Anexar Documentos no Projeto</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve inclir o documento no projeto.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Documento anexado com sucesso.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="763" alt="Captura de tela 2025-11-23 155744" src="https://github.com/user-attachments/assets/9657b109-e443-4390-a9d5-963b3e353083" />
+        <img width="1599" height="764" alt="Captura de tela 2025-11-23 155857" src="https://github.com/user-attachments/assets/f36ff64f-410e-454f-839f-83dad3ed5bc3" />
+        <img width="1598" height="762" alt="Captura de tela 2025-11-23 155923" src="https://github.com/user-attachments/assets/f77da527-58f7-4ee8-be7c-5ae4ce0468dd" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O02 - S<br>Remover Documento do Projeto.</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover um documento anexado no projeto.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">O sistema excluiu o arquivo com sucesso.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="764" alt="1 1" src="https://github.com/user-attachments/assets/48d779e8-d35f-44c6-aaa2-fc4a1afe3fb0" />
+        <img width="1599" height="765" alt="1 2" src="https://github.com/user-attachments/assets/7d31eeef-a8b0-483e-a9e5-9771e50f61dc" />
+      </td>
+    </tr>
+  </table>
+
+   <table>
+    <tr>
+      <th colspan="6" width="1000">CT-O03 - I01<br>Adicionar documento sem nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir uma mensagem de erro informando ser necessário o nome do documento.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: João Victor<br>Teste: João Victor</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">O sistema apresentou mensagem de erro com êxito.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1599" height="768" alt="2 1" src="https://github.com/user-attachments/assets/b00bfa31-cd65-4257-9e3d-08e071e3d91e" />
+        <img width="1599" height="763" alt="2 2" src="https://github.com/user-attachments/assets/13b86a35-0481-4e6e-9d49-d8fb48638823" />
+      </td>
+    </tr>
+  </table>
+  
+</details>
+<details>
+<summary><h2>Testes: 📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>  
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT01-S<br>Listar relatórios (sem filtros)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve listar corretamente os relatórios cadastrados, sem filtros aplicados, exibindo colunas principais e paginação funcionando.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem exibida com relatórios em Rascunho e Publicado. Colunas Nome, Entidade Raiz, Status e “Leitor executa?” renderizadas corretamente e paginação navegando entre páginas sem erros.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1298" height="732" alt="image" src="https://github.com/user-attachments/assets/977cc85a-2f96-468c-af8d-8ec9e77b604b" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT02-S<br>Filtrar relatórios por Nome e limpar filtros</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve filtrar relatórios pelo campo Nome e permitir limpar filtros, retornando à listagem completa.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Filtro por Nome retornou apenas relatórios cujo Nome contém o texto informado. Flag “Filtros ativos” exibida enquanto o filtro estava aplicado. Botão “Limpar filtros” limpou os campos e restaurou a listagem completa.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="615" alt="image" src="https://github.com/user-attachments/assets/49d41162-aaa6-44e0-bfa7-197bbf80e62f" />
+        <img width="1341" height="749" alt="image" src="https://github.com/user-attachments/assets/376cc009-d8b5-4271-95bb-485ef4e4d5fb" />
+      </td>
+    </tr>
+  </table>
+
+   <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT03-S<br>Filtrar relatórios por Nome e Entidade Raiz</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve combinar filtros por Nome e Entidade Raiz, exibindo somente relatórios que atendam a ambos os critérios.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Aplicação de filtro por Nome e Entidade Raiz e retornou apenas relatório com esse nome e entidade. Nenhum relatório fora dos critérios apareceu na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1319" height="560" alt="image" src="https://github.com/user-attachments/assets/d4789d58-0f19-4fda-a559-45d21f866f9c" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT04-S<br>Cadastrar novo relatório (rascunho – dados gerais)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir cadastrar um novo relatório em Status “Rascunho”, preenchendo os dados gerais obrigatórios.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Novo relatório criado preenchendo Nome, Entidade Raiz e opção “Leitor pode executar?”. Toast “Relatório criado com sucesso” exibido e registro incluído na listagem com Status “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1340" height="718" alt="image" src="https://github.com/user-attachments/assets/856da053-8cca-4026-b07d-ff6975700631" />
+        <img width="1350" height="756" alt="image" src="https://github.com/user-attachments/assets/7fd393e4-3783-4c3f-8bf1-bb7d955b012d" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT05-I01<br>Validação ao salvar relatório sem Nome</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o salvamento de relatório sem Nome, exibindo mensagem de validação no frontend e não enviando requisição ao backend.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Tentativa de salvar com campo “Nome*” em branco manteve o modal aberto e exibiu toast “O nome do relatório é obrigatório”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1335" height="761" alt="image" src="https://github.com/user-attachments/assets/59d95939-2cc2-4013-996e-7136755d6f51" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT06-I02<br>Validação ao salvar relatório sem Entidade Raiz</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir salvar relatório sem Entidade Raiz selecionada, exibindo mensagem de erro e não chamando a API.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Com Nome preenchido e Entidade Raiz vazia, o sistema exibiu toast “Selecione a entidade raiz” e manteve o modal aberto. Não houve requisição para o endpoint de criação/edição.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="761" alt="image" src="https://github.com/user-attachments/assets/98448168-3510-4f13-b600-ef4543a47d80" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT07-S<br>Visualizar relatório existente (dados gerais e configuração)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve abrir o modal de visualização e permitir revisar a configuração do relatório.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao clicar em “Visualizar”, o modal abriu com campos desabilitados. Botão “Visualizar configuração” exibiu blocos de Revisão (Geral, Relacionamentos, Campos, Filtros e Ordenação) com dados conforme a configuração salva.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1343" height="760" alt="image" src="https://github.com/user-attachments/assets/09296d35-48ee-4f8b-92b6-3fb7e87574b3" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT08-S<br>Editar dados gerais de relatório em rascunho</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir editar os dados gerais de um relatório em Rascunho.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Alterações em Nome, Descrição, Entidade Raiz e “Leitor pode executar?” foram salvas com sucesso. Toast “Relatório atualizado com sucesso” exibido everificar se as alterações aparecem na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1345" height="752" alt="image" src="https://github.com/user-attachments/assets/70583147-03be-43af-a288-3f5ba1827641" />
+        <img width="1344" height="758" alt="image" src="https://github.com/user-attachments/assets/5a420a36-5b5c-40d4-b479-621bd17855f9" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT09-S<br>Abrir configuração para relatório em rascunho</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve abrir a tela de configuração para relatórios em Rascunho, carregando dados gerais e metadados (entidades e campos).</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Botão “Configurar relatório” para item em Rascunho abriu a configuração na etapa “Geral” com Nome, Descrição e Entidade Raiz carregados. Etapas de Relacionamentos, Campos e Filtros/Ordenação exibiram as opções de metadados retornadas pela API.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1318" height="743" alt="image" src="https://github.com/user-attachments/assets/8ac14d82-740d-44ef-92ab-9f39c4a0f051" />
+        <img width="1347" height="745" alt="image" src="https://github.com/user-attachments/assets/1ac9c720-4137-4b5e-a5a1-79c399d9838a" />
+        <img width="1355" height="751" alt="image" src="https://github.com/user-attachments/assets/e94f2f76-0f01-418c-8145-81e95334fa4c" />
+        <img width="1355" height="745" alt="image" src="https://github.com/user-attachments/assets/b598606b-7f78-42b3-b056-d64bb74bc8b6" />
+        <img width="1335" height="763" alt="image" src="https://github.com/user-attachments/assets/5d1e6dfa-c36a-4189-a934-d4d68dad145a" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT10-I03<br>Bloquear abertura da configuração para relatório publicado</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir a abertura da configuração para relatórios em Status “Publicado”, exibindo mensagem orientando a despublicação.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao tentar abrir “Configurar relatório” para item em Status “Publicado”, o wizard não foi aberto e apareceu a mensagem “Para configurar esse relatório, favor despublicá-lo”. Comportamento conforme regra de negócio.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1327" height="745" alt="image" src="https://github.com/user-attachments/assets/87c7a99c-72b3-4e8c-964e-4bf087f3ed86" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT11-S<br>Configurar relacionamentos, campos, filtros e ordenações e salvar</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir configurar relacionamentos, campos, filtros e ordenações válidos e salvar a configuração sem erros.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Fluxo completo da configuração percorrido: inclusão de relacionamento, seleção de campos, definição de filtros e ordenações, revisão e salvamento. Toast de sucesso exibido e, ao reabrir a configuração, todas as informações apareceram conforme o que foi configurado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1363" height="733" alt="image" src="https://github.com/user-attachments/assets/e99092e8-e6ae-4953-a583-11cc6558aa02" />
+        <img width="1347" height="765" alt="image" src="https://github.com/user-attachments/assets/e95f1bfc-c448-42b6-9e31-f85e1eea37d4" />
+        <img width="1370" height="749" alt="image" src="https://github.com/user-attachments/assets/fed20518-5c91-485f-b317-55ba1e6e1616" />
+        <img width="1335" height="753" alt="image" src="https://github.com/user-attachments/assets/b35fa677-ccb1-4ba5-860c-1777be5c097e" />
+        <img width="1345" height="751" alt="image" src="https://github.com/user-attachments/assets/eaad074e-8c8f-4461-b987-42e26f536955" />
+        <img width="1356" height="744" alt="image" src="https://github.com/user-attachments/assets/11ae71ab-658e-4c1d-b576-61debadbc73c" />
+        <img width="1334" height="758" alt="image" src="https://github.com/user-attachments/assets/c9aa5c3c-a88d-47f5-9fff-04541718d8bb" />
+        <img width="1345" height="757" alt="image" src="https://github.com/user-attachments/assets/5c1f6172-f93e-416a-a18f-bb168fe8d118" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT12-I04<br>Impedir publicação de relatório sem configuração de campos (configuração não feita)</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir a publicação de relatórios que não possuam campos configurados, mantendo o Status como “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Publicação acionada para relatório criado apenas com dados gerais. Sistema exibiu aviso “Falta efetuar a configuração do Relatório” e não alterou o Status, que permaneceu “Rascunho”.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1344" height="758" alt="image" src="https://github.com/user-attachments/assets/74ca6926-ecd1-438b-8ee0-f4482c5e094f" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT13-S<br>Publicar relatório configurado com sucesso</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir publicar relatórios devidamente configurados, alterando o Status para “Publicado”.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Relatório totalmente configurado foi publicado com sucesso após confirmação no diálogo. Toast “Operação concluída” exibido e Status atualizado para “Publicado” na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1331" height="752" alt="image" src="https://github.com/user-attachments/assets/12f6c0cd-31c9-4b55-bbcb-3f5dc970f1a3" />
+        <img width="1350" height="764" alt="image" src="https://github.com/user-attachments/assets/e7812d58-4073-4fd5-b8f2-9c8512a2bea6" />
+        <img width="1337" height="752" alt="image" src="https://github.com/user-attachments/assets/8edeef52-778b-4d17-84cd-70fd5acbb4df" />
+        <img width="1346" height="769" alt="image" src="https://github.com/user-attachments/assets/85dbd3e0-d8d3-4d0c-8fc9-da1646e05e51" />
+        <img width="1337" height="760" alt="image" src="https://github.com/user-attachments/assets/2bb33bb2-28c8-4148-a99c-39dcb6148fa5" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT14-S<br>Despublicar relatório para permitir nova configuração</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir despublicar relatório, retornando-o a “Rascunho” e liberando novamente a configuração.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ação “Despublicar” executada para relatório em Status “Publicado”. Toast “Operação concluída” exibido, Status voltou para “Rascunho” e, após isso, o botão “Configurar relatório” passou a abrir o wizard normalmente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1349" height="748" alt="image" src="https://github.com/user-attachments/assets/fcb673df-2354-4374-abf0-7b3f5e16049c" />
+        <img width="1352" height="739" alt="image" src="https://github.com/user-attachments/assets/c498adc0-2bcb-406a-8920-2bc9acdd064c" />
+        <img width="1354" height="759" alt="image" src="https://github.com/user-attachments/assets/93d5c0d2-9c1c-45a7-8b59-d70a6c58d1ad" />
+        <img width="1363" height="750" alt="image" src="https://github.com/user-attachments/assets/ee961204-fd6f-4934-aac2-c859f514d733" />
+        <img width="1320" height="756" alt="image" src="https://github.com/user-attachments/assets/cc79b542-b68f-48d9-9eb9-217eea762647" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-RPT15-S<br>Excluir relatório e atualizar listagem</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve permitir excluir um relatório e atualizar a listagem removendo o item.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Ricardo Teixeira</td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">22/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Ao clicar em “Excluir”, o sistema exibiu modal de confirmação. Após confirmar, toast “Operação concluída” foi apresentado e o relatório deixou de ser exibido na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1323" height="771" alt="image" src="https://github.com/user-attachments/assets/827eb162-3ed1-44a4-b521-e80fbfaeb6ce" />
+        <img width="1366" height="757" alt="image" src="https://github.com/user-attachments/assets/ed3a6c8b-9a3f-4798-8625-072fff3c61c4" />
+        <img width="1348" height="761" alt="image" src="https://github.com/user-attachments/assets/ac9e92c1-3576-4122-bbf6-3fc5f34d3533" />
+      </td>
+    </tr>
+  </table>
+
+</details>
 
 
+<details> <summary><h2>Testes: 📊 Dashboard</h2></summary>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-01
+
+
+Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Pedro</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao acessar a rota do Dashboard, os filtros foram carregados vazios e a mensagem de instrução foi exibida corretamente ao centro, sem tentar buscar dados desnecessários no backend.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1914" height="940" alt="image" src="https://github.com/user-attachments/assets/b4bef276-8d3d-49d4-ace8-df582aa2099c" />
+> </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-02
+
+
+Gerar Indicadores (Com Dados)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os 5 gráficos (Organizações Sociais, Consultores Sociais, Cidades Atendidas, Causas e Temas de Projeto) com barras indicando as quantidades corretas.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar o "Programa GESC Prossiga" e um período válido, os gráficos foram renderizados. O gráfico de "Consultores Sociais" exibiu corretamente a quantidade "1 e 2" (referente ao dado de teste inserido), e os eixos X (Ano) e Y (Quantidade) foram plotados corretamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/51cd512c-b124-4e86-b856-81a5e3940898" />
+<img width="1893" height="934" alt="image" src="https://github.com/user-attachments/assets/fb00d954-d1f3-4b01-92b7-b0c5c04d3a01" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-03
+
+
+Gerar Indicadores (Sem Dados no Período)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">Os gráficos devem ser exibidos, mas vazios (sem barras) ou zerados, sem quebrar a aplicação.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado selecionando um período futuro ou um programa sem turmas vinculadas. O sistema tratou o retorno vazio da API corretamente, exibindo a estrutura dos gráficos sem barras.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1904" height="936" alt="image" src="https://github.com/user-attachments/assets/f03f0abc-2626-4e60-94cf-883c9718891c" />
+<img width="1885" height="929" alt="image" src="https://github.com/user-attachments/assets/622ca591-d2dd-4ad7-a529-87c43cafb0c6" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-04
+
+
+Trocar de Programa</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve disparar uma nova requisição automaticamente e atualizar os gráficos com os números referentes ao novo programa selecionado.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Pedro</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">A funcionalidade de troca de filtros está operante. Ao alterar o Programa no dropdown, disparou a atualização e os gráficos refletiram os dados do novo contexto selecionado instantaneamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/48f3ef6a-8cf9-4793-a095-0b5f0096e965" />
+<img width="1885" height="936" alt="image" src="https://github.com/user-attachments/assets/e06748ef-b5a2-4a74-927b-48595dbcdeb9" />
+
+ </td> </tr> </table>
+
+</details>
+
+<details> 
+  <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
+
+<table> <tr> <th colspan="6" width="1000">CT-RL-01
+
+
+O sistema deve exibir relatório que descreva o que o executor busca filtrar</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O usuário visualiza na tela todos os dados selecionados para conter no relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+
+
+Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao executar o relatório, usuário visualiza na tela os dados.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="703" height="460" alt="image" src="https://github.com/user-attachments/assets/49978eff-7ef2-4e6f-994e-538e3b7572a6" />
+
+> </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-RL-02
+
+
+O Sistema deve exibir dados em PDF</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema exibe o relatório em PDF e permite salvar.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar PDF o usuaário visualiza em PDF e consegue salvar.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
+<img width="645" height="193" alt="image" src="https://github.com/user-attachments/assets/88814442-d53a-47e5-9341-ca9abf8f97ad" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-RL-03
+
+O sistema deve exibir dados dados em Excel</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema exibe o relatório em Excel e permitir salvar.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar exportar Excel o usuaário visualiza em Excel e consegue salvar</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
+<img width="733" height="330" alt="image" src="https://github.com/user-attachments/assets/0387548a-bda3-4144-bb11-61ce19698b87" />
+
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-RL-04
+
+
+O sistema não exibi o relatório</th> </tr> <tr> <td width="170"><strong>Critérios</strong></td> <td colspan="5">O usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
+<img width="1433" height="617" alt="image" src="https://github.com/user-attachments/assets/8879b3ef-1a22-4b94-9e5d-d954193e0010" />
+</table>
+
+<table> <tr> <th colspan="6" width="1000">CT-RL-05
+
+
+O sistema não exibi o relatório, pois o usuário não preencheu corretamente os dados obrigatórios</th> </tr> <tr> <td width="170"><strong>Critérios</strong></td> <td colspan="5">O usuário não preenche os campos obrigatorios corretamente e não consegue emitir relatório.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Kênia Caires
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">O sistema não exibe o relatório, uma vez que o usuário não preenche corretamente os campos obrigatorios.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> 
+<img width="1350" height="868" alt="image" src="https://github.com/user-attachments/assets/d64ae4f9-ff59-482b-a254-0bcb40ca7fc0" />
+
+
+
+ </td> </tr> </table>
+
+</details>
+
+<details>
+  <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
+  
+  <details>
+  <summary> <h3> Evidências: Cadastrar OSC </h3> </summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPOSC-01<br>Importar OSC corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as OSCs quando o arquivo CSV segue exatamente o modelo padrão.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com arquivo seguindo o modelo oficial de planilha.  
+      Todas as OSCs foram carregadas na pré-visualização e importadas com sucesso sem nenhuma inconsistência.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1996" height="3238" alt="image" src="https://github.com/user-attachments/assets/42dc62c3-4c2e-441f-a8dc-df38e7595909" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPOSC-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve identificar colunas inválidas, bloquear a pré-visualização e impedir que qualquer OSC seja importada.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando planilha com colunas divergentes do modelo padrão.  
+      O sistema identificou a inconsistência e exibiu mensagem de alerta sem carregar a pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+       <img width="471" height="328" alt="image" src="https://github.com/user-attachments/assets/1f2fa4a2-96e5-4533-a1e9-53e6e7b61a28" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir a importação quando a planilha está vazia, sem nenhum registro, exibindo mensagem de alerta ao usuário.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A planilha utilizada para o teste estava completamente vazia, sem qualquer linha de dados.  
+      O sistema bloqueou a importação e exibiu corretamente a mensagem informando que é necessário ao menos um registro para prosseguir.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="2167" height="893" alt="image" src="https://github.com/user-attachments/assets/ad2d3663-db0f-4d7b-93fa-d99a64b1de44" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+  <summary> <h3> Evidências: Cadastrar Integrantes da OSC </h3> </summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPINTOSC-01<br>Importar integrantes da OSC corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todos os integrantes vinculados à OSC quando o arquivo CSV segue o modelo padrão.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com planilha seguindo o modelo oficial.  
+      Os integrantes foram carregados na pré-visualização e importados corretamente com todos os vínculos válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="3186" height="3006" alt="image" src="https://github.com/user-attachments/assets/77c1f04b-c2f7-4cf9-aaa7-faf02941917c" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPINTOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha estiver vazia, sem nenhum integrante informado.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Foi utilizada uma planilha completamente vazia.  
+      O sistema bloqueou o processo corretamente e informou ao usuário que é necessário ao menos um registro para continuar.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="2206" height="893" alt="image" src="https://github.com/user-attachments/assets/15786dba-8a10-44b7-82bc-384583d371f7" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+</details>
+
+<details>
+  <summary> <h3> Evidências: Cadastrar Empresas </h3> </summary>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPEMP-01<br>Importar empresas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as empresas quando o arquivo CSV segue exatamente o modelo padrão.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando a planilha no formato padrão.  
+      Todas as empresas foram carregadas na pré-visualização e importadas com sucesso, sem inconsistências nos dados.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="2312" height="3093" alt="image" src="https://github.com/user-attachments/assets/6877ed1e-bc23-4c4c-8926-8543d1167086" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPEMP-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve identificar colunas inválidas e impedir a pré-visualização e a importação de empresas.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Planilha utilizada com colunas divergentes do modelo oficial.  
+      O sistema detectou a inconsistência e bloqueou o processo, exibindo mensagem clara ao usuário antes de carregar qualquer dado.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="473" height="273" alt="image" src="https://github.com/user-attachments/assets/17c53fcf-dd8f-471c-a890-463b82120675" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPEMP-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha não contém nenhum registro de empresa.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Felipe<br>
+      Teste: Felipe
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      A planilha estava totalmente vazia.  
+      O sistema bloqueou a importação corretamente e informou ao usuário que é necessário ao menos um registro para prosseguir.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="2198" height="893" alt="image" src="https://github.com/user-attachments/assets/abe7d48b-8eca-4329-b7d6-b585ede43ccb" />
+      <br><br><br><br><br>
+    </td>
+  </tr>
+</table>
+
+</details>
+  
+  <details>
+    <summary> <h3> Evidências: Cadastrar Integrantes na Turma </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-01<br>Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar todos os integrantes corretamente quando o arquivo CSV segue o modelo padrão e todos os vínculos são válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com arquivo CSV seguindo exatamente o modelo fornecido.  
+      O sistema carregou os dados na pré-visualização e concluiu a importação com mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1575" height="731" alt="image" src="https://github.com/user-attachments/assets/4103c39b-75d2-4913-9749-58b67b7afeda" />
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta de colunas inválidas e impedir qualquer pré-visualização ou importação.
+    </td>
+  </tr>
+
+   <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com planilha contendo colunas diferentes do modelo.  
+      O sistema identificou a divergência e bloqueou o processo, exibindo mensagem de alerta antes da pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="787" height="750" alt="image" src="https://github.com/user-attachments/assets/2bf0e390-1f25-40b7-81ff-bb2ebdc8905b" />
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-03<br>Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de insucesso para o integrante sem vínculo, sem interromper a importação dos demais itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado incluindo no CSV um registro de pessoa sem vínculo com a OSC.  
+      O sistema importou corretamente os demais registros válidos e exibiu a mensagem de erro apenas para o item inválido, destacando o motivo da rejeição.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1688" height="440" alt="image" src="https://github.com/user-attachments/assets/c492b272-3048-4281-9c1d-8e8f76bfd0c0" />
+    </td>
+  </tr>
+</table>
+
+
+
+  </details>
+
+  <details>
+    <summary> <h3> Evidências: Cadastrar Pessoas </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-01<br>Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as pessoas quando o CSV segue exatamente o modelo fornecido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando o modelo padrão de planilha. Os dados foram carregados corretamente na pré-visualização e todas as pessoas foram importadas com sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1265" height="675" alt="image" src="https://github.com/user-attachments/assets/2148076b-b04b-48c4-86af-625a818b618a" />
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta informando que a planilha não contém as colunas corretas e impedir a importação, sem carregar a pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Foi utilizada uma planilha com colunas divergentes do modelo oficial.  
+      O sistema reconheceu a inconsistência e bloqueou o processo antes de carregar qualquer dado.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="771" height="896" alt="image" src="https://github.com/user-attachments/assets/e7c29bd0-3b79-4bcf-905b-f62d5346436b" />
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-03<br>Falha ao importar pessoa sem CPF informado</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de erro especificamente para a pessoa cujo CPF não foi preenchido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Lucas
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Os demais registros foram carregados corretamente na pré-visualização e importados.  
+      O sistema exibiu erro apenas para a linha sem CPF, mantendo o fluxo padrão de importação parcial.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1332" height="417" alt="image" src="https://github.com/user-attachments/assets/37f29c00-3383-4c1d-b87e-333fab77e806" />
+    </td>
+  </tr>
+</table>
+
+
+  </details>
+  
+
+
+</details>
 
 
 ## Parte 2 - Testes por pares
 A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade deve ser testada por um colega e os testes devem ser evidenciados. O colega "Tester" deve utilizar o caso de teste criado pelo desenvolvedor responsável pela funcionalidade (desenvolveu a funcionalidade e criou o caso de testes descrito no plano de testes) e caso perceba a necessidade de outros casos de teste, deve acrescentá-los na sessão "Plano de Testes".
 
-### ETAPA 2
-
+## ETAPA 2
+<details>
+<summary><h2>💻 Fluxo de Acesso</h2></summary>
 <table>
   <tr>
     <th colspan="6" width="1000">CT-001<br>Teste de Login</th>
@@ -4093,6 +7713,9 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </td>
   </tr>
 </table>
+</details>
+
+## ETAPA 3
 
 <details>
   <summary><h2>Testes: 🏛️ OSC</h2></summary>
@@ -4804,6 +8427,166 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </details>
 
 <details>
+  <summary><h2>Testes: 🧍‍♂️🧍‍♂️ Pessoas</h2></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-P01<br>Cadastrar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve cadastrar a pessoa e exibi-la corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Cadastro realizado com sucesso. Pessoa listada corretamente.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1326" height="626" alt="image" src="https://github.com/user-attachments/assets/26230262-c217-4f72-82c1-83d47a9303d0" />
+          <img width="1319" height="618" alt="image" src="https://github.com/user-attachments/assets/44d4aef3-ebe0-4256-86f5-c70a2bdb25d2" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO02<br>Editar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve atualizar as informações e exibi-las corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Edição concluída com sucesso. Alterações refletidas na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+         <img width="1316" height="636" alt="image" src="https://github.com/user-attachments/assets/58c7eec5-8896-46e1-9ed7-0bb524250f01" />
+         <img width="1335" height="634" alt="image" src="https://github.com/user-attachments/assets/8de77065-dd69-4b41-ad16-a735bcd111c3" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO03<br>Remover Pessoa</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve remover a pessoa e atualizar a lista sem o item excluído.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Exclusão confirmada e refletida corretamente na listagem.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1328" height="634" alt="image" src="https://github.com/user-attachments/assets/cbbbda11-04c6-40d8-bf9a-f993e09959a8" />
+          <img width="1329" height="631" alt="image" src="https://github.com/user-attachments/assets/00ba132d-46b0-4865-8529-4eb1bfde2515" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO04<br>Cadastrar Pessoa sem preencher dados obrigatórios</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de obrigatoriedade.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Validação OK: sistema não permitiu salvar sem os campos obrigatórios.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+          <img width="1334" height="637" alt="image" src="https://github.com/user-attachments/assets/0b806136-78e8-4e96-b1a1-0eac28d804f9" />
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-PO05<br>Listar Pessoas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">O sistema deve exibir a lista de Pessoas corretamente, incluindo resultados filtrados conforme o critério informado.</td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+      <td>Kênia Caires</td>
+      <td><strong>Responsável pelo teste</strong></td>
+      <td>Ricardo Teixeira</td>
+      <td><strong>Data do Teste</strong></td>
+      <td>18/10/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">Listagem e filtro por Nome funcionando conforme o esperado.</td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1107" height="609" alt="image" src="https://github.com/user-attachments/assets/7c02de14-8d7a-4684-870b-ceedd9ac0669" />
+        <img width="1112" height="596" alt="image" src="https://github.com/user-attachments/assets/cbfcbe03-28bb-4268-9dfe-59956841f57d" />
+      </td>
+    </tr>
+  </table>
+
+</details>
+
+      
+<details>
   <summary><h2>Testes: 🎓 Programa</h2></summary>
 
   <table>
@@ -5100,8 +8883,9 @@ A fim de aumentar a qualidade da aplicação desenvolvida, cada funcionalidade d
 </td>
     </tr>
   </table>
+</details>
 
-  <details> <summary><h2>Testes: 🏢 Empresa</h2></summary>
+<details> <summary><h2>Testes: 🏢 Empresa</h2></summary>
     
 <table>   <tr>     <th colspan="6" width="1000">CT-EMP-01
   
@@ -5148,6 +8932,11 @@ Tentar Criar Empresa com Campos Obrigatórios Vazios</th>   </tr>   <tr>     <td
 Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">08/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de campos obrigatórios funcionou. O sistema exibiu a mensagem de erro correta ao tentar salvar sem o CNPJ.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>  <td colspan="6" align="center"> <img width="940" height="682" alt="image" src="https://github.com/user-attachments/assets/26dbf4fb-2e0c-4f42-a69b-9ac2f9a9e590" />
 
  </td>   </tr> </table> </details>
+
+ </td>
+    </tr>
+  </table>
+</details>
 
 <details> <summary><h2>Testes: 💝 Doações</h2></summary>
 
@@ -5204,10 +8993,1509 @@ Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td wi
 Tentar Criar Doação sem Doador</th>   </tr>   <tr>     <td width="170"><strong>Critérios de êxito</strong></td>     <td colspan="5">O sistema deve exibir uma mensagem de erro, como "Error ao salvar doação...", e não deve criar a doação.</td>   </tr>   <tr>     <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>     <td width="430">Desenvolvimento: Pedro Roberto
 
 
-Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1215" height="671" alt="image" src="https://github.com/user-attachments/assets/7f01ecaa-d77e-4006-8b4d-4038d9a8aa79" />
+Teste: Kênia Caires</td>     <td><strong>Data do Teste</strong></td>     <td width="150">18/10/2025</td>   </tr>   <tr>     <td><strong>Comentário</strong></td>     <td colspan="5">A validação de doador no backend está funcionando. O sistema exibiu o erro esperado ao tentar salvar sem selecionar um doador.</td>   </tr>   <tr>     <td colspan="6" align="center"><strong>Evidência</strong></td>   </tr>   <tr>     <td colspan="6" align="center"> <img width="1215" height="671" alt="image" src="https://github.com/user-attachments/assets/7f01ecaa-d77e-4006-8b4d-4038d9a8aa79" /></table>
 
+</details>
+
+
+<details> <summary><h2>Testes: 👤 Usuários</h2></summary>
+<table>     
+  <tr>       
+    <th colspan="6" width="1000">CT-US01<br>Criar Usuário</th>     
+</tr>
+  <tr>       
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve cadastrar o Usuário e exibi-lo corretamente na listagem.
+    </td>     
+  </tr>     
+  <tr>       
+    <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>
+    <td width="430">Ricardo Teixeira</td>
+    <td><strong>Responsável pelo teste</strong></td>
+    <td width="150">Pedro Roberto</td>
+    <td width="100"><strong>Data do Teste</strong></td>
+    <td width="150">19/10/2025</td>
+  </tr>
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">Teste de par: Criação de usuário confirmada. O novo registro apareceu na lista com todos os dados corretos.</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1593" height="817" alt="image" src="https://github.com/user-attachments/assets/5127a8b4-f102-4de3-93a5-def6599dc9b9" />
+      <img width="1893" height="900" alt="image" src="https://github.com/user-attachments/assets/080ae323-aa7b-4e58-b010-d65796181129" />
+    </td>
+  </tr>
+</table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US02
+
+
+Editar Usuário</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve atualizar e exibir as informações editadas corretamente na listagem.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Edição de usuário (telefone e tipo) funcionou. A lista foi atualizada com os novos dados.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center">         
+<img width="1902" height="919" alt="image" src="https://github.com/user-attachments/assets/a4774c0b-3d52-4d70-9a9f-91b4af1cbbde" /> <img width="1910" height="924" alt="image" src="https://github.com/user-attachments/assets/021d6865-2097-4717-9cbf-dc807f9fe0b7" />
+
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US03
+
+
+Remover Usuário</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve remover o Usuário e atualizar a lista sem o item excluído.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Exclusão após confirmação no modal foi bem-sucedida. O usuário foi removido da listagem.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1899" height="918" alt="image" src="https://github.com/user-attachments/assets/5e326b33-87bd-4c5c-8d4c-a16f0c2cfe6e" /> <img width="1905" height="939" alt="image" src="https://github.com/user-attachments/assets/0bf4fd4a-a80e-461f-acaa-c9ebb60dcc38" />
+
+      </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US04
+
+
+Listar Usuários</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir a lista corretamente e respeitar filtros por Nome, E-mail e Tipo (Role).</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A listagem de usuários e os filtros por nome, e-mail e tipo estão funcionando como esperado.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1881" height="791" alt="image" src="https://github.com/user-attachments/assets/af31e1b2-19e7-49a0-8fd1-363e726bd7e3" />
+               </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US05 - I01
+
+
+Criar Usuário sem Nome</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Nome é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Confirmo que a validação de nome obrigatório está funcionando. O sistema impediu o salvamento.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1858" height="788" alt="image" src="https://github.com/user-attachments/assets/d65969b6-15fe-4089-97aa-3877e4ee1a5b" />
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US06 - I02
+
+
+Criar Usuário sem E-mail</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo E-mail é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: Validação de e-mail obrigatório funcionando. O erro foi exibido.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"><img width="1887" height="947" alt="image" src="https://github.com/user-attachments/assets/3f4b1fb9-0bb8-4b1a-acd0-102e9c2a9902" />       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US07 - I03
+
+
+Criar Usuário com E-mail inválido</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem sobre E-mail inválido.</td>     </tr>   T <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A validação de formato de e-mail foi verificada e está funcionando.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1884" height="886" alt="image" src="https://github.com/user-attachments/assets/7dc43581-cdb7-4600-916a-3cc762994839" />
+       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US08 - I04
+
+
+Criar Usuário sem Telefone</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve exibir mensagem de erro informando que o campo Telefone é obrigatório.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A validação de telefone obrigatório está funcionando.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center"> <img width="1877" height="909" alt="image" src="https://github.com/user-attachments/assets/ef958bcb-4f0f-47a1-8ddf-983501aea2f6" />       </td>     </tr>   </table>
+
+  <table>     <tr>       <th colspan="6" width="1000">CT-US09 - I05
+
+
+Criar Usuário com E-mail já existente</th>     </tr>     <tr>       <td width="170"><strong>Critérios de êxito</strong></td>       <td colspan="5">O sistema deve impedir o cadastro e exibir mensagem de E-mail já utilizado.</td>     </tr>     <tr>       <td><strong>Responsável pela funcionalidade (desenvolvimento)</strong></td>       <td>Ricardo Teixeira</td>       <td><strong>Responsável pelo teste</strong></td>       <td>Pedro Roberto</td>       <td><strong>Data do Teste</strong></td>       <td>19/10/2025</td>     </tr>     <tr>       <td><strong>Comentário</strong></td>       <td colspan="5">Teste de par: A regra de unicidade de e-mail foi validada e está funcionando. O sistema exibiu o erro de duplicidade.</td>     </tr>     <tr>       <td colspan="6" align="center"><strong>Evidência</strong></td>     </tr>     <tr>       <td colspan="6" align="center">         
+<img width="1891" height="915" alt="image" src="https://github.com/user-attachments/assets/2664e7d6-3835-4777-b230-ef6ca91fc182" />
+       </td>     </tr>   </table>
+
+</details>
+
+## ETAPA 4
+
+<details>
+  <summary><h2>Testes: 📊 Relatório do Executor</h2></summary>
+
+  <table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-01<br>Exibir relatório que descreva o que o executor busca filtrar</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+   Usuário visualiza na tela todos os dados selecionados para conter no relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema apresentou o relatório perfeitamente.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1598" height="767" alt="3 1" src="https://github.com/user-attachments/assets/c4655c32-e40f-4354-8390-1f291250f744" />
+        <img width="1599" height="764" alt="3 3" src="https://github.com/user-attachments/assets/47b16acf-ef4b-4e08-b665-165451a28b43" />
+        <img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/6ab0700a-76df-4706-999d-93d59cc67f9d" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-02<br>O Sistema deve exibir dados em PDF</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve permitir visualizar e salvar o arquivo em pdf.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kenia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+     A visualização abriu corretamente e foi possível salvar o arquivo.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/5dfd9c39-3eb1-4658-9eef-4bc16e41ef29" />
+        <img width="1588" height="331" alt="4 0" src="https://github.com/user-attachments/assets/e969ab44-3231-4676-b6ae-25e3276f8465" />
+        <img width="1599" height="852" alt="4 1" src="https://github.com/user-attachments/assets/c1c8d6f3-ec4b-49ed-bc1d-219cf40745b8" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-03<br>O sistema deve exibir dados em Excel</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema exibe o relatório em Excel e permite salvar.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    A visualização abriu corretamente e foi possível salvar o arquivo.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="765" alt="3 2" src="https://github.com/user-attachments/assets/c0d13b15-dedf-4e66-9537-e0189cb330a6" />
+    <img width="1599" height="338" alt="4 2" src="https://github.com/user-attachments/assets/3630e976-1ca7-4cc0-a19a-087f750bd30d" />
+    <img width="1598" height="850" alt="4 3" src="https://github.com/user-attachments/assets/5b4e516b-aeb4-440d-8528-358981dafb03" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-04<br>Não preencher dados obrigatorios</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório se não preencher os campos obrigatórios.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="766" alt="erro 3" src="https://github.com/user-attachments/assets/8b9fd76d-8148-4e12-9af9-12c4f72cfde3" />
+</em>
+  </td>
+</tr>
+</table>
+
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-RL-05<br>Não preencher corretamente os dados obrigatorios</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema apresenta mensagem e não exibe o relatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: Kênia Caires<br>Teste: João Victor</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O sistema não exibe o relatório se não preencher corretamente os campos obrigatórios.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1599" height="771" alt="5" src="https://github.com/user-attachments/assets/c12db963-a309-43f2-9f70-1441ce21b703" />
+</em>
+  </td>
+</tr>
+</table>
 
 
 
 </details>
 
+  
+<details>
+  <summary><h2>Testes: 🌱 Upload de Documento</h2></summary>
+
+  <table>
+<tr>
+  <th colspan="6" width="1000">CT-U01-I<br>Criar Documento sem Nome</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve impedir a criação do documento e exibir mensagem informando que o nome é obrigatório.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    Ao tentar salvar o documento sem preencher o nome, o sistema exibiu mensagem de validação e não permitiu prosseguir.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1578" height="893" alt="image" src="https://github.com/user-attachments/assets/e7e68fdb-e5ab-46aa-9274-6ca70e85f81a" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-U02-S<br>Upload de Documento PDF</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve permitir anexar um arquivo PDF válido e salvar corretamente o documento.
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150">23/11/2025</td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    O documento foi anexado com sucesso, aparecendo corretamente na listagem de documentos do projeto.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="3162" height="2818" alt="image" src="https://github.com/user-attachments/assets/153a97a8-a0f4-4781-b4d4-899a036903f5" />
+</em>
+  </td>
+</tr>
+</table>
+
+<table>
+<tr>
+  <th colspan="6" width="1000">CT-U03-S<br>Visualizar Documento Enviado</th>
+</tr>
+
+<tr>
+  <td width="170"><strong>Critérios de êxito</strong></td>
+  <td colspan="5">
+    O sistema deve abrir corretamente a visualização do documento em página blob ao clicar em "Ver".
+  </td>
+</tr>
+
+<tr>
+  <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+  <td width="430">Desenvolvimento: João<br>Teste: Felipe</td>
+  <td width="100"><strong>Data do Teste</strong></td>
+  <td width="150"></td>
+</tr>
+
+<tr>
+  <td><strong>Comentário</strong></td>
+  <td colspan="5">
+    A visualização abriu corretamente e exibiu todo o conteúdo do documento PDF sem falhas.
+  </td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+
+<tr>
+  <td colspan="6" align="center">
+    <em><img width="1578" height="893" alt="image" src="https://github.com/user-attachments/assets/a052ab89-743e-4f72-80f0-665fc1e6de76" />
+</em>
+  </td>
+</tr>
+</table>
+
+
+</details>
+
+<details> <summary><h2>Testes: 📊 Dashboard</h2></summary>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-01
+
+
+Visualizar Estado Inicial (Sem Programa Selecionado)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os campos de filtro (Programa, Data Início, Data Fim) e uma mensagem instruindo o usuário: "Por favor, selecione um programa para visualizar os dados". Nenhum gráfico deve ser carregado ainda.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td width="100"><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado com sucesso. Ao acessar a rota do Dashboard, os filtros foram carregados vazios e a mensagem de instrução foi exibida corretamente ao centro, sem tentar buscar dados desnecessários no backend.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1914" height="940" alt="image" src="https://github.com/user-attachments/assets/b4bef276-8d3d-49d4-ace8-df582aa2099c" />
+> </td> </tr> </table>
+
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-02
+
+
+Gerar Indicadores (Com Dados)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve exibir os 5 gráficos (Organizações Sociais, Consultores Sociais, Cidades Atendidas, Causas e Temas de Projeto) com barras indicando as quantidades corretas.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Ao selecionar o "Programa GESC Prossiga" e um período válido, os gráficos foram renderizados. O gráfico de "Consultores Sociais" exibiu corretamente a quantidade "1 e 2" (referente ao dado de teste inserido), e os eixos X (Ano) e Y (Quantidade) foram plotados corretamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/51cd512c-b124-4e86-b856-81a5e3940898" />
+<img width="1893" height="934" alt="image" src="https://github.com/user-attachments/assets/fb00d954-d1f3-4b01-92b7-b0c5c04d3a01" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-03
+
+
+Gerar Indicadores (Sem Dados no Período)</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">Os gráficos devem ser exibidos, mas vazios (sem barras) ou zerados, sem quebrar a aplicação.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">Teste realizado selecionando um período futuro ou um programa sem turmas vinculadas. O sistema tratou o retorno vazio da API corretamente, exibindo a estrutura dos gráficos sem barras.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1904" height="936" alt="image" src="https://github.com/user-attachments/assets/f03f0abc-2626-4e60-94cf-883c9718891c" />
+<img width="1885" height="929" alt="image" src="https://github.com/user-attachments/assets/622ca591-d2dd-4ad7-a529-87c43cafb0c6" />
+
+ </td> </tr> </table>
+
+<table> <tr> <th colspan="6" width="1000">CT-DASH-04
+
+
+Trocar de Programa</th> </tr> <tr> <td width="170"><strong>Critérios de êxito</strong></td> <td colspan="5">O sistema deve disparar uma nova requisição automaticamente e atualizar os gráficos com os números referentes ao novo programa selecionado.</td> </tr> <tr> <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td> <td width="430">Desenvolvimento: Pedro
+
+
+Teste: Kênia Caires</td> <td><strong>Data do Teste</strong></td> <td width="150">23/11/2025</td> </tr> <tr> <td><strong>Comentário</strong></td> <td colspan="5">A funcionalidade de troca de filtros está operante. Ao alterar o Programa no dropdown, disparou a atualização e os gráficos refletiram os dados do novo contexto selecionado instantaneamente.</td> </tr> <tr> <td colspan="6" align="center"><strong>Evidência</strong></td> </tr> <tr> <td colspan="6" align="center"> <img width="1894" height="934" alt="image" src="https://github.com/user-attachments/assets/48f3ef6a-8cf9-4793-a095-0b5f0096e965" />
+<img width="1885" height="936" alt="image" src="https://github.com/user-attachments/assets/e06748ef-b5a2-4a74-927b-48595dbcdeb9" />
+
+ </td> </tr> </table>
+
+</details>
+
+<details>
+<summary><h2>Testes: 📊 Gerador de Relatórios (CRUD + Configuração)</h2></summary>
+
+<!-- CT-RPT01-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT01-S<br>Listar relatórios (sem filtros)</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve listar corretamente os relatórios cadastrados, sem filtros aplicados, exibindo colunas principais e paginação funcionando.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">A listagem apresentou relatórios com status de Rascunho e Publicado. As colunas Nome, Entidade Raiz, Status e "Leitor executa?" foram renderizadas adequadamente e a paginação permitiu navegar entre as páginas sem apresentar falhas.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/977cc85a-2f96-468c-af8d-8ec9e77b604b" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT02-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT02-S<br>Filtrar relatórios por Nome e limpar filtros</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve filtrar relatórios pelo campo Nome e permitir limpar filtros, retornando à listagem completa.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">A filtragem por Nome apresentou somente relatórios cujo Nome possui o texto digitado. A indicação "Filtros ativos" foi mostrada durante a aplicação do filtro. O botão "Limpar filtros" removeu os campos preenchidos e retornou a listagem completa.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="450" alt="image" src="https://github.com/user-attachments/assets/49d41162-aaa6-44e0-bfa7-197bbf80e62f" /> <img width="450" alt="image" src="https://github.com/user-attachments/assets/376cc009-d8b5-4271-95bb-485ef4e4d5fb" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT03-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT03-S<br>Filtrar relatórios por Nome e Entidade Raiz</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve combinar filtros por Nome e Entidade Raiz, exibindo somente relatórios que atendam a ambos os critérios.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">A combinação de filtros por Nome e Entidade Raiz apresentou apenas o relatório que corresponde a esses critérios. Registros que não atendiam aos parâmetros não foram exibidos na listagem.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/d4789d58-0f19-4fda-a559-45d21f866f9c" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT04-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT04-S<br>Cadastrar novo relatório (rascunho – dados gerais)</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir cadastrar um novo relatório em Status "Rascunho", preenchendo os dados gerais obrigatórios.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">O relatório foi criado após preencher os campos Nome, Entidade Raiz e a opção "Leitor pode executar?". A mensagem "Relatório criado com sucesso" apareceu via toast e o item foi adicionado na listagem com Status "Rascunho".</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="450" alt="image" src="https://github.com/user-attachments/assets/856da053-8cca-4026-b07d-ff6975700631" /> <img width="450" alt="image" src="https://github.com/user-attachments/assets/7fd393e4-3783-4c3f-8bf1-bb7d955b012d" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT05-I01 -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT05-I01<br>Validação ao salvar relatório sem Nome</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve impedir o salvamento de relatório sem Nome, exibindo mensagem de validação no frontend e não enviando requisição ao backend.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">Ao tentar salvar deixando o campo "Nome*" sem preenchimento, o modal permaneceu aberto e a notificação "O nome do relatório é obrigatório" foi apresentada.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/59d95939-2cc2-4013-996e-7136755d6f51" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT06-I02 -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT06-I02<br>Validação ao salvar relatório sem Entidade Raiz</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve impedir salvar relatório sem Entidade Raiz selecionada, exibindo mensagem de erro e não chamando a API.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">Preenchendo o Nome e deixando Entidade Raiz vazia, o sistema mostrou a mensagem "Selecione a entidade raiz" e manteve o modal visível. A requisição para o endpoint de criação/edição não foi realizada.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/98448168-3510-4f13-b600-ef4543a47d80" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT07-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT07-S<br>Visualizar relatório existente (dados gerais e configuração)</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve abrir o modal de visualização e permitir revisar a configuração do relatório.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">O clique em "Visualizar" abriu o modal com os campos desabilitados para edição. O botão "Visualizar configuração" apresentou os blocos de Revisão (Geral, Relacionamentos, Campos, Filtros e Ordenação) contendo as informações previamente salvas.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/09296d35-48ee-4f8b-92b6-3fb7e87574b3" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT08-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT08-S<br>Editar dados gerais de relatório em rascunho</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir editar os dados gerais de um relatório em Rascunho.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">As modificações realizadas em Nome, Descrição, Entidade Raiz e "Leitor pode executar?" foram gravadas adequadamente. A notificação "Relatório atualizado com sucesso" apareceu e as mudanças ficaram visíveis na listagem.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="450" alt="image" src="https://github.com/user-attachments/assets/70583147-03be-43af-a288-3f5ba1827641" /> <img width="450" alt="image" src="https://github.com/user-attachments/assets/5a420a36-5b5c-40d4-b479-621bd17855f9" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT09-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT09-S<br>Abrir configuração para relatório em rascunho</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve abrir a tela de configuração para relatórios em Rascunho, carregando dados gerais e metadados (entidades e campos).</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">O botão "Configurar relatório" para item em Rascunho iniciou a configuração na etapa "Geral" trazendo Nome, Descrição e Entidade Raiz preenchidos. As etapas de Relacionamentos, Campos e Filtros/Ordenação apresentaram as alternativas de metadados fornecidas pela API.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="180" alt="image" src="https://github.com/user-attachments/assets/8ac14d82-740d-44ef-92ab-9f39c4a0f051" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/1ac9c720-4137-4b5e-a5a1-79c399d9838a" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/e94f2f76-0f01-418c-8145-81e95334fa4c" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/b598606b-7f78-42b3-b056-d64bb74bc8b6" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/5d1e6dfa-c36a-4189-a934-d4d68dad145a" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT10-I03 -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT10-I03<br>Bloquear abertura da configuração para relatório publicado</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve impedir a abertura da configuração para relatórios em Status "Publicado", exibindo mensagem orientando a despublicação.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">Ao clicar em "Configurar relatório" para registro em Status "Publicado", o wizard não foi iniciado e surgiu a notificação "Para configurar esse relatório, favor despublicá-lo". O comportamento está de acordo com a regra de negócio.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/87c7a99c-72b3-4e8c-964e-4bf087f3ed86" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT11-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT11-S<br>Configurar relacionamentos, campos, filtros e ordenações e salvar</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir configurar relacionamentos, campos, filtros e ordenações válidos e salvar a configuração sem erros.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">O fluxo completo da configuração foi realizado: adição de relacionamento, escolha de campos, estabelecimento de filtros e ordenações, revisão e gravação. A notificação de sucesso foi apresentada e, ao reabrir a configuração, todos os dados estavam conforme o configurado.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="220" alt="image" src="https://github.com/user-attachments/assets/e99092e8-e6ae-4953-a583-11cc6558aa02" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/e95f1bfc-c448-42b6-9e31-f85e1eea37d4" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/fed20518-5c91-485f-b317-55ba1e6e1616" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/b35fa677-ccb1-4ba5-860c-1777be5c097e" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/eaad074e-8c8f-4461-b987-42e26f536955" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/11ae71ab-658e-4c1d-b576-61debadbc73c" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/c9aa5c3c-a88d-47f5-9fff-04541718d8bb" /> <img width="220" alt="image" src="https://github.com/user-attachments/assets/5c1f6172-f93e-416a-a18f-bb168fe8d118" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT12-I04 -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT12-I04<br>Impedir publicação de relatório sem configuração de campos (configuração não feita)</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve impedir a publicação de relatórios que não possuam campos configurados, mantendo o Status como "Rascunho".</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">A tentativa de publicação foi realizada para relatório contendo somente dados gerais. O sistema apresentou o alerta "Falta efetuar a configuração do Relatório" e não modificou o Status, mantendo-o como "Rascunho".</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/74ca6926-ecd1-438b-8ee0-f4482c5e094f" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT13-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT13-S<br>Publicar relatório configurado com sucesso</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir publicar relatórios devidamente configurados, alterando o Status para "Publicado".</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">O relatório completamente configurado foi publicado com êxito após confirmação na caixa de diálogo. A notificação "Operação concluída" foi mostrada e o Status foi atualizado para "Publicado" na listagem.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="180" alt="image" src="https://github.com/user-attachments/assets/12f6c0cd-31c9-4b55-bbcb-3f5dc970f1a3" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/e7812d58-4073-4fd5-b8f2-9c8512a2bea6" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/8edeef52-778b-4d17-84cd-70fd5acbb4df" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/85dbd3e0-d8d3-4d0c-8fc9-da1646e05e51" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/2bb33bb2-28c8-4148-a99c-39dcb6148fa5" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT14-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT14-S<br>Despublicar relatório para permitir nova configuração</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir despublicar relatório, retornando-o a "Rascunho" e liberando novamente a configuração.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">A operação "Despublicar" foi realizada para relatório em Status "Publicado". A notificação "Operação concluída" foi mostrada, o Status retornou para "Rascunho" e, posteriormente, o botão "Configurar relatório" voltou a abrir o wizard normalmente.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="180" alt="image" src="https://github.com/user-attachments/assets/fcb673df-2354-4374-abf0-7b3f5e16049c" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/c498adc0-2bcb-406a-8920-2bc9acdd064c" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/93d5c0d2-9c1c-45a7-8b59-d70a6c58d1ad" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/ee961204-fd6f-4934-aac2-c859f514d733" /> <img width="180" alt="image" src="https://github.com/user-attachments/assets/cc79b542-b68f-48d9-9eb9-217eea762647" />
+</td>
+</tr>
+</table>
+
+<!-- CT-RPT15-S -->
+<table>
+<tr>
+<th colspan="6" width="1000">CT-RPT15-S<br>Excluir relatório e atualizar listagem</th>
+</tr>
+<tr>
+<td width="170"><strong>Critérios de êxito</strong></td>
+<td colspan="5">O sistema deve permitir excluir um relatório e atualizar a listagem removendo o item.</td>
+</tr>
+<tr>
+<td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+<td width="430">Desenvolvimento: Ricardo Teixeira<br>Teste: Lucas Bebiano</td>
+<td width="100"><strong>Data do Teste</strong></td>
+<td width="150">23/11/2025</td>
+</tr>
+<tr>
+<td><strong>Comentário</strong></td>
+<td colspan="5">Ao selecionar "Excluir", o sistema apresentou modal solicitando confirmação. Depois de confirmar, a notificação "Operação concluída" foi exibida e o relatório foi removido da listagem.</td>
+</tr>
+<tr>
+<td colspan="6" align="center"><strong>Evidência</strong></td>
+</tr>
+<tr>
+<td colspan="6" align="center">
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/827eb162-3ed1-44a4-b521-e80fbfaeb6ce" /> <img width="300" alt="image" src="https://github.com/user-attachments/assets/ed3a6c8b-9a3f-4798-8625-072fff3c61c4" /> <img width="300" alt="image" src="https://github.com/user-attachments/assets/ac9e92c1-3576-4122-bbf6-3fc5f34d3533" />
+</td>
+</tr>
+</table>
+
+</details>
+<details>
+  <summary> <h2>Testes: 📩Importar dados via CSV</h2></summary>
+  
+  <details>
+  <summary><h3> Cadastrar OSC </h3></summary>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-01<br>Importar OSC corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as OSCs quando o arquivo CSV segue exatamente o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Reproduzi o cenário utilizando o modelo oficial de planilha. As OSCs foram exibidas na pré-visualização com os dados alinhados às colunas esperadas e, após confirmar a importação, todos os registros foram criados sem inconsistências aparentes.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1339" height="746" alt="image" src="https://github.com/user-attachments/assets/ae246ea4-b05f-4bfa-9adb-f692bbcf42a7" />
+        <img width="1343" height="735" alt="image" src="https://github.com/user-attachments/assets/e30b8474-f096-4d5a-b36b-4275cd6aa18f" />
+        <img width="1628" height="453" alt="image" src="https://github.com/user-attachments/assets/a0b6b6ba-b72f-4aaa-8042-283d51c3ca68" />
+        <img width="1366" height="765" alt="image" src="https://github.com/user-attachments/assets/e3204814-5568-47b0-a3cb-b5f1016e0683" />
+        <img width="1359" height="741" alt="image" src="https://github.com/user-attachments/assets/57c237fd-7b21-4ca9-a02c-d578c440dc4c" />
+        <img width="1340" height="764" alt="image" src="https://github.com/user-attachments/assets/ad0ae430-352c-400b-a926-5382f27f3f03" />
+        <img width="1355" height="748" alt="image" src="https://github.com/user-attachments/assets/588892e9-97e7-48ff-b58b-7df3fb608c03" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-02<br>Falha ao importar devido a colunas incorretas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve identificar colunas inválidas, bloquear a pré-visualização e impedir que qualquer OSC seja importada.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Executei o teste com uma planilha alterando os nomes de algumas colunas em relação ao modelo padrão. O sistema identificou as colunas inválidas, exibiu mensagem de alerta e não chegou a carregar a pré-visualização nem permitiu iniciar a importação.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="459" height="272" alt="image" src="https://github.com/user-attachments/assets/8ad6edc4-9afb-4f0c-825e-f48bdee3619d" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação quando a planilha está vazia, sem nenhum registro, exibindo mensagem de alerta ao usuário.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Testei com uma planilha completamente vazia, apenas com o cabeçalho padrão. O sistema bloqueou a operação de importação e apresentou mensagem orientando que é necessário ao menos um registro para continuar, sem criar qualquer dado na base.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1349" height="768" alt="image" src="https://github.com/user-attachments/assets/7a86ced9-3c78-4c58-be78-84fb3a2d2fc9" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  </details>
+  
+  <details>
+  <summary><h3> Cadastrar Integrantes da OSC </h3></summary>
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPINTOSC-01<br>Importar integrantes da OSC corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todos os integrantes vinculados à OSC quando o arquivo CSV segue o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Utilizando a planilha de integrantes no formato oficial, os registros foram exibidos na pré-visualização com os vínculos corretos à OSC. Após confirmar a importação, todos os integrantes foram criados com os campos esperados e sem erros de validação.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1356" height="764" alt="image" src="https://github.com/user-attachments/assets/faf98041-0090-4d94-bc90-879249ec59eb" />
+        <img width="1359" height="751" alt="image" src="https://github.com/user-attachments/assets/65d02699-02c7-48db-9eb3-32c96ab8c58a" />
+        <img width="1592" height="493" alt="image" src="https://github.com/user-attachments/assets/e022d2e4-1de2-4b45-8d22-56807053dfb2" />
+        <img width="1351" height="757" alt="image" src="https://github.com/user-attachments/assets/12e805ca-288a-4c0d-b5a4-a729f53c0596" />
+        <img width="1360" height="746" alt="image" src="https://github.com/user-attachments/assets/085fcd51-ec70-46ca-8f30-2b02d2aa7d11" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPINTOSC-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha estiver vazia, sem nenhum integrante informado.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Carreguei uma planilha de integrantes sem nenhuma linha de dados. O sistema impediu a continuidade da importação e mostrou mensagem clara indicando a necessidade de pelo menos um registro antes de prosseguir.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1379" height="762" alt="image" src="https://github.com/user-attachments/assets/66801912-f50e-4084-b3c1-fcd1faeaec23" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table> 
+  </details>
+  
+  <details>
+  <summary><h3> Cadastrar Empresas </h3></summary>
+  <table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-01<br>Importar empresas corretamente usando modelo padrão</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as empresas quando o arquivo CSV segue exatamente o modelo padrão.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Reexecutei o fluxo com a planilha de empresas seguindo o modelo padrão. Todas foram exibidas na pré-visualização e, após a importação, os registros foram criados com os dados íntegros, sem mensagens de erro ou campos ausentes.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1364" height="753" alt="image" src="https://github.com/user-attachments/assets/3ad271de-a3fd-4eb8-8b85-6509dc4001fd" />
+        <img width="1357" height="745" alt="image" src="https://github.com/user-attachments/assets/0354593c-2d94-4abf-bea3-c6f3e3c18358" />
+        <img width="1576" height="694" alt="image" src="https://github.com/user-attachments/assets/61f9c122-d985-454c-aeff-ee639848eac8" />
+        <img width="1366" height="750" alt="image" src="https://github.com/user-attachments/assets/420aa30d-7af0-49d1-b28d-1db1d0ac0b82" />
+        <img width="1350" height="757" alt="image" src="https://github.com/user-attachments/assets/72099651-cf05-4741-a827-f894e67b1d82" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-02<br>Falha ao importar devido a colunas incorretas</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve identificar colunas inválidas e impedir a pré-visualização e a importação de empresas.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Utilizei um arquivo com colunas diferentes do layout padrão. O sistema acusou a divergência logo após o upload, mostrou mensagem de alerta e não habilitou a pré-visualização nem a importação das empresas.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="444" height="230" alt="image" src="https://github.com/user-attachments/assets/b5e0d4e1-12ad-4d68-acf2-21cf7b2ecb7f" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th colspan="6" width="1000">CT-IMPEMP-03<br>Falha ao tentar importar planilha vazia sem registro</th>
+    </tr>
+    <tr>
+      <td width="170"><strong>Critérios de êxito</strong></td>
+      <td colspan="5">
+        O sistema deve impedir a importação e exibir mensagem de alerta quando a planilha não contém nenhum registro de empresa.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+      <td width="430">
+        Desenvolvimento: Felipe<br>
+        Teste: Ricardo Teixeira
+      </td>
+      <td width="100"><strong>Data do Teste</strong></td>
+      <td width="150">23/11/2025</td>
+    </tr>
+    <tr>
+      <td><strong>Comentário</strong></td>
+      <td colspan="5">
+        Foi utilizada uma planilha totalmente vazia. O sistema barrou a importação, mantendo a base sem alterações e exibindo mensagem reforçando a necessidade de pelo menos um registro para prosseguir.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center"><strong>Evidência</strong></td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <img width="1370" height="771" alt="image" src="https://github.com/user-attachments/assets/e1cd7807-0b14-4c3e-b43a-62571636ba9c" />
+        <br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+  </details>
+
+  <details>
+    <summary> <h3> Evidências: Cadastrar Integrantes na Turma </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-01<br>Importar integrantes corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar todos os integrantes corretamente quando o arquivo CSV segue o modelo padrão e todos os vínculos são válidos.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com arquivo CSV seguindo exatamente o modelo fornecido.  
+      O sistema carregou os dados na pré-visualização e concluiu a importação com mensagens de sucesso para todos os registros.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="1899" height="925" alt="image" src="https://github.com/user-attachments/assets/839fc5d6-cdd6-428f-a87f-101b8df44162" />
+<img width="592" height="441" alt="image" src="https://github.com/user-attachments/assets/c07e5d99-22af-4661-b873-3c72b3e842c6" />
+<img width="591" height="455" alt="image" src="https://github.com/user-attachments/assets/6194238b-cf44-4791-a1c3-2fda8ffa34fc" />
+<img width="895" height="348" alt="image" src="https://github.com/user-attachments/assets/5b52bdf5-812f-40bd-9374-752ecaff6a1b" />
+<img width="1906" height="932" alt="image" src="https://github.com/user-attachments/assets/cb380638-e1b8-401d-b5ab-6ec2e58092fe" />
+
+
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta de colunas inválidas e impedir qualquer pré-visualização ou importação.
+    </td>
+  </tr>
+
+   <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado com planilha contendo colunas diferentes do modelo.  
+      O sistema identificou a divergência e bloqueou o processo, exibindo mensagem de alerta antes da pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="591" height="454" alt="image" src="https://github.com/user-attachments/assets/47df0014-fc75-43fd-94b1-abd0989cdabc" />
+<img width="896" height="352" alt="image" src="https://github.com/user-attachments/assets/25c05920-18be-418e-a785-846788b66560" />
+
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPITM-03<br>Falha ao importar integrante sem vínculo com a OSC</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de insucesso para o integrante sem vínculo, sem interromper a importação dos demais itens.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado incluindo no CSV um registro de pessoa sem vínculo com a OSC.  
+      O sistema importou corretamente os demais registros válidos e exibiu a mensagem de erro apenas para o item inválido, destacando o motivo da rejeição.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="888" height="445" alt="image" src="https://github.com/user-attachments/assets/1cbf38c1-9aac-4d28-abd5-23d0fe0e2d41" />
+
+
+    </td>
+  </tr>
+</table>
+
+
+
+  </details>
+
+  <details>
+    <summary> <h3> Evidências: Cadastrar Pessoas </summary>
+
+  <table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-01<br>Importar pessoas corretamente usando modelo padrão</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve carregar a pré-visualização corretamente e permitir a importação de todas as pessoas quando o CSV segue exatamente o modelo fornecido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Teste realizado utilizando o modelo padrão de planilha. Os dados foram carregados corretamente na pré-visualização e todas as pessoas foram importadas com sucesso.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+<img width="1894" height="923" alt="image" src="https://github.com/user-attachments/assets/266fd770-822f-4b67-8212-1fe7a759b5de" />
+<img width="1886" height="928" alt="image" src="https://github.com/user-attachments/assets/b4dc21ae-f427-4021-ade0-d685855c4def" />
+<img width="584" height="576" alt="image" src="https://github.com/user-attachments/assets/c793691f-1fc9-47ae-8f59-d9955aca119c" />
+<img width="1895" height="921" alt="image" src="https://github.com/user-attachments/assets/a447ae3c-4af6-4e60-b3f9-ab9e77712736" />
+<img width="1840" height="913" alt="image" src="https://github.com/user-attachments/assets/b961cc8c-20b9-496a-a999-b0f84dc0e16d" />
+
+
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-02<br>Falha ao importar devido a colunas incorretas</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve exibir alerta informando que a planilha não contém as colunas corretas e impedir a importação, sem carregar a pré-visualização.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Foi utilizada uma planilha com colunas divergentes do modelo oficial.  
+      O sistema reconheceu a inconsistência e bloqueou o processo antes de carregar qualquer dado.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+      <img width="1885" height="919" alt="image" src="https://github.com/user-attachments/assets/c8b88063-2b5d-4c09-889f-ebef11bff051" />
+
+
+    </td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th colspan="6" width="1000">CT-IMPPES-03<br>Falha ao importar pessoa sem CPF informado</th>
+  </tr>
+
+  <tr>
+    <td width="170"><strong>Critérios de êxito</strong></td>
+    <td colspan="5">
+      O sistema deve importar apenas os registros válidos e exibir mensagem de erro especificamente para a pessoa cujo CPF não foi preenchido.
+    </td>
+  </tr>
+
+  <tr>
+    <td><strong>Responsável pela funcionalidade (desenvolvimento e teste)</strong></td>
+    <td width="430">
+      Desenvolvimento: Lucas<br>
+      Teste: Pedro Roberto
+    </td>
+    <td><strong>Data do Teste</strong></td>
+    <td width="150">23/11/2025</td>
+  </tr>
+
+  <tr>
+    <td><strong>Comentário</strong></td>
+    <td colspan="5">
+      Os demais registros foram carregados corretamente na pré-visualização e importados.  
+      O sistema exibiu erro apenas para a linha sem CPF, mantendo o fluxo padrão de importação parcial.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center"><strong>Evidência</strong></td>
+  </tr>
+
+  <tr>
+    <td colspan="6" align="center">
+
+
+<img width="1885" height="919" alt="image" src="https://github.com/user-attachments/assets/e6241c77-dc52-40af-8c75-69245a9a44c6" />
+
+      
+
+    </td>
+  </tr>
+</table>
+
+
+  </details>
+  
+
+
+</details>

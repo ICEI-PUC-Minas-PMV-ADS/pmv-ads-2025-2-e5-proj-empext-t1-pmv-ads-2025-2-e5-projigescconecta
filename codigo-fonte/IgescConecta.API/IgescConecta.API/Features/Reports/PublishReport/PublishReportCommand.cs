@@ -40,9 +40,10 @@ namespace IgescConecta.API.Features.Reports.PublishReport
                 throw new ArgumentException("Existem relações duplicadas.");
 
             var fieldPaths = e.Fields.Select(f => f.FieldPath.Trim()).ToList();
+            /*
             if (fieldPaths.Count != fieldPaths.Distinct(StringComparer.OrdinalIgnoreCase).Count())
                 throw new ArgumentException("Existem campos (colunas) duplicados.");
-
+            */
             var sortPriorities = e.Sorts.Select(s => s.Priority).ToList();
             if (sortPriorities.Count != sortPriorities.Distinct().Count())
                 throw new ArgumentException("Existem prioridades de ordenação repetidas.");

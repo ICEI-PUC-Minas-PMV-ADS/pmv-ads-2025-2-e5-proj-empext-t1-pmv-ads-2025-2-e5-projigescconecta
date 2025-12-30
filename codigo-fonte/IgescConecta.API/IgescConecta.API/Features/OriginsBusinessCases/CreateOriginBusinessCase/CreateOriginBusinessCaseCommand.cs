@@ -25,6 +25,13 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.CreateOriginBusinessCas
 
         public async Task<Result<int, ValidationFailed>> Handle(CreateOriginBusinessCaseCommand request, CancellationToken cancellationToken)
         {
+            var getBusinessCase = await _context.BusinessCases.FindAsync(request.BusinessCaseId);
+
+            if (getBusinessCase is null)
+            {
+                return new ValidationFailed(new[] { " Grupo de Causas Inativo" });
+            }
+
             var originBusinessCase = new OriginBusinessCase
             {
                 Name = request.Name,

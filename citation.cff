@@ -1,29 +1,35 @@
-message: Please cite this software using these metadata.
-title:
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "IGESC Conecta"
+version: "1.0.0"
+date-released: 2025-12-07
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
+  - given-names: "Felipe"
+    family-names: "Van Oorschot"
+  - given-names: "Joao Victor"
+    family-names: "Oliveira Santos"
+  - given-names: "Kenia Aparecida"
+    family-names: "Caires Cardoso"
+  - given-names: "Lucas"
+    family-names: "Bebiano Xavier"
+  - given-names: "Pedro Roberto"
+    family-names: "Gomes Da Silva Abadia"
+  - given-names: "Ricardo José"
+    family-names: "Teixeira da Silva Junior"
+  - given-names: "Sandra Maria"
+    family-names: "Silveira"
+    name-suffix: "Professora"
+    affiliation: "PUC Minas"
 keywords:
-  - 
-  - 
-repository-code: 
-version: 1.0.0
-date-released: 2023-10-31
+  - extensão universitária
+  - gestão de projetos sociais
+  - terceiro setor
+  - Organizações da Sociedade Civil
+  - relatórios gerenciais
+  - Agenda 2030
+  - ODS
+  - ASP.NET Core
+  - React
+  - Postgre
+  - Azure
+repository-code: "https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e5-proj-empext-t1-pmv-ads-2025-2-e5-projigescconecta"

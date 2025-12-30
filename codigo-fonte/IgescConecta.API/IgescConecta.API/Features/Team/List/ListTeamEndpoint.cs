@@ -20,7 +20,7 @@ namespace IgescConecta.API.Features.Teams.ListTeams
         [HttpPost("ListTeam", Name = "ListTeam")]
         public async Task<ActionResult<ListTeamViewModel>> ListTeams([FromBody] ListTeamRequest request)
         {
-            var result = await _mediator.Send(new ListTeamQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListTeamQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
     }
@@ -30,5 +30,6 @@ namespace IgescConecta.API.Features.Teams.ListTeams
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

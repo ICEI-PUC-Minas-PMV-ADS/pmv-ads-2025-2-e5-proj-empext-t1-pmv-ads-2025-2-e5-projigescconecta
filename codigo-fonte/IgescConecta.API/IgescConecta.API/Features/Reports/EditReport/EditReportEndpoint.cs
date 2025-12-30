@@ -40,6 +40,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
                     }).ToList() ?? [],
                     Fields = request.Fields?.Select(f => new EditReportFieldItem
                     {
+                        Entity = f.Entity,
                         FieldPath = f.FieldPath,
                         Label = f.Label,
                         DataType = f.DataType,
@@ -48,6 +49,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
                     }).ToList() ?? [],
                     FilterQuestions = request.FilterQuestions?.Select(q => new EditReportFilterQuestionItem
                     {
+                        Entity = q.Entity,
                         FieldPath = q.FieldPath,
                         DefaultOperator = q.DefaultOperator,
                         DataType = q.DataType,
@@ -58,6 +60,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
                     }).ToList() ?? [],
                     Sorts = request.Sorts?.Select(s => new EditReportSortItem
                     {
+                        Entity = s.Entity,
                         FieldPath = s.FieldPath,
                         Direction = s.Direction,
                         Priority = s.Priority
@@ -104,6 +107,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
     public class EditReportFieldRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string Label { get; set; }
         public FieldDataType DataType { get; set; }
@@ -113,6 +117,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
     public class EditReportFilterQuestionRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string DefaultOperator { get; set; }
         public FieldDataType DataType { get; set; }
@@ -124,6 +129,7 @@ namespace IgescConecta.API.Features.Reports.EditReport
 
     public class EditReportSortRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public SortDirection Direction { get; set; } = SortDirection.Asc;
         public int Priority { get; set; } = 1;

@@ -39,6 +39,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
                     }).ToList() ?? [],
                     Fields = request.Fields?.Select(f => new CreateReportFieldItem
                     {
+                        Entity = f.Entity,
                         FieldPath = f.FieldPath,
                         Label = f.Label,
                         DataType = f.DataType,
@@ -47,6 +48,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
                     }).ToList() ?? [],
                     FilterQuestions = request.FilterQuestions?.Select(q => new CreateReportFilterQuestionItem
                     {
+                        Entity = q.Entity,
                         FieldPath = q.FieldPath,
                         DefaultOperator = q.DefaultOperator,
                         DataType = q.DataType,
@@ -57,6 +59,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
                     }).ToList() ?? [],
                     Sorts = request.Sorts?.Select(s => new CreateReportSortItem
                     {
+                        Entity = s.Entity,
                         FieldPath = s.FieldPath,
                         Direction = s.Direction,
                         Priority = s.Priority
@@ -102,6 +105,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportFieldRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string Label { get; set; }
         public FieldDataType DataType { get; set; }
@@ -111,6 +115,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportFilterQuestionRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public required string DefaultOperator { get; set; }
         public FieldDataType DataType { get; set; }
@@ -122,6 +127,7 @@ namespace IgescConecta.API.Features.Reports.CreateReport
 
     public class CreateReportSortRequest
     {
+        public required string Entity { get; set; }
         public required string FieldPath { get; set; }
         public SortDirection Direction { get; set; } = SortDirection.Asc;
         public int Priority { get; set; } = 1;

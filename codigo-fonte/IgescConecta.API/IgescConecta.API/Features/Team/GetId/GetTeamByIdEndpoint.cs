@@ -44,7 +44,9 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
                 ProjectProgramsCount = result.Value.ProjectPrograms.Count,
                 PersonTeamsCount = result.Value.PersonTeams.Count,
                 IsDeleted = result.Value.IsDeleted,
-                CreatedAt = result.Value.CreatedAt
+                CreatedAt = result.Value.CreatedAt,
+                UpdatedAt = result.Value.UpdatedAt,
+                UpdatedBy = result.Value.UpdatedBy
             };
 
             return Ok(teamInfo);
@@ -68,5 +70,7 @@ namespace IgescConecta.API.Features.Teams.GetTeamById
         public int PersonTeamsCount { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 }

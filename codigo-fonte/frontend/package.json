@@ -25,6 +25,8 @@
     "bootstrap": "^5.3.8",
     "dayjs": "^1.11.18",
     "file-saver": "^2.0.5",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
     "jwt-decode": "^4.0.0",
     "papaparse": "^5.5.3",
     "react": "^19.1.1",

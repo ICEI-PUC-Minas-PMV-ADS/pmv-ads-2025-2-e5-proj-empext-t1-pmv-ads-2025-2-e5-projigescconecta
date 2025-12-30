@@ -2,16 +2,13 @@
 using IgescConecta.Domain.Primitives;
 using IgescConecta.Domain.Shared;
 using IgescConecta.Domain.Entities.Reporting;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Linq.Expressions;
-
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -50,7 +47,6 @@ namespace IgescConecta.API.Data
         public DbSet<ProjectDocument> ProjectDocuments { get; set; }
         public DbSet<ProjectTheme> ProjectThemes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
-
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReportRelation> ReportRelations { get; set; }
         public DbSet<ReportField> ReportFields { get; set; }

@@ -1,4 +1,5 @@
 ﻿using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,10 @@ namespace IgescConecta.API.Features.BusinessCases.GetBusinessCase
             {
                 BusinessCaseId = businessCaseId,
                 Name = result.Value.Name,
+                CreatedBy = result.Value.CreatedBy,
+                CreatedAt = result.Value.CreatedAt,
+                UpdatedBy = result.Value.UpdatedBy,
+                UpdatedAt = result.Value.UpdatedAt,
                 Origins = result.Value?.Origins.Select(o => new GetBusinessCaseOriginResponse
                 {
                     OriginBusinessCaseId = o.Id,
@@ -37,7 +42,7 @@ namespace IgescConecta.API.Features.BusinessCases.GetBusinessCase
         }
     }
 
-    public class GetBusinessCaseResponse
+    public class GetBusinessCaseResponse : BaseEntity
     {
         public int BusinessCaseId { get; set; }
 

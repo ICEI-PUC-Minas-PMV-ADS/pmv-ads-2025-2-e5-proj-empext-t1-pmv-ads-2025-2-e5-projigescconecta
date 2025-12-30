@@ -10,12 +10,14 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
 {
     public class ListPersonTeamQuery : PaginationRequest, IRequest<ListPersonTeamViewModel>
     {
-        public ListPersonTeamQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public int? TeamId { get; set; }
+        public string? StatusFilter { get; set; }
+
+        public ListPersonTeamQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
-
-        public int? TeamId { get; set; }
     }
 
     public class PersonTeamDto
@@ -26,6 +28,7 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         public int TeamId { get; set; }
         public string TeamName { get; set; }
         public List<MemberType> MemberTypes { get; set; } = new List<MemberType>();
+        public bool IsDeleted { get; set; }
     }
 
     public class ListPersonTeamViewModel : PaginationResponse<PersonTeamDto> { }
@@ -47,14 +50,21 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
                 .AsNoTracking()
                 .AsQueryable();
 
-            var isDeletedFilter = request.Filters?.FirstOrDefault(f => string.Equals(f.PropertyName, "IsDeleted", StringComparison.OrdinalIgnoreCase));
-            var hasIsDeletedFilter = isDeletedFilter is not null;
-            if (isDeletedFilter is not null && isDeletedFilter.Operation == Op.None)
-            {
-                isDeletedFilter.Operation = Op.Equals;
-            }
+            var query = baseQuery;
 
-            var query = hasIsDeletedFilter ? baseQuery.IgnoreQueryFilters() : baseQuery;
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(pt => pt.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
 
             if (request.TeamId.HasValue)
             {
@@ -110,7 +120,8 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
                     PersonName = pt.Person.Name,
                     TeamId = pt.TeamId,
                     TeamName = pt.Team.Name,
-                    MemberTypes = pt.MemberTypes.ToList()
+                    MemberTypes = pt.MemberTypes.ToList(),
+                    IsDeleted = pt.IsDeleted
                 })
                 .ToListAsync(cancellationToken);
 

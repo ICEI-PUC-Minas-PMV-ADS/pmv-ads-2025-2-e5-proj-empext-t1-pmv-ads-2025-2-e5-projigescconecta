@@ -1,4 +1,5 @@
 ﻿using IgescConecta.API.Common.Extensions;
+using IgescConecta.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,10 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
                 SocialMedia = result.Value.SocialMedia,
                 OscPrimaryDocumment = result.Value?.OscPrimaryDocumment,
                 ZipCode = result.Value.ZipCode,
+                CreatedBy = result.Value.CreatedBy,
+                CreatedAt = result.Value.CreatedAt,
+                UpdatedBy = result.Value.UpdatedBy,
+                UpdatedAt = result.Value.UpdatedAt,
 
                 Beneficiaries = result.Value?.Beneficiaries.Select(b => new GetOscBeneficiaryResponse
                 {
@@ -54,7 +59,7 @@ namespace IgescConecta.API.Features.Oscs.GetOsc
         }
     }
 
-    public class GetOscResponse
+    public class GetOscResponse : BaseEntity
     {
         public int OscId { get; set; }
 

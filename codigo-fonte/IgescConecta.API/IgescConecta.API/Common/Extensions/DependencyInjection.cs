@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using IgescConecta.API.Reporting;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace IgescConecta.API.Common.Extensions
@@ -103,8 +104,11 @@ namespace IgescConecta.API.Common.Extensions
                 return new ConsoleEmailService(sp.GetRequiredService<ILogger<ConsoleEmailService>>());
             });
 
+            services.AddScoped<IReportExecutionService, ReportExecutionService>();
+
             return services;
         }
+
 
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {

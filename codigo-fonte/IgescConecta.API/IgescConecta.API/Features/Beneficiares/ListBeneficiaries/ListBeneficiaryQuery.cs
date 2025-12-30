@@ -20,12 +20,17 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
         public string Notes { get; set; }
 
         public int OscsCount { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     public class ListBeneficiaryQuery : PaginationRequest, IRequest<ListBeneficiaryViewModel>
     {
-        public ListBeneficiaryQuery(int pageNumber, int pageSize, List<Filter> filters) : base(pageNumber, pageSize, filters)
+        public string? StatusFilter { get; set; }
+
+        public ListBeneficiaryQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter) : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -41,14 +46,32 @@ namespace IgescConecta.API.Features.Beneficiares.ListBeneficiaries
         public async Task<ListBeneficiaryViewModel> Handle(ListBeneficiaryQuery request, CancellationToken cancellationToken)
         {
             var expr = ExpressionBuilder.GetExpression<Beneficiary>(request.Filters);
-            var query = _context.Beneficiaries.AsQueryable();
-            var result = await query.Where(expr).Select(beneficiary => new BeneficiaryViewModel
+            var query = _context.Beneficiaries
+                .AsQueryable()
+                .Where(expr);
+
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(o => o.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
+
+            var result = await query.Select(beneficiary => new BeneficiaryViewModel
             {
                 BeneficiaryId = beneficiary.Id,
                 Name = beneficiary.Name,
                 Notes = beneficiary.Notes,
                 OscsCount = _context.Oscs
                     .Count(osc => osc.Beneficiaries.Any(b => b.Id == beneficiary.Id)),
+                IsDeleted = beneficiary.IsDeleted
             })
                 .OrderByDescending(x => x.BeneficiaryId)
                 .Skip((request.PageNumber - 1) * request.PageSize)

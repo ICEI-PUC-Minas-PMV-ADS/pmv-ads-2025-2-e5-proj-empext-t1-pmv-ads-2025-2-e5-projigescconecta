@@ -1,6 +1,7 @@
 ﻿using IgescConecta.API.Common.Extensions;
 using IgescConecta.API.Common.Validation;
 using IgescConecta.Domain.Entities;
+using IgescConecta.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,10 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
                     OriginBusinessCaseId = originBusinessCaseId,
                     Name = result.Value.Name,
                     Notes = result.Value.Notes,
+                    CreatedBy = result.Value.CreatedBy,
+                    CreatedAt = result.Value.CreatedAt,
+                    UpdatedBy = result.Value.UpdatedBy,
+                    UpdatedAt = result.Value.UpdatedAt,
                     Oscs = result.Value?.Oscs?.Select(o => new GetOriginBusinessCaseOscResponse
                     {
                         OscId = o.Id,
@@ -45,7 +50,7 @@ namespace IgescConecta.API.Features.OriginsBusinessCases.GetOriginBusinessCase
         }
     }
 
-    public class GetOriginBusinessCaseResponse
+    public class GetOriginBusinessCaseResponse : BaseEntity
     {
         public int OriginBusinessCaseId { get; set; }
 

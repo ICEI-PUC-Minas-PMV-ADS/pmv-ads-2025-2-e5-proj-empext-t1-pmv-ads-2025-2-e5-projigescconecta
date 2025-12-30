@@ -16,6 +16,7 @@ namespace IgescConecta.API.Features.Courses.ListCourse
         public int CourseId { get; set; }
         public string? Name { get; set; }
         public int TeamsCount { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public class GetCourseByIdViewModel
@@ -53,9 +54,12 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
     public class ListCourseQuery : PaginationRequest, IRequest<ListCourseViewModel>
     {
-        public ListCourseQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public string? StatusFilter { get; set; }
+
+        public ListCourseQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -70,31 +74,39 @@ namespace IgescConecta.API.Features.Courses.ListCourse
 
         public async Task<ListCourseViewModel> Handle(ListCourseQuery request, CancellationToken cancellationToken)
         {
-            var isDeletedFilter = request.Filters?.FirstOrDefault(f => string.Equals(f.PropertyName, "IsDeleted", StringComparison.OrdinalIgnoreCase));
-            var hasIsDeletedFilter = isDeletedFilter is not null;
-            if (isDeletedFilter is not null && isDeletedFilter.Operation == Op.None)
+            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters ?? new List<Filter>());
+            var query = _context.Courses
+                .AsQueryable()
+                .Where(expr);
+
+            if (!string.IsNullOrEmpty(request.StatusFilter))
             {
-                isDeletedFilter.Operation = Op.Equals;
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(c => c.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
             }
 
-            var expr = ExpressionBuilder.GetExpression<Course>(request.Filters ?? new List<Filter>());
-
-            var query = hasIsDeletedFilter ? _context.Courses.IgnoreQueryFilters().AsQueryable() : _context.Courses.AsQueryable();
-
             var result = await query
-                .Where(expr)
                 .Select(c => new CourseViewModel
                 {
                     CourseId = c.Id,
                     Name = c.Name,
-                    TeamsCount = c.Teams.Count
+                    TeamsCount = c.Teams.Count,
+                    IsDeleted = c.IsDeleted
                 })
                 .OrderByDescending(x => x.CourseId)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var totalRecords = await query.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListCourseViewModel
             {

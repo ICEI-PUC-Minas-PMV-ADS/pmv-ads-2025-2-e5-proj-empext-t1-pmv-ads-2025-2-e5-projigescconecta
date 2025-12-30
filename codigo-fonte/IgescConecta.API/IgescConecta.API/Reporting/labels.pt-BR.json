@@ -98,6 +98,10 @@
             "Team.LessonTime": "Horário da Aula",
             "Team.Start": "Data de Início",
             "Team.Finish": "Data de Término",
+            "Team.Year": "Ano",
+            "Team.Semester": "Semestre",
+            "Team.ModalityType": "Modalidade",
+            "Team.EventType": "Tipo de Evento",
 
             /* ========= PersonTeam (Participações em Turmas) ========= */
             "PersonTeam.MemberTypes": "Papel na Turma",
@@ -128,6 +132,7 @@
             "Company.City": "Cidade",
             "Company.State": "UF",
             "Company.PhoneNumber": "Telefone",
+            "Company.Email": "E-Mail",
             "Company.Website": "Site",
             "Company.SocialMedia": "Redes Sociais",
             "Company.IsActive": "Ativa",

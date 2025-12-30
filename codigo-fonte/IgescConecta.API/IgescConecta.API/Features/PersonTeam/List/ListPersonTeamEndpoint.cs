@@ -21,7 +21,7 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         [HttpGet(Name = "ListPersonTeams")]
         public async Task<ActionResult<List<PersonTeamDto>>> ListPersonTeams()
         {
-            var query = new ListPersonTeamQuery(1, int.MaxValue, new())
+            var query = new ListPersonTeamQuery(1, int.MaxValue, new(), null)
             {
                 TeamId = null
             };
@@ -32,7 +32,7 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         [HttpGet("byteam/{teamId}", Name = "ListPersonTeamsByTeam")]
         public async Task<ActionResult<List<PersonTeamDto>>> ListPersonTeamsByTeam([FromRoute] int teamId)
         {
-            var query = new ListPersonTeamQuery(1, int.MaxValue, new())
+            var query = new ListPersonTeamQuery(1, int.MaxValue, new(), null)
             {
                 TeamId = teamId
             };
@@ -43,7 +43,7 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         [HttpPost("search", Name = "SearchPersonTeams")]
         public async Task<ActionResult<ListPersonTeamViewModel>> SearchPersonTeams([FromBody] ListPersonTeamRequest request)
         {
-            var query = new ListPersonTeamQuery(request.PageNumber, request.PageSize, request.Filters ?? new())
+            var query = new ListPersonTeamQuery(request.PageNumber, request.PageSize, request.Filters ?? new(), request.StatusFilter)
             {
                 TeamId = request.TeamId
             };
@@ -58,5 +58,6 @@ namespace IgescConecta.API.Features.PersonTeams.ListPersonTeam
         public int PageSize { get; set; } = 10;
         public int? TeamId { get; set; }
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }
