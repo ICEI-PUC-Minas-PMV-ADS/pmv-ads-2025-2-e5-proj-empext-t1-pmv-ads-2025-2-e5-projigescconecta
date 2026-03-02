@@ -24,6 +24,9 @@ namespace IgescConecta.API.Features.ProjectPrograms.GetById
         public string OscName { get; set; } = string.Empty;
         public string OscCnpj { get; set; } = string.Empty;
         public int? ProjectDocumentId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
     }
 
@@ -46,6 +49,7 @@ namespace IgescConecta.API.Features.ProjectPrograms.GetById
         {
             var p = await _context.ProjectPrograms
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .Include(x => x.ProjectTheme)
                 .Include(x => x.ProjectType)
                 .Include(x => x.Team)
@@ -70,6 +74,10 @@ namespace IgescConecta.API.Features.ProjectPrograms.GetById
                 OscName = p.Osc != null ? p.Osc.Name : string.Empty,
                 OscCnpj = p.Osc != null ? p.Osc.OscPrimaryDocumment : string.Empty,
                 ProjectDocumentId = p.ProjectDocumentId,
+                CreatedAt = p.CreatedAt,
+                UpdatedAt = p.UpdatedAt,
+                UpdatedBy = p.UpdatedBy,
+
                 IsDeleted = p.IsDeleted
             };
         }

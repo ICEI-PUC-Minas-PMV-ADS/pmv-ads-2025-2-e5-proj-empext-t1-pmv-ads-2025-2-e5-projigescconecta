@@ -13,7 +13,7 @@ namespace IgescConecta.API.Features.Persons.GetPerson
 
         public async Task<PersonViewModel?> Handle(GetPersonQuery r, CancellationToken ct)
         {
-            var p = await _ctx.Persons.AsNoTracking().FirstOrDefaultAsync(x => x.Id == r.PersonId, ct);
+            var p = await _ctx.Persons.IgnoreQueryFilters().AsNoTracking().FirstOrDefaultAsync(x => x.Id == r.PersonId, ct);
             if (p is null) return null;
 
             return new PersonViewModel
@@ -28,7 +28,10 @@ namespace IgescConecta.API.Features.Persons.GetPerson
                 Education1 = p.Education1,
                 Education2 = p.Education2,
                 ProfessionalActivity = p.ProfessionalActivity,
-                IsActive = p.IsActive
+                IsActive = p.IsActive,
+                IsDeleted = p.IsDeleted,
+                UpdatedBy = p.UpdatedBy,
+                UpdatedAt = p.UpdatedAt
             };
         }
     }

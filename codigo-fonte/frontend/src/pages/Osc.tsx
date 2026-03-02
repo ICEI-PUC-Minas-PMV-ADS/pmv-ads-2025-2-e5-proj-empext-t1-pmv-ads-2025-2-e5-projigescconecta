@@ -431,7 +431,7 @@ const Osc: React.FC = () => {
 
       const { data: userData } = await userApi.getUserById(userId!);
 
-      setUserUpdatedName(userData.name);
+      setUserUpdatedName(userData.name || 'Usuário desconhecido');
       setAuditDate(date ? dayjs.utc(date).tz("America/Sao_Paulo") : undefined);
       setSelectedOsc(data);
       setIsVisualizing(true);
@@ -658,9 +658,18 @@ const Osc: React.FC = () => {
     {
       label: 'Status',
       field: 'isDeleted',
-      render: (value) => (value ? 'Inativo' : 'Ativo')
+      align: 'center',
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
     }
-  ];
+];
 
   const headerTranslations = {
     name: 'Nome da OSC*',

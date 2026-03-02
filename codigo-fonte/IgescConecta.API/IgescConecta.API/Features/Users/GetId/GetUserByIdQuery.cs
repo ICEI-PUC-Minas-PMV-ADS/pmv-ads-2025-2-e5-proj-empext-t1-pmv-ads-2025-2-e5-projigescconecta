@@ -34,7 +34,10 @@ namespace IgescConecta.API.Features.Users.GetId
                 Email = user.Email ?? string.Empty,
                 PhoneNumber = user.PhoneNumber ?? string.Empty,
                 IsActive = user.IsActive,
-                Role = role
+                Role = role,
+                UpdatedBy = user.UpdatedBy,
+                UpdatedAt = user.UpdatedAt,
+                IsDeleted = !user.IsActive
             };
         }
     }

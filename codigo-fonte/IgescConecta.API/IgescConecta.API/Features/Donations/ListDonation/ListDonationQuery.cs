@@ -17,6 +17,8 @@ namespace IgescConecta.API.Features.Donations.ListDonation
         public int? CompanyId { get; set; }
         public int? OscId { get; set; }
         public int? TeamId { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     public class ListDonationQuery : IRequest<Result<DonationDto, ValidationFailed>>
@@ -37,11 +39,12 @@ namespace IgescConecta.API.Features.Donations.ListDonation
         {
             var donation = await _context.Donations
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(d => d.Id == request.Id, cancellationToken);
 
             if (donation is null)
             {
-                return new ValidationFailed($"DoaÁ„o com ID {request.Id} n„o encontrada.");
+                return new ValidationFailed($"Doa√ß√£o com ID {request.Id} n√£o encontrada.");
             }
 
             var donationDto = new DonationDto
@@ -52,6 +55,8 @@ namespace IgescConecta.API.Features.Donations.ListDonation
                 PersonId = donation.PersonId,
                 CompanyId = donation.CompanyId,
                 OscId = donation.OscId,
+                UpdatedBy = donation.UpdatedBy,
+                UpdatedAt = donation.UpdatedAt,
                 TeamId = donation.TeamId
             };
 

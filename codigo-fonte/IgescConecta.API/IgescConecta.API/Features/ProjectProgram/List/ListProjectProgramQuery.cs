@@ -38,9 +38,12 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
 
     public class ListProjectProgramQuery : PaginationRequest, IRequest<ListProjectProgramViewModel>
     {
-        public ListProjectProgramQuery(int pageNumber, int pageSize, List<Filter> filters)
+        public string? StatusFilter { get; set; }
+
+        public ListProjectProgramQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
+            StatusFilter = statusFilter;
         }
     }
 
@@ -55,15 +58,15 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
 
         public async Task<ListProjectProgramViewModel> Handle(ListProjectProgramQuery request, CancellationToken cancellationToken)
         {
+            var filters = (request.Filters ?? new List<Filter>()).ToList();
             var query = _context.ProjectPrograms
+                .AsNoTracking()
                 .Include(p => p.ProjectTheme)
                 .Include(p => p.ProjectType)
                 .Include(p => p.Team)
                 .Include(p => p.Osc)
                 .AsQueryable();
-
-            var filters = (request.Filters ?? new List<Filter>()).ToList();
-
+            
             // 1) ODS (aceita OdsTypes / OdsNumber / OdsName)
             var odsFilters = filters.Where(f =>
                 string.Equals(f.PropertyName, "OdsTypes", StringComparison.OrdinalIgnoreCase) ||
@@ -136,12 +139,27 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
             }
 
             var expr = ExpressionBuilder.GetExpression<ProjectProgram>(filters);
+            query = query.Where(expr);
 
-            var items = await query
-                .Where(expr)
-                .OrderBy(p => p.Name)
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
+            if (!string.IsNullOrEmpty(request.StatusFilter))
+            {
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(p => p.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
+            }
+            else
+            {
+                query = query.IgnoreQueryFilters().Where(p => !p.IsDeleted);
+            }
+
+            var result = await query
                 .Select(p => new ProjectProgramListItemViewModel
                 {
                     ProjectProgramId = p.Id,
@@ -159,13 +177,16 @@ namespace IgescConecta.API.Features.ProjectPrograms.ListProjectPrograms
                     OscCnpj = p.Osc != null ? p.Osc.OscPrimaryDocumment : "",
                     OdsTypes = p.OdsTypes
                 })
+                .OrderBy(p => p.Name)
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var totalRecords = await _context.ProjectPrograms.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListProjectProgramViewModel
             {
-                Items = items,
+                Items = result,
                 TotalItems = totalRecords
             };
         }

@@ -1517,6 +1517,12 @@ export interface DonationViewModel {
      * @memberof DonationViewModel
      */
     'destinoNome'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DonationViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -3337,6 +3343,12 @@ export interface ListCompaniesRequest {
      * @memberof ListCompaniesRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListCompaniesRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3431,6 +3443,12 @@ export interface ListDonationsRequest {
      * @memberof ListDonationsRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListDonationsRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3700,6 +3718,12 @@ export interface ListPersonRequest {
      * @memberof ListPersonRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListPersonRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3813,6 +3837,12 @@ export interface ListProjectProgramRequest {
      * @memberof ListProjectProgramRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListProjectProgramRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3859,16 +3889,10 @@ export interface ListProjectThemeRequest {
     'filters'?: Array<Filter>;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof ListProjectThemeRequest
      */
-    'includeDeleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ListProjectThemeRequest
-     */
-    'onlyDeleted'?: boolean;
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -3915,16 +3939,10 @@ export interface ListProjectTypeRequest {
     'filters'?: Array<Filter>;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof ListProjectTypeRequest
      */
-    'includeDeleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ListProjectTypeRequest
-     */
-    'onlyDeleted'?: boolean;
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -4219,6 +4237,12 @@ export interface ListUserRequest {
      * @memberof ListUserRequest
      */
     'filters'?: Array<Filter>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListUserRequest
+     */
+    'statusFilter'?: string | null;
 }
 /**
  * 
@@ -4763,6 +4787,12 @@ export interface PersonListItemViewModel {
      * @memberof PersonListItemViewModel
      */
     'isActive'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonListItemViewModel
+     */
+    'isDeleted'?: boolean;
 }
 /**
  * 
@@ -4989,6 +5019,24 @@ export interface PersonViewModel {
      * @memberof PersonViewModel
      */
     'isActive'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonViewModel
+     */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonViewModel
+     */
+    'updatedBy'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonViewModel
+     */
+    'updatedAt'?: string;
 }
 /**
  * 
@@ -6273,6 +6321,24 @@ export interface UserViewModel {
      * @memberof UserViewModel
      */
     'isActive'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserViewModel
+     */
+    'updatedBy'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserViewModel
+     */
+    'isDeleted'?: boolean;
 }
 
 /**

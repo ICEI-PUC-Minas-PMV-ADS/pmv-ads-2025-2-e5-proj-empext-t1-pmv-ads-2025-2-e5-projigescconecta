@@ -13,15 +13,20 @@ import {
   Switch,
   FormControlLabel,
   Autocomplete,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormGroup,
+  Divider,
+  Avatar,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AccessTime from '@mui/icons-material/AccessTime';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import Table, { Column } from '../components/Table';
 import DialogPadronized from '@/components/DialogPadronized';
@@ -37,9 +42,11 @@ import {
   ProjectTypesApi,
   ProjectThemesApi,
   OscsApi,
+  UsersApi,
 } from '../api';
 import { apiConfig } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
+import dayjs, { Dayjs } from 'dayjs';
 
 type ListItem = {
   projectProgramId: number;
@@ -64,8 +71,6 @@ type ComboBasic = { id: number; name: string };
 type ComboOsc = { id: number; name: string; cnpj?: string };
 type OptDecisao = { value: number; label: string };
 type OptOds = { value: number; label: string };
-
-const FIELD_STYLE = { minWidth: 240, flex: '1 1 240px' };
 
 const DECISION_OPTIONS: OptDecisao[] = [
   { value: 0, label: 'Iniciado' },
@@ -97,6 +102,7 @@ const ODS_OPTIONS: OptOds[] = [
 const ProjectProgram: React.FC = () => {
   const api = new ProjectProgramsApi(apiConfig);
   const navigate = useNavigate();
+  const userApi = new UsersApi(apiConfig);
 
   const [items, setItems] = useState<ListItemWithLabel[]>([]);
   const [page, setPage] = useState(0);
@@ -112,8 +118,7 @@ const ProjectProgram: React.FC = () => {
   const [qTheme, setQTheme] = useState<ComboBasic | null>(null);
   const [qDecisionOpt, setQDecisionOpt] = useState<OptDecisao | null>(null);
   const [qOdsOpt, setQOdsOpt] = useState<OptOds | null>(null);
-  const [includeDeleted, setIncludeDeleted] = useState(false);
-  const [onlyDeleted, setOnlyDeleted] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
 
   const [oscOptions, setOscOptions] = useState<ComboOsc[]>([]);
   const [teamOptions, setTeamOptions] = useState<ComboBasic[]>([]);
@@ -126,6 +131,9 @@ const ProjectProgram: React.FC = () => {
   const [editing, setEditing] = useState<ListItemWithLabel | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
 
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
   const [projectName, setProjectName] = useState('');
   const [mDecisionOpt, setMDecisionOpt] = useState<OptDecisao | null>(null);
   const [mOsc, setMOsc] = useState<ComboOsc | null>(null);
@@ -137,13 +145,27 @@ const ProjectProgram: React.FC = () => {
   const [odsOpen, setOdsOpen] = useState(false);
 
   const columns: Column<ListItemWithLabel>[] = [
-    { label: 'ID', field: 'projectProgramId', width: 90 as any },
+    { label: 'ID', field: 'projectProgramId' },
     { label: 'Nome do Projeto', field: 'name' },
     { label: 'Tipo do Projeto', field: 'projectTypeName' },
     { label: 'Tema do Projeto', field: 'projectThemeName' },
     { label: 'Turma', field: 'teamName' },
     { label: 'OSC', field: 'oscName' },
     { label: 'Decisão', field: 'decisionLabel' },
+    {
+      label: 'Status',
+      field: 'isDeleted',
+      align: 'center',
+      render: (value) => (
+        <Chip
+          label={value ? 'Inativo' : 'Ativo'}
+          size="small"
+          color={value ? 'error' : 'success'}
+          variant="outlined"
+          sx={{ fontWeight: 600 }}
+        />
+      ),
+    },
   ];
 
   const hasAnyFilter =
@@ -154,8 +176,7 @@ const ProjectProgram: React.FC = () => {
     !!qTheme ||
     !!qDecisionOpt ||
     !!qOdsOpt ||
-    includeDeleted ||
-    onlyDeleted;
+    statusFilter !== undefined;
 
   const buildFilters = (): Filter[] => {
     const filters: Filter[] = [];
@@ -177,9 +198,6 @@ const ProjectProgram: React.FC = () => {
       });
     if (qOdsOpt)
       filters.push({ propertyName: 'OdsTypes', operation: CONTAINS, value: String(qOdsOpt.value) });
-    if (onlyDeleted) filters.push({ propertyName: 'IsDeleted', operation: EQUALS, value: 'true' });
-    else if (!includeDeleted)
-      filters.push({ propertyName: 'IsDeleted', operation: EQUALS, value: 'false' });
     return filters;
   };
 
@@ -189,13 +207,14 @@ const ProjectProgram: React.FC = () => {
     return DECISION_OPTIONS.find((o) => o.value === num);
   };
 
-  const fetchList = async () => {
+  const fetchList = async (statusFilterParam?: string) => {
     try {
       setLoading(true);
       const request: ListProjectProgramRequest = {
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         filters: buildFilters(),
+        statusFilter: statusFilterParam ?? statusFilter,
       };
       const { data } = await api.listProjectProgram(request);
       const raw = (data.items as unknown as ListItem[]) || [];
@@ -270,7 +289,7 @@ const ProjectProgram: React.FC = () => {
 
   const handleSearch = () => {
     setPage(0);
-    fetchList();
+    fetchList(statusFilter);
   };
 
   const handleClear = () => {
@@ -282,14 +301,15 @@ const ProjectProgram: React.FC = () => {
     setQTheme(null);
     setQDecisionOpt(null);
     setQOdsOpt(null);
-    setIncludeDeleted(false);
-    setOnlyDeleted(false);
-    fetchList();
+    setStatusFilter(undefined);
+    fetchList(undefined);
   };
 
   const handleAdd = () => {
     setEditing(null);
     setIsVisualizing(false);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
     setProjectName('');
     setMDecisionOpt(null);
     setMOsc(null);
@@ -304,6 +324,25 @@ const ProjectProgram: React.FC = () => {
   const handleView = async (row: ListItemWithLabel) => {
     try {
       const { data } = await api.getProjectProgramById(row.projectProgramId);
+
+      const audit = data as unknown as {
+        updatedBy?: number;
+        updatedAt?: string;
+        createdAt?: string;
+      };
+
+      const userId = audit.updatedBy;
+      const date = audit.updatedAt || audit.createdAt;
+
+      if (userId) {
+        const { data: userData } = await userApi.getUserById(userId);
+        setUserUpdatedName(userData.name || null);
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      setAuditDate(date ? dayjs(date) : undefined);
+
       setIsVisualizing(true);
       setEditing(row);
       setProjectName(data.name || row.name || '');
@@ -327,6 +366,8 @@ const ProjectProgram: React.FC = () => {
     try {
       const { data } = await api.getProjectProgramById(row.projectProgramId);
       setIsVisualizing(false);
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
       setEditing(row);
       setProjectName(data.name || row.name || '');
       const dec = data?.decision ?? row.decision;
@@ -397,10 +438,10 @@ const ProjectProgram: React.FC = () => {
     if (qTheme) chips.push(`Tema: ${qTheme.name}`);
     if (qDecisionOpt) chips.push(`Decisão: ${qDecisionOpt.label}`);
     if (qOdsOpt) chips.push(qOdsOpt.label);
-    if (onlyDeleted) chips.push('Somente inativos');
-    else if (includeDeleted) chips.push('Incluir inativos');
+    if (statusFilter === 'Inactive') chips.push('Somente inativos');
+    else if (statusFilter === 'all') chips.push('Incluir inativos');
     return chips;
-  }, [qName, qOsc, qTeam, qType, qTheme, qDecisionOpt, qOdsOpt, includeDeleted, onlyDeleted]);
+  }, [qName, qOsc, qTeam, qType, qTheme, qDecisionOpt, qOdsOpt, statusFilter]);
 
   const validateModal = () => {
     if (!projectName.trim()) return 'Informe o nome do projeto.';
@@ -461,8 +502,9 @@ const ProjectProgram: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchList();
-  }, [page, rowsPerPage]);
+    fetchList(statusFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage, statusFilter]);
 
   const norm = (s: string) =>
     s
@@ -508,7 +550,7 @@ const ProjectProgram: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
             <FilterListIcon sx={{ color: '#1E4EC4', fontSize: '1.25rem' }} />
             <Typography variant="h6" sx={{ color: '#1a1a2e', fontWeight: 600, fontSize: '1.1rem' }}>
-              Filtros
+              Filtro de Busca
             </Typography>
             {hasAnyFilter && (
               <Chip
@@ -525,107 +567,212 @@ const ProjectProgram: React.FC = () => {
             )}
           </Box>
 
-          <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
             <TextField
               label="Nome do Projeto"
+              variant="outlined"
               size="small"
               value={qName}
               onChange={(e) => setQName(e.target.value)}
               onKeyUp={(e) => (e.key === 'Enter' ? handleSearch() : undefined)}
-              sx={FIELD_STYLE}
+              sx={{ minWidth: 220 }}
             />
-            <Autocomplete
-              options={oscOptions}
-              loading={loadingCombos}
-              value={qOsc}
-              onChange={(_, v) => setQOsc(v)}
-              isOptionEqualToValue={(o, v) => o.id === v.id}
-              getOptionLabel={(o) => o?.name || ''}
-              renderInput={(params) => <TextField {...params} label="Nome da OSC" size="small" />}
-              sx={FIELD_STYLE}
-            />
-            <Autocomplete
-              options={teamOptions}
-              loading={loadingCombos}
-              value={qTeam}
-              onChange={(_, v) => setQTeam(v)}
-              isOptionEqualToValue={(o, v) => o.id === v.id}
-              getOptionLabel={(o) => o?.name || ''}
-              renderInput={(params) => <TextField {...params} label="Nome da Turma" size="small" />}
-              sx={FIELD_STYLE}
-            />
-          </Stack>
 
-          <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 2 }}>
-            <Autocomplete
-              options={typeOptions}
-              loading={loadingCombos}
-              value={qType}
-              onChange={(_, v) => setQType(v)}
-              isOptionEqualToValue={(o, v) => o.id === v.id}
-              getOptionLabel={(o) => o?.name || ''}
-              renderInput={(params) => (
-                <TextField {...params} label="Tipo do Projeto" size="small" />
-              )}
-              sx={FIELD_STYLE}
-            />
-            <Autocomplete
-              options={themeOptions}
-              loading={loadingCombos}
-              value={qTheme}
-              onChange={(_, v) => setQTheme(v)}
-              isOptionEqualToValue={(o, v) => o.id === v.id}
-              getOptionLabel={(o) => o?.name || ''}
-              renderInput={(params) => (
-                <TextField {...params} label="Tema do Projeto" size="small" />
-              )}
-              sx={FIELD_STYLE}
-            />
-            <Autocomplete
-              options={DECISION_OPTIONS}
-              value={qDecisionOpt}
-              onChange={(_, opt) => setQDecisionOpt(opt)}
-              isOptionEqualToValue={(o, v) => o.value === v.value}
-              getOptionLabel={(o) => o?.label ?? ''}
-              renderInput={(params) => <TextField {...params} label="Decisão" size="small" />}
-              sx={FIELD_STYLE}
-            />
-          </Stack>
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>OSC</InputLabel>
+              <Select
+                value={qOsc?.id ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQOsc(null);
+                  } else {
+                    const selected = oscOptions.find((o) => o.id === Number(value));
+                    setQOsc(selected || null);
+                  }
+                }}
+                label="OSC"
+                disabled={loadingCombos}
+              >
+                <MenuItem value="">
+                  <em>Todas</em>
+                </MenuItem>
+                {oscOptions.map((osc) => (
+                  <MenuItem key={osc.id} value={osc.id}>
+                    {osc.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
-            <Autocomplete
-              options={ODS_OPTIONS}
-              value={qOdsOpt}
-              onChange={(_, opt) => setQOdsOpt(opt)}
-              isOptionEqualToValue={(o, v) => o.value === v.value}
-              getOptionLabel={(o) => o?.label ?? ''}
-              renderInput={(params) => <TextField {...params} label="ODS" size="small" />}
-              sx={FIELD_STYLE}
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={includeDeleted}
-                  onChange={(e) => {
-                    setIncludeDeleted(e.target.checked);
-                    if (e.target.checked) setOnlyDeleted(false);
-                  }}
-                />
-              }
-              label="Incluir inativos"
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={onlyDeleted}
-                  onChange={(e) => {
-                    setOnlyDeleted(e.target.checked);
-                    if (e.target.checked) setIncludeDeleted(false);
-                  }}
-                />
-              }
-              label="Somente inativos"
-            />
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Turma</InputLabel>
+              <Select
+                value={qTeam?.id ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQTeam(null);
+                  } else {
+                    const selected = teamOptions.find((t) => t.id === Number(value));
+                    setQTeam(selected || null);
+                  }
+                }}
+                label="Turma"
+                disabled={loadingCombos}
+              >
+                <MenuItem value="">
+                  <em>Todas</em>
+                </MenuItem>
+                {teamOptions.map((team) => (
+                  <MenuItem key={team.id} value={team.id}>
+                    {team.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Tipo do Projeto</InputLabel>
+              <Select
+                value={qType?.id ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQType(null);
+                  } else {
+                    const selected = typeOptions.find((t) => t.id === Number(value));
+                    setQType(selected || null);
+                  }
+                }}
+                label="Tipo do Projeto"
+                disabled={loadingCombos}
+              >
+                <MenuItem value="">
+                  <em>Todos</em>
+                </MenuItem>
+                {typeOptions.map((type) => (
+                  <MenuItem key={type.id} value={type.id}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 220 }}>
+              <InputLabel>Tema do Projeto</InputLabel>
+              <Select
+                value={qTheme?.id ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQTheme(null);
+                  } else {
+                    const selected = themeOptions.find((t) => t.id === Number(value));
+                    setQTheme(selected || null);
+                  }
+                }}
+                label="Tema do Projeto"
+                disabled={loadingCombos}
+              >
+                <MenuItem value="">
+                  <em>Todos</em>
+                </MenuItem>
+                {themeOptions.map((theme) => (
+                  <MenuItem key={theme.id} value={theme.id}>
+                    {theme.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 200 }}>
+              <InputLabel>Decisão</InputLabel>
+              <Select
+                value={qDecisionOpt?.value ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQDecisionOpt(null);
+                  } else {
+                    const selected = DECISION_OPTIONS.find((o) => o.value === Number(value));
+                    setQDecisionOpt(selected || null);
+                  }
+                }}
+                label="Decisão"
+              >
+                <MenuItem value="">
+                  <em>Todas</em>
+                </MenuItem>
+                {DECISION_OPTIONS.map((opt) => (
+                  <MenuItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 280 }}>
+              <InputLabel>ODS</InputLabel>
+              <Select
+                value={qOdsOpt?.value ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value as number | '';
+                  if (value === '') {
+                    setQOdsOpt(null);
+                  } else {
+                    const selected = ODS_OPTIONS.find((o) => o.value === Number(value));
+                    setQOdsOpt(selected || null);
+                  }
+                }}
+                label="ODS"
+              >
+                <MenuItem value="">
+                  <em>Todas</em>
+                </MenuItem>
+                {ODS_OPTIONS.map((opt) => (
+                  <MenuItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box
+            sx={{
+              mt: 2.5,
+              gap: 3,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'start',
+              flexWrap: 'wrap',
+            }}
+          >
+            <FormGroup row sx={{ mb: 2 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={statusFilter === 'Inactive'}
+                    onChange={() =>
+                      setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                    }
+                  />
+                }
+                label="Somente Inativos"
+              />
+
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={statusFilter === 'all'}
+                    onChange={() => setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))}
+                  />
+                }
+                label="Incluir Inativos"
+              />
+            </FormGroup>
+
             <Button
               variant="contained"
               startIcon={<SearchIcon />}
@@ -638,6 +785,15 @@ const ProjectProgram: React.FC = () => {
                 py: 1,
                 borderRadius: 1.5,
                 textTransform: 'none',
+                fontSize: '0.95rem',
+                boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                '&:hover': {
+                  bgcolor: '#1640a8',
+                  boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                  transform: 'translateY(-1px)',
+                },
+                transition: 'all 0.2s ease',
+                flex: { xs: 1, sm: 'initial' },
               }}
             >
               Buscar
@@ -650,15 +806,22 @@ const ProjectProgram: React.FC = () => {
                 borderColor: alpha('#1E4EC4', 0.3),
                 color: '#1E4EC4',
                 fontWeight: 600,
-                px: 3,
+                px: 4,
                 py: 1,
                 borderRadius: 1.5,
                 textTransform: 'none',
+                fontSize: '0.95rem',
+                '&:hover': {
+                  borderColor: '#1E4EC4',
+                  bgcolor: alpha('#1E4EC4', 0.05),
+                  borderWidth: 1.5,
+                },
+                transition: 'all 0.2s ease',
               }}
             >
               Limpar Filtros
             </Button>
-          </Stack>
+          </Box>
 
           {hasAnyFilter && (
             <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mt: 2 }}>
@@ -701,85 +864,127 @@ const ProjectProgram: React.FC = () => {
         maxWidth="md"
         title={dialogTitle()}
         content={
-          <Box sx={{ pt: 2 }}>
-            <Stack spacing={2}>
-              <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="flex-start">
-                <TextField
-                  autoFocus={!isVisualizing}
-                  label="Nome do Projeto"
-                  type="text"
-                  size="small"
-                  value={projectName}
-                  onChange={(e) => setProjectName(e.target.value)}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                  sx={{
-                    ...FIELD_STYLE,
-                    ...(isVisualizing ? { pointerEvents: 'none' } : {}),
-                    mt: 1,
-                  }}
-                />
-                <Autocomplete
-                  options={DECISION_OPTIONS}
-                  value={mDecisionOpt}
-                  onChange={(_, opt) => setMDecisionOpt(opt)}
-                  isOptionEqualToValue={(o, v) => o.value === v.value}
-                  getOptionLabel={(o) => o?.label ?? ''}
-                  renderInput={(params) => <TextField {...params} label="Decisão" size="small" />}
-                  sx={{ ...FIELD_STYLE, mt: 1 }}
-                  disabled={isVisualizing}
-                />
-              </Stack>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextField
+                autoFocus={!isVisualizing}
+                margin="dense"
+                label="Nome do Projeto *"
+                type="text"
+                fullWidth
+                variant="outlined"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                slotProps={{
+                  input: {
+                    readOnly: isVisualizing,
+                  },
+                }}
+                sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+              />
+            </Grid>
 
-              <Stack direction="row" spacing={2} flexWrap="wrap">
-                <Autocomplete
-                  options={oscOptions}
-                  value={mOsc}
-                  onChange={(_, v) => setMOsc(v)}
-                  isOptionEqualToValue={(o, v) => o.id === v.id}
-                  getOptionLabel={(o) => (o ? `${o.name}${o.cnpj ? ` — ${o.cnpj}` : ''}` : '')}
-                  renderInput={(params) => <TextField {...params} label="OSC" size="small" />}
-                  sx={FIELD_STYLE}
-                  disabled={isVisualizing}
-                />
-                <Autocomplete
-                  options={teamOptions}
-                  value={mTeam}
-                  onChange={(_, v) => setMTeam(v)}
-                  isOptionEqualToValue={(o, v) => o.id === v.id}
-                  getOptionLabel={(o) => o?.name || ''}
-                  renderInput={(params) => <TextField {...params} label="Turma" size="small" />}
-                  sx={FIELD_STYLE}
-                  disabled={isVisualizing}
-                />
-              </Stack>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Autocomplete
+                options={DECISION_OPTIONS}
+                value={mDecisionOpt}
+                onChange={(_, opt) => setMDecisionOpt(opt)}
+                isOptionEqualToValue={(o, v) => o.value === v.value}
+                getOptionLabel={(o) => o?.label ?? ''}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Decisão *"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                disabled={isVisualizing}
+              />
+            </Grid>
 
-              <Stack direction="row" spacing={2} flexWrap="wrap">
-                <Autocomplete
-                  options={typeOptions}
-                  value={mType}
-                  onChange={(_, v) => setMType(v)}
-                  isOptionEqualToValue={(o, v) => o.id === v.id}
-                  getOptionLabel={(o) => o?.name || ''}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Tipo do Projeto" size="small" />
-                  )}
-                  sx={FIELD_STYLE}
-                  disabled={isVisualizing}
-                />
-                <Autocomplete
-                  options={themeOptions}
-                  value={mTheme}
-                  onChange={(_, v) => setMTheme(v)}
-                  isOptionEqualToValue={(o, v) => o.id === v.id}
-                  getOptionLabel={(o) => o?.name || ''}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Tema do Projeto" size="small" />
-                  )}
-                  sx={FIELD_STYLE}
-                  disabled={isVisualizing}
-                />
-              </Stack>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Autocomplete
+                options={oscOptions}
+                value={mOsc}
+                onChange={(_, v) => setMOsc(v)}
+                isOptionEqualToValue={(o, v) => o.id === v.id}
+                getOptionLabel={(o) => (o ? `${o.name}${o.cnpj ? ` — ${o.cnpj}` : ''}` : '')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="OSC *"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                disabled={isVisualizing}
+              />
+            </Grid>
 
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Autocomplete
+                options={teamOptions}
+                value={mTeam}
+                onChange={(_, v) => setMTeam(v)}
+                isOptionEqualToValue={(o, v) => o.id === v.id}
+                getOptionLabel={(o) => o?.name || ''}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Turma *"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                disabled={isVisualizing}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Autocomplete
+                options={typeOptions}
+                value={mType}
+                onChange={(_, v) => setMType(v)}
+                isOptionEqualToValue={(o, v) => o.id === v.id}
+                getOptionLabel={(o) => o?.name || ''}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Tipo do Projeto *"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                disabled={isVisualizing}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Autocomplete
+                options={themeOptions}
+                value={mTheme}
+                onChange={(_, v) => setMTheme(v)}
+                isOptionEqualToValue={(o, v) => o.id === v.id}
+                getOptionLabel={(o) => o?.name || ''}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Tema do Projeto *"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                disabled={isVisualizing}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
               <Autocomplete<OptOds, true, false, false>
                 multiple
                 options={ODS_OPTIONS}
@@ -804,12 +1009,19 @@ const ProjectProgram: React.FC = () => {
                 }}
                 renderTags={() => null}
                 renderInput={(params) => (
-                  <TextField {...params} label="Adicionar ODS" size="small" />
+                  <TextField
+                    {...params}
+                    label="Adicionar ODS"
+                    margin="dense"
+                    fullWidth
+                    variant="outlined"
+                  />
                 )}
-                sx={{ flex: '1 1 100%' }}
                 disabled={isVisualizing}
               />
+            </Grid>
 
+            <Grid size={{ xs: 12 }}>
               <Box sx={{ mt: 1 }}>
                 {mOdsOpts.length === 0 ? (
                   <Typography color="text.secondary">Nenhuma ODS adicionada.</Typography>
@@ -822,16 +1034,49 @@ const ProjectProgram: React.FC = () => {
                         onDelete={
                           isVisualizing
                             ? undefined
-                            : () =>
-                                setMOdsOpts((prev) => prev.filter((x) => x.value !== opt.value))
+                            : () => setMOdsOpts((prev) => prev.filter((x) => x.value !== opt.value))
                         }
                       />
                     ))}
                   </Stack>
                 )}
               </Box>
-            </Stack>
-          </Box>
+            </Grid>
+
+            {isVisualizing && (
+              <Grid size={{ xs: 12 }}>
+                <Divider sx={{ mt: 4 }} />
+
+                <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                      {userUpdatedName?.[0] || '?'}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado por
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {userUpdatedName || '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTime fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Atualizado em
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </Grid>
+            )}
+          </Grid>
         }
         actions={
           isVisualizing ? (
@@ -839,7 +1084,17 @@ const ProjectProgram: React.FC = () => {
               variant="contained"
               startIcon={<ArrowBackIcon />}
               onClick={() => setOpenModal(false)}
-              sx={{ bgcolor: '#6b7280', color: 'white', textTransform: 'none' }}
+              sx={{
+                bgcolor: '#6b7280',
+                color: 'white',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 1.5,
+                textTransform: 'none',
+                '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                transition: 'all 0.2s ease',
+              }}
             >
               Voltar
             </Button>
@@ -848,7 +1103,15 @@ const ProjectProgram: React.FC = () => {
               <Button
                 onClick={() => setOpenModal(false)}
                 disabled={modalLoading}
-                sx={{ textTransform: 'none' }}
+                sx={{
+                  color: '#6b7280',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                }}
               >
                 Cancelar
               </Button>
@@ -856,7 +1119,24 @@ const ProjectProgram: React.FC = () => {
                 onClick={handleSave}
                 variant="contained"
                 disabled={modalLoading}
-                sx={{ bgcolor: '#1E4EC4', color: 'white', textTransform: 'none' }}
+                startIcon={modalLoading ? <CircularProgress size={20} /> : null}
+                sx={{
+                  bgcolor: '#1E4EC4',
+                  color: 'white',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  borderRadius: 1.5,
+                  textTransform: 'none',
+                  boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                  transition: 'all 0.2s ease',
+                }}
               >
                 Salvar
               </Button>

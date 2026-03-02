@@ -1,5 +1,4 @@
 ﻿using IgescConecta.API.Common.Extensions;
-using IgescConecta.API.Features.Users.ListUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +21,9 @@ namespace IgescConecta.API.Features.Persons.ListPerson
         }
 
         [HttpPost("ListPerson", Name = "ListPerson")]
-        public async Task<ActionResult<ListPersonViewModel>> ListPerson(ListPersonRequest request)
+        public async Task<ActionResult<ListPersonViewModel>> ListPerson([FromBody] ListPersonRequest request)
         {
-            var result = await _mediator.Send(new ListPersonQuery(request.PageNumber, request.PageSize, request.Filters));
+            var result = await _mediator.Send(new ListPersonQuery(request.PageNumber, request.PageSize, request.Filters, request.StatusFilter));
             return Ok(result);
         }
 
@@ -37,5 +36,6 @@ namespace IgescConecta.API.Features.Persons.ListPerson
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public List<Filter> Filters { get; set; } = new();
+        public string? StatusFilter { get; set; }
     }
 }

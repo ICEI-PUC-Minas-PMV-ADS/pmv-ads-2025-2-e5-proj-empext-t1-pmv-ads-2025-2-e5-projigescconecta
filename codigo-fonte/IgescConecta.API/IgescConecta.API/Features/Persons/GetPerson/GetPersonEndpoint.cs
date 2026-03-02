@@ -34,5 +34,8 @@ namespace IgescConecta.API.Features.Persons.GetPerson
         public string? Education2 { get; set; }
         public string? ProfessionalActivity { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

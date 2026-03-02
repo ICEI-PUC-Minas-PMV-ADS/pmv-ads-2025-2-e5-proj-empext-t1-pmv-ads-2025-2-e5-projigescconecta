@@ -4,35 +4,44 @@ import {
   Container,
   TextField,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   CircularProgress,
   Paper,
   alpha,
   Typography,
   Chip,
+  Grid,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Stack,
+  Avatar,
+  Divider,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Table, { Column } from '@/components/Table';
 import TitleAndButtons from '@/components/TitleAndButtons';
 import { ConfirmDialog } from '@/components/ConfirmDelete';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 import {
   PersonsApi,
-  IgescConectaAPIFeaturesPersonsListPersonListPersonRequest as ListPersonRequest,
-  IgescConectaAPIFeaturesPersonsCreatePersonCreatePersonRequest as CreatePersonRequest,
-  IgescConectaAPIFeaturesPersonsUpdatePersonUpdatePersonRequest as UpdatePersonRequest,
+  ListPersonRequest as ListPersonRequest,
+  CreatePersonRequest as CreatePersonRequest,
+  UpdatePersonRequest as UpdatePersonRequest,
+  UsersApi,
 } from '@/api';
 import { apiConfig } from '@/services/auth';
 import DialogPadronized from '@/components/DialogPadronized';
 import { UploadCsvModal } from '@/components/UploadCsvModal';
+import { PatternFormat } from 'react-number-format';
+import { mask } from 'remask';
+import dayjs, { Dayjs } from 'dayjs';
+
+dayjs.locale('pt-br');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const digits = (s: string) => (s || '').replace(/\D/g, '');
@@ -92,11 +101,12 @@ interface PersonRow {
   email?: string;
   personalDocumment?: string;
   primaryPhone?: string | null;
-  isActive?: boolean;
+  isDeleted?: boolean;
 }
 
 const PersonPage: React.FC = () => {
   const api = useMemo(() => new PersonsApi(apiConfig), []);
+  const userApi = useMemo(() => new UsersApi(apiConfig), []);
 
   const [search, setSearch] = useState('');
   const [rows, setRows] = useState<PersonRow[]>([]);
@@ -124,6 +134,11 @@ const PersonPage: React.FC = () => {
   // CSV import state
   const [isUploadOpen, setUploadOpen] = useState(false);
 
+  // Status filter
+  const [statusFilter, setStatusFilter] = useState<undefined | 'Inactive' | 'all'>(undefined);
+  const [userUpdatedName, setUserUpdatedName] = useState<string | null>(null);
+  const [auditDate, setAuditDate] = useState<Dayjs | undefined>(undefined);
+
   const nameError = !!name && !(name.trim().split(/\s+/).length >= 2);
   const cpfError = !!cpf && !isValidCPF(cpf);
   const emailError = !!email && !emailRegex.test(email.trim());
@@ -133,43 +148,40 @@ const PersonPage: React.FC = () => {
     !!secondaryPhone && digits(secondaryPhone).length > 0 && digits(secondaryPhone).length < 10;
 
   const dialogTitle = () => {
-    return isVisualizing ? 'Visualizar Pessoa' : editingId ? 'Editar Pessoa' : 'Adicionar Pessoa';
+    return isVisualizing ? 'Visualizar Pessoa' : editingId ? 'Editar Pessoa' : 'Nova Pessoa';
   };
-  const formValid =
-    name.trim().length > 0 &&
-    !nameError &&
-    cpf.trim().length > 0 &&
-    !cpfError &&
-    email.trim().length > 0 &&
-    !emailError &&
-    primaryPhone.trim().length > 0 &&
-    !phoneError &&
-    !secEmailError &&
-    !secPhoneError;
+
+  const formatPhoneMask = (phone: string) =>
+    mask(phone ?? '', ['(99) 9999-9999', '(99) 99999-9999']);
 
   const columns: Column<PersonRow>[] = [
-    { label: 'Id', field: 'personId', width: 80 },
-    { label: 'Nome', field: 'name' },
-    { label: 'CPF', field: 'personalDocumment', width: 140 },
-    { label: 'E-mail', field: 'email' },
-    { label: 'Telefone', field: 'primaryPhone', width: 140 },
+    { label: 'Id', field: 'personId', align: 'center' },
+    { label: 'Nome', field: 'name', align: 'center' },
+    { label: 'CPF', field: 'personalDocumment', align: 'center' },
+    { label: 'E-mail', field: 'email', align: 'center' },
+    {
+      label: 'Telefone',
+      field: 'primaryPhone',
+      align: 'center',
+      render: (value) => formatPhoneMask(value as string),
+    },
     {
       label: 'Status',
-      field: 'isActive',
+      field: 'isDeleted',
       align: 'center',
-      render: (p) => (
+      render: (value) => (
         <Chip
+          label={value ? 'Inativo' : 'Ativo'}
           size="small"
-          label={p.isActive ? 'Ativo' : 'Inativo'}
-          color={p.isActive ? 'success' : 'default'}
+          color={value ? 'error' : 'success'}
           variant="outlined"
+          sx={{ fontWeight: 600 }}
         />
       ),
-      width: 120,
     },
   ];
 
-  const fetchPeople = async () => {
+  const fetchPeople = async (statusFilterParam?: string) => {
     try {
       setLoading(true);
       const req: ListPersonRequest = {
@@ -184,10 +196,9 @@ const PersonPage: React.FC = () => {
               } as any,
             ]
           : [],
+        statusFilter: statusFilterParam,
       };
-      const { data } = await api.listPerson({
-        igescConectaAPIFeaturesPersonsListPersonListPersonRequest: req,
-      });
+      const { data } = await api.listPerson(req);
       const items = (data as any)?.items || [];
       setRows(
         items.map((it: any) => ({
@@ -196,7 +207,7 @@ const PersonPage: React.FC = () => {
           email: it.email,
           personalDocumment: it.personalDocumment,
           primaryPhone: it.primaryPhone,
-          isActive: it.isActive,
+          isDeleted: it.isDeleted,
         }))
       );
       setTotalCount((data as any)?.totalItems ?? items.length);
@@ -251,15 +262,15 @@ const PersonPage: React.FC = () => {
   ];
 
   const headerTranslations: Record<string, string> = {
-    name: 'Nome completo',
-    personalDocumment: 'CPF (apenas números)',
-    email: 'E-mail',
-    secondaryEmail: 'Segundo e-mail (opcional)',
-    primaryPhone: 'Telefone principal (apenas números)',
-    secondaryPhone: 'Segundo telefone (opcional)',
-    education1: 'Formação (opcional)',
-    education2: 'Formação 2 (opcional)',
-    professionalActivity: 'Atuação Profissional (opcional)',
+    name: 'Nome completo*',
+    personalDocumment: 'CPF*',
+    email: 'E-mail*',
+    secondaryEmail: 'Segundo e-mail',
+    primaryPhone: 'Telefone principal*',
+    secondaryPhone: 'Segundo telefone',
+    education1: 'Formação',
+    education2: 'Formação 2',
+    professionalActivity: 'Atuação Profissional',
   };
 
   const handleUploadPerson = () => {
@@ -324,6 +335,24 @@ const PersonPage: React.FC = () => {
       setEducation1(d.education1 ?? '');
       setEducation2(d.education2 ?? '');
       setProfessionalActivity(d.professionalActivity ?? '');
+
+      if (d.updatedBy) {
+        try {
+          const userResp = await userApi.getUserById(d.updatedBy);
+          setUserUpdatedName(userResp.data.name || 'Desconhecido');
+        } catch {
+          setUserUpdatedName('Desconhecido');
+        }
+      } else {
+        setUserUpdatedName(null);
+      }
+
+      if (d.updatedAt) {
+        setAuditDate(dayjs(d.updatedAt));
+      } else {
+        setAuditDate(undefined);
+      }
+
       setOpenModal(true);
     } catch {
       toast.error('Erro ao carregar detalhes.');
@@ -346,6 +375,8 @@ const PersonPage: React.FC = () => {
       setEducation1(d.education1 ?? '');
       setEducation2(d.education2 ?? '');
       setProfessionalActivity(d.professionalActivity ?? '');
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
       setOpenModal(true);
     } catch {
       toast.error('Erro ao carregar detalhes para edição.');
@@ -378,11 +409,54 @@ const PersonPage: React.FC = () => {
   const handleCloseConfirmDialog = () =>
     setConfirmDialog({ open: false, person: null, loading: false });
 
-  const handleSave = async () => {
-    if (!formValid) {
-      toast.error('Dados inválidos. Verifique os campos.');
-      return;
+  const validateForm = (): boolean => {
+    if (!name.trim()) {
+      toast.error('O nome completo é obrigatório!');
+      return false;
     }
+    if (name.trim().split(/\s+/).length < 2) {
+      toast.error('Nome inválido: informe nome e sobrenome!');
+      return false;
+    }
+    if (!cpf.trim()) {
+      toast.error('O CPF é obrigatório!');
+      return false;
+    }
+    if (!isValidCPF(cpf)) {
+      toast.error('CPF inválido!');
+      return false;
+    }
+    if (!email.trim()) {
+      toast.error('O e-mail é obrigatório!');
+      return false;
+    }
+    if (!emailRegex.test(email.trim())) {
+      toast.error('E-mail inválido!');
+      return false;
+    }
+    if (!primaryPhone.trim()) {
+      toast.error('O telefone principal é obrigatório!');
+      return false;
+    }
+    if (digits(primaryPhone).length < 10) {
+      toast.error('Telefone principal inválido: informe DDD + número (10 ou 11 dígitos)!');
+      return false;
+    }
+    if (secondaryEmail && !emailRegex.test(secondaryEmail.trim())) {
+      toast.error('Segundo e-mail inválido!');
+      return false;
+    }
+    if (secondaryPhone && digits(secondaryPhone).length > 0 && digits(secondaryPhone).length < 10) {
+      toast.error(
+        'Segundo telefone inválido: informe DDD + número (10 ou 11 dígitos) ou deixe vazio!'
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
 
     const payloadBase = {
       name: name.trim(),
@@ -424,21 +498,26 @@ const PersonPage: React.FC = () => {
     setTimeout(() => {
       setEditingId(null);
       setIsVisualizing(false);
+      setUserUpdatedName(null);
+      setAuditDate(undefined);
     }, 150);
   };
 
   const handleSearch = () => {
     setPage(0);
-    fetchPeople();
+    fetchPeople(statusFilter);
   };
   const handleClearFilters = () => {
     setSearch('');
+    setStatusFilter(undefined);
+    setUserUpdatedName(null);
+    setAuditDate(undefined);
     setPage(0);
-    fetchPeople();
+    fetchPeople(undefined);
   };
 
   useEffect(() => {
-    fetchPeople();
+    fetchPeople(statusFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage]);
 
@@ -485,7 +564,7 @@ const PersonPage: React.FC = () => {
               >
                 Filtro de Busca
               </Typography>
-              {search && (
+              {(search || statusFilter) && (
                 <Chip
                   label="Filtros ativos"
                   size="small"
@@ -500,7 +579,7 @@ const PersonPage: React.FC = () => {
               )}
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2, mb: 2 }}>
               <TextField
                 label="Nome"
                 variant="outlined"
@@ -509,6 +588,37 @@ const PersonPage: React.FC = () => {
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyUp={(e) => e.key === 'Enter' && handleSearch()}
               />
+            </Box>
+
+            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center" sx={{ mb: 2 }}>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'Inactive'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'Inactive' ? undefined : 'Inactive'))
+                      }
+                    />
+                  }
+                  label="Somente Inativos"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={statusFilter === 'all'}
+                      onChange={() =>
+                        setStatusFilter((prev) => (prev === 'all' ? undefined : 'all'))
+                      }
+                    />
+                  }
+                  label="Incluir Inativos"
+                />
+              </FormGroup>
+            </Stack>
+
+            <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center">
               <Button
                 variant="contained"
                 startIcon={<SearchIcon />}
@@ -522,6 +632,14 @@ const PersonPage: React.FC = () => {
                   borderRadius: 1.5,
                   textTransform: 'none',
                   fontSize: '0.95rem',
+                  boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                  '&:hover': {
+                    bgcolor: '#1640a8',
+                    boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                    transform: 'translateY(-1px)',
+                  },
+                  transition: 'all 0.2s ease',
+                  flex: { xs: 1, sm: 'initial' },
                 }}
               >
                 Buscar
@@ -538,11 +656,18 @@ const PersonPage: React.FC = () => {
                   py: 1,
                   borderRadius: 1.5,
                   textTransform: 'none',
+                  fontSize: '0.95rem',
+                  '&:hover': {
+                    borderColor: '#1E4EC4',
+                    bgcolor: alpha('#1E4EC4', 0.05),
+                    borderWidth: 1.5,
+                  },
+                  transition: 'all 0.2s ease',
                 }}
               >
                 Limpar Filtros
               </Button>
-            </Box>
+            </Stack>
           </Paper>
 
           <Box sx={{ flexGrow: 1 }}>
@@ -582,97 +707,216 @@ const PersonPage: React.FC = () => {
             maxWidth="md"
             title={dialogTitle()}
             content={
-              <Box
-                sx={{
-                  mt: 2,
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' },
-                  gap: 1,
-                }}
-              >
-                <TextField
-                  label="Nome completo*"
-                  fullWidth
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  error={nameError}
-                  helperText={nameError ? 'Informe nome e sobrenome.' : ' '}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="CPF (apenas números)*"
-                  fullWidth
-                  value={cpf}
-                  onChange={(e) => setCpf(digits(e.target.value))}
-                  error={cpfError}
-                  helperText={cpfError ? 'CPF inválido.' : ' '}
-                  inputProps={{ inputMode: 'numeric' }}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="E-mail*"
-                  fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  error={emailError}
-                  helperText={emailError ? 'E-mail inválido.' : ' '}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    autoFocus={!isVisualizing}
+                    margin="dense"
+                    label="Nome completo*"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    error={nameError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
 
-                <TextField
-                  label="Segundo e-mail (opcional)"
-                  fullWidth
-                  value={secondaryEmail}
-                  onChange={(e) => setSecondaryEmail(e.target.value)}
-                  error={secEmailError}
-                  helperText={secEmailError ? 'E-mail inválido.' : ' '}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="Telefone principal (apenas números)*"
-                  fullWidth
-                  value={primaryPhone}
-                  onChange={(e) => setPrimaryPhone(digits(e.target.value))}
-                  error={phoneError}
-                  helperText={phoneError ? 'Informe DDD + número (10 ou 11 dígitos).' : ' '}
-                  inputProps={{ inputMode: 'numeric' }}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="Segundo telefone (opcional)"
-                  fullWidth
-                  value={secondaryPhone}
-                  onChange={(e) => setSecondaryPhone(digits(e.target.value))}
-                  error={secPhoneError}
-                  helperText={
-                    secPhoneError ? 'Informe DDD + número (10 ou 11 dígitos) ou deixe vazio.' : ' '
-                  }
-                  inputProps={{ inputMode: 'numeric' }}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <PatternFormat
+                    customInput={TextField}
+                    margin="dense"
+                    label="CPF*"
+                    format="###.###.###-##"
+                    mask="_"
+                    fullWidth
+                    variant="outlined"
+                    value={cpf}
+                    onChange={(e) => setCpf(digits(e.target.value))}
+                    error={cpfError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
 
-                <TextField
-                  label="Formação (opcional)"
-                  fullWidth
-                  value={education1}
-                  onChange={(e) => setEducation1(e.target.value)}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="Formação 2 (opcional)"
-                  fullWidth
-                  value={education2}
-                  onChange={(e) => setEducation2(e.target.value)}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-                <TextField
-                  label="Atuação Profissional (opcional)"
-                  fullWidth
-                  value={professionalActivity}
-                  onChange={(e) => setProfessionalActivity(e.target.value)}
-                  slotProps={{ input: { readOnly: isVisualizing } }}
-                />
-              </Box>
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    margin="dense"
+                    label="E-mail*"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={emailError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    margin="dense"
+                    label="Segundo e-mail"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={secondaryEmail}
+                    onChange={(e) => setSecondaryEmail(e.target.value)}
+                    error={secEmailError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <PatternFormat
+                    customInput={TextField}
+                    margin="dense"
+                    label="Telefone principal*"
+                    format="(##) #####-####"
+                    mask="_"
+                    fullWidth
+                    variant="outlined"
+                    value={primaryPhone}
+                    onChange={(e) => setPrimaryPhone(digits(e.target.value))}
+                    error={phoneError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <PatternFormat
+                    customInput={TextField}
+                    margin="dense"
+                    label="Telefone secundário"
+                    format="(##) #####-####"
+                    mask="_"
+                    fullWidth
+                    variant="outlined"
+                    value={secondaryPhone}
+                    onChange={(e) => setSecondaryPhone(digits(e.target.value))}
+                    error={secPhoneError}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    margin="dense"
+                    label="Formação"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={education1}
+                    onChange={(e) => setEducation1(e.target.value)}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    margin="dense"
+                    label="Formação 2"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={education2}
+                    onChange={(e) => setEducation2(e.target.value)}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    margin="dense"
+                    label="Atuação Profissional"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={professionalActivity}
+                    onChange={(e) => setProfessionalActivity(e.target.value)}
+                    slotProps={{
+                      input: {
+                        readOnly: isVisualizing,
+                      },
+                    }}
+                    sx={isVisualizing ? { pointerEvents: 'none' } : {}}
+                  />
+                </Grid>
+
+                {isVisualizing && (
+                  <Grid size={{ xs: 12 }}>
+                    <Divider sx={{ mt: 4 }} />
+
+                    <Stack direction="row" spacing={4} sx={{ mt: 2 }}>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Avatar sx={{ width: 24, height: 24, fontSize: 12 }}>
+                          {userUpdatedName?.[0] || '?'}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            Atualizado por
+                          </Typography>
+                          <Typography variant="body2" fontWeight={600}>
+                            {userUpdatedName || '—'}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <AccessTime fontSize="small" color="action" />
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            Atualizado em
+                          </Typography>
+                          <Typography variant="body2" fontWeight={600}>
+                            {auditDate ? auditDate.format('DD/MM/YYYY HH:mm') : '—'}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Stack>
+                  </Grid>
+                )}
+              </Grid>
             }
             actions={
               isVisualizing ? (
@@ -680,7 +924,17 @@ const PersonPage: React.FC = () => {
                   variant="contained"
                   startIcon={<ArrowBackIcon />}
                   onClick={handleCloseModal}
-                  sx={{ bgcolor: '#6b7280', '&:hover': { bgcolor: '#4b5563' } }}
+                  sx={{
+                    bgcolor: '#6b7280',
+                    color: 'white',
+                    fontWeight: 600,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    '&:hover': { bgcolor: '#4b5563', transform: 'translateY(-1px)' },
+                    transition: 'all 0.2s ease',
+                  }}
                 >
                   Voltar
                 </Button>
@@ -689,16 +943,40 @@ const PersonPage: React.FC = () => {
                   <Button
                     onClick={handleCloseModal}
                     disabled={modalLoading}
-                    sx={{ color: '#6b7280' }}
+                    sx={{
+                      color: '#6b7280',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: alpha('#6b7280', 0.1) },
+                    }}
                   >
                     Cancelar
                   </Button>
                   <Button
                     onClick={handleSave}
                     variant="contained"
-                    disabled={modalLoading || !formValid}
+                    disabled={modalLoading}
                     startIcon={modalLoading ? <CircularProgress size={20} /> : null}
-                    sx={{ bgcolor: '#1E4EC4', '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) } }}
+                    sx={{
+                      bgcolor: '#1E4EC4',
+                      color: 'white',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      boxShadow: '0 2px 8px rgba(30, 78, 196, 0.25)',
+                      '&:hover': {
+                        bgcolor: '#1640a8',
+                        boxShadow: '0 4px 12px rgba(30, 78, 196, 0.35)',
+                        transform: 'translateY(-1px)',
+                      },
+                      '&:disabled': { bgcolor: alpha('#1E4EC4', 0.5) },
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     Salvar
                   </Button>

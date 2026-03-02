@@ -27,7 +27,7 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
         public DateTime UpdatedAt { get; set; }
     }
 
-    public class GetProjectTypeByIdQuery : IRequest<GetProjectTypeByIdViewModel>
+    public class GetProjectTypeByIdQuery : IRequest<GetProjectTypeByIdViewModel?>
     {
         public int Id { get; }
         public GetProjectTypeByIdQuery(int id) => Id = id;
@@ -35,14 +35,12 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
 
     public class ListProjectTypeQuery : PaginationRequest, IRequest<ListProjectTypeViewModel>
     {
-        public bool IncludeDeleted { get; }
-        public bool OnlyDeleted { get; }
+        public string? StatusFilter { get; set; }
 
-        public ListProjectTypeQuery(int pageNumber, int pageSize, List<Filter> filters, bool includeDeleted, bool onlyDeleted)
+        public ListProjectTypeQuery(int pageNumber, int pageSize, List<Filter> filters, string? statusFilter)
             : base(pageNumber, pageSize, filters)
         {
-            IncludeDeleted = includeDeleted;
-            OnlyDeleted = onlyDeleted;
+            StatusFilter = statusFilter;
         }
     }
 
@@ -51,24 +49,34 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
     {
         private readonly ApplicationDbContext _context;
 
-        public ListProjectTypeQueryHandler(ApplicationDbContext context) => _context = context;
+        public ListProjectTypeQueryHandler(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<ListProjectTypeViewModel> Handle(ListProjectTypeQuery request, CancellationToken cancellationToken)
         {
-            var expr = ExpressionBuilder.GetExpression<ProjectType>(request.Filters);
-            var query = _context.ProjectTypes.AsQueryable();
+            var expr = ExpressionBuilder.GetExpression<ProjectType>(request.Filters ?? new List<Filter>());
+            var query = _context.ProjectTypes
+                .AsNoTracking()
+                .AsQueryable()
+                .Where(expr);
 
-            if (request.OnlyDeleted)
+            if (!string.IsNullOrEmpty(request.StatusFilter))
             {
-                query = query.Where(x => x.IsDeleted);
-            }
-            else if (!request.IncludeDeleted)
-            {
-                query = query.Where(x => !x.IsDeleted);
+                if (request.StatusFilter.Equals("Inactive", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query
+                        .IgnoreQueryFilters()
+                        .Where(x => x.IsDeleted);
+                }
+                else
+                {
+                    query = query.IgnoreQueryFilters();
+                }
             }
 
-            var items = await query
-                .Where(expr)
+            var result = await query
                 .Select(x => new ProjectTypeViewModel
                 {
                     ProjectTypeId = x.Id,
@@ -80,25 +88,26 @@ namespace IgescConecta.API.Features.ProjectTypes.ListProjectType
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var total = await query.CountAsync(expr, cancellationToken);
+            var totalRecords = await query.CountAsync(cancellationToken);
 
             return new ListProjectTypeViewModel
             {
-                Items = items,
-                TotalItems = total
+                Items = result,
+                TotalItems = totalRecords
             };
         }
     }
 
     internal sealed class GetProjectTypeByIdQueryHandler
-        : IRequestHandler<GetProjectTypeByIdQuery, GetProjectTypeByIdViewModel>
+        : IRequestHandler<GetProjectTypeByIdQuery, GetProjectTypeByIdViewModel?>
     {
         private readonly ApplicationDbContext _context;
         public GetProjectTypeByIdQueryHandler(ApplicationDbContext context) => _context = context;
 
-        public async Task<GetProjectTypeByIdViewModel> Handle(GetProjectTypeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetProjectTypeByIdViewModel?> Handle(GetProjectTypeByIdQuery request, CancellationToken cancellationToken)
         {
             var vm = await _context.ProjectTypes
+                .IgnoreQueryFilters()
                 .Where(x => x.Id == request.Id)
                 .Select(x => new GetProjectTypeByIdViewModel
                 {

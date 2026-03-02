@@ -23,6 +23,8 @@ namespace IgescConecta.API.Features.Companies.ListCompany
         public string? Site { get; set; }
         public string? RedesSociais { get; set; }
         public bool Ativa { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     public class ListCompanyQuery : IRequest<Result<CompanyDto, ValidationFailed>>
@@ -43,11 +45,12 @@ namespace IgescConecta.API.Features.Companies.ListCompany
         {
             var company = await _context.Companies
                 .AsNoTracking()
+                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(c => c.CNPJ == request.CNPJ, cancellationToken);
 
             if (company is null)
             {
-                return new ValidationFailed($"Empresa com CNPJ {request.CNPJ} não encontrada.");
+                return new ValidationFailed($"Empresa com CNPJ {request.CNPJ} nï¿½o encontrada.");
             }
 
             var companyDto = new CompanyDto
@@ -64,7 +67,9 @@ namespace IgescConecta.API.Features.Companies.ListCompany
                 Telefone = company.PhoneNumber,
                 Site = company.Website,
                 RedesSociais = company.SocialMedia,
-                Ativa = !company.IsDeleted
+                Ativa = !company.IsDeleted,
+                UpdatedBy = company.UpdatedBy,
+                UpdatedAt = company.UpdatedAt
             };
 
             return companyDto;
